@@ -1,0 +1,23 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 8
+    paths:
+        - snap-megamenu-builder.php
+        - includes/
+    excludePaths:
+        - vendor/
+        - node_modules/
+        - build/
+        - tests/
+    bootstrapFiles:
+        - vendor/autoload.php
+    scanDirectories:
+        - vendor/szepeviktor/phpstan-wordpress/
+    checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # WordPress global functions / constants that PHPStan may not resolve.
+        - '#Function apply_filters invoked with#'

@@ -1,0 +1,13 @@
+{
+	"slug": "three-column-nav",
+	"title": "Three Column Navigation",
+	"description": "Three equal columns with headings and navigation links.",
+	"version": "1.0.0",
+	"settings": {
+		"width": "full",
+		"customWidth": 1200,
+		"bgColor": "",
+		"animation": "fade"
+	},
+	"content": "<!-- wp:columns -->\n<div class=\"wp-block-columns\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":4} -->\n<h4 class=\"wp-block-heading\">Shop</h4>\n<!-- /wp:heading -->\n\n<!-- wp:navigation-link {\"label\":\"New Arrivals\",\"url\":\"#\"} /-->\n\n<!-- wp:navigation-link {\"label\":\"Best Sellers\",\"url\":\"#\"} /-->\n\n<!-- wp:navigation-link {\"label\":\"Sale\",\"url\":\"#\"} /--></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":4} -->\n<h4 class=\"wp-block-heading\">Support</h4>\n<!-- /wp:heading -->\n\n<!-- wp:navigation-link {\"label\":\"Help Center\",\"url\":\"#\"} /-->\n\n<!-- wp:navigation-link {\"label\":\"Shipping\",\"url\":\"#\"} /-->\n\n<!-- wp:navigation-link {\"label\":\"Returns\",\"url\":\"#\"} /--></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":4} -->\n<h4 class=\"wp-block-heading\">Company</h4>\n<!-- /wp:heading -->\n\n<!-- wp:navigation-link {\"label\":\"About Us\",\"url\":\"#\"} /-->\n\n<!-- wp:navigation-link {\"label\":\"Careers\",\"url\":\"#\"} /-->\n\n<!-- wp:navigation-link {\"label\":\"Contact\",\"url\":\"#\"} /--></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->"
+}
