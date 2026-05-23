@@ -2,6 +2,8 @@
 
 A WordPress plugin that adds a **Gutenberg-powered mega menu builder** to the native Appearance → Menus screen.
 
+![Preview of Snap Mega Menu Builder](https://github.com/miketropi/snap-megamenu-builder/blob/master/preview.jpg?raw=true)
+
 ## Features
 
 - **Visual builder** — Use the block editor to design mega menu content with columns, images, buttons, and more.
