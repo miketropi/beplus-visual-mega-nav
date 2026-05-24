@@ -1,8 +1,8 @@
 /**
  * Frontend styles for mega menu panels.
  *
- * Themes can override these via higher-specificity selectors
- * or by redefining the CSS custom properties.
+ * Desktop (≥1024px): full-width flyout dropdown.
+ * Tablet & mobile (<1024px): inline accordion (mobile nav drawer friendly).
  *
  * @package Snap\MegaMenu
  */
@@ -15,81 +15,219 @@
 	--snap-megamenu-mega-padding: 24px;
 	--snap-megamenu-mega-z: 9999;
 	--snap-megamenu-mega-transition: 0.25s ease;
+	--snap-megamenu-mega-mobile-padding: 16px;
+	--snap-megamenu-toggle-size: 2.25rem;
+	--snap-megamenu-toggle-radius: 9999px;
+	--snap-megamenu-toggle-border: color-mix(in srgb, currentColor 14%, transparent);
+	--snap-megamenu-toggle-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
+	--snap-megamenu-toggle-active-bg: color-mix(in srgb, currentColor 12%, transparent);
 }
 
 /* ---------- Menu item container ---------- */
 .has-mega-menu {
-	position: static !important; /* Allow panel to break out */
+	position: static !important;
 }
 
 .has-mega-menu > .sub-menu {
-	display: none !important; /* Hide default submenu */
+	display: none !important;
 }
 
-/* ---------- Mega panel ---------- */
+/* ---------- Mega panel (shared) ---------- */
 .snap-megamenu-mega-panel {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	z-index: var(--snap-megamenu-mega-z);
 	background: var(--snap-megamenu-mega-bg);
-	/* box-shadow: var(--snap-megamenu-mega-shadow); */
 	border-radius: var(--snap-megamenu-mega-radius);
-	opacity: 0;
-	visibility: hidden;
-	pointer-events: none;
 	transition:
 		opacity var(--snap-megamenu-mega-transition),
 		visibility var(--snap-megamenu-mega-transition),
-		transform var(--snap-megamenu-mega-transition);
+		transform var(--snap-megamenu-mega-transition),
+		max-height var(--snap-megamenu-mega-transition);
 }
 
-/* Animation: fade */
-.has-mega-menu:hover > .snap-megamenu-mega-panel,
-.has-mega-menu:focus-within > .snap-megamenu-mega-panel,
-.snap-megamenu-mega-panel.is-open {
-	opacity: 1;
-	visibility: visible;
-	pointer-events: auto;
-}
-
-.has-mega-menu:hover::after,
-.has-mega-menu:focus-within::after {
-	content: "";
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	/* background-color: rgba(0, 0, 0, 0.5); */
-	left: 0;
-	top: 100%;
-	transform: translateY(-25%);
-}
-
-/* Animation: slide */
-.snap-megamenu-mega-panel[data-animation="slide"] {
-	transform: translateY(-8px);
-}
-
-.has-mega-menu:hover > .snap-megamenu-mega-panel[data-animation="slide"],
-.has-mega-menu:focus-within > .snap-megamenu-mega-panel[data-animation="slide"],
-.snap-megamenu-mega-panel[data-animation="slide"].is-open {
-	transform: translateY(0);
-}
-
-/* ---------- Inner content ---------- */
 .snap-megamenu-mega-panel__inner {
-	/* padding: var(--snap-megamenu-mega-padding) 0; */
-	/* max-width: 1400px; */
 	margin: 0 auto;
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 768px) {
+/* Block content: prevent horizontal overflow in narrow viewports */
+.snap-megamenu-mega-panel__inner img,
+.snap-megamenu-mega-panel__inner video,
+.snap-megamenu-mega-panel__inner iframe {
+	max-width: 100%;
+	height: auto;
+}
+
+/* ---------- Desktop flyout (≥1024px) ---------- */
+@media (min-width: 1024px) {
 	.snap-megamenu-mega-panel {
-		position: static !important;
-		width: 100% !important;
-		transform: none !important;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: var(--snap-megamenu-mega-z);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	.has-mega-menu:hover > .snap-megamenu-mega-panel,
+	.has-mega-menu:focus-within > .snap-megamenu-mega-panel,
+	.snap-megamenu-mega-panel.is-open {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	/* Invisible bridge for pointer travel from link to panel */
+	.has-mega-menu:hover::after,
+	.has-mega-menu:focus-within::after {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 100%;
+		transform: translateY(-25%);
+	}
+
+	.snap-megamenu-mega-panel[data-animation="slide"] {
+		transform: translateY(-8px);
+	}
+
+	.has-mega-menu:hover > .snap-megamenu-mega-panel[data-animation="slide"],
+	.has-mega-menu:focus-within > .snap-megamenu-mega-panel[data-animation="slide"],
+	.snap-megamenu-mega-panel[data-animation="slide"].is-open {
+		transform: translateY(0);
+	}
+
+	.snap-megamenu-toggle {
+		display: none;
+	}
+}
+
+/* ---------- Tablet & mobile accordion (<1024px) ---------- */
+@media (max-width: 1023px) {
+	.has-mega-menu {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		gap: 0;
+		width: 100%;
+	}
+
+	.has-mega-menu > a {
+		display: flex;
+		flex: 1 1 auto;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.has-mega-menu:hover::after,
+	.has-mega-menu:focus-within::after {
+		display: none;
+	}
+
+	.snap-megamenu-mega-panel {
+		position: static;
+		flex: 1 0 100%;
+		width: 100%;
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: none;
 		box-shadow: none;
+	}
+
+	.has-mega-menu.snap-megamenu--open > .snap-megamenu-mega-panel,
+	.snap-megamenu-mega-panel.is-open {
+		max-height: none;
+		overflow: visible;
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	.snap-megamenu-mega-panel__inner {
+		padding: var(--snap-megamenu-mega-mobile-padding) 0;
+	}
+
+	/* Stack multi-column block layouts */
+	.snap-megamenu-mega-panel__inner .wp-block-columns {
+		flex-direction: column !important;
+		gap: var(--snap-megamenu-mega-mobile-padding) !important;
+	}
+
+	.snap-megamenu-mega-panel__inner .wp-block-column {
+		flex-basis: 100% !important;
+		width: 100% !important;
+	}
+
+	.snap-megamenu-mega-panel__inner .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+		flex-basis: 100% !important;
+	}
+
+	/* Accordion toggle (themes without their own control) */
+	.snap-megamenu-toggle {
+		-webkit-appearance: none;
+		appearance: none;
+		flex: 0 0 auto;
+		align-self: center;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--snap-megamenu-toggle-size);
+		height: var(--snap-megamenu-toggle-size);
+		margin: 0; 
+		margin-inline-start: auto;
+		margin-inline-end: 0;
+		padding: 0;
+		border: none;
+		border-radius: var(--snap-megamenu-toggle-radius);
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		line-height: 1;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition:
+			background-color 0.15s ease,
+			border-color 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	.snap-megamenu-toggle:hover,
+	.snap-megamenu-toggle:focus-visible {
+		background-color: var(--snap-megamenu-toggle-hover-bg);
+		border-color: color-mix(in srgb, currentColor 22%, transparent);
+	}
+
+	.snap-megamenu-toggle:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
+	}
+
+	.snap-megamenu-toggle[aria-expanded="true"] {
+		background-color: var(--snap-megamenu-toggle-active-bg);
+		border-color: color-mix(in srgb, currentColor 24%, transparent);
+	}
+
+	.snap-megamenu-toggle__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 0.75rem;
+		height: 0.75rem;
+		line-height: 0;
+		transition: transform 0.2s ease;
+	}
+
+	.snap-megamenu-toggle__icon svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.snap-megamenu-toggle[aria-expanded="true"] .snap-megamenu-toggle__icon {
+		transform: rotate(180deg);
 	}
 }
 
@@ -104,4 +242,51 @@
 
 .nextora-header-block .nextora-header-menu > li.has-mega-menu {
 	position: static !important;
+}
+
+/* Mobile drawer: accordion layout for mega items */
+@media (max-width: 1023px) {
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0 var(--wp--preset--spacing--05, 0.5rem);
+		width: 100%;
+		border-bottom: 1px solid var(--nextora-nav-mobile-drawer-border, color-mix(in srgb, currentColor 15%, transparent));
+	}
+
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > a {
+		flex: 1 1 auto;
+		min-width: 0;
+		border-bottom: none;
+	}
+
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-mega-panel {
+		flex: 1 0 100%;
+		width: 100%;
+		/* margin: 0 0 var(--wp--preset--spacing--10, 1rem); */
+		/* padding-inline-start: var(--wp--preset--spacing--05, 0.5rem); */
+		box-sizing: border-box;
+	}
+
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .nextora-submenu-toggle,
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle {
+		flex: 0 0 auto;
+		align-self: center;
+		margin-inline-start: auto;
+	}
+
+	/* Match Nextora drawer toggle tokens when available */
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle {
+		--snap-megamenu-toggle-radius: var(--wp--preset--spacing--05, 0.375rem);
+		--snap-megamenu-toggle-border: var(--nextora-nav-mobile-drawer-border, color-mix(in srgb, currentColor 14%, transparent));
+		--snap-megamenu-toggle-hover-bg: var(--nextora-nav-panel-hover-bg, color-mix(in srgb, currentColor 8%, transparent));
+		--snap-megamenu-toggle-active-bg: var(--nextora-nav-panel-hover-bg, color-mix(in srgb, currentColor 12%, transparent));
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle:focus-visible {
+		outline-color: var(--wp--preset--color--primary, currentColor);
+	}
 }

@@ -11,13 +11,9 @@ import apiFetch from '@wordpress/api-fetch';
 import SettingsPanel from './SettingsPanel';
 import IsolatedEditor from './IsolatedEditor';
 import TemplatePanel from './TemplatePanel';
+import { normalizeSettings } from '../utils/templates';
 
-const DEFAULT_SETTINGS = {
-	width: 'full',
-	customWidth: 1200,
-	bgColor: '',
-	animation: 'fade',
-};
+const DEFAULT_SETTINGS = normalizeSettings();
 
 export default function MegaMenuModal( { menuItemId, onClose } ) {
 	const [ enabled, setEnabled ] = useState( false );
@@ -35,7 +31,7 @@ export default function MegaMenuModal( { menuItemId, onClose } ) {
 		} )
 			.then( ( data ) => {
 				setEnabled( data.enabled || false );
-				setSettings( { ...DEFAULT_SETTINGS, ...( data.settings || {} ) } );
+				setSettings( normalizeSettings( data.settings ) );
 				setContent( data.content || '' );
 			} )
 			.catch( () => {
@@ -58,7 +54,7 @@ export default function MegaMenuModal( { menuItemId, onClose } ) {
 			await apiFetch( {
 				path: `/snap-megamenu/v1/item/${ menuItemId }`,
 				method: 'POST',
-				data: { enabled, settings, content },
+				data: { enabled, settings: normalizeSettings( settings ), content },
 			} );
 
 			setNotice( {
@@ -81,7 +77,7 @@ export default function MegaMenuModal( { menuItemId, onClose } ) {
 	};
 
 	const handleApplyTemplate = ( { settings: templateSettings, content: templateContent } ) => {
-		setSettings( { ...DEFAULT_SETTINGS, ...templateSettings } );
+		setSettings( normalizeSettings( templateSettings ) );
 		setContent( templateContent );
 		setContentRevision( ( revision ) => revision + 1 );
 	};

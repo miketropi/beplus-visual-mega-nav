@@ -116,7 +116,24 @@ Each file is a single JSON object:
 
 Exported files from **Export** use the same shape (they may omit `slug`). You can drop an export into `mega-menu-templates/` and add a `slug` to register it in the store.
 
-`content` is sanitized on load using the same rules as saved mega menu content. Use only blocks supported by the Content Builder (see `src/utils/allowed-blocks.js`).
+`content` is sanitized on load using the same rules as saved mega menu content. Use only blocks from the [allowed list](#allowed-blocks) (extend via `snap_megamenu_allowed_blocks`).
+
+### Allowed blocks
+
+| Category | Blocks |
+|----------|--------|
+| Layout | `core/columns`, `core/column`, `core/group`, `core/row`, `core/stack` |
+| Content | `core/heading`, `core/paragraph`, `core/list`, `core/list-item`, `core/image`, `core/buttons`, `core/button`, `core/separator`, `core/spacer` |
+| Navigation | `core/page-list` |
+| Media | `core/cover` |
+| Embeds / widgets | `core/shortcode`, `core/html` |
+
+```php
+add_filter( 'snap_megamenu_allowed_blocks', function ( array $blocks ): array {
+    $blocks[] = 'my-plugin/custom-block';
+    return $blocks;
+} );
+```
 
 ### Import behaviour
 

@@ -47,7 +47,7 @@ final class MegaMenuPanelRenderer {
 			$settings = [];
 		}
 
-		$width     = $settings['width'] ?? 'full';
+		$width     = $settings['width'] ?? 'container';
 		$custom_w  = intval( $settings['customWidth'] ?? 1200 );
 		$bg_color  = sanitize_hex_color( $settings['bgColor'] ?? '' );
 		$animation = $settings['animation'] ?? 'fade';

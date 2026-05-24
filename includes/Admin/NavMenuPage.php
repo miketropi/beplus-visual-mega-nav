@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Snap\MegaMenuBuilder\Admin;
 
+use Snap\MegaMenuBuilder\Core\AllowedBlocks;
+
 /**
  * Hooks into the Appearance → Menus page.
  */
@@ -93,9 +95,10 @@ final class NavMenuPage {
 			'snap-megamenu-admin',
 			'snapMegaMenu',
 			[
-				'restBase' => esc_url_raw( rest_url( 'snap-megamenu/v1' ) ),
-				'nonce'    => wp_create_nonce( 'wp_rest' ),
-				'version'  => SNAP_MEGAMENU_VERSION,
+				'restBase'      => esc_url_raw( rest_url( 'snap-megamenu/v1' ) ),
+				'nonce'         => wp_create_nonce( 'wp_rest' ),
+				'version'       => SNAP_MEGAMENU_VERSION,
+				'allowedBlocks' => AllowedBlocks::get(),
 			]
 		);
 

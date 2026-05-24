@@ -9,11 +9,26 @@ import apiFetch from '@wordpress/api-fetch';
 export const TEMPLATE_EXPORT_VERSION = '1.0.0';
 
 const DEFAULT_SETTINGS = {
-	width: 'full',
-	customWidth: 1200,
+	width: 'container',
 	bgColor: '',
 	animation: 'fade',
 };
+
+/**
+ * Normalize panel settings (container width only).
+ *
+ * @param {Object} settings Raw settings.
+ * @return {Object} Sanitized settings.
+ */
+export function normalizeSettings( settings = {} ) {
+	const merged = { ...DEFAULT_SETTINGS, ...settings };
+
+	return {
+		width: 'container',
+		bgColor: merged.bgColor ?? '',
+		animation: merged.animation ?? 'fade',
+	};
+}
 
 /**
  * @typedef {Object} MegaMenuTemplateExport
@@ -63,7 +78,7 @@ export function buildExportPayload( { settings, content, title = '' } ) {
 		version: TEMPLATE_EXPORT_VERSION,
 		title: title || 'Mega Menu Template',
 		description: '',
-		settings: { ...DEFAULT_SETTINGS, ...settings },
+		settings: normalizeSettings( settings ),
 		content: content || '',
 	};
 }
@@ -120,12 +135,11 @@ export function parseImportFile( file ) {
 					version: data.version || TEMPLATE_EXPORT_VERSION,
 					title: data.title || '',
 					description: data.description || '',
-					settings: {
-						...DEFAULT_SETTINGS,
-						...( data.settings && typeof data.settings === 'object'
+					settings: normalizeSettings(
+						data.settings && typeof data.settings === 'object'
 							? data.settings
-							: {} ),
-					},
+							: {}
+					),
 					content: data.content,
 				} );
 			} catch {

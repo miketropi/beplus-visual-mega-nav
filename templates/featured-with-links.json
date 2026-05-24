@@ -4,8 +4,7 @@
 	"description": "Wide feature column with image and text, plus a link column.",
 	"version": "1.0.0",
 	"settings": {
-		"width": "full",
-		"customWidth": 1200,
+		"width": "container",
 		"bgColor": "",
 		"animation": "fade"
 	},

@@ -54,7 +54,7 @@ assets/                             Frontend CSS/JS (no build step)
 | Admin React UI | `src/**/*.js`, `src/css/admin.css` | `build/index.js`, `build/index.css` |
 | PHP behavior | `includes/**/*.php`, `snap-megamenu-builder.php` | — |
 | Frontend presentation | `assets/css/frontend.css`, `assets/js/frontend.js` | — |
-| Allowed blocks in editor | `src/utils/allowed-blocks.js` | — |
+| Allowed blocks in editor | `includes/Core/AllowedBlocks.php`, `src/utils/allowed-blocks.js` | — |
 
 After changing `src/`, run **`npm run build`** (or **`npm run start`** for watch).
 
@@ -67,7 +67,7 @@ After changing `src/`, run **`npm run build`** (or **`npm run start`** for watch
 | `components/MegaMenuModal.js` | Full-screen modal; Settings + Content Builder tabs; REST load/save |
 | `components/SettingsPanel.js` | Enable toggle, width/animation |
 | `components/IsolatedEditor.js` | Standalone `BlockEditorProvider` with curated block list |
-| `utils/allowed-blocks.js` | Whitelist of core blocks for mega menu content |
+| `utils/allowed-blocks.js` | `getAllowedBlocks()` — merges PHP list + `snap-megamenu.allowedBlocks` JS filter |
 
 `NavMenuPage` localizes `window.snapMegaMenu` with `restBase`, `nonce`, `version`.
 
@@ -108,7 +108,7 @@ Node 18+ (see `.nvmrc`). Requires `composer install` and `npm install` before bu
 - **PHP:** WPCS, strict types, final classes where appropriate, `Snap\MegaMenuBuilder\` namespace under `includes/`.
 - **JS:** WordPress `@wordpress/*` packages, `@wordpress/i18n` for strings, text domain `snap-megamenu-builder`.
 - **Scope:** Mega menu is **root-level only** — do not add depth-1+ support without explicit product decision.
-- **Blocks:** Keep `allowed-blocks.js` curated; navigation mega menus are not full page editors.
+- **Blocks:** Keep defaults curated in `AllowedBlocks.php`; extend via `snap_megamenu_allowed_blocks` rather than forking the array.
 
 ## Known gaps / watch-outs
 

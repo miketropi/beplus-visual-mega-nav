@@ -160,6 +160,8 @@ final class MenuRenderer {
 			$enabled = (bool) MetaKeys::get( $item->ID, MetaKeys::ENABLED );
 			if ( $enabled ) {
 				$classes[] = 'has-mega-menu';
+				// Allows theme mobile nav toggles / accordion styling (e.g. Nextora).
+				$classes[] = 'menu-item-has-children';
 			}
 		}
 

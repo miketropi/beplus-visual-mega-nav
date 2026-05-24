@@ -7,7 +7,6 @@
 import {
 	ToggleControl,
 	SelectControl,
-	RangeControl,
 	Panel,
 	PanelBody,
 	PanelRow,
@@ -55,50 +54,6 @@ export default function SettingsPanel( {
 						onChange={ onEnabledChange }
 					/>
 				</PanelRow>
-			</PanelBody>
-
-			<PanelBody
-				title={ __( 'Layout', 'snap-megamenu-builder' ) }
-				initialOpen={ true }
-			>
-				<SelectControl
-					label={ __( 'Panel Width', 'snap-megamenu-builder' ) }
-					value={ settings.width }
-					options={ [
-						{
-							label: __( 'Full Width', 'snap-megamenu-builder' ),
-							value: 'full',
-						},
-						{
-							label: __(
-								'Container Width',
-								'snap-megamenu-builder'
-							),
-							value: 'container',
-						},
-						{
-							label: __( 'Custom Width', 'snap-megamenu-builder' ),
-							value: 'custom',
-						},
-					] }
-					onChange={ ( val ) => update( 'width', val ) }
-					disabled={ ! enabled }
-				/>
-
-				{ settings.width === 'custom' && (
-					<RangeControl
-						label={ __(
-							'Custom Width (px)',
-							'snap-megamenu-builder'
-						) }
-						value={ settings.customWidth }
-						onChange={ ( val ) => update( 'customWidth', val ) }
-						min={ 400 }
-						max={ 1600 }
-						step={ 10 }
-						disabled={ ! enabled }
-					/>
-				) }
 			</PanelBody>
 
 			<PanelBody

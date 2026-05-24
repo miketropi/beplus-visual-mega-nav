@@ -59,12 +59,51 @@ Only on `nav-menus.php`:
 `IsolatedEditor` creates a mini editor:
 
 - `BlockEditorProvider` + `BlockList` + `BlockInspector` + `BlockToolbar`
-- `allowedBlockTypes` from `ALLOWED_BLOCKS` (layout, content, nav, media blocks)
+- `allowedBlockTypes` from `getAllowedBlocks()` — see [Allowed blocks](#allowed-blocks) below
 - `mediaUpload` wired to `wp.media` frame
 - Content serialized with `@wordpress/blocks` `serialize()` / `parse()`
 - Undo/redo via `useStateWithHistory` (`EditorUndoRedo`)
 
 Core blocks registered via `registerCoreBlocks()` in `index.js`.
+
+## Allowed blocks
+
+The Content Builder uses a curated allowlist (not the full site editor). Defaults live in `includes/Core/AllowedBlocks.php` and are passed to JS as `window.snapMegaMenu.allowedBlocks`.
+
+| Category | Block names |
+|----------|-------------|
+| Layout | `core/columns`, `core/column`, `core/group`, `core/row`, `core/stack` |
+| Content | `core/heading`, `core/paragraph`, `core/list`, `core/list-item`, `core/image`, `core/buttons`, `core/button`, `core/separator`, `core/spacer` |
+| Navigation | `core/page-list` |
+| Media | `core/cover` |
+| Embeds / widgets | `core/shortcode`, `core/html` |
+
+Third-party blocks must be **registered** (e.g. via `register_block_type`) before they appear in the inserter.
+
+### Extending the allowlist
+
+**PHP (recommended)** — filter `snap_megamenu_allowed_blocks`:
+
+```php
+add_filter( 'snap_megamenu_allowed_blocks', function ( array $blocks ): array {
+    $blocks[] = 'my-plugin/featured-card';
+    return $blocks;
+} );
+```
+
+**JavaScript** — filter `snap-megamenu.allowedBlocks` (admin only, after `@wordpress/hooks` is available):
+
+```js
+import { addFilter } from '@wordpress/hooks';
+
+addFilter(
+    'snap-megamenu.allowedBlocks',
+    'my-plugin/add-blocks',
+    ( blocks ) => [ ...blocks, 'my-plugin/featured-card' ]
+);
+```
+
+Use the PHP filter when both server and client need the same list; use the JS filter for admin-only adjustments.
 
 ## REST layer
 
@@ -148,6 +187,7 @@ Frontend `assets/` are **not** processed by wp-scripts — edit directly.
 | `snap_megamenu_template_directories` | filter | Add template scan directories |
 | `snap_megamenu_templates` | filter | Filter template list for admin UI |
 | `snap_megamenu_template_data` | filter | Filter single template before REST response |
+| `snap_megamenu_allowed_blocks` | filter | Block names allowed in the Content Builder |
 
 ## Integration with Nextora theme
 

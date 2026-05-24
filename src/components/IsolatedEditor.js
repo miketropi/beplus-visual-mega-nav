@@ -20,7 +20,7 @@ import { serialize, parse } from '@wordpress/blocks';
 import { SlotFillProvider, Popover, Notice } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-import { ALLOWED_BLOCKS } from '../utils/allowed-blocks';
+import { getAllowedBlocks } from '../utils/allowed-blocks';
 import { getMergedEditorSettings } from '../utils/editor-settings';
 import EditorListViewToggle from './EditorListViewToggle';
 import EditorUndoRedo from './EditorUndoRedo';
@@ -52,10 +52,12 @@ export default function IsolatedEditor( {
 		}
 	}, [ value, onChange ] );
 
+	const allowedBlockTypes = useMemo( () => getAllowedBlocks(), [] );
+
 	const editorSettings = useMemo(
 		() =>
 			getMergedEditorSettings( {
-				allowedBlockTypes: ALLOWED_BLOCKS,
+				allowedBlockTypes,
 				hasFixedToolbar: true,
 				mediaUpload: ( { onFileChange, allowedTypes } ) => {
 					const frame = wp.media( {
@@ -86,7 +88,7 @@ export default function IsolatedEditor( {
 					frame.open();
 				},
 			} ),
-		[]
+		[ allowedBlockTypes ]
 	);
 
 	const editorClass = disabled
