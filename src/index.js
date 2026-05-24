@@ -14,6 +14,7 @@ import domReady from '@wordpress/dom-ready';
 import MegaMenuApp from './components/MegaMenuApp';
 
 import './css/admin.css';
+import './blocks/link-item';
 
 // Register core blocks so they're available in the isolated editor.
 registerCoreBlocks();

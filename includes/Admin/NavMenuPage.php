@@ -79,16 +79,7 @@ final class NavMenuPage {
 		);
 
 		// Plugin styles — depend on core admin / component tokens.
-		if ( file_exists( SNAP_MEGAMENU_DIR . 'build/index.css' ) ) {
-			wp_enqueue_style( 'wp-base-styles' );
-
-			wp_enqueue_style(
-				'snap-megamenu-admin',
-				SNAP_MEGAMENU_URL . 'build/index.css',
-				[ 'wp-base-styles', 'wp-components', 'wp-block-editor', 'wp-edit-blocks' ],
-				$asset['version']
-			);
-		}
+		$this->enqueue_plugin_build_styles( $asset['version'] );
 
 		// Localized data for JS (scalars only — editorSettings is injected separately).
 		wp_localize_script(
@@ -160,6 +151,37 @@ final class NavMenuPage {
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Enqueue webpack build CSS for the Content Builder.
+	 *
+	 * @param string $version Script/style version from index.asset.php.
+	 * @return void
+	 */
+	private function enqueue_plugin_build_styles( string $version ): void {
+		if ( ! file_exists( SNAP_MEGAMENU_DIR . 'build/index.css' ) ) {
+			return;
+		}
+
+		wp_enqueue_style( 'wp-base-styles' );
+
+		wp_enqueue_style(
+			'snap-megamenu-admin',
+			SNAP_MEGAMENU_URL . 'build/index.css',
+			[ 'wp-base-styles', 'wp-components', 'wp-block-editor', 'wp-edit-blocks' ],
+			$version
+		);
+
+		// Frontend block styles (e.g. link-item style.css) — webpack entry style-index.css.
+		if ( file_exists( SNAP_MEGAMENU_DIR . 'build/style-index.css' ) ) {
+			wp_enqueue_style(
+				'snap-megamenu-blocks',
+				SNAP_MEGAMENU_URL . 'build/style-index.css',
+				[ 'snap-megamenu-admin', 'wp-edit-blocks' ],
+				$version
+			);
+		}
 	}
 
 	/**

@@ -5,6 +5,7 @@
 	<!-- Scan these files -->
 	<file>snap-megamenu-builder.php</file>
 	<file>includes/</file>
+	<file>blocks/</file>
 
 	<!-- Exclude -->
 	<exclude-pattern>vendor/</exclude-pattern>

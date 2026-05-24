@@ -39,6 +39,7 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 
 	// Navigation.
 	'core/page-list',
+	'snap-megamenu/link-item',
 
 	// Media.
 	'core/cover',

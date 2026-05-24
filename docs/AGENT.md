@@ -74,7 +74,7 @@ The Content Builder uses a curated allowlist (not the full site editor). Default
 |----------|-------------|
 | Layout | `core/columns`, `core/column`, `core/group`, `core/row`, `core/stack` |
 | Content | `core/heading`, `core/paragraph`, `core/list`, `core/list-item`, `core/image`, `core/buttons`, `core/button`, `core/separator`, `core/spacer` |
-| Navigation | `core/page-list` |
+| Navigation | `core/page-list`, `snap-megamenu/link-item` |
 | Media | `core/cover` |
 | Embeds / widgets | `core/shortcode`, `core/html` |
 

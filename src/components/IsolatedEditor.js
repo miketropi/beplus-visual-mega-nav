@@ -23,6 +23,7 @@ import { __ } from '@wordpress/i18n';
 import { getAllowedBlocks } from '../utils/allowed-blocks';
 import { getMergedEditorSettings } from '../utils/editor-settings';
 import EditorListViewToggle from './EditorListViewToggle';
+import EditorBlockInserterToggle from './EditorBlockInserterToggle';
 import EditorUndoRedo from './EditorUndoRedo';
 
 export default function IsolatedEditor( {
@@ -133,6 +134,7 @@ export default function IsolatedEditor( {
 										onRedo={ redo }
 										disabled={ disabled }
 									/>
+									<EditorBlockInserterToggle disabled={ disabled } />
 									<EditorListViewToggle />
 								</div>
 								<div className="snap-megamenu-editor-toolbar__blocks">

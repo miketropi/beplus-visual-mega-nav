@@ -1,0 +1,63 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "snap-megamenu/link-item",
+	"title": "Link Item",
+	"category": "snap-megamenu",
+	"description": "Navigation link with optional badge and description for mega menu panels.",
+	"keywords": [ "link", "navigation", "menu", "badge", "mega menu" ],
+	"textdomain": "snap-megamenu-builder",
+	"icon": "admin-links",
+	"style": "file:./style.css",
+	"editorStyle": [ "file:./editor.css", "file:./style.css" ],
+	"render": "file:./render.php",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": false
+	},
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		},
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"id": {
+			"type": "number",
+			"default": 0
+		},
+		"kind": {
+			"type": "string",
+			"default": ""
+		},
+		"type": {
+			"type": "string",
+			"default": ""
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"rel": {
+			"type": "string",
+			"default": ""
+		},
+		"description": {
+			"type": "string",
+			"default": ""
+		},
+		"badge": {
+			"type": "string",
+			"default": ""
+		},
+		"badgeVariant": {
+			"type": "string",
+			"default": "default"
+		}
+	}
+}

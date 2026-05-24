@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Snap\MegaMenuBuilder\Core;
 
 use Snap\MegaMenuBuilder\Admin\NavMenuPage;
+use Snap\MegaMenuBuilder\Blocks\BlockRegistry;
 use Snap\MegaMenuBuilder\Core\BlockContentSanitizer;
 use Snap\MegaMenuBuilder\Frontend\MenuRenderer;
 use Snap\MegaMenuBuilder\Rest\MegaMenuController;
@@ -26,6 +27,8 @@ final class Bootstrap {
 	 * @return void
 	 */
 	public function run(): void {
+		( new BlockRegistry() )->register();
+
 		$this->register_meta();
 
 		// Admin.
