@@ -1,0 +1,52 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Build zip
+        run: npm run zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          files: snap-megamenu-builder.zip
+          generate_release_notes: true
+
+      - name: Notify deploy
+        if: success()
+        run: |
+          curl -sS -X POST https://post-message-cms.beplus-agency.cloud/api/v1/messages \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.NOTIFY_TOKEN }}" \
+            -d '{"text": "Snap Mega Menu Builder ${{ github.ref_name }} released ✅", "branch": "alert-beplus-services-noti"}'

@@ -27,6 +27,22 @@ final class NavMenuPage {
 	public function register(): void {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_action( 'admin_footer', [ $this, 'render_mount_point' ] );
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_editor_styles' ] );
+	}
+
+	/**
+	 * Hide mega menu panel class inside block editor iframes
+	 * so frontend panel styles don't leak into the editing canvas.
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_styles(): void {
+		wp_register_style( 'snap-megamenu-block-editor', false );
+		wp_enqueue_style( 'snap-megamenu-block-editor' );
+		wp_add_inline_style(
+			'snap-megamenu-block-editor',
+			'.block-editor-iframe__html .snap-megamenu-mega-panel { display: none; }'
+		);
 	}
 
 	/**
