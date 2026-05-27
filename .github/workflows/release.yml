@@ -52,4 +52,7 @@ jobs:
           curl -sS -X POST https://post-message-cms.beplus-agency.cloud/api/v1/messages \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.NOTIFY_TOKEN }}" \
-            -d '{"text": "Snap Mega Menu Builder ${{ github.ref_name }} released ✅", "branch": "alert-beplus-services-noti"}'
+            -d "{
+              \"text\": \"✅ *Release ${{ github.ref_name }}* published successfully!\\n📦 Repo: ${{ github.repository }}\\n🔗 https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}\",
+              \"branch\": \"alert-beplus-services-noti\"
+            }"
