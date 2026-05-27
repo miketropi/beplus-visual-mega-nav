@@ -1,7 +1,8 @@
 {
-  "slug": "4 columns",
+  "slug": "mega-4-columns",
 	"title": "4 Columns",
 	"description": "4 columns with content in each column.",
+  "version": "1.0.0",
   "settings": {
     "width": "container",
     "bgColor": "",
