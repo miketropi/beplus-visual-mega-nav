@@ -2,7 +2,8 @@
  * Frontend styles for mega menu panels.
  *
  * Desktop (≥1024px): full-width flyout dropdown.
- * Tablet & mobile (<1024px): inline accordion (mobile nav drawer friendly).
+ * Tablet (768–1023px): off-canvas panel sliding from right.
+ * Mobile (<768px): inline accordion (mobile nav drawer friendly).
  *
  * @package Snap\MegaMenu
  */
@@ -102,14 +103,14 @@
 	}
 }
 
-/* ---------- Tablet & mobile accordion (<1024px) ---------- */
+/* ---------- Tablet & mobile base (<1024px) ---------- */
 @media (max-width: 1023px) {
 	.has-mega-menu {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: stretch;
 		gap: 0;
-		width: 100%;
+		/* width: 100%; */
 	}
 
 	.has-mega-menu > a {
@@ -117,6 +118,10 @@
 		flex: 1 1 auto;
 		align-items: center;
 		min-width: 0;
+	}
+
+	.has-mega-menu > a::after {
+		display: none !important;
 	}
 
 	.has-mega-menu:hover::after,
@@ -228,6 +233,66 @@
 
 	.snap-megamenu-toggle[aria-expanded="true"] .snap-megamenu-toggle__icon {
 		transform: rotate(180deg);
+	}
+}
+
+/* ---------- Tablet off-canvas (768px–1023px) ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+	.snap-megamenu-mega-panel {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 360px;
+		max-width: 85vw;
+		z-index: var(--snap-megamenu-mega-z);
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		overscroll-behavior: contain;
+
+		flex: none;
+		max-height: none;
+		opacity: 1;
+		visibility: hidden;
+		pointer-events: none;
+		transform: translateX(100%);
+		box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+		border-radius: 0;
+		transition:
+			transform var(--snap-megamenu-mega-transition),
+			visibility var(--snap-megamenu-mega-transition);
+	}
+
+	.snap-megamenu-mega-panel.is-open,
+	.has-mega-menu.snap-megamenu--open > .snap-megamenu-mega-panel {
+		transform: translateX(0);
+		visibility: visible;
+		pointer-events: auto;
+		overflow-y: auto;
+	}
+
+	.snap-megamenu-mega-panel__inner {
+		padding: var(--snap-megamenu-mega-padding);
+	}
+
+	/* Backdrop overlay */
+	.snap-megamenu-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: calc(var(--snap-megamenu-mega-z) - 1);
+		background: rgba(0, 0, 0, 0.35);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity var(--snap-megamenu-mega-transition),
+			visibility var(--snap-megamenu-mega-transition);
+	}
+
+	.snap-megamenu-overlay.is-visible {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
 	}
 }
 

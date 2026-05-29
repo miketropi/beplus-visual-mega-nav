@@ -2,7 +2,8 @@
  * Frontend: mega menu interaction & accessibility.
  *
  * Desktop (≥1024px): hover / focus flyout + optional click toggle.
- * Tablet & mobile: accordion inline panels (works in cloned mobile nav portals).
+ * Tablet (768–1023px): off-canvas panel sliding from right.
+ * Mobile (<768px): accordion inline panels (works in cloned mobile nav portals).
  *
  * @package Snap\MegaMenu
  */
@@ -18,8 +19,8 @@
 	const ENHANCED_ATTR = 'data-snap-megamenu-enhanced';
 	const ARIA_EXPANDED = 'aria-expanded';
 
-	/** Accordion mode — includes tablets where hover flyouts are unreliable. */
-	const ACCORDION_MQ = window.matchMedia( '(max-width: 1023px)' );
+	/** Accordion mode — mobile only (<768px). */
+	const ACCORDION_MQ = window.matchMedia( '(max-width: 767px)' );
 
 	/**
 	 * Whether the UI should use inline accordion instead of hover flyout.
@@ -28,6 +29,95 @@
 	 */
 	function isAccordionMode() {
 		return ACCORDION_MQ.matches;
+	}
+
+	/** Off-canvas mode — tablet (768px–1023px). */
+	const OFFCANVAS_MQ = window.matchMedia(
+		'(min-width: 768px) and (max-width: 1023px)'
+	);
+
+	/**
+	 * Whether to show the mega panel as a right-to-left off-canvas drawer.
+	 *
+	 * @return {boolean}
+	 */
+	function isOffcanvasMode() {
+		return OFFCANVAS_MQ.matches;
+	}
+
+	/**
+	 * Get the cached panel element for a mega menu item.
+	 *
+	 * @param {HTMLElement} item The .has-mega-menu element.
+	 * @return {HTMLElement|null}
+	 */
+	function getPanel( item ) {
+		if ( item._snapPanel instanceof HTMLElement ) {
+			return item._snapPanel;
+		}
+
+		const panel = item.querySelector( `:scope > .${ PANEL_CLASS }` );
+		if ( panel instanceof HTMLElement ) {
+			item._snapPanel = panel;
+			return panel;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the cached trigger link for a mega menu item.
+	 *
+	 * @param {HTMLElement} item The .has-mega-menu element.
+	 * @return {HTMLElement|null}
+	 */
+	function getLink( item ) {
+		if ( item._snapLink instanceof HTMLElement ) {
+			return item._snapLink;
+		}
+
+		const link = item.querySelector( ':scope > a' );
+		if ( link instanceof HTMLElement ) {
+			item._snapLink = link;
+			return link;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get or create the backdrop overlay used in off-canvas mode.
+	 *
+	 * @return {HTMLElement}
+	 */
+	function getOrCreateOverlay() {
+		let overlay = document.querySelector( '.snap-megamenu-overlay' );
+		if ( ! overlay ) {
+			overlay = document.createElement( 'div' );
+			overlay.className = 'snap-megamenu-overlay';
+			overlay.setAttribute( 'aria-hidden', 'true' );
+			document.body.appendChild( overlay );
+			overlay.addEventListener( 'click', closeAll );
+		}
+		return overlay;
+	}
+
+	/**
+	 * Show the off-canvas backdrop overlay.
+	 */
+	function showOverlay() {
+		getOrCreateOverlay().classList.add( 'is-visible' );
+	}
+
+	/**
+	 * Hide the backdrop overlay and unlock body scroll.
+	 */
+	function hideOverlay() {
+		const overlay = document.querySelector( '.snap-megamenu-overlay' );
+		if ( overlay ) {
+			overlay.classList.remove( 'is-visible' );
+		}
+		document.body.style.overflow = '';
 	}
 
 	/**
@@ -48,6 +138,10 @@
 				item.removeAttribute( ENHANCED_ATTR );
 			} );
 			enhanceItems( document );
+		} );
+
+		OFFCANVAS_MQ.addEventListener( 'change', () => {
+			closeAll();
 		} );
 	}
 
@@ -119,7 +213,7 @@
 			const nextoraToggle = target.closest( '.nextora-submenu-toggle' );
 			if ( nextoraToggle ) {
 				const megaItem = nextoraToggle.closest( MEGA_ITEMS );
-				if ( megaItem instanceof HTMLElement && isAccordionMode() ) {
+				if ( megaItem instanceof HTMLElement && ( isAccordionMode() || isOffcanvasMode() ) ) {
 					e.preventDefault();
 					e.stopImmediatePropagation();
 					toggleAccordion( megaItem, nextoraToggle );
@@ -141,7 +235,7 @@
 			const link = target.closest( `${ MEGA_ITEMS } > a` );
 			if ( link ) {
 				const megaItem = link.closest( MEGA_ITEMS );
-				const panel = megaItem?.querySelector( `:scope > .${ PANEL_CLASS }` );
+				const panel = megaItem instanceof HTMLElement ? getPanel( megaItem ) : null;
 
 				if ( megaItem instanceof HTMLElement && panel ) {
 					handleLinkClick( e, megaItem, panel, link );
@@ -149,7 +243,7 @@
 				}
 			}
 
-			if ( ! target.closest( MEGA_ITEMS ) ) {
+			if ( ! target.closest( MEGA_ITEMS ) && ! target.closest( `.${ PANEL_CLASS }` ) ) {
 				closeAll();
 			}
 		}, true );
@@ -171,12 +265,16 @@
 						return;
 					}
 
+					const panel = getPanel( item );
+					const link = getLink( item );
+
 					if ( item.contains( related ) ) {
 						return;
 					}
 
-					const panel = item.querySelector( `:scope > .${ PANEL_CLASS }` );
-					const link = item.querySelector( ':scope > a' );
+					if ( panel && panel.contains( related ) ) {
+						return;
+					}
 
 					if ( panel?.classList.contains( OPEN_CLASS ) && link ) {
 						closePanel( panel, link, item );
@@ -199,6 +297,9 @@
 		if ( ! link || ! panel ) {
 			return;
 		}
+
+		item._snapPanel = panel;
+		item._snapLink = link;
 
 		const panelId =
 			panel.id ||
@@ -258,7 +359,7 @@
 	 * @param {HTMLElement}   link  Trigger link.
 	 */
 	function handleLinkClick( e, item, panel, link ) {
-		if ( ! isAccordionMode() ) {
+		if ( ! isAccordionMode() && ! isOffcanvasMode() ) {
 			const isOpen = panel.classList.contains( OPEN_CLASS );
 
 			if ( isOpen && link.getAttribute( 'href' ) !== '#' ) {
@@ -270,7 +371,7 @@
 			return;
 		}
 
-		// Accordion: link navigates; panel opens via toggle button only.
+		// Accordion / off-canvas: link navigates; panel opens via toggle button only.
 		if ( link.getAttribute( 'href' ) === '#' || link.getAttribute( 'href' ) === '' ) {
 			e.preventDefault();
 			const toggle =
@@ -304,8 +405,8 @@
 	 * @param {HTMLElement|null} toggle Toggle control, if any.
 	 */
 	function toggleAccordion( item, toggle ) {
-		const panel = item.querySelector( `:scope > .${ PANEL_CLASS }` );
-		const link = item.querySelector( ':scope > a' );
+		const panel = getPanel( item );
+		const link = getLink( item );
 
 		if ( ! panel || ! link ) {
 			return;
@@ -344,8 +445,8 @@
 					return;
 				}
 
-				const panel = sibling.querySelector( `:scope > .${ PANEL_CLASS }` );
-				const link = sibling.querySelector( ':scope > a' );
+				const panel = getPanel( sibling );
+				const link = getLink( sibling );
 				const toggle =
 					sibling.querySelector( `:scope > .${ TOGGLE_CLASS }` ) ||
 					sibling.querySelector( ':scope > .nextora-submenu-toggle' );
@@ -370,6 +471,12 @@
 		panel.classList.add( OPEN_CLASS );
 		item.classList.add( ACCORDION_CLASS );
 		link.setAttribute( ARIA_EXPANDED, 'true' );
+
+		if ( isOffcanvasMode() ) {
+			portalToBody( panel );
+			showOverlay();
+			document.body.style.overflow = 'hidden';
+		}
 	}
 
 	/**
@@ -384,10 +491,48 @@
 		item.classList.remove( ACCORDION_CLASS );
 		link.setAttribute( ARIA_EXPANDED, 'false' );
 
+		restoreFromBody( panel );
+
 		const toggle =
 			item.querySelector( `:scope > .${ TOGGLE_CLASS }` ) ||
 			item.querySelector( ':scope > .nextora-submenu-toggle' );
 		toggle?.setAttribute( ARIA_EXPANDED, 'false' );
+	}
+
+	/**
+	 * Move panel to document.body for reliable off-canvas fixed positioning.
+	 *
+	 * @param {HTMLElement} panel The panel element.
+	 */
+	function portalToBody( panel ) {
+		if ( panel.parentElement && panel.parentElement !== document.body ) {
+			panel._snapOriginalParent = panel.parentElement;
+			panel._snapOriginalNext = panel.nextSibling;
+			document.body.appendChild( panel );
+		}
+	}
+
+	/**
+	 * Restore a previously portaled panel back to its original DOM position.
+	 *
+	 * @param {HTMLElement} panel The panel element.
+	 */
+	function restoreFromBody( panel ) {
+		if ( ! panel._snapOriginalParent ) {
+			return;
+		}
+
+		const parent = panel._snapOriginalParent;
+		const next = panel._snapOriginalNext;
+
+		if ( next && next.parentElement === parent ) {
+			parent.insertBefore( panel, next );
+		} else {
+			parent.appendChild( panel );
+		}
+
+		panel._snapOriginalParent = null;
+		panel._snapOriginalNext = null;
 	}
 
 	/**
@@ -401,13 +546,15 @@
 					return;
 				}
 
-				const panel = item.querySelector( `:scope > .${ PANEL_CLASS }` );
-				const link = item.querySelector( ':scope > a' );
+				const panel = getPanel( item );
+				const link = getLink( item );
 
 				if ( panel && link ) {
 					closePanel( panel, link, item );
 				}
 			} );
+
+		hideOverlay();
 	}
 
 	if ( document.readyState === 'loading' ) {
