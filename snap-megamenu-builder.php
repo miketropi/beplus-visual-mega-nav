@@ -3,7 +3,7 @@
  * Plugin Name:       Snap Mega Menu Builder
  * Plugin URI:        https://github.com/snapwp/snap-megamenu-builder
  * Description:       A Gutenberg-powered mega menu builder for WordPress. Build rich mega menus visually using the block editor.
- * Version:           0.0.3
+ * Version:           0.0.4
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Beplus
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'SNAP_MEGAMENU_VERSION', '1.0.0' );
+define( 'SNAP_MEGAMENU_VERSION', '0.0.4' );
 define( 'SNAP_MEGAMENU_FILE', __FILE__ );
 define( 'SNAP_MEGAMENU_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SNAP_MEGAMENU_URL', plugin_dir_url( __FILE__ ) );
