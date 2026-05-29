@@ -113,6 +113,10 @@
 		/* width: 100%; */
 	}
 
+	.has-mega-menu::before {
+		display: none;
+	}
+
 	.has-mega-menu > a {
 		display: flex;
 		flex: 1 1 auto;
