@@ -2,3 +2,4 @@ node_modules
 vendor
 .DS_Store
 snap-megamenu-builder.zip
+.opencode/qdrant-status.json
