@@ -47,15 +47,19 @@ archive.glob('**/*', {
 		'vendor/bin/**',
 		'.github/**',
 		'.git/**',
-		'husky/**',
-		'.husky/**',
+		'.claude/**',
+		'.codegraph/**',
+		'.cursor/**',
+		'.opencode/**',
 
 		// Root dev files.
 		'.gitignore',
+		'.mcp.json',
 		'.nvmrc',
 		'AGENTS.md',
 		'composer.json',
 		'composer.lock',
+		'opencode.jsonc',
 		'package.json',
 		'package-lock.json',
 		'phpstan.neon',
@@ -64,7 +68,9 @@ archive.glob('**/*', {
 		'webpack.config.js',
 		'preview.jpg',
 
-		// macOS junk.
+		// OS junk.
+		'.DS_Store',
+		'**/.DS_Store',
 		'**/._*',
 
 		// The zip file itself.
