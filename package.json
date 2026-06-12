@@ -15,7 +15,9 @@
 		"test:js": "wp-scripts test-unit-js",
 		"packages-update": "wp-scripts packages-update",
 		"prepare": "husky",
-		"zip": "npm run build && node scripts/build-zip.js"
+		"zip": "npm run build && node scripts/build-zip.js",
+		"test:wp": "bash scripts/wp-test.sh",
+    "test:wp:reset": "bash scripts/wp-test.sh --reset"
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^17.0.0",

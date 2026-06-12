@@ -47,6 +47,11 @@ final class Bootstrap {
 			( new MenuRenderer() )->register();
 		}
 
+		// Ensure menus are enabled even if the theme doesn't declare support.
+		add_action( 'after_setup_theme', static function (): void {
+			add_theme_support( 'menus' );
+		} );
+
 		// Load text domain.
 		add_action( 'init', [ $this, 'load_textdomain' ] );
 	}
