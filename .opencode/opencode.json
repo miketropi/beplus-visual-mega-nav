@@ -38,6 +38,12 @@
     }
   },
 
+  "agent": {
+    "reviewer": {
+      "color": "#F39C12"
+    }
+  },
+
   "plugin": [
     ["file:///Volumes/Mike/tools/opencode-qdrant-plugin", {
         "qdrantUrl": "http://localhost:6333",
