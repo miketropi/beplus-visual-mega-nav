@@ -15,6 +15,10 @@ import MegaMenuApp from './components/MegaMenuApp';
 
 import './css/admin.css';
 import './blocks/link-item';
+import './blocks/snap-header';
+import './blocks/snap-navigation';
+import './blocks/nav-menu-area';
+import './blocks/nav-toggle';
 
 // Register core blocks so they're available in the isolated editor.
 registerCoreBlocks();

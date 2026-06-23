@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "snap-megamenu/nav-menu-area",
+	"title": "Menu Area",
+	"category": "header",
+	"parent": [ "snap-megamenu/snap-navigation" ],
+	"icon": "list-view",
+	"description": "Renders a classic WordPress menu using the existing mega menu engine.",
+	"keywords": [ "menu", "navigation", "classic menu", "snap" ],
+	"textdomain": "snap-megamenu-builder",
+	"attributes": {
+		"menuId": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"usesContext": [
+		"snap-megamenu/instanceId"
+	],
+	"supports": {
+		"html": false,
+		"spacing": {
+			"padding": true
+		}
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"editorScript": "file:../../build/blocks.js"
+}

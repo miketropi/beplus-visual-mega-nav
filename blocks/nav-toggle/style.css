@@ -1,0 +1,80 @@
+/**
+ * Nav Toggle — frontend block styles.
+ *
+ * The hamburger icon and optional label.
+ * Visibility is controlled by per-instance breakpoint media queries
+ * emitted by the Snap Header render callback.
+ *
+ * @package Snap\MegaMenu
+ */
+
+/* ---------- Toggle button ---------- */
+.wp-block-snap-megamenu-nav-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px;
+	border: 1px solid var(--snap-megamenu-toggle-border, color-mix(in srgb, currentColor 14%, transparent));
+	border-radius: var(--snap-megamenu-toggle-radius, 9999px);
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: 1;
+}
+
+.wp-block-snap-megamenu-nav-toggle:hover {
+	background: var(--snap-megamenu-toggle-hover-bg, color-mix(in srgb, currentColor 8%, transparent));
+}
+
+.wp-block-snap-megamenu-nav-toggle:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.wp-block-snap-megamenu-nav-toggle[aria-expanded='true'] {
+	background: var(--snap-megamenu-toggle-active-bg, color-mix(in srgb, currentColor 12%, transparent));
+}
+
+/* ---------- Icon ---------- */
+.snap-nav-toggle__icon {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 24px;
+	height: 24px;
+	justify-content: center;
+	align-items: center;
+}
+
+.snap-nav-toggle__icon span {
+	display: block;
+	width: 20px;
+	height: 2px;
+	background: currentColor;
+	border-radius: 1px;
+	transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* 2-line variant: thicker lines */
+.snap-nav-toggle__icon--lines-2 span {
+	height: 3px;
+}
+
+.snap-nav-toggle__icon--lines-2 span:last-child {
+	display: none;
+}
+
+/* ---------- Label ---------- */
+.snap-nav-toggle__label {
+	font-size: 0.875em;
+	font-weight: 500;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.snap-nav-toggle__icon span {
+		transition: none;
+	}
+}

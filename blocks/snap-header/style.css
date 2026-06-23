@@ -1,0 +1,83 @@
+/**
+ * Snap Header — frontend block styles.
+ *
+ * Sticky positioning, scroll effects, transparent top, and WordPress
+ * admin bar offset.
+ *
+ * @package Snap\MegaMenu
+ */
+
+/* ---------- Sticky positioning (only when JS activates it) ---------- */
+.wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+}
+
+/* ---------- WordPress admin bar offset ---------- */
+body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+		top: 46px;
+	}
+}
+
+/* ---------- Spacer ---------- */
+.snap-hdr-spacer {
+	display: block;
+}
+
+/* ---------- Stuck state — scroll effects ---------- */
+
+/* Shrink: reduce padding when stuck */
+@media (prefers-reduced-motion: no-preference) {
+	.wp-block-snap-megamenu-snap-header.scroll-shrink.is-stuck {
+		transition: padding 0.3s ease;
+	}
+
+	/* Theme can override padding values via custom properties or direct rules */
+	.wp-block-snap-megamenu-snap-header.scroll-shrink.is-stuck {
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+}
+
+/* Hide-on-scroll: slide out when scrolling down */
+@media (prefers-reduced-motion: no-preference) {
+	.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll {
+		transition: transform 0.3s ease;
+	}
+}
+
+.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll.is-hidden {
+	transform: translateY(-100%);
+}
+
+/* Background-on-scroll: apply background only when stuck */
+.wp-block-snap-megamenu-snap-header.scroll-bg-on-scroll.is-stuck {
+	/* background-color is set via theme block-supports (color.background) */
+	/* This class is a hook for CSS rules that need to react to stuck state */
+}
+
+/* ---------- Transparent at top ---------- */
+.wp-block-snap-megamenu-snap-header.is-transparent-top {
+	background-color: transparent;
+}
+
+.wp-block-snap-megamenu-snap-header.is-transparent-top.is-stuck {
+	/* background reverts to the block's configured background color */
+	/* The stuck state removes transparency automatically */
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll,
+	.wp-block-snap-megamenu-snap-header.scroll-shrink {
+		transition: none !important;
+	}
+}

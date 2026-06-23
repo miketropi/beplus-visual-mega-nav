@@ -24,8 +24,7 @@
 	<rule ref="WordPress">
 		<!-- Allow short array syntax -->
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
-		<!-- Allow short ternary -->
-		<exclude name="WordPress.PHP.DisallowShortTernary"/>
+		<!-- Allow short ternary (sniff removed in WPCS 3.x) -->
 	</rule>
 
 	<rule ref="WordPress-Extra"/>

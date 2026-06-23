@@ -181,6 +181,34 @@ final class MenuRenderer {
 			SNAP_MEGAMENU_VERSION
 		);
 
+		wp_enqueue_style(
+			'snap-megamenu-snap-header',
+			SNAP_MEGAMENU_URL . 'blocks/snap-header/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-snap-nav',
+			SNAP_MEGAMENU_URL . 'blocks/snap-navigation/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-nav-toggle',
+			SNAP_MEGAMENU_URL . 'blocks/nav-toggle/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-nav-menu-area',
+			SNAP_MEGAMENU_URL . 'blocks/nav-menu-area/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
 		wp_enqueue_script(
 			'snap-megamenu-front',
 			SNAP_MEGAMENU_URL . 'assets/js/frontend.js',

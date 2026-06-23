@@ -13,6 +13,7 @@ use Snap\MegaMenuBuilder\Admin\NavMenuPage;
 use Snap\MegaMenuBuilder\Blocks\BlockRegistry;
 use Snap\MegaMenuBuilder\Core\BlockContentSanitizer;
 use Snap\MegaMenuBuilder\Frontend\MenuRenderer;
+use Snap\MegaMenuBuilder\Patterns\PatternRegistry;
 use Snap\MegaMenuBuilder\Rest\MegaMenuController;
 use Snap\MegaMenuBuilder\Rest\TemplatesController;
 
@@ -28,6 +29,7 @@ final class Bootstrap {
 	 */
 	public function run(): void {
 		( new BlockRegistry() )->register();
+		( new PatternRegistry() )->register();
 
 		$this->register_meta();
 

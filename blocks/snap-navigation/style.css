@@ -1,0 +1,97 @@
+/**
+ * Snap Navigation — frontend block styles.
+ *
+ * Desktop: flex container wrapping the menu and toggle.
+ * Mobile: the portal overlay (clone-to-body) styles.
+ *
+ * @package Snap\MegaMenu
+ */
+
+/* ---------- Navigation wrapper (desktop) ---------- */
+.wp-block-snap-megamenu-snap-navigation {
+	flex: 1;
+}
+
+/* ---------- Portal root (mobile overlay) ---------- */
+.snap-nav-portal {
+	position: fixed;
+	inset: 0;
+	z-index: 9998;
+	background: var(--snap-megamenu-mega-bg, #ffffff);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--snap-megamenu-mega-padding, 24px);
+}
+
+.snap-nav-portal[data-state='closed'] {
+	display: none;
+}
+
+.snap-nav-portal[data-state='open'] {
+	display: block;
+}
+
+/* ---------- Portal inner navigation ---------- */
+.snap-nav-portal .wp-block-snap-megamenu-snap-navigation {
+	flex-direction: column !important;
+	width: 100%;
+	align-items: stretch !important;
+	justify-content: flex-start !important;
+}
+
+.snap-nav-portal .wp-block-snap-megamenu-nav-toggle {
+	/* Hide toggle inside portal — the trigger is in the header */
+	display: none;
+}
+
+/* Menu area inside portal: full-width vertical */
+.snap-nav-portal .wp-block-snap-megamenu-nav-menu-area {
+	width: 100%;
+}
+
+.snap-nav-portal .snap-nav-menu {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0;
+}
+
+.snap-nav-portal .snap-nav-menu li {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.snap-nav-portal .snap-nav-menu a {
+	padding: 14px 0;
+	font-size: 1.05em;
+}
+
+/* Show all sub-menu levels in portal (no hover dropdowns on mobile) */
+.snap-nav-portal .snap-nav-menu .sub-menu {
+	display: block;
+	position: static;
+	min-width: 0;
+	padding: 0 0 0 1.25em;
+	background: transparent;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.snap-nav-portal .snap-nav-menu .sub-menu a {
+	padding: 10px 0;
+	font-size: 0.95em;
+	opacity: 0.85;
+}
+
+.snap-nav-portal .snap-nav-menu .sub-menu .sub-menu a {
+	font-size: 0.9em;
+	opacity: 0.75;
+}
+
+/* ---------- Portal z-index ---------- */
+/* 9998 keeps portal below WordPress admin bar (99999), above typical content. */
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.snap-nav-portal {
+		transition: none !important;
+	}
+}

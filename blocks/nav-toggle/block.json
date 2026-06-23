@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "snap-megamenu/nav-toggle",
+	"title": "Nav Toggle",
+	"category": "header",
+	"ancestor": [ "snap-megamenu/snap-header" ],
+	"icon": "menu",
+	"description": "Hamburger button that opens the mobile navigation overlay below the breakpoint.",
+	"keywords": [ "hamburger", "toggle", "menu", "mobile", "snap" ],
+	"textdomain": "snap-megamenu-builder",
+	"attributes": {
+		"iconStyle": {
+			"type": "string",
+			"default": "lines-3"
+		},
+		"label": {
+			"type": "string",
+			"default": ""
+		},
+		"labelVisible": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [
+		"snap-megamenu/overlayId",
+		"snap-megamenu/instanceId",
+		"snap-megamenu/mobileBreakpoint"
+	],
+	"supports": {
+		"html": false,
+		"spacing": {
+			"padding": true
+		}
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"editorStyle": "file:./editor.css",
+	"editorScript": "file:../../build/blocks.js"
+}
