@@ -25,16 +25,16 @@ final class LinkItemRenderer {
 		$attributes = wp_parse_args(
 			$attributes,
 			[
-				'label'        => '',
-				'url'          => '',
-				'id'           => 0,
-				'kind'         => '',
-				'type'         => '',
+				'label'         => '',
+				'url'           => '',
+				'id'            => 0,
+				'kind'          => '',
+				'type'          => '',
 				'opensInNewTab' => false,
-				'rel'          => '',
-				'description'  => '',
-				'badge'        => '',
-				'badgeVariant' => 'default',
+				'rel'           => '',
+				'description'   => '',
+				'badge'         => '',
+				'badgeVariant'  => 'default',
 			]
 		);
 
@@ -46,15 +46,15 @@ final class LinkItemRenderer {
 		 */
 		$attributes = apply_filters( 'snap_megamenu_link_item_attributes', $attributes, $block );
 
-		$label        = sanitize_text_field( (string) $attributes['label'] );
-		$url          = (string) $attributes['url'];
-		$id           = absint( $attributes['id'] );
-		$type         = sanitize_key( (string) $attributes['type'] );
-		$description  = sanitize_text_field( (string) $attributes['description'] );
-		$badge        = sanitize_text_field( (string) $attributes['badge'] );
+		$label         = sanitize_text_field( (string) $attributes['label'] );
+		$url           = (string) $attributes['url'];
+		$id            = absint( $attributes['id'] );
+		$type          = sanitize_key( (string) $attributes['type'] );
+		$description   = sanitize_text_field( (string) $attributes['description'] );
+		$badge         = sanitize_text_field( (string) $attributes['badge'] );
 		$badge_variant = self::sanitize_badge_variant( (string) $attributes['badgeVariant'] );
-		$opens_new    = (bool) $attributes['opensInNewTab'];
-		$extra_rel    = sanitize_text_field( (string) $attributes['rel'] );
+		$opens_new     = (bool) $attributes['opensInNewTab'];
+		$extra_rel     = sanitize_text_field( (string) $attributes['rel'] );
 
 		if ( $id > 0 && 'custom' !== $type ) {
 			$permalink = get_permalink( $id );

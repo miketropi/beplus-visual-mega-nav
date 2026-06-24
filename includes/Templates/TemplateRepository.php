@@ -72,7 +72,7 @@ final class TemplateRepository {
 					continue;
 				}
 
-				$slug = $template['slug'];
+				$slug               = $template['slug'];
 				$templates[ $slug ] = $this->to_summary( $template );
 			}
 		}
@@ -169,7 +169,7 @@ final class TemplateRepository {
 
 		$settings = [];
 		if ( isset( $data['settings'] ) && is_array( $data['settings'] ) ) {
-			$decoded = json_decode(
+			$decoded  = json_decode(
 				BlockContentSanitizer::sanitize_settings( $data['settings'] ),
 				true
 			);
