@@ -32,6 +32,10 @@
 		"gridColumns": {
 			"type": "string",
 			"default": "auto 1fr"
+		},
+		"scrollBgColor": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"providesContext": {

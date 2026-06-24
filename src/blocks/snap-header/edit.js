@@ -3,12 +3,14 @@ import {
 	InspectorControls,
 	useBlockProps,
 	InnerBlocks,
+	useSetting,
 } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	ToggleControl,
 	SelectControl,
 	TextControl,
+	ColorPalette,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -18,9 +20,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		mobileBreakpoint,
 		sticky,
 		scrollEffect,
+		scrollBgColor,
 		transparentTop,
 		gridColumns,
 	} = attributes;
+
+	const themeColors = useSetting('color.palette') || [];
+	const disableCustomColors = ! useSetting('color.custom');
 
 	useEffect(() => {
 		if (!instanceId) {
@@ -143,6 +149,23 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							onChange={(value) =>
 								setAttributes({ scrollEffect: value })
 							}
+						/>
+					)}
+					{sticky && scrollEffect === 'bg-on-scroll' && (
+						<ColorPalette
+							label={__(
+								'Scroll background color',
+								'snap-megamenu-builder'
+							)}
+							colors={themeColors}
+							disableCustomColors={disableCustomColors}
+							value={scrollBgColor || ''}
+							onChange={(value) =>
+								setAttributes({
+									scrollBgColor: value || '',
+								})
+							}
+							clearable={true}
 						/>
 					)}
 					<ToggleControl

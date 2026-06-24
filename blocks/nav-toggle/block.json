@@ -31,7 +31,8 @@
 	"supports": {
 		"html": false,
 		"spacing": {
-			"padding": true
+			"padding": true,
+			"margin": true
 		}
 	},
 	"render": "file:./render.php",

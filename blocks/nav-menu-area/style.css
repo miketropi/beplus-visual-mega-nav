@@ -29,12 +29,16 @@
 	margin: 0;
 }
 
-.snap-nav-menu a {
+.snap-nav-menu .menu-item > a {
 	display: block;
 	padding: 0.5em 0.75em;
 	text-decoration: none;
 	color: inherit;
 	white-space: nowrap;
+}
+
+.snap-nav-portal .snap-nav-menu .menu-item > a {
+	padding: 1rem 0;
 }
 
 /* ---------- Sub-menu dropdowns (levels 1-3) ---------- */

@@ -4,7 +4,7 @@
 	"name": "snap-megamenu/snap-navigation",
 	"title": "Snap Navigation",
 	"category": "header",
-	"parent": [ "snap-megamenu/snap-header" ],
+	"parent": [ "snap-megamenu/snap-header", "core/group", "core/column" ],
 	"icon": "menu",
 	"description": "Flexible navigation container that hosts a classic menu and hamburger toggle.",
 	"keywords": [ "navigation", "menu", "nav", "snap" ],

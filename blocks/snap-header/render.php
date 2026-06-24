@@ -53,6 +53,17 @@ if ( 'none' !== $effect ) {
 	$classes[] = 'scroll-' . $effect;
 }
 
+$wrapper_style = '';
+
+if ( 'bg-on-scroll' === $effect && ! empty( $attributes['scrollBgColor'] ) ) {
+	$scroll_bg = trim( (string) $attributes['scrollBgColor'] );
+	$is_hex    = (bool) sanitize_hex_color( $scroll_bg );
+	$is_preset = (bool) preg_match( '/^var\(--wp--preset--color--[\w-]+\)$/', $scroll_bg );
+	if ( $is_hex || $is_preset ) {
+		$wrapper_style = sprintf( '--snap-hdr-scroll-bg:%s;', $scroll_bg );
+	}
+}
+
 // Sanitize grid-template-columns value.
 $grid_columns = isset( $attributes['gridColumns'] )
 	? sanitize_text_field( (string) $attributes['gridColumns'] )
@@ -70,6 +81,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 		'data-breakpoint'    => $breakpoint,
 		'data-instance'      => $instance_id,
 		'data-scroll-effect' => $effect,
+		'style'              => $wrapper_style,
 	]
 );
 

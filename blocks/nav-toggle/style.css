@@ -14,8 +14,10 @@
 	align-items: center;
 	gap: 8px;
 	padding: 8px;
-	border: 1px solid var(--snap-megamenu-toggle-border, color-mix(in srgb, currentColor 14%, transparent));
-	border-radius: var(--snap-megamenu-toggle-radius, 9999px);
+	/* border: 1px solid var(--snap-megamenu-toggle-border, color-mix(in srgb, currentColor 14%, transparent));
+	border-radius: var(--snap-megamenu-toggle-radius, 9999px); */
+	border: none;
+	border-radius: 0;
 	background: transparent;
 	color: inherit;
 	cursor: pointer;
@@ -34,7 +36,7 @@
 }
 
 .wp-block-snap-megamenu-nav-toggle[aria-expanded='true'] {
-	background: var(--snap-megamenu-toggle-active-bg, color-mix(in srgb, currentColor 12%, transparent));
+	/* background: var(--snap-megamenu-toggle-active-bg, color-mix(in srgb, currentColor 12%, transparent)); */
 }
 
 /* ---------- Icon ---------- */

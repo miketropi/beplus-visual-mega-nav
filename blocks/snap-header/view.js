@@ -14,7 +14,7 @@
 
 	var HEADER_SELECTOR = '.wp-block-snap-megamenu-snap-header.is-sticky';
 	var TOGGLE_SELECTOR = '.wp-block-snap-megamenu-nav-toggle';
-	var NAV_SELECTOR = '.wp-block-snap-megamenu-snap-navigation';
+	var MENU_AREA_SELECTOR = '.wp-block-snap-megamenu-nav-menu-area';
 	var PORTAL_CLASS = 'snap-nav-portal';
 	var FIXED_CLASS = 'is-fixed-active';
 
@@ -76,41 +76,63 @@
 	function initSticky(header, state) {
 		var effect = header.getAttribute('data-scroll-effect') || 'none';
 
-		// Sentinel — 1px tall, positioned just before the header.
+		// Sentinel — 1px tall block in normal flow, right before the header.
 		var sentinel = document.createElement('div');
 		sentinel.className = 'snap-hdr-sentinel';
-		sentinel.style.cssText =
-			'height:1px;width:1px;position:absolute;top:-1px;left:0;pointer-events:none;';
+		sentinel.style.cssText = 'height:1px;pointer-events:none;';
 		header.parentNode.insertBefore(sentinel, header);
 
 		// Spacer — keeps page content from jumping when header becomes fixed.
 		var spacer = document.createElement('div');
 		spacer.className = 'snap-hdr-spacer';
 		spacer.setAttribute('aria-hidden', 'true');
+		spacer.style.display = 'none';
 		header.parentNode.insertBefore(spacer, header);
 
 		function measureSpacer() {
-			if (!header.classList.contains('is-stuck')) {
-				spacer.style.height = header.offsetHeight + 'px';
-			}
+			spacer.style.height = header.offsetHeight + 'px';
 		}
 
 		var ro = new ResizeObserver(measureSpacer);
 		ro.observe(header);
 		measureSpacer();
 
-		// IntersectionObserver for "stuck" detection.
-		var io = new IntersectionObserver(
-			function (entries) {
-				var isStuck = !entries[0].isIntersecting;
-				header.classList.toggle('is-stuck', isStuck);
-			},
-			{ threshold: 0 }
-		);
-		io.observe(sentinel);
+		// IntersectionObserver with admin bar offset so the sentinel
+		// triggers when it scrolls past the admin bar, not the viewport top.
+		var io;
+		function createStickyIO() {
+			var bar = document.getElementById('wpadminbar');
+			var barHeight = bar ? bar.offsetHeight : 0;
+			var obs = new IntersectionObserver(
+				function (entries) {
+					var isStuck = !entries[0].isIntersecting;
+					header.classList.toggle('is-stuck', isStuck);
+					header.classList.toggle(FIXED_CLASS, isStuck);
+					spacer.style.display = isStuck ? 'block' : 'none';
+				},
+				{
+					threshold: 0,
+					rootMargin: '-' + barHeight + 'px 0px 0px 0px',
+				}
+			);
+			obs.observe(sentinel);
+			return obs;
+		}
 
-		// Enable fixed positioning AFTER spacer is sized (no FOUC).
-		header.classList.add(FIXED_CLASS);
+		io = createStickyIO();
+
+		// Watch admin bar for height changes (desktop 32 px ↔ mobile 46 px).
+		var adminBar = document.getElementById('wpadminbar');
+		if (adminBar) {
+			var barRO = new ResizeObserver(function () {
+				if (state.io) {
+					state.io.disconnect();
+				}
+				state.io = createStickyIO();
+			});
+			barRO.observe(adminBar);
+			state.barRO = barRO;
+		}
 
 		// Scroll effects that need a scroll listener.
 		if (effect === 'hide-on-scroll') {
@@ -207,8 +229,8 @@
 		}
 
 		if (state.isPortalOpen) {
+			state.activeToggle = toggle;
 			closePortal(state);
-			toggle.setAttribute('aria-expanded', 'false');
 			state.activeToggle = null;
 		} else {
 			// Lazy-create portal on first activation.
@@ -229,14 +251,14 @@
 	 */
 	function createPortal(state) {
 		var header = state.header;
-		var nav = header.querySelector(NAV_SELECTOR);
+		var menuArea = header.querySelector(MENU_AREA_SELECTOR);
 
-		if (!(nav instanceof HTMLElement)) {
+		if (!(menuArea instanceof HTMLElement)) {
 			return;
 		}
 
-		// Clone the entire navigation subtree.
-		var clone = nav.cloneNode(true);
+		// Clone the menu area subtree (nav menu only, no toggle).
+		var clone = menuArea.cloneNode(true);
 
 		// Sanitize: rewrite all IDs to avoid duplicates.
 		sanitizeClone(clone, state.instanceId);
@@ -253,6 +275,19 @@
 
 		// Mirror critical CSS custom properties from the header.
 		mirrorCSSVariables(header, portalRoot);
+
+		// Close button.
+		var closeBtn = document.createElement('button');
+		closeBtn.className = 'snap-nav-portal__close';
+		closeBtn.type = 'button';
+		closeBtn.setAttribute('aria-label', 'Close navigation');
+		closeBtn.innerHTML =
+			'<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
+			'<span>Close</span>';
+		closeBtn.addEventListener('click', function () {
+			closePortal(state);
+		});
+		portalRoot.appendChild(closeBtn);
 
 		portalRoot.appendChild(clone);
 		document.body.appendChild(portalRoot);
@@ -351,18 +386,17 @@
 	 */
 	function openPortal(state) {
 		var portalRoot = state.portalRoot;
-		if (!portalRoot) {
+		if (!portalRoot || state.isPortalOpen) {
 			return;
 		}
 
-		portalRoot.setAttribute('data-state', 'open');
-		portalRoot.style.display = '';
-		state.isPortalOpen = true;
-
-		// Body scroll lock.
+		// Body scroll lock (immediate, before animation).
 		lockScroll(state);
 
-		// Focus trap: focus first focusable element in the portal.
+		portalRoot.setAttribute('data-state', 'open');
+		state.isPortalOpen = true;
+
+		// Focus first focusable element (close button) after transition starts.
 		requestAnimationFrame(function () {
 			focusFirst(portalRoot);
 		});
@@ -396,20 +430,32 @@
 	 */
 	function closePortal(state) {
 		var portalRoot = state.portalRoot;
-		if (!portalRoot) {
+		if (!portalRoot || !state.isPortalOpen) {
 			return;
 		}
 
 		portalRoot.setAttribute('data-state', 'closed');
 		state.isPortalOpen = false;
 
-		// Restore body scroll.
-		unlockScroll(state);
-
-		// Return focus to the toggle that opened the portal.
+		// Return focus and update aria.
 		if (state.activeToggle instanceof HTMLElement) {
 			state.activeToggle.focus();
+			state.activeToggle.setAttribute('aria-expanded', 'false');
 		}
+
+		// Delay scroll unlock until transition finishes.
+		var done = false;
+		function finish() {
+			if (done) {
+				return;
+			}
+			done = true;
+			unlockScroll(state);
+			portalRoot.removeEventListener('transitionend', finish);
+		}
+		portalRoot.addEventListener('transitionend', finish);
+		// Fallback in case transitionend doesn't fire (e.g. reduced motion).
+		setTimeout(finish, 400);
 	}
 
 	/* --------------------------------------------------------------------
@@ -580,6 +626,10 @@
 
 		if (state.tabTrapHandler) {
 			document.removeEventListener('keydown', state.tabTrapHandler);
+		}
+
+		if (state.barRO) {
+			state.barRO.disconnect();
 		}
 
 		state.header.classList.remove(FIXED_CLASS, 'is-stuck', 'is-hidden');
