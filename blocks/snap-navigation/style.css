@@ -115,3 +115,11 @@
 		transition: none !important;
 	}
 }
+
+.wp-block-snap-megamenu-snap-navigation .wc-block-mini-cart {
+	display: flex;
+}
+
+body.woocommerce-cart .wc-block-mini-cart {
+	display: none;
+}
