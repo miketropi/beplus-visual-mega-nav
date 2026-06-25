@@ -1,7 +1,7 @@
 /**
  * IsolatedEditor — standalone Gutenberg block editor.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { useEffect, useMemo, useRef } from '@wordpress/element';
@@ -26,70 +26,70 @@ import EditorListViewToggle from './EditorListViewToggle';
 import EditorBlockInserterToggle from './EditorBlockInserterToggle';
 import EditorUndoRedo from './EditorUndoRedo';
 
-export default function IsolatedEditor( {
+export default function IsolatedEditor({
 	initialContent,
 	onChange,
 	disabled = false,
-} ) {
+}) {
 	const initialBlocks = useMemo(
-		() => ( initialContent ? parse( initialContent ) : [] ),
+		() => (initialContent ? parse(initialContent) : []),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[]
 	);
 
 	const { value, setValue, hasUndo, hasRedo, undo, redo } =
-		useStateWithHistory( initialBlocks );
+		useStateWithHistory(initialBlocks);
 
-	const skipParentSync = useRef( true );
+	const skipParentSync = useRef(true);
 
-	useEffect( () => {
-		if ( skipParentSync.current ) {
+	useEffect(() => {
+		if (skipParentSync.current) {
 			skipParentSync.current = false;
 			return;
 		}
 
-		if ( onChange ) {
-			onChange( serialize( value ) );
+		if (onChange) {
+			onChange(serialize(value));
 		}
-	}, [ value, onChange ] );
+	}, [value, onChange]);
 
-	const allowedBlockTypes = useMemo( () => getAllowedBlocks(), [] );
+	const allowedBlockTypes = useMemo(() => getAllowedBlocks(), []);
 
 	const editorSettings = useMemo(
 		() =>
-			getMergedEditorSettings( {
+			getMergedEditorSettings({
 				allowedBlockTypes,
 				hasFixedToolbar: true,
-				mediaUpload: ( { onFileChange, allowedTypes } ) => {
-					const frame = wp.media( {
+				mediaUpload: ({ onFileChange, allowedTypes }) => {
+					const frame = wp.media({
 						title: __(
 							'Select or Upload Media',
 							'snap-megamenu-builder'
 						),
 						multiple: false,
 						library: { type: allowedTypes },
-					} );
+					});
 
-					frame.on( 'select', () => {
+					frame.on('select', () => {
 						const attachment = frame
 							.state()
-							.get( 'selection' )
+							.get('selection')
 							.first()
 							.toJSON();
-						onFileChange( [
+						onFileChange([
 							{
 								id: attachment.id,
 								url: attachment.url,
 								alt: attachment.alt,
 								caption: attachment.caption,
 							},
-						] );
-					} );
+						]);
+					});
 
 					frame.open();
 				},
-			} ),
-		[ allowedBlockTypes ]
+			}),
+		[allowedBlockTypes]
 	);
 
 	const editorClass = disabled
@@ -97,30 +97,28 @@ export default function IsolatedEditor( {
 		: 'snap-megamenu-isolated-editor';
 
 	return (
-		<div className={ editorClass }>
-			{ disabled && (
-				<Notice status="warning" isDismissible={ false }>
-					{ __(
+		<div className={editorClass}>
+			{disabled && (
+				<Notice status="warning" isDismissible={false}>
+					{__(
 						'Enable the mega menu in Settings to show this content on the front end.',
 						'snap-megamenu-builder'
-					) }
+					)}
 				</Notice>
-			) }
+			)}
 
 			<div className="snap-megamenu-isolated-editor__workspace">
 				<SlotFillProvider>
 					<BlockEditorProvider
-						value={ value }
-						onInput={ ( newBlocks ) => setValue( newBlocks, true ) }
-						onChange={ ( newBlocks ) =>
-							setValue( newBlocks, false )
-						}
-						settings={ editorSettings }
+						value={value}
+						onInput={(newBlocks) => setValue(newBlocks, true)}
+						onChange={(newBlocks) => setValue(newBlocks, false)}
+						settings={editorSettings}
 					>
 						<BlockEditorKeyboardShortcuts.Register />
 
 						<EditorStyles
-							styles={ editorSettings.styles }
+							styles={editorSettings.styles}
 							scope=".editor-styles-wrapper"
 						/>
 
@@ -128,13 +126,15 @@ export default function IsolatedEditor( {
 							<div className="snap-megamenu-editor-toolbar">
 								<div className="snap-megamenu-editor-toolbar__controls">
 									<EditorUndoRedo
-										hasUndo={ hasUndo }
-										hasRedo={ hasRedo }
-										onUndo={ undo }
-										onRedo={ redo }
-										disabled={ disabled }
+										hasUndo={hasUndo}
+										hasRedo={hasRedo}
+										onUndo={undo}
+										onRedo={redo}
+										disabled={disabled}
 									/>
-									<EditorBlockInserterToggle disabled={ disabled } />
+									<EditorBlockInserterToggle
+										disabled={disabled}
+									/>
 									<EditorListViewToggle />
 								</div>
 								<div className="snap-megamenu-editor-toolbar__blocks">
@@ -154,10 +154,10 @@ export default function IsolatedEditor( {
 								<aside className="snap-megamenu-editor-sidebar interface-complementary-area">
 									<div className="interface-complementary-area-header">
 										<h2 className="interface-complementary-area-header__title">
-											{ __(
+											{__(
 												'Block',
 												'snap-megamenu-builder'
-											) }
+											)}
 										</h2>
 									</div>
 									<div className="snap-megamenu-editor-sidebar__content">

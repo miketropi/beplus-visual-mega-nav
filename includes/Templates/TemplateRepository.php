@@ -72,7 +72,7 @@ final class TemplateRepository {
 					continue;
 				}
 
-				$slug = $template['slug'];
+				$slug               = $template['slug'];
 				$templates[ $slug ] = $this->to_summary( $template );
 			}
 		}
@@ -141,6 +141,7 @@ final class TemplateRepository {
 	 * @return array<string, mixed>|null
 	 */
 	private function load_file( string $file, string $source ): ?array {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reading local template file, not a remote URL
 		$raw = file_get_contents( $file );
 
 		if ( false === $raw ) {
@@ -169,7 +170,7 @@ final class TemplateRepository {
 
 		$settings = [];
 		if ( isset( $data['settings'] ) && is_array( $data['settings'] ) ) {
-			$decoded = json_decode(
+			$decoded  = json_decode(
 				BlockContentSanitizer::sanitize_settings( $data['settings'] ),
 				true
 			);

@@ -43,6 +43,8 @@ final class MetaKeys {
 	}
 
 	/**
+	 * Update a meta value.
+	 *
 	 * @param int    $item_id Menu item post ID.
 	 * @param string $key     Meta key constant.
 	 * @param mixed  $value   Value to store.
@@ -53,6 +55,8 @@ final class MetaKeys {
 	}
 
 	/**
+	 * Check if a meta value is considered empty.
+	 *
 	 * @param mixed $value Meta value.
 	 * @return bool
 	 */
@@ -61,6 +65,8 @@ final class MetaKeys {
 	}
 
 	/**
+	 * Get the legacy meta key for backwards compatibility.
+	 *
 	 * @param string $key Current meta key.
 	 * @return string|null
 	 */

@@ -88,9 +88,11 @@ final class TemplatesController {
 	public function get_templates(): WP_REST_Response {
 		$repository = new TemplateRepository();
 
-		return new WP_REST_Response( [
-			'templates' => $repository->get_all(),
-		] );
+		return new WP_REST_Response(
+			[
+				'templates' => $repository->get_all(),
+			]
+		);
 	}
 
 	/**

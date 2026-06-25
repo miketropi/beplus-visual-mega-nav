@@ -1,7 +1,7 @@
 /**
  * EditorBlockInserterToggle — toolbar button that opens the block library.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { __experimentalLibrary as InserterLibrary } from '@wordpress/block-editor';
@@ -9,39 +9,39 @@ import { Dropdown, Button } from '@wordpress/components';
 import { plus, closeSmall } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
-export default function EditorBlockInserterToggle( { disabled = false } ) {
+export default function EditorBlockInserterToggle({ disabled = false }) {
 	return (
 		<Dropdown
 			className="snap-megamenu-inserter-dropdown"
 			contentClassName="snap-megamenu-inserter-dropdown__popover"
-			popoverProps={ {
+			popoverProps={{
 				placement: 'bottom-start',
 				offset: 4,
 				shift: true,
-			} }
-			renderToggle={ ( { isOpen, onToggle } ) => (
+			}}
+			renderToggle={({ isOpen, onToggle }) => (
 				<Button
 					className="snap-megamenu-inserter-toggle"
-					icon={ plus }
-					label={ __( 'Add block', 'snap-megamenu-builder' ) }
-					onClick={ onToggle }
-					aria-expanded={ isOpen }
-					isPressed={ isOpen }
+					icon={plus}
+					label={__('Add block', 'snap-megamenu-builder')}
+					onClick={onToggle}
+					aria-expanded={isOpen}
+					isPressed={isOpen}
 					showTooltip
-					disabled={ disabled }
+					disabled={disabled}
 				/>
-			) }
-			renderContent={ ( { onClose } ) => (
+			)}
+			renderContent={({ onClose }) => (
 				<div className="snap-megamenu-inserter-dropdown__panel">
 					<div className="snap-megamenu-inserter-dropdown__header">
 						<h3 className="snap-megamenu-inserter-dropdown__title">
-							{ __( 'Add block', 'snap-megamenu-builder' ) }
+							{__('Add block', 'snap-megamenu-builder')}
 						</h3>
 						<Button
 							className="snap-megamenu-inserter-dropdown__close"
-							icon={ closeSmall }
-							label={ __( 'Close', 'snap-megamenu-builder' ) }
-							onClick={ onClose }
+							icon={closeSmall}
+							label={__('Close', 'snap-megamenu-builder')}
+							onClick={onClose}
 							size="small"
 						/>
 					</div>
@@ -49,16 +49,16 @@ export default function EditorBlockInserterToggle( { disabled = false } ) {
 						<InserterLibrary
 							rootClientId=""
 							isAppender
-							showInserterHelpPanel={ false }
-							showMostUsedBlocks={ false }
+							showInserterHelpPanel={false}
+							showMostUsedBlocks={false}
 							__experimentalInitialTab="blocks"
-							onSelect={ () => {} }
-							onClose={ onClose }
+							onSelect={() => {}}
+							onClose={onClose}
 							shouldFocusBlock
 						/>
 					</div>
 				</div>
-			) }
+			)}
 		/>
 	);
 }

@@ -25,7 +25,10 @@
 		<!-- Allow short array syntax -->
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
 		<!-- Allow short ternary -->
-		<exclude name="WordPress.PHP.DisallowShortTernary"/>
+		<exclude name="Universal.Operators.DisallowShortTernary.Found"/>
+		<!-- PSR-4 autoload uses PascalCase filenames -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule>
 
 	<rule ref="WordPress-Extra"/>

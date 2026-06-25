@@ -562,4 +562,8 @@
 	} else {
 		init();
 	}
+
+	// Public API for external scripts to re-init the menu engine
+	// on a cloned subtree (e.g. Snap Header clone-to-body portal).
+	window.snapMegaMenuReInit = enhanceItems;
 } )();

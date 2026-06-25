@@ -4,7 +4,7 @@
  * Observes the nav-menus.php DOM for root-level menu items,
  * injects "Mega Menu" buttons, and opens the editor modal.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { useState, useEffect, useCallback } from '@wordpress/element';
@@ -14,39 +14,39 @@ import MegaMenuModal from './MegaMenuModal';
 /**
  * Inject a "Mega Menu" button into a depth-0 menu item's action bar.
  *
- * @param {HTMLElement} menuItem  The .menu-item element.
- * @param {Function}    onClick   Click handler receiving the menu item ID.
+ * @param {HTMLElement} menuItem The .menu-item element.
+ * @param {Function}    onClick  Click handler receiving the menu item ID.
  */
-function injectButton( menuItem, onClick ) {
-	if ( menuItem.querySelector( '.snap-megamenu-btn' ) ) {
+function injectButton(menuItem, onClick) {
+	if (menuItem.querySelector('.snap-megamenu-btn')) {
 		return;
 	}
 
-	const id = menuItem.id?.replace( 'menu-item-', '' );
-	if ( ! id ) {
+	const id = menuItem.id?.replace('menu-item-', '');
+	if (!id) {
 		return;
 	}
 
-	const actions = menuItem.querySelector( '.menu-item-actions' );
-	if ( ! actions ) {
+	const actions = menuItem.querySelector('.menu-item-actions');
+	if (!actions) {
 		return;
 	}
 
-	const separator = document.createTextNode( ' | ' );
-	const btn = document.createElement( 'a' );
+	const separator = document.createTextNode(' | ');
+	const btn = document.createElement('a');
 	btn.href = '#';
 	btn.className = 'snap-megamenu-btn';
-	btn.textContent = __( 'Mega Menu', 'snap-megamenu-builder' );
+	btn.textContent = __('Mega Menu', 'snap-megamenu-builder');
 	btn.dataset.menuItemId = id;
 
-	btn.addEventListener( 'click', ( e ) => {
+	btn.addEventListener('click', (e) => {
 		e.preventDefault();
 		e.stopPropagation();
-		onClick( id );
-	} );
+		onClick(id);
+	});
 
-	actions.appendChild( separator );
-	actions.appendChild( btn );
+	actions.appendChild(separator);
+	actions.appendChild(btn);
 }
 
 /**
@@ -54,60 +54,58 @@ function injectButton( menuItem, onClick ) {
  *
  * @param {HTMLElement} container The #menu-to-edit container.
  */
-function cleanupButtons( container ) {
+function cleanupButtons(container) {
 	container
 		.querySelectorAll(
 			'.menu-item:not(.menu-item-depth-0) .snap-megamenu-btn'
 		)
-		.forEach( ( btn ) => {
+		.forEach((btn) => {
 			// Remove the preceding " | " text node.
 			const prev = btn.previousSibling;
-			if ( prev && prev.nodeType === Node.TEXT_NODE ) {
+			if (prev && prev.nodeType === Node.TEXT_NODE) {
 				prev.remove();
 			}
 			btn.remove();
-		} );
+		});
 }
 
-export default function MegaMenuApp( { menuContainer } ) {
-	const [ activeItemId, setActiveItemId ] = useState( null );
+export default function MegaMenuApp({ menuContainer }) {
+	const [activeItemId, setActiveItemId] = useState(null);
 
-	const scanAndInject = useCallback( () => {
-		menuContainer
-			.querySelectorAll( '.menu-item-depth-0' )
-			.forEach( ( item ) => {
-				injectButton( item, setActiveItemId );
-			} );
-		cleanupButtons( menuContainer );
-	}, [ menuContainer ] );
+	const scanAndInject = useCallback(() => {
+		menuContainer.querySelectorAll('.menu-item-depth-0').forEach((item) => {
+			injectButton(item, setActiveItemId);
+		});
+		cleanupButtons(menuContainer);
+	}, [menuContainer]);
 
-	useEffect( () => {
+	useEffect(() => {
 		// Initial scan.
 		scanAndInject();
 
 		// Re-scan when DOM changes (drag-drop reorder, new items added).
-		const observer = new MutationObserver( () => {
+		const observer = new MutationObserver(() => {
 			scanAndInject();
-		} );
+		});
 
-		observer.observe( menuContainer, {
+		observer.observe(menuContainer, {
 			childList: true,
 			subtree: true,
 			attributes: true,
-			attributeFilter: [ 'class' ],
-		} );
+			attributeFilter: ['class'],
+		});
 
 		return () => observer.disconnect();
-	}, [ menuContainer, scanAndInject ] );
+	}, [menuContainer, scanAndInject]);
 
 	return (
 		<>
-			{ activeItemId && (
+			{activeItemId && (
 				<MegaMenuModal
-					menuItemId={ activeItemId }
-					onClose={ () => setActiveItemId( null ) }
+					menuItemId={activeItemId}
+					onClose={() => setActiveItemId(null)}
 				/>
-			) }
+			)}
 		</>
 	);
 }

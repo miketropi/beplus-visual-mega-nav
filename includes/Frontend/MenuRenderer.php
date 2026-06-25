@@ -34,7 +34,7 @@ final class MenuRenderer {
 	 */
 	public function register(): void {
 		add_filter( 'wp_nav_menu_args', [ $this, 'override_walker' ], 99 );
-		add_filter( 'nextora_header_block_nav_menu_args', [ $this, 'override_walker' ], 99, 2 );
+		add_filter( 'nextora_header_block_nav_menu_args', [ $this, 'override_walker' ], 99, 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_assets' ] );
 		add_filter( 'nav_menu_css_class', [ $this, 'add_mega_menu_class' ], 10, 4 );
 	}
@@ -177,6 +177,34 @@ final class MenuRenderer {
 		wp_enqueue_style(
 			'snap-megamenu-front',
 			SNAP_MEGAMENU_URL . 'assets/css/frontend.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-snap-header',
+			SNAP_MEGAMENU_URL . 'blocks/snap-header/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-snap-nav',
+			SNAP_MEGAMENU_URL . 'blocks/snap-navigation/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-nav-toggle',
+			SNAP_MEGAMENU_URL . 'blocks/nav-toggle/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
+		wp_enqueue_style(
+			'snap-megamenu-nav-menu-area',
+			SNAP_MEGAMENU_URL . 'blocks/nav-menu-area/style.css',
 			[],
 			SNAP_MEGAMENU_VERSION
 		);

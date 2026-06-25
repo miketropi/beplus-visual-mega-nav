@@ -10,5 +10,6 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		index: './src/index.js',
+		blocks: './src/blocks.js',
 	},
 };

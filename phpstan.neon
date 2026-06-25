@@ -11,13 +11,28 @@ parameters:
         - node_modules/
         - build/
         - tests/
+        # Backward-compatibility shim: extends final class intentionally.
+        - includes/Frontend/MegaMenuWalker.php
     bootstrapFiles:
         - vendor/autoload.php
     scanDirectories:
         - vendor/szepeviktor/phpstan-wordpress/
-    checkMissingIterableValueType: false
     treatPhpDocTypesAsCertain: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # WordPress global functions / constants that PHPStan may not resolve.
         - '#Function apply_filters invoked with#'
+        # Plugin constants are defined at runtime in snap-megamenu-builder.php.
+        - '#Constant SNAP_MEGAMENU_(DIR|URL|BASENAME) not found\.#'
+        # WordPress core constant.
+        - '#Constant WPINC not found\.#'
+        # Walker overrides: WordPress passes $args as stdClass at runtime
+        # but parent class default signatures use array().
+        - '#Parameter \#\d \$args of method Walker::\w+\(\) expects array,\s*stdClass given\.#'
+        - '#Default value of the parameter \#\d \$args \(array\) of method .*WalkerDelegator::\w+\(\) is incompatible with type stdClass\.#'
+        # WordPress core prepends nav menu item properties (e.g. $item->title).
+        - '#Access to an undefined property WP_Post::\$title\.#'
+        # Deprecated config option replacement.
+        - identifier: missingType.iterableValue
+        # Safety default in match over enum-like constants.
+        - '#Match arm is unreachable because previous comparison is always true\.#'
