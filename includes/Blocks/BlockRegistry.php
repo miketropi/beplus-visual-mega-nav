@@ -31,6 +31,10 @@ final class BlockRegistry {
 	 */
 	public function register_blocks(): void {
 		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/link-item' );
+		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/snap-header' );
+		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/snap-navigation' );
+		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/nav-menu-area' );
+		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/nav-toggle' );
 	}
 
 	/**
@@ -38,7 +42,7 @@ final class BlockRegistry {
 	 *
 	 * @param array<int, array<string, string>> $categories     Block categories.
 	 * @param \WP_Block_Editor_Context          $editor_context Editor context.
-	 * @return array<int, array<string, string>>
+	 * @return array<int, array<string, string|null>>
 	 */
 	public function register_block_category( array $categories, \WP_Block_Editor_Context $editor_context ): array {
 		unset( $editor_context );

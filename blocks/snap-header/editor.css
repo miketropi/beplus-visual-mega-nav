@@ -1,0 +1,33 @@
+/**
+ * Snap Header — editor styles.
+ *
+ * @package Snap\MegaMenu
+ */
+
+/* Ensure the header container is visible in the editor. */
+.wp-block-snap-megamenu-snap-header {
+	min-height: 60px;
+	outline: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.wp-block-snap-megamenu-snap-header.is-sticky {
+	outline-color: rgba(0, 124, 186, 0.4);
+}
+
+.wp-block-snap-megamenu-snap-header.block-editor-block-list__block:hover {
+	outline-color: var(--wp-admin-theme-color, #007cba);
+}
+
+/*
+ * Editor grid layout: WordPress wraps inner blocks in extra divs
+ * (block-editor-inner-blocks → block-editor-block-list__layout).
+ * Use display:contents so the outer grid sees actual blocks as grid items,
+ * matching what the frontend renders.
+ */
+.wp-block-snap-megamenu-snap-header > .block-editor-inner-blocks {
+	display: contents;
+}
+
+.wp-block-snap-megamenu-snap-header > .block-editor-inner-blocks > .block-editor-block-list__layout {
+	display: contents;
+}

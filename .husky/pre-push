@@ -1,0 +1,10 @@
+# Full quality checks before pushing to remote.
+# Fails fast: PHP first, then JS.
+
+echo "→ PHP checks…"
+composer run check || { echo "❌ PHP checks failed — push aborted."; exit 1; }
+
+echo "→ JS checks…"
+npm run check:js || { echo "❌ JS checks failed — push aborted."; exit 1; }
+
+echo "✅ All quality checks passed."

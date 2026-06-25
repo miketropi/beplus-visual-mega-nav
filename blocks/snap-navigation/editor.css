@@ -1,0 +1,15 @@
+/**
+ * Snap Navigation — editor styles.
+ *
+ * @package Snap\MegaMenu
+ */
+
+/* Ensure the navigation container is visible in the editor. */
+.wp-block-snap-megamenu-snap-navigation {
+	min-height: 48px;
+	outline: 1px dashed rgba(0, 0, 0, 0.12);
+}
+
+.wp-block-snap-megamenu-snap-navigation.block-editor-block-list__block:hover {
+	outline-color: var(--wp-admin-theme-color, #007cba);
+}

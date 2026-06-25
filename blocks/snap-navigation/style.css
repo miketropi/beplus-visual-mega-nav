@@ -1,0 +1,127 @@
+/**
+ * Snap Navigation — frontend block styles.
+ *
+ * Desktop: flex container wrapping the menu and toggle.
+ * Mobile: the portal overlay (clone-to-body) styles.
+ *
+ * @package Snap\MegaMenu
+ */
+
+/* ---------- Navigation wrapper (desktop) ---------- */
+.wp-block-snap-megamenu-snap-navigation {
+	flex: 1;
+}
+
+/* ---------- Portal root (mobile overlay) ---------- */
+.snap-nav-portal {
+	position: fixed;
+	inset: 0;
+	z-index: 99999;
+	background: var(--snap-megamenu-mega-bg, #fff);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--snap-megamenu-mega-padding, 24px);
+	padding-top: 60px;
+	visibility: hidden;
+	opacity: 0;
+	transform: translateX(100%);
+	transition: visibility 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+}
+
+.snap-nav-portal[data-state="open"] {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* ---------- Portal close button ---------- */
+.snap-nav-portal__close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 12px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: inherit;
+	font-size: 0.9em;
+	line-height: 1;
+	border-radius: 4px;
+}
+
+.snap-nav-portal__close:hover,
+.snap-nav-portal__close:focus-visible {
+	background: rgba(0, 0, 0, 0.07);
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+}
+
+/* ---------- Portal inner menu ---------- */
+.snap-nav-portal .wp-block-snap-megamenu-nav-menu-area {
+	width: 100%;
+}
+
+.snap-nav-portal .snap-nav-menu {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0;
+}
+
+.snap-nav-portal .snap-nav-menu li {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.snap-nav-portal .snap-nav-menu li.menu-item li.menu-item {
+	border-bottom: none;
+}
+
+.snap-nav-portal .snap-nav-menu a {
+	padding: 14px 0;
+	font-size: 1.05em;
+}
+
+/* Show all sub-menu levels in portal (no hover dropdowns on mobile) */
+.snap-nav-portal .snap-nav-menu .sub-menu {
+	display: block;
+	position: static;
+	min-width: 0;
+	padding: 0 0 0 1.25em;
+	background: transparent;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.snap-nav-portal .snap-nav-menu .sub-menu a {
+	padding: 10px 0;
+	font-size: 0.95em;
+	opacity: 0.85;
+}
+
+.snap-nav-portal .snap-nav-menu .sub-menu .sub-menu a {
+	font-size: 0.9em;
+	opacity: 0.75;
+}
+
+/* ---------- Portal z-index ---------- */
+
+/* 9998 keeps portal below WordPress admin bar (99999). */
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+	.snap-nav-portal {
+		transition: none !important;
+	}
+}
+
+.wp-block-snap-megamenu-snap-navigation .wc-block-mini-cart {
+	display: flex;
+}
+
+body.woocommerce-cart .wc-block-mini-cart {
+	display: none;
+}

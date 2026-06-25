@@ -49,7 +49,7 @@ final class MegaMenuPanelRenderer {
 
 		$width     = $settings['width'] ?? 'container';
 		$custom_w  = intval( $settings['customWidth'] ?? 1200 );
-		$bg_color  = sanitize_hex_color( $settings['bgColor'] ?? '' );
+		$bg_color  = sanitize_hex_color( $settings['bgColor'] ?? '' ) ?: '';
 		$animation = $settings['animation'] ?? 'fade';
 
 		$inline_styles = self::build_inline_styles( $width, $custom_w, $bg_color );
@@ -67,6 +67,7 @@ final class MegaMenuPanelRenderer {
 			)
 		);
 		$output .= '<div class="snap-megamenu-mega-panel__inner">';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core WordPress hook
 		$output .= apply_filters( 'the_content', $content );
 		$output .= '</div></div>';
 

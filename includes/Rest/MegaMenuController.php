@@ -94,12 +94,14 @@ final class MegaMenuController {
 		$settings = MetaKeys::get( $id, MetaKeys::SETTINGS );
 		$content  = MetaKeys::get( $id, MetaKeys::CONTENT );
 
-		return new WP_REST_Response( [
-			'id'       => $id,
-			'enabled'  => $enabled,
-			'settings' => json_decode( $settings ?: '{}', true ),
-			'content'  => $content ?: '',
-		] );
+		return new WP_REST_Response(
+			[
+				'id'       => $id,
+				'enabled'  => $enabled,
+				'settings' => json_decode( $settings ?: '{}', true ),
+				'content'  => $content ?: '',
+			]
+		);
 	}
 
 	/**
@@ -145,10 +147,12 @@ final class MegaMenuController {
 			);
 		}
 
-		return new WP_REST_Response( [
-			'success' => true,
-			'id'      => $id,
-		] );
+		return new WP_REST_Response(
+			[
+				'success' => true,
+				'id'      => $id,
+			]
+		);
 	}
 
 	/**

@@ -1,7 +1,7 @@
 /**
  * LinkControl helpers for the Link Item block.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { escapeHTML } from '@wordpress/escape-html';
@@ -95,17 +95,14 @@ export function updateLinkAttributes(
 		? escapeHTML(newLabel)
 		: originalLabel || escapeHTML(newUrlWithoutHttp);
 
-	const type =
-		newType === 'post_tag' ? 'tag' : newType.replace('-', '_');
+	const type = newType === 'post_tag' ? 'tag' : newType.replace('-', '_');
 
 	const isBuiltInType =
 		['post', 'page', 'tag', 'category'].indexOf(type) > -1;
 
-	const isCustomLink =
-		(!newKind && !isBuiltInType) || newKind === 'custom';
+	const isCustomLink = (!newKind && !isBuiltInType) || newKind === 'custom';
 	const kind = isCustomLink ? 'custom' : newKind;
-	const nextId =
-		id && Number.isInteger(id) && !isCustomLink ? id : 0;
+	const nextId = id && Number.isInteger(id) && !isCustomLink ? id : 0;
 
 	setAttributes({
 		...(newUrl && { url: encodeURI(safeDecodeURI(newUrl)) }),

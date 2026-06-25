@@ -1,0 +1,63 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "snap-megamenu/snap-header",
+	"title": "Snap Header",
+	"category": "header",
+	"icon": "table-row-before",
+	"description": "Outer header container with sticky positioning, scroll effects, and per-instance mobile breakpoint.",
+	"keywords": [ "header", "sticky", "navigation", "snap" ],
+	"textdomain": "snap-megamenu-builder",
+	"attributes": {
+		"instanceId": {
+			"type": "string",
+			"default": ""
+		},
+		"mobileBreakpoint": {
+			"type": "number",
+			"default": 782
+		},
+		"sticky": {
+			"type": "boolean",
+			"default": false
+		},
+		"scrollEffect": {
+			"type": "string",
+			"default": "none"
+		},
+		"transparentTop": {
+			"type": "boolean",
+			"default": false
+		},
+		"gridColumns": {
+			"type": "string",
+			"default": "auto 1fr"
+		},
+		"scrollBgColor": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"providesContext": {
+		"snap-megamenu/instanceId": "instanceId",
+		"snap-megamenu/mobileBreakpoint": "mobileBreakpoint",
+		"snap-megamenu/sticky": "sticky"
+	},
+	"supports": {
+		"spacing": {
+			"blockGap": true,
+			"padding": true,
+			"margin": false
+		},
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"align": [ "wide", "full" ]
+	},
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js",
+	"style": "file:./style.css",
+	"editorStyle": "file:./editor.css",
+	"editorScript": "file:../../build/blocks.js"
+}

@@ -10,18 +10,18 @@
 
 /* ---------- CSS Custom Properties (theme-overridable) ---------- */
 :root {
-	--snap-megamenu-mega-bg: #ffffff;
+	--snap-megamenu-mega-bg: #fff;
 	--snap-megamenu-mega-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 	--snap-megamenu-mega-radius: 0;
 	--snap-megamenu-mega-padding: 24px;
-	--snap-megamenu-mega-z: 9999;
+	--snap-megamenu-mega-z: 99999;
 	--snap-megamenu-mega-transition: 0.25s ease;
 	--snap-megamenu-mega-mobile-padding: 16px;
 	--snap-megamenu-toggle-size: 2.25rem;
 	--snap-megamenu-toggle-radius: 9999px;
-	--snap-megamenu-toggle-border: color-mix(in srgb, currentColor 14%, transparent);
-	--snap-megamenu-toggle-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
-	--snap-megamenu-toggle-active-bg: color-mix(in srgb, currentColor 12%, transparent);
+	--snap-megamenu-toggle-border: color-mix(in srgb, currentcolor 14%, transparent);
+	--snap-megamenu-toggle-hover-bg: color-mix(in srgb, currentcolor 8%, transparent);
+	--snap-megamenu-toggle-active-bg: color-mix(in srgb, currentcolor 12%, transparent);
 }
 
 /* ---------- Menu item container ---------- */
@@ -58,6 +58,7 @@
 
 /* ---------- Desktop flyout (≥1024px) ---------- */
 @media (min-width: 1024px) {
+
 	.snap-megamenu-mega-panel {
 		position: absolute;
 		top: 100%;
@@ -85,11 +86,11 @@
 		height: 100%;
 		left: 0;
 		top: 100%;
-		transform: translateY(-100%); 
+		transform: translateY(-100%);
+
 		/* z-index: -1; */
 	}
 
-	.has-mega-menu > a,
 	.has-mega-menu > a {
 		position: relative;
 		z-index: 1;
@@ -112,11 +113,13 @@
 
 /* ---------- Tablet & mobile base (<1024px) ---------- */
 @media (max-width: 1023px) {
+
 	.has-mega-menu {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: stretch;
 		gap: 0;
+
 		/* width: 100%; */
 	}
 
@@ -192,7 +195,7 @@
 		justify-content: center;
 		width: var(--snap-megamenu-toggle-size);
 		height: var(--snap-megamenu-toggle-size);
-		margin: 0; 
+		margin: 0;
 		margin-inline-start: auto;
 		margin-inline-end: 0;
 		padding: 0;
@@ -213,17 +216,17 @@
 	.snap-megamenu-toggle:hover,
 	.snap-megamenu-toggle:focus-visible {
 		background-color: var(--snap-megamenu-toggle-hover-bg);
-		border-color: color-mix(in srgb, currentColor 22%, transparent);
+		border-color: color-mix(in srgb, currentcolor 22%, transparent);
 	}
 
 	.snap-megamenu-toggle:focus-visible {
-		outline: 2px solid currentColor;
+		outline: 2px solid currentcolor;
 		outline-offset: 2px;
 	}
 
 	.snap-megamenu-toggle[aria-expanded="true"] {
 		background-color: var(--snap-megamenu-toggle-active-bg);
-		border-color: color-mix(in srgb, currentColor 24%, transparent);
+		border-color: color-mix(in srgb, currentcolor 24%, transparent);
 	}
 
 	.snap-megamenu-toggle__icon {
@@ -249,6 +252,7 @@
 
 /* ---------- Tablet off-canvas (768px–1023px) ---------- */
 @media (min-width: 768px) and (max-width: 1023px) {
+
 	.snap-megamenu-mega-panel {
 		position: fixed;
 		top: 0;
@@ -322,6 +326,7 @@
 
 /* Mobile drawer: accordion layout for mega items */
 @media (max-width: 1023px) {
+
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu {
 		display: flex;
 		flex-wrap: wrap;
@@ -337,10 +342,13 @@
 		border-bottom: none;
 	}
 
+	/* stylelint-disable max-line-length */
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-mega-panel {
 		flex: 1 0 100%;
 		width: 100%;
+
 		/* margin: 0 0 var(--wp--preset--spacing--10, 1rem); */
+
 		/* padding-inline-start: var(--wp--preset--spacing--05, 0.5rem); */
 		box-sizing: border-box;
 	}
@@ -365,4 +373,5 @@
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle:focus-visible {
 		outline-color: var(--wp--preset--color--primary, currentColor);
 	}
+	/* stylelint-enable max-line-length */
 }
