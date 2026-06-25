@@ -51,6 +51,7 @@ archive.glob('**/*', {
 		'.codegraph/**',
 		'.cursor/**',
 		'.opencode/**',
+		".husky/**",
 
 		// Root dev files.
 		'.gitignore',
