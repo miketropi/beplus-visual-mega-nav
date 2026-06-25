@@ -2,8 +2,8 @@
 /**
  * Sanitize Gutenberg block markup for storage.
  *
- * wp_kses_post() and sanitize_text_field() both destroy block delimiter
- * comments, which breaks parse() on reload.
+ * The wp_kses_post() and sanitize_text_field() functions both destroy
+ * block delimiter comments, which breaks parse() on reload.
  *
  * @package Snap\MegaMenuBuilder\Core
  */

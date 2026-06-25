@@ -37,7 +37,7 @@ final class NavMenuPage {
 	 * @return void
 	 */
 	public function enqueue_block_editor_styles(): void {
-		wp_register_style( 'snap-megamenu-block-editor', false );
+		wp_register_style( 'snap-megamenu-block-editor', false, [], SNAP_MEGAMENU_VERSION );
 		wp_enqueue_style( 'snap-megamenu-block-editor' );
 		wp_add_inline_style(
 			'snap-megamenu-block-editor',

@@ -17,10 +17,14 @@ namespace Snap\MegaMenuBuilder\Frontend;
  */
 class MegaMenuWalker extends MegaMenuWalkerDelegator {
 
+	// phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found -- kept for backwards compatibility
 	/**
+	 * Constructor — delegates to parent for backwards compatibility.
+	 *
 	 * @param \Walker|null $delegate Optional inner walker.
 	 */
 	public function __construct( ?\Walker $delegate = null ) {
 		parent::__construct( $delegate );
 	}
+	// phpcs:enable Generic.CodeAnalysis.UselessOverridingMethod.Found
 }

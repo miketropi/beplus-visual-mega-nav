@@ -141,6 +141,7 @@ final class TemplateRepository {
 	 * @return array<string, mixed>|null
 	 */
 	private function load_file( string $file, string $source ): ?array {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reading local template file, not a remote URL
 		$raw = file_get_contents( $file );
 
 		if ( false === $raw ) {

@@ -24,7 +24,11 @@
 	<rule ref="WordPress">
 		<!-- Allow short array syntax -->
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
-		<!-- Allow short ternary (sniff removed in WPCS 3.x) -->
+		<!-- Allow short ternary -->
+		<exclude name="Universal.Operators.DisallowShortTernary.Found"/>
+		<!-- PSR-4 autoload uses PascalCase filenames -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule>
 
 	<rule ref="WordPress-Extra"/>

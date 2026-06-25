@@ -160,6 +160,8 @@ final class LinkItemRenderer {
 	}
 
 	/**
+	 * Sanitize the badge variant slug.
+	 *
 	 * @param string $variant Badge variant slug.
 	 * @return string
 	 */

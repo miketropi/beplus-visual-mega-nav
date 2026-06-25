@@ -80,7 +80,7 @@ final class PatternProvider {
 				'title'       => __( 'Snap Header — Inline Logo / Nav', 'snap-megamenu-builder' ),
 				'description' => __( 'Header layout with inline site logo and navigation. Includes mobile toggle.', 'snap-megamenu-builder' ),
 				'file'        => 'header-inline.html',
-			]
+			],
 		];
 	}
 
@@ -98,6 +98,7 @@ final class PatternProvider {
 			return '';
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reading local plugin file, not a remote URL
 		$content = file_get_contents( $path );
 		$content = false !== $content ? $content : '';
 

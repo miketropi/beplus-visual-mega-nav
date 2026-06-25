@@ -19,6 +19,8 @@ final class MegaMenuWalkerDelegator extends Walker_Nav_Menu {
 
 	/**
 	 * Inner walker (theme-specific markup).
+	 *
+	 * @var \Walker|null
 	 */
 	private ?Walker $delegate;
 
@@ -31,15 +33,21 @@ final class MegaMenuWalkerDelegator extends Walker_Nav_Menu {
 
 	/**
 	 * Most recent depth-0 item ID (parent for the next sub-menu level).
+	 *
+	 * @var int
 	 */
 	private int $current_depth_0_item_id = 0;
 
 	/**
 	 * Depth at which sub-menu output is suppressed.
+	 *
+	 * @var int|null
 	 */
 	private ?int $suppress_submenu_depth = null;
 
 	/**
+	 * Set the delegate walker.
+	 *
 	 * @param Walker|null $delegate Theme walker to delegate to.
 	 */
 	public function __construct( ?Walker $delegate = null ) {
@@ -47,9 +55,15 @@ final class MegaMenuWalkerDelegator extends Walker_Nav_Menu {
 	}
 
 	/**
+	 * Start a sub-menu level, suppressing output for mega menu items.
+	 *
 	 * @inheritDoc
+	 *
+	 * @param string    $output HTML output string passed by reference.
+	 * @param int       $depth  Current depth level.
+	 * @param \stdClass $args   Array of nav menu arguments.
 	 */
-	public function start_lvl( &$output, $depth = 0, $args = null ): void {
+	public function start_lvl( &$output, $depth = 0, $args = array() ): void {
 		if ( $this->should_suppress_submenu( $depth ) ) {
 			$this->suppress_submenu_depth = (int) $depth;
 			return;
@@ -64,9 +78,15 @@ final class MegaMenuWalkerDelegator extends Walker_Nav_Menu {
 	}
 
 	/**
+	 * End a sub-menu level, restoring normal output after suppression.
+	 *
 	 * @inheritDoc
+	 *
+	 * @param string    $output HTML output string passed by reference.
+	 * @param int       $depth  Current depth level.
+	 * @param \stdClass $args   Array of nav menu arguments.
 	 */
-	public function end_lvl( &$output, $depth = 0, $args = null ): void {
+	public function end_lvl( &$output, $depth = 0, $args = array() ): void {
 		if ( null !== $this->suppress_submenu_depth && (int) $depth === $this->suppress_submenu_depth ) {
 			$this->suppress_submenu_depth = null;
 			return;
@@ -81,9 +101,17 @@ final class MegaMenuWalkerDelegator extends Walker_Nav_Menu {
 	}
 
 	/**
+	 * Start a menu item element. Tracks depth-0 items for mega menu panel injection.
+	 *
 	 * @inheritDoc
+	 *
+	 * @param string    $output HTML output string passed by reference.
+	 * @param \WP_Post  $item   Menu item data object.
+	 * @param int       $depth  Current depth level.
+	 * @param \stdClass $args   Array of nav menu arguments.
+	 * @param int       $id     Current menu item ID.
 	 */
-	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ): void {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ): void {
 		if ( $this->delegate ) {
 			$this->delegate->start_el( $output, $item, $depth, $args, $id );
 		} else {
@@ -100,9 +128,16 @@ final class MegaMenuWalkerDelegator extends Walker_Nav_Menu {
 	}
 
 	/**
+	 * End a menu item element.
+	 *
 	 * @inheritDoc
+	 *
+	 * @param string    $output HTML output string passed by reference.
+	 * @param \WP_Post  $item   Menu item data object.
+	 * @param int       $depth  Current depth level.
+	 * @param \stdClass $args   Array of nav menu arguments.
 	 */
-	public function end_el( &$output, $item, $depth = 0, $args = null ): void {
+	public function end_el( &$output, $item, $depth = 0, $args = array() ): void {
 		if ( $this->delegate ) {
 			$this->delegate->end_el( $output, $item, $depth, $args );
 			return;

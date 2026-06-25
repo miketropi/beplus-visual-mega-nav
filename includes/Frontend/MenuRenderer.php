@@ -34,7 +34,7 @@ final class MenuRenderer {
 	 */
 	public function register(): void {
 		add_filter( 'wp_nav_menu_args', [ $this, 'override_walker' ], 99 );
-		add_filter( 'nextora_header_block_nav_menu_args', [ $this, 'override_walker' ], 99, 2 );
+		add_filter( 'nextora_header_block_nav_menu_args', [ $this, 'override_walker' ], 99, 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_assets' ] );
 		add_filter( 'nav_menu_css_class', [ $this, 'add_mega_menu_class' ], 10, 4 );
 	}

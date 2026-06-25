@@ -42,7 +42,7 @@ final class BlockRegistry {
 	 *
 	 * @param array<int, array<string, string>> $categories     Block categories.
 	 * @param \WP_Block_Editor_Context          $editor_context Editor context.
-	 * @return array<int, array<string, string>>
+	 * @return array<int, array<string, string|null>>
 	 */
 	public function register_block_category( array $categories, \WP_Block_Editor_Context $editor_context ): array {
 		unset( $editor_context );

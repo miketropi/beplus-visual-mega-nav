@@ -28,7 +28,7 @@ $overlay_id  = ! empty( $attributes['overlayId'] )
 // or returns the raw value as-is if it's not a preset reference.
 $resolve_preset = static function ( string $value ): string {
 	if ( str_starts_with( $value, 'var:preset|' ) ) {
-		// Format: var:preset|category|slug
+		// Format: var:preset|category|slug.
 		$parts = explode( '|', $value );
 		$cat   = $parts[1] ?? '';
 		$slug  = $parts[2] ?? '';

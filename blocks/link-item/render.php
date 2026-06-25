@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! isset( $attributes ) || ! is_array( $attributes ) ) {
-	$attributes = [];
+	$attributes = []; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- WordPress block convention
 }
 
 echo \Snap\MegaMenuBuilder\Blocks\LinkItemRenderer::render( $attributes, $block ?? null ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
