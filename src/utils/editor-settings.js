@@ -1,7 +1,7 @@
 /**
  * Merge PHP-provided block editor settings with Content Builder overrides.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 /**
@@ -11,14 +11,14 @@
  * @param {Object|null|undefined} spacing Spacing feature flags from theme.json.
  * @return {Object} Normalized spacing settings.
  */
-function normalizeSpacingFeatures( spacing = {} ) {
+function normalizeSpacingFeatures(spacing = {}) {
 	const normalized = { ...spacing };
 
-	[ 'blockGap', 'padding', 'margin' ].forEach( ( key ) => {
-		if ( normalized[ key ] === null || normalized[ key ] === undefined ) {
-			normalized[ key ] = true;
+	['blockGap', 'padding', 'margin'].forEach((key) => {
+		if (normalized[key] === null || normalized[key] === undefined) {
+			normalized[key] = true;
 		}
-	} );
+	});
 
 	return normalized;
 }
@@ -27,7 +27,7 @@ function normalizeSpacingFeatures( spacing = {} ) {
  * @param {Object} overrides Settings to apply on top of the merged result.
  * @return {Object} Block editor settings for BlockEditorProvider.
  */
-export function getMergedEditorSettings( overrides = {} ) {
+export function getMergedEditorSettings(overrides = {}) {
 	const baseSettings = window.snapMegaMenu?.editorSettings ?? {};
 	const features = baseSettings.__experimentalFeatures ?? {};
 
@@ -37,7 +37,7 @@ export function getMergedEditorSettings( overrides = {} ) {
 		disableLayoutStyles: false,
 		__experimentalFeatures: {
 			...features,
-			spacing: normalizeSpacingFeatures( features.spacing ),
+			spacing: normalizeSpacingFeatures(features.spacing),
 		},
 	};
 }

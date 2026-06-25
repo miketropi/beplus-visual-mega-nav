@@ -1,8 +1,10 @@
 /**
  * Mega menu template import/export helpers.
  *
- * @package Snap\MegaMenu
+ * @package
  */
+
+/* global FileReader */
 
 import apiFetch from '@wordpress/api-fetch';
 
@@ -20,7 +22,7 @@ const DEFAULT_SETTINGS = {
  * @param {Object} settings Raw settings.
  * @return {Object} Sanitized settings.
  */
-export function normalizeSettings( settings = {} ) {
+export function normalizeSettings(settings = {}) {
 	const merged = { ...DEFAULT_SETTINGS, ...settings };
 
 	return {
@@ -32,11 +34,11 @@ export function normalizeSettings( settings = {} ) {
 
 /**
  * @typedef {Object} MegaMenuTemplateExport
- * @property {string} version
- * @property {string} title
- * @property {string} description
- * @property {Object} settings
- * @property {string} content
+ * @property {string} version     Export format version.
+ * @property {string} title       Template name.
+ * @property {string} description Template description.
+ * @property {Object} settings    Panel settings (width, bgColor, animation).
+ * @property {string} content     Serialized Gutenberg block content.
  */
 
 /**
@@ -45,9 +47,9 @@ export function normalizeSettings( settings = {} ) {
  * @return {Promise<Array>} Template list.
  */
 export async function fetchTemplates() {
-	const response = await apiFetch( {
+	const response = await apiFetch({
 		path: '/snap-megamenu/v1/templates',
-	} );
+	});
 
 	return response?.templates ?? [];
 }
@@ -58,10 +60,10 @@ export async function fetchTemplates() {
  * @param {string} slug Template slug.
  * @return {Promise<Object>} Full template payload.
  */
-export async function fetchTemplate( slug ) {
-	return apiFetch( {
-		path: `/snap-megamenu/v1/templates/${ slug }`,
-	} );
+export async function fetchTemplate(slug) {
+	return apiFetch({
+		path: `/snap-megamenu/v1/templates/${slug}`,
+	});
 }
 
 /**
@@ -71,14 +73,14 @@ export async function fetchTemplate( slug ) {
  * @param {Object} params.settings Panel settings.
  * @param {string} params.content  Serialized block content.
  * @param {string} [params.title]  Optional export title.
- * @return {MegaMenuTemplateExport}
+ * @return {MegaMenuTemplateExport} Export-ready payload object.
  */
-export function buildExportPayload( { settings, content, title = '' } ) {
+export function buildExportPayload({ settings, content, title = '' }) {
 	return {
 		version: TEMPLATE_EXPORT_VERSION,
 		title: title || 'Mega Menu Template',
 		description: '',
-		settings: normalizeSettings( settings ),
+		settings: normalizeSettings(settings),
 		content: content || '',
 	};
 }
@@ -86,52 +88,52 @@ export function buildExportPayload( { settings, content, title = '' } ) {
 /**
  * Trigger a JSON file download in the browser.
  *
- * @param {MegaMenuTemplateExport} payload Export data.
+ * @param {MegaMenuTemplateExport} payload    Export data.
  * @param {string}                 [filename] File name without extension.
  */
-export function downloadTemplate( payload, filename = 'mega-menu-template' ) {
+export function downloadTemplate(payload, filename = 'mega-menu-template') {
 	const slug = filename
 		.toLowerCase()
-		.replace( /[^a-z0-9]+/g, '-' )
-		.replace( /^-|-$/g, '' );
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-|-$/g, '');
 
-	const blob = new Blob( [ JSON.stringify( payload, null, 2 ) ], {
+	const blob = new Blob([JSON.stringify(payload, null, 2)], {
 		type: 'application/json',
-	} );
+	});
 
-	const url = URL.createObjectURL( blob );
-	const link = document.createElement( 'a' );
+	const url = URL.createObjectURL(blob);
+	const link = document.createElement('a');
 	link.href = url;
-	link.download = `${ slug || 'mega-menu-template' }.json`;
+	link.download = `${slug || 'mega-menu-template'}.json`;
 	link.click();
-	URL.revokeObjectURL( url );
+	URL.revokeObjectURL(url);
 }
 
 /**
  * Parse and validate an imported JSON file.
  *
  * @param {File} file Selected JSON file.
- * @return {Promise<MegaMenuTemplateExport>}
+ * @return {Promise<MegaMenuTemplateExport>} Parsed template export data.
  */
-export function parseImportFile( file ) {
-	return new Promise( ( resolve, reject ) => {
+export function parseImportFile(file) {
+	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 
 		reader.onload = () => {
 			try {
-				const data = JSON.parse( reader.result );
+				const data = JSON.parse(reader.result);
 
-				if ( ! data || typeof data !== 'object' ) {
-					reject( new Error( 'invalid' ) );
+				if (!data || typeof data !== 'object') {
+					reject(new Error('invalid'));
 					return;
 				}
 
-				if ( typeof data.content !== 'string' || ! data.content.trim() ) {
-					reject( new Error( 'missing_content' ) );
+				if (typeof data.content !== 'string' || !data.content.trim()) {
+					reject(new Error('missing_content'));
 					return;
 				}
 
-				resolve( {
+				resolve({
 					version: data.version || TEMPLATE_EXPORT_VERSION,
 					title: data.title || '',
 					description: data.description || '',
@@ -141,25 +143,25 @@ export function parseImportFile( file ) {
 							: {}
 					),
 					content: data.content,
-				} );
+				});
 			} catch {
-				reject( new Error( 'invalid_json' ) );
+				reject(new Error('invalid_json'));
 			}
 		};
 
-		reader.onerror = () => reject( new Error( 'read_error' ) );
-		reader.readAsText( file );
-	} );
+		reader.onerror = () => reject(new Error('read_error'));
+		reader.readAsText(file);
+	});
 }
 
 /**
  * Human-readable source label for template store entries.
  *
  * @param {string} source Source key from PHP.
- * @return {string}
+ * @return {string} Human-readable source label.
  */
-export function getTemplateSourceLabel( source ) {
-	switch ( source ) {
+export function getTemplateSourceLabel(source) {
+	switch (source) {
 		case 'plugin':
 			return 'Plugin';
 		case 'child-theme':

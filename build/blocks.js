@@ -272,7 +272,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * LinkControl helpers for the Link Item block.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -865,10 +865,18 @@ function Edit({
       blockGap
     } = style.spacing;
     if (padding) {
-      if (padding.top) flexStyle.paddingTop = resolvePreset(padding.top);
-      if (padding.right) flexStyle.paddingRight = resolvePreset(padding.right);
-      if (padding.bottom) flexStyle.paddingBottom = resolvePreset(padding.bottom);
-      if (padding.left) flexStyle.paddingLeft = resolvePreset(padding.left);
+      if (padding.top) {
+        flexStyle.paddingTop = resolvePreset(padding.top);
+      }
+      if (padding.right) {
+        flexStyle.paddingRight = resolvePreset(padding.right);
+      }
+      if (padding.bottom) {
+        flexStyle.paddingBottom = resolvePreset(padding.bottom);
+      }
+      if (padding.left) {
+        flexStyle.paddingLeft = resolvePreset(padding.left);
+      }
     }
     if (blockGap) {
       flexStyle.gap = resolvePreset(blockGap);

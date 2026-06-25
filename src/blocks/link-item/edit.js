@@ -7,6 +7,7 @@
 import { useMemo } from '@wordpress/element';
 import {
 	InspectorControls,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental LinkControl is the only viable option
 	__experimentalLinkControl as LinkControl,
 	useBlockProps,
 } from '@wordpress/block-editor';

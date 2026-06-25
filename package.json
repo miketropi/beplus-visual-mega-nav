@@ -7,9 +7,9 @@
 		"build": "wp-scripts build",
 		"start": "wp-scripts start",
 		"lint:js": "wp-scripts lint-js src/",
-		"lint:css": "wp-scripts lint-style src/**/*.css",
+		"lint:css": "wp-scripts lint-style \"{src,blocks,assets}/**/*.css\"",
 		"lint:js:fix": "wp-scripts lint-js src/ --fix",
-		"lint:css:fix": "wp-scripts lint-style src/**/*.css --fix",
+		"lint:css:fix": "wp-scripts lint-style \"{src,blocks,assets}/**/*.css\" --fix",
 		"format": "wp-scripts format src/",
 		"check:js": "npm run lint:js && npm run lint:css",
 		"test:js": "wp-scripts test-unit-js",
@@ -48,7 +48,7 @@
 			"wp-scripts lint-js --fix",
 			"wp-scripts format"
 		],
-		"src/**/*.css": [
+		"{src,blocks,assets}/**/*.css": [
 			"wp-scripts lint-style --fix"
 		]
 	}

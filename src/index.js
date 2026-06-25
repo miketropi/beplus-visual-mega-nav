@@ -5,7 +5,7 @@
  * injects "Mega Menu" config buttons, and mounts the React
  * modal when a button is clicked.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { createRoot, render } from '@wordpress/element';
@@ -26,22 +26,22 @@ registerCoreBlocks();
 // Format types (bold, italic, link, …) are registered by wp-format-library
 // enqueued in NavMenuPage.php — required for Paragraph rich-text toolbar controls.
 
-domReady( () => {
-	const menuContainer = document.getElementById( 'menu-to-edit' );
-	if ( ! menuContainer ) {
+domReady(() => {
+	const menuContainer = document.getElementById('menu-to-edit');
+	if (!menuContainer) {
 		return;
 	}
 
 	// Mount React app.
-	const mountPoint = document.getElementById( 'snap-megamenu-root' );
-	if ( ! mountPoint ) {
+	const mountPoint = document.getElementById('snap-megamenu-root');
+	if (!mountPoint) {
 		return;
 	}
 
-	if ( createRoot ) {
-		const root = createRoot( mountPoint );
-		root.render( <MegaMenuApp menuContainer={ menuContainer } /> );
+	if (createRoot) {
+		const root = createRoot(mountPoint);
+		root.render(<MegaMenuApp menuContainer={menuContainer} />);
 	} else {
-		render( <MegaMenuApp menuContainer={ menuContainer } />, mountPoint );
+		render(<MegaMenuApp menuContainer={menuContainer} />, mountPoint);
 	}
-} );
+});

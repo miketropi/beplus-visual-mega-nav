@@ -1,7 +1,8 @@
 /**
  * Admin styles for Mega Menu Builder modal & editor.
  *
- * Uses WordPress admin / WPDS design tokens so the UI follows core 2026 styling.
+ * Uses WordPress admin / WPDS design tokens so the
+ * UI follows core 2026 styling.
  *
  * @package Snap\MegaMenu
  */
@@ -9,6 +10,7 @@
 /* ---------- Mega Menu button (nav-menus.php) ---------- */
 .snap-megamenu-btn {
 	color: var(--wp-admin-theme-color, #3858e9);
+
 	/* font-weight: 600;
 	text-decoration: none; */
 }
@@ -61,18 +63,8 @@
 }
 
 .snap-megamenu-modal .components-modal__header-heading {
-	font-family: var(
-		--wpds-font-family-heading,
-		-apple-system,
-		BlinkMacSystemFont,
-		"Segoe UI",
-		Roboto,
-		Oxygen-Sans,
-		Ubuntu,
-		Cantarell,
-		"Helvetica Neue",
-		sans-serif
-	);
+	font-family:
+ var(--wpds-font-family-heading, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif);
 	font-size: var(--wpds-font-size-xl, 20px);
 	font-weight: var(--wpds-font-weight-medium, 500);
 	line-height: var(--wpds-font-line-height-xl, 32px);
@@ -131,6 +123,7 @@
 
 /* ---------- Notices ---------- */
 .snap-megamenu-modal__notice {
+
 	/* padding: var(--wpds-dimension-padding-md, 12px) var(--wpds-dimension-padding-2xl, 24px) 0; */
 }
 
@@ -139,6 +132,7 @@
 }
 
 /* ---------- Tab panel (native WP components) ---------- */
+/* stylelint-disable-next-line max-line-length */
 .snap-megamenu-modal__tabs.components-tab-panel {
 	display: flex;
 	flex-direction: column;
@@ -245,10 +239,6 @@
 	min-height: 0;
 }
 
-.snap-megamenu-isolated-editor--disabled .snap-megamenu-editor-layout {
-	opacity: 0.85;
-}
-
 .snap-megamenu-editor-layout {
 	display: flex;
 	flex-direction: column;
@@ -259,6 +249,10 @@
 	border-radius: var(--wpds-border-radius-sm, 2px);
 	overflow: hidden;
 	background: var(--wpds-color-bg-surface-neutral-strong, #fff);
+}
+
+.snap-megamenu-isolated-editor--disabled .snap-megamenu-editor-layout {
+	opacity: 0.85;
 }
 
 .snap-megamenu-editor-toolbar {
@@ -356,11 +350,8 @@
 
 .snap-megamenu-list-view-toggle.is-pressed {
 	color: var(--wp-admin-theme-color, #3858e9);
-	background: color-mix(
-		in srgb,
-		var(--wp-admin-theme-color, #3858e9) 8%,
-		transparent
-	) !important;
+	background:
+ color-mix(in srgb, var(--wp-admin-theme-color, #3858e9) 8%, transparent) !important;
 }
 
 /* ---------- Block inserter dropdown (toolbar toggle) ---------- */
@@ -431,11 +422,8 @@
 
 .snap-megamenu-inserter-toggle.is-pressed {
 	color: var(--wp-admin-theme-color, #3858e9);
-	background: color-mix(
-		in srgb,
-		var(--wp-admin-theme-color, #3858e9) 8%,
-		transparent
-	) !important;
+	background:
+ color-mix(in srgb, var(--wp-admin-theme-color, #3858e9) 8%, transparent) !important;
 }
 
 .snap-megamenu-editor-canvas {
@@ -453,6 +441,7 @@
 	width: 100%;
 	max-width: none;
 	margin: 0;
+
 	/* padding: var(--wpds-dimension-padding-2xl, 24px) var(--wpds-dimension-padding-2xl, 24px); */
 	min-height: 100%;
 	box-sizing: border-box;
@@ -495,6 +484,7 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
+
 	.snap-megamenu-modal__intro {
 		flex-direction: column;
 		align-items: flex-start;
@@ -518,6 +508,7 @@
 }
 
 @media (max-width: 600px) {
+
 	.snap-megamenu-isolated-editor {
 		padding: var(--wpds-dimension-padding-lg, 16px);
 	}
@@ -573,11 +564,8 @@
 
 .snap-megamenu-template-import-dropdown__toggle.is-pressed {
 	color: var(--wp-admin-theme-color, #3858e9);
-	background: color-mix(
-		in srgb,
-		var(--wp-admin-theme-color, #3858e9) 8%,
-		transparent
-	) !important;
+	background:
+ color-mix(in srgb, var(--wp-admin-theme-color, #3858e9) 8%, transparent) !important;
 	border-color: var(--wp-admin-theme-color, #3858e9);
 }
 
@@ -592,7 +580,7 @@
 }
 
 .snap-megamenu-template-import-dropdown__toggle.is-pressed
-	.snap-megamenu-template-import-dropdown__chevron {
+.snap-megamenu-template-import-dropdown__chevron {
 	transform: rotate(180deg);
 	opacity: 1;
 }
@@ -694,11 +682,8 @@
 
 .snap-megamenu-template-import-dropdown__item:hover:not(:disabled) {
 	border-color: var(--wp-admin-theme-color, #3858e9);
-	background: color-mix(
-		in srgb,
-		var(--wp-admin-theme-color, #3858e9) 4%,
-		var(--wpds-color-bg-surface-neutral-strong, #fff)
-	);
+	background:
+ color-mix(in srgb, var(--wp-admin-theme-color, #3858e9) 4%, var(--wpds-color-bg-surface-neutral-strong, #fff));
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
@@ -721,11 +706,8 @@
 	height: 32px;
 	border-radius: var(--wpds-border-radius-sm, 2px);
 	color: var(--wp-admin-theme-color, #3858e9);
-	background: color-mix(
-		in srgb,
-		var(--wp-admin-theme-color, #3858e9) 10%,
-		transparent
-	);
+	background:
+ color-mix(in srgb, var(--wp-admin-theme-color, #3858e9) 10%, transparent);
 }
 
 .snap-megamenu-template-import-dropdown__item-body {

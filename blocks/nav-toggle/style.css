@@ -14,7 +14,9 @@
 	align-items: center;
 	gap: 8px;
 	padding: 8px;
-	/* border: 1px solid var(--snap-megamenu-toggle-border, color-mix(in srgb, currentColor 14%, transparent));
+
+	/* border: 1px solid var(--snap-megamenu-toggle-border,
+		color-mix(in srgb, currentColor 14%, transparent));
 	border-radius: var(--snap-megamenu-toggle-radius, 9999px); */
 	border: none;
 	border-radius: 0;
@@ -31,12 +33,14 @@
 }
 
 .wp-block-snap-megamenu-nav-toggle:focus,
-.wp-block-snap-megamenu-nav-toggle:focus-visible { 
+.wp-block-snap-megamenu-nav-toggle:focus-visible {
 	outline: none;
 }
 
-.wp-block-snap-megamenu-nav-toggle[aria-expanded='true'] {
-	/* background: var(--snap-megamenu-toggle-active-bg, color-mix(in srgb, currentColor 12%, transparent)); */
+.wp-block-snap-megamenu-nav-toggle[aria-expanded="true"] {
+
+	/* background: var(--snap-megamenu-toggle-active-bg,
+		color-mix(in srgb, currentColor 12%, transparent)); */
 }
 
 /* ---------- Icon ---------- */
@@ -54,7 +58,7 @@
 	display: block;
 	width: 20px;
 	height: 2px;
-	background: currentColor;
+	background: currentcolor;
 	border-radius: 1px;
 	transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -76,6 +80,7 @@
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+
 	.snap-nav-toggle__icon span {
 		transition: none;
 	}

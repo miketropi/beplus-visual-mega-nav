@@ -510,7 +510,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * LinkControl helpers for the Link Item block.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -1103,10 +1103,18 @@ function Edit({
       blockGap
     } = style.spacing;
     if (padding) {
-      if (padding.top) flexStyle.paddingTop = resolvePreset(padding.top);
-      if (padding.right) flexStyle.paddingRight = resolvePreset(padding.right);
-      if (padding.bottom) flexStyle.paddingBottom = resolvePreset(padding.bottom);
-      if (padding.left) flexStyle.paddingLeft = resolvePreset(padding.left);
+      if (padding.top) {
+        flexStyle.paddingTop = resolvePreset(padding.top);
+      }
+      if (padding.right) {
+        flexStyle.paddingRight = resolvePreset(padding.right);
+      }
+      if (padding.bottom) {
+        flexStyle.paddingBottom = resolvePreset(padding.bottom);
+      }
+      if (padding.left) {
+        flexStyle.paddingLeft = resolvePreset(padding.left);
+      }
     }
     if (blockGap) {
       flexStyle.gap = resolvePreset(blockGap);
@@ -1177,9 +1185,10 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * EditorBlockInserterToggle — toolbar button that opens the block library.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
+// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental Library provides the block inserter UI
 
 
 
@@ -1263,9 +1272,10 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * EditorListViewToggle — toolbar button that opens List View in a dropdown overlay.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
+// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental ListView provides the block list view
 
 
 
@@ -1344,7 +1354,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * EditorUndoRedo — undo/redo toolbar controls for the Content Builder.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -1354,6 +1364,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function isEditingTextField() {
+  // eslint-disable-next-line @wordpress/no-global-active-element -- legacy pattern; element is checked for null below
   const element = document.activeElement;
   if (!element) {
     return false;
@@ -1464,7 +1475,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * IsolatedEditor — standalone Gutenberg block editor.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -1608,8 +1619,10 @@ __webpack_require__.r(__webpack_exports__);
  * Observes the nav-menus.php DOM for root-level menu items,
  * injects "Mega Menu" buttons, and opens the editor modal.
  *
- * @package Snap\MegaMenu
+ * @package
  */
+
+/* global MutationObserver, Node */
 
 
 
@@ -1618,8 +1631,8 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Inject a "Mega Menu" button into a depth-0 menu item's action bar.
  *
- * @param {HTMLElement} menuItem  The .menu-item element.
- * @param {Function}    onClick   Click handler receiving the menu item ID.
+ * @param {HTMLElement} menuItem The .menu-item element.
+ * @param {Function}    onClick  Click handler receiving the menu item ID.
  */
 function injectButton(menuItem, onClick) {
   if (menuItem.querySelector('.snap-megamenu-btn')) {
@@ -1725,7 +1738,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * MegaMenuModal — full-screen modal with Settings and Builder tabs.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -1898,7 +1911,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * SettingsPanel — mega menu configuration controls.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -1977,7 +1990,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * TemplatePanel — import from store/file, export current layout.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -2228,7 +2241,7 @@ __webpack_require__.r(__webpack_exports__);
  * injects "Mega Menu" config buttons, and mounts the React
  * modal when a button is clicked.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -2297,7 +2310,7 @@ __webpack_require__.r(__webpack_exports__);
  * - PHP: `snap_megamenu_allowed_blocks` filter (recommended).
  * - JS:  `snap-megamenu.allowedBlocks` filter via `@wordpress/hooks`.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 
@@ -2348,7 +2361,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Merge PHP-provided block editor settings with Content Builder overrides.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 /**
@@ -2413,8 +2426,10 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Mega menu template import/export helpers.
  *
- * @package Snap\MegaMenu
+ * @package
  */
+
+/* global FileReader */
 
 
 const TEMPLATE_EXPORT_VERSION = '1.0.0';
@@ -2445,11 +2460,11 @@ function normalizeSettings(settings = {}) {
 
 /**
  * @typedef {Object} MegaMenuTemplateExport
- * @property {string} version
- * @property {string} title
- * @property {string} description
- * @property {Object} settings
- * @property {string} content
+ * @property {string} version     Export format version.
+ * @property {string} title       Template name.
+ * @property {string} description Template description.
+ * @property {Object} settings    Panel settings (width, bgColor, animation).
+ * @property {string} content     Serialized Gutenberg block content.
  */
 
 /**
@@ -2484,7 +2499,7 @@ async function fetchTemplate(slug) {
  * @param {Object} params.settings Panel settings.
  * @param {string} params.content  Serialized block content.
  * @param {string} [params.title]  Optional export title.
- * @return {MegaMenuTemplateExport}
+ * @return {MegaMenuTemplateExport} Export-ready payload object.
  */
 function buildExportPayload({
   settings,
@@ -2503,7 +2518,7 @@ function buildExportPayload({
 /**
  * Trigger a JSON file download in the browser.
  *
- * @param {MegaMenuTemplateExport} payload Export data.
+ * @param {MegaMenuTemplateExport} payload    Export data.
  * @param {string}                 [filename] File name without extension.
  */
 function downloadTemplate(payload, filename = 'mega-menu-template') {
@@ -2523,7 +2538,7 @@ function downloadTemplate(payload, filename = 'mega-menu-template') {
  * Parse and validate an imported JSON file.
  *
  * @param {File} file Selected JSON file.
- * @return {Promise<MegaMenuTemplateExport>}
+ * @return {Promise<MegaMenuTemplateExport>} Parsed template export data.
  */
 function parseImportFile(file) {
   return new Promise((resolve, reject) => {
@@ -2559,7 +2574,7 @@ function parseImportFile(file) {
  * Human-readable source label for template store entries.
  *
  * @param {string} source Source key from PHP.
- * @return {string}
+ * @return {string} Human-readable source label.
  */
 function getTemplateSourceLabel(source) {
   switch (source) {

@@ -12,7 +12,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 	}, [overlayId, instanceId, setAttributes]);
 
 	// Build inline flex style from layout attribute (matches server render).
-	const flexStyle = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap' };
+	const flexStyle = {
+		display: 'flex',
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	};
 	if (layout) {
 		if (layout.orientation === 'vertical') {
 			flexStyle.flexDirection = 'column';
@@ -26,8 +30,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 			flexStyle.justifyContent = 'right';
 		}
 		if (layout.verticalAlignment) {
-			const alignMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
-			flexStyle.alignItems = alignMap[layout.verticalAlignment] || layout.verticalAlignment;
+			const alignMap = {
+				top: 'flex-start',
+				center: 'center',
+				bottom: 'flex-end',
+			};
+			flexStyle.alignItems =
+				alignMap[layout.verticalAlignment] || layout.verticalAlignment;
 		}
 	} else {
 		flexStyle.justifyContent = 'right';
@@ -48,10 +57,18 @@ export default function Edit({ attributes, setAttributes, context }) {
 	if (style && style.spacing) {
 		const { padding, blockGap } = style.spacing;
 		if (padding) {
-			if (padding.top) flexStyle.paddingTop = resolvePreset(padding.top);
-			if (padding.right) flexStyle.paddingRight = resolvePreset(padding.right);
-			if (padding.bottom) flexStyle.paddingBottom = resolvePreset(padding.bottom);
-			if (padding.left) flexStyle.paddingLeft = resolvePreset(padding.left);
+			if (padding.top) {
+				flexStyle.paddingTop = resolvePreset(padding.top);
+			}
+			if (padding.right) {
+				flexStyle.paddingRight = resolvePreset(padding.right);
+			}
+			if (padding.bottom) {
+				flexStyle.paddingBottom = resolvePreset(padding.bottom);
+			}
+			if (padding.left) {
+				flexStyle.paddingLeft = resolvePreset(padding.left);
+			}
 		}
 		if (blockGap) {
 			flexStyle.gap = resolvePreset(blockGap);

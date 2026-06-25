@@ -10,6 +10,7 @@
 /* ---------- Block container ---------- */
 .wp-block-snap-megamenu-nav-menu-area {
 	display: flex;
+
 	/* flex: 1; */
 }
 
@@ -75,14 +76,17 @@
 	display: block;
 }
 
-/* Mega menu items: sub-menu is hidden by mega panel (handled by frontend.css) */
-/* .has-mega-menu > .sub-menu is already { display: none !important } in frontend.css */
+/* Mega menu items: sub-menu hidden by mega panel (handled by frontend.css) */
+
+/* .has-mega-menu > .sub-menu is { display: none !important }
+   see frontend.css */
 
 /* ---------- Sub-menu items ---------- */
 .snap-nav-menu .sub-menu li {
 	width: 100%;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .snap-nav-menu .sub-menu a {
 	padding: 0.6em 1.25em;
 }
@@ -94,13 +98,13 @@
 
 /* ---------- Arrow indicator for items with children ---------- */
 .snap-nav-menu .menu-item-has-children > a::after {
-	content: '';
+	content: "";
 	display: inline-block;
 	width: 6px;
 	height: 6px;
 	margin-left: 0.5em;
-	border-right: 1.5px solid currentColor;
-	border-bottom: 1.5px solid currentColor;
+	border-right: 1.5px solid currentcolor;
+	border-bottom: 1.5px solid currentcolor;
 	transform: rotate(45deg) translateY(-1px);
 	vertical-align: middle;
 	opacity: 0.6;
@@ -112,6 +116,7 @@
 }
 
 /* ---------- Accessibility ---------- */
+
 /* Ensure focus-visible shows the sub-menu */
 .snap-nav-menu li:has(> a:focus-visible) > .sub-menu {
 	display: block;
@@ -119,6 +124,7 @@
 
 /* ---------- Responsive — mobile vertical menu ---------- */
 @media (max-width: 782px) {
+
 	.snap-nav-menu {
 		flex-direction: column;
 		align-items: stretch;
@@ -135,6 +141,7 @@
 	}
 
 	/* Show sub-menus when parent is "open" (toggled by JS or CSS) */
+	/* stylelint-disable-next-line no-descending-specificity */
 	.snap-nav-menu li.is-parent-open > .sub-menu {
 		display: block;
 	}
@@ -147,6 +154,7 @@
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+
 	.snap-nav-menu .sub-menu {
 		transition: none;
 	}

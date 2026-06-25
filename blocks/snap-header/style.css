@@ -6,14 +6,14 @@
  *
  * @package Snap\MegaMenu
  */
- .wp-block-snap-megamenu-snap-header {
+.wp-block-snap-megamenu-snap-header {
 	position: relative;
-	transition: background-color .3s ease , background .3s ease;
- }
+	transition: background-color 0.3s ease, background 0.3s ease;
+}
 
- .wp-block-snap-megamenu-snap-header .wp-block-group {
+.wp-block-snap-megamenu-snap-header .wp-block-group {
 	position: initial;
- }
+}
 
 
 /* ---------- Sticky positioning (only when JS activates it) ---------- */
@@ -31,14 +31,16 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 }
 
 @media (max-width: 782px) {
+
 	body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 		top: 46px;
 	}
 }
 
 @media (max-width: 600px) {
+
 	body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
-		top: 0px;
+		top: 0;
 	}
 }
 
@@ -51,12 +53,9 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 
 /* Shrink: reduce padding when stuck */
 @media (prefers-reduced-motion: no-preference) {
+
 	.wp-block-snap-megamenu-snap-header.scroll-shrink.is-stuck {
 		transition: padding 0.3s ease;
-	}
-
-	/* Theme can override padding values via custom properties or direct rules */
-	.wp-block-snap-megamenu-snap-header.scroll-shrink.is-stuck {
 		padding-top: 4px;
 		padding-bottom: 4px;
 	}
@@ -64,6 +63,7 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 
 /* Hide-on-scroll: slide out when scrolling down */
 @media (prefers-reduced-motion: no-preference) {
+
 	.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll {
 		transition: transform 0.3s ease;
 	}
@@ -84,12 +84,15 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 }
 
 .wp-block-snap-megamenu-snap-header.is-transparent-top.is-stuck {
+
 	/* background reverts to the block's configured background color */
+
 	/* The stuck state removes transparency automatically */
 }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+
 	.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll,
 	.wp-block-snap-megamenu-snap-header.scroll-shrink {
 		transition: none !important;

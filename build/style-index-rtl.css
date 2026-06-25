@@ -65,7 +65,7 @@
 .snap-megamenu-link-item--badge-outline .snap-megamenu-link-item__badge {
 	background: transparent;
 	color: inherit;
-	border: 1px solid currentColor;
+	border: 1px solid currentcolor;
 }
 
 .snap-megamenu-link-item__description {

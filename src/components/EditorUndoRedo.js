@@ -1,7 +1,7 @@
 /**
  * EditorUndoRedo — undo/redo toolbar controls for the Content Builder.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { useCallback } from '@wordpress/element';
@@ -12,9 +12,10 @@ import { redo, undo } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 function isEditingTextField() {
+	// eslint-disable-next-line @wordpress/no-global-active-element -- legacy pattern; element is checked for null below
 	const element = document.activeElement;
 
-	if ( ! element ) {
+	if (!element) {
 		return false;
 	}
 
@@ -26,32 +27,32 @@ function isEditingTextField() {
 		return true;
 	}
 
-	return !! element.closest( '[contenteditable="true"]' );
+	return !!element.closest('[contenteditable="true"]');
 }
 
-export default function EditorUndoRedo( {
+export default function EditorUndoRedo({
 	hasUndo,
 	hasRedo,
 	onUndo,
 	onRedo,
 	disabled = false,
-} ) {
-	const handleUndo = useCallback( () => {
-		if ( hasUndo && ! disabled ) {
+}) {
+	const handleUndo = useCallback(() => {
+		if (hasUndo && !disabled) {
 			onUndo();
 		}
-	}, [ disabled, hasUndo, onUndo ] );
+	}, [disabled, hasUndo, onUndo]);
 
-	const handleRedo = useCallback( () => {
-		if ( hasRedo && ! disabled ) {
+	const handleRedo = useCallback(() => {
+		if (hasRedo && !disabled) {
 			onRedo();
 		}
-	}, [ disabled, hasRedo, onRedo ] );
+	}, [disabled, hasRedo, onRedo]);
 
 	useKeyboardShortcut(
 		isAppleOS() ? 'meta+z' : 'ctrl+z',
-		( event ) => {
-			if ( isEditingTextField() ) {
+		(event) => {
+			if (isEditingTextField()) {
 				return;
 			}
 
@@ -60,14 +61,14 @@ export default function EditorUndoRedo( {
 		},
 		{
 			bindGlobal: true,
-			isDisabled: disabled || ! hasUndo,
+			isDisabled: disabled || !hasUndo,
 		}
 	);
 
 	useKeyboardShortcut(
 		isAppleOS() ? 'meta+shift+z' : 'ctrl+shift+z',
-		( event ) => {
-			if ( isEditingTextField() ) {
+		(event) => {
+			if (isEditingTextField()) {
 				return;
 			}
 
@@ -76,14 +77,14 @@ export default function EditorUndoRedo( {
 		},
 		{
 			bindGlobal: true,
-			isDisabled: disabled || ! hasRedo,
+			isDisabled: disabled || !hasRedo,
 		}
 	);
 
 	useKeyboardShortcut(
 		'ctrl+y',
-		( event ) => {
-			if ( isEditingTextField() ) {
+		(event) => {
+			if (isEditingTextField()) {
 				return;
 			}
 
@@ -92,7 +93,7 @@ export default function EditorUndoRedo( {
 		},
 		{
 			bindGlobal: true,
-			isDisabled: disabled || ! hasRedo || isAppleOS(),
+			isDisabled: disabled || !hasRedo || isAppleOS(),
 		}
 	);
 
@@ -100,18 +101,18 @@ export default function EditorUndoRedo( {
 		<div className="snap-megamenu-editor-undo-redo">
 			<Button
 				className="snap-megamenu-editor-undo-redo__button"
-				icon={ undo }
-				label={ __( 'Undo', 'snap-megamenu-builder' ) }
-				onClick={ handleUndo }
-				disabled={ disabled || ! hasUndo }
+				icon={undo}
+				label={__('Undo', 'snap-megamenu-builder')}
+				onClick={handleUndo}
+				disabled={disabled || !hasUndo}
 				showTooltip
 			/>
 			<Button
 				className="snap-megamenu-editor-undo-redo__button"
-				icon={ redo }
-				label={ __( 'Redo', 'snap-megamenu-builder' ) }
-				onClick={ handleRedo }
-				disabled={ disabled || ! hasRedo }
+				icon={redo}
+				label={__('Redo', 'snap-megamenu-builder')}
+				onClick={handleRedo}
+				disabled={disabled || !hasRedo}
 				showTooltip
 			/>
 		</div>

@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	} = attributes;
 
 	const themeColors = useSetting('color.palette') || [];
-	const disableCustomColors = ! useSetting('color.custom');
+	const disableCustomColors = !useSetting('color.custom');
 
 	useEffect(() => {
 		if (!instanceId) {

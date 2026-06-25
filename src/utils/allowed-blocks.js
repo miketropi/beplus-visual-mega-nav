@@ -8,7 +8,7 @@
  * - PHP: `snap_megamenu_allowed_blocks` filter (recommended).
  * - JS:  `snap-megamenu.allowedBlocks` filter via `@wordpress/hooks`.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 
 import { applyFilters } from '@wordpress/hooks';
@@ -57,11 +57,11 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 export function getAllowedBlocks() {
 	const fromPhp = window.snapMegaMenu?.allowedBlocks;
 	const blocks =
-		Array.isArray( fromPhp ) && fromPhp.length
+		Array.isArray(fromPhp) && fromPhp.length
 			? fromPhp
 			: DEFAULT_ALLOWED_BLOCKS;
 
-	return applyFilters( 'snap-megamenu.allowedBlocks', blocks );
+	return applyFilters('snap-megamenu.allowedBlocks', blocks);
 }
 
 /** @deprecated Use getAllowedBlocks() — kept for backwards compatibility. */
