@@ -19,25 +19,6 @@
     }
   },
 
-  "command": {
-    "check": {
-      "description": "Run all quality checks (PHP lint + PHPCS + PHPStan + JS lint)",
-      "template": "Run composer check and npm run check:js. Report all errors found. Do NOT autofix — only report what's broken."
-    },
-    "check:fix": {
-      "description": "Run all quality checks and autofix what can be autofixed",
-      "template": "Run composer phpcbf && npm run lint:js:fix && npm run lint:css:fix && npm run format. Report what was changed."
-    },
-    "build": {
-      "description": "Build admin assets for production",
-      "template": "Run npm run build. Verify build/index.js and build/index.css exist after. Report any build errors."
-    },
-    "test": {
-      "description": "Run all test suites",
-      "template": "Run composer test:php and npm run test:js. Report all pass/fail results."
-    }
-  },
-
   "agent": {
     "reviewer": {
       "color": "#F39C12"

@@ -30,9 +30,9 @@
 	background: var(--snap-megamenu-toggle-hover-bg, color-mix(in srgb, currentColor 8%, transparent));
 }
 
-.wp-block-snap-megamenu-nav-toggle:focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: 2px;
+.wp-block-snap-megamenu-nav-toggle:focus,
+.wp-block-snap-megamenu-nav-toggle:focus-visible { 
+	outline: none;
 }
 
 .wp-block-snap-megamenu-nav-toggle[aria-expanded='true'] {

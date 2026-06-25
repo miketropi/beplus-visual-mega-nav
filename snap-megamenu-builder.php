@@ -73,29 +73,3 @@ function snap_megamenu_builder_deactivate(): void {
 }
 
 register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\snap_megamenu_builder_deactivate' );
-
-add_action(
-	'init',
-	function () {
-		$posts = get_posts(
-			[
-				'post_type'      => 'wp_template_part',
-				'posts_per_page' => -1,
-				'post_status'    => 'any',
-				'fields'         => 'all',
-			]
-		);
-		foreach ( $posts as $p ) {
-			$terms = wp_get_post_terms( $p->ID, 'wp_theme', [ 'fields' => 'slugs' ] );
-			error_log(
-				sprintf(
-					'ID=%d name=%s status=%s theme_terms=%s',
-					$p->ID,
-					$p->post_name,
-					$p->post_status,
-					implode( ',', $terms )
-				)
-			);
-		}
-	}
-);

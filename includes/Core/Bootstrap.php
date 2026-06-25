@@ -16,7 +16,7 @@ use Snap\MegaMenuBuilder\Frontend\MenuRenderer;
 use Snap\MegaMenuBuilder\Patterns\PatternRegistry;
 use Snap\MegaMenuBuilder\Rest\MegaMenuController;
 use Snap\MegaMenuBuilder\Rest\TemplatesController;
-use Snap\MegaMenuBuilder\Templates\TemplateProvider;
+use Snap\MegaMenuBuilder\Templates\PatternProvider;
 
 /**
  * Bootstrap the plugin — register hooks, REST routes, assets.
@@ -31,7 +31,7 @@ final class Bootstrap {
 	public function run(): void {
 		( new BlockRegistry() )->register();
 		( new PatternRegistry() )->register();
-		( new TemplateProvider() )->register();
+		( new PatternProvider() )->register();
 
 		$this->register_meta();
 
