@@ -12,7 +12,6 @@ import { redo, undo } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 function isEditingTextField() {
-	// eslint-disable-next-line @wordpress/no-global-active-element -- legacy pattern; element is checked for null below
 	const element = document.activeElement;
 
 	if (!element) {

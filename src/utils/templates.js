@@ -4,8 +4,6 @@
  * @package
  */
 
-/* global FileReader */
-
 import apiFetch from '@wordpress/api-fetch';
 
 export const TEMPLATE_EXPORT_VERSION = '1.0.0';

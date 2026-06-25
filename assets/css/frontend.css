@@ -342,6 +342,7 @@
 		border-bottom: none;
 	}
 
+	/* stylelint-disable max-line-length */
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-mega-panel {
 		flex: 1 0 100%;
 		width: 100%;
@@ -372,4 +373,5 @@
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle:focus-visible {
 		outline-color: var(--wp--preset--color--primary, currentColor);
 	}
+	/* stylelint-enable max-line-length */
 }

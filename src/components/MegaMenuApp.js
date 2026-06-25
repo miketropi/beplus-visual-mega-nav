@@ -7,8 +7,6 @@
  * @package
  */
 
-/* global MutationObserver, Node */
-
 import { useState, useEffect, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import MegaMenuModal from './MegaMenuModal';

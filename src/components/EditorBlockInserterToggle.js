@@ -4,7 +4,6 @@
  * @package
  */
 
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental Library provides the block inserter UI
 import { __experimentalLibrary as InserterLibrary } from '@wordpress/block-editor';
 import { Dropdown, Button } from '@wordpress/components';
 import { plus, closeSmall } from '@wordpress/icons';

@@ -4,7 +4,6 @@
  * @package
  */
 
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental ListView provides the block list view
 import { __experimentalListView as ListView } from '@wordpress/block-editor';
 import { Dropdown, Button } from '@wordpress/components';
 import { listView, closeSmall } from '@wordpress/icons';

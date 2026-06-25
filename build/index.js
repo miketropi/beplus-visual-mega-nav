@@ -1188,7 +1188,6 @@ __webpack_require__.r(__webpack_exports__);
  * @package
  */
 
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental Library provides the block inserter UI
 
 
 
@@ -1275,7 +1274,6 @@ __webpack_require__.r(__webpack_exports__);
  * @package
  */
 
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- experimental ListView provides the block list view
 
 
 
@@ -1364,7 +1362,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function isEditingTextField() {
-  // eslint-disable-next-line @wordpress/no-global-active-element -- legacy pattern; element is checked for null below
   const element = document.activeElement;
   if (!element) {
     return false;
@@ -1621,8 +1618,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @package
  */
-
-/* global MutationObserver, Node */
 
 
 
@@ -2428,8 +2423,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @package
  */
-
-/* global FileReader */
 
 
 const TEMPLATE_EXPORT_VERSION = '1.0.0';

@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   php:
-    name: PHP check (lint + CS + stan)
+    name: PHP (lint + CS + stan)
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +24,10 @@ jobs:
           php-version: '8.3'
           tools: composer
 
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
       - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ~/.cache/composer
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
@@ -42,7 +38,7 @@ jobs:
         run: composer run check
 
   js:
-    name: JS check (lint + stylelint)
+    name: JS / CSS (lint + stylelint)
     runs-on: ubuntu-latest
 
     steps:
@@ -58,11 +54,11 @@ jobs:
       - name: Install JS dependencies
         run: npm ci
 
-      - name: Run JS checks
+      - name: Run JS & CSS checks
         run: npm run check:js
 
   build:
-    name: Build verification
+    name: Build (verify compilation)
     runs-on: ubuntu-latest
 
     steps:
@@ -80,3 +76,10 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Verify built assets are not stale
+        run: |
+          if ! git diff --exit-code build/; then
+            echo "::error::Build output is out of date. Run 'npm run build' and commit the changes."
+            exit 1
+          fi

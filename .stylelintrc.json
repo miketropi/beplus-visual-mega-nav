@@ -1,12 +1,15 @@
 {
 	"extends": "@wordpress/stylelint-config",
 	"rules": {
-		"selector-class-pattern": null,
+		"selector-class-pattern": [
+			"^[a-z]([a-z0-9-]+)?(__[a-z0-9-]+)*$",
+			{
+				"message": "Selector should use lowercase and separate words with hyphens (selector-class-pattern)",
+				"resolveNestedSelectors": true
+			}
+		],
+		"max-line-length": 120,
 		"no-descending-specificity": null,
-		"no-duplicate-selectors": null,
-		"max-line-length": null,
-		"declaration-colon-space-after": null,
-		"declaration-colon-newline-after": null,
-		"function-parentheses-space-inside": null
+		"no-duplicate-selectors": null
 	}
 }

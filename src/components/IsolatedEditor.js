@@ -14,7 +14,6 @@ import {
 	WritingFlow,
 	ObserveTyping,
 	BlockEditorKeyboardShortcuts,
-	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- required for block editor styles in isolated mode
 	__unstableEditorStyles as EditorStyles,
 } from '@wordpress/block-editor';
 import { serialize, parse } from '@wordpress/blocks';
