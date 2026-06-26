@@ -61,9 +61,6 @@ final class Bootstrap {
 				add_theme_support( 'menus' );
 			}
 		);
-
-		// Load text domain.
-		add_action( 'init', [ $this, 'load_textdomain' ] );
 	}
 
 	/**
@@ -113,19 +110,6 @@ final class Bootstrap {
 					);
 				}
 			}
-		);
-	}
-
-	/**
-	 * Load plugin text domain.
-	 *
-	 * @return void
-	 */
-	public function load_textdomain(): void {
-		load_plugin_textdomain(
-			'snap-megamenu-builder',
-			false,
-			dirname( SNAP_MEGAMENU_BASENAME ) . '/languages'
 		);
 	}
 }

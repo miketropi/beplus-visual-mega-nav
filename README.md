@@ -1,10 +1,20 @@
-# Snap Mega Menu Builder
+=== Snap Mega Menu Builder ===
+Contributors: beplusthemes
+Tags: mega-menu, gutenberg, navigation, block-editor, menu-builder
+Requires at least: 6.0
+Tested up to: 7.0
+Requires PHP: 8.0
+Stable tag: 0.0.6
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress plugin that adds a **Gutenberg-powered mega menu builder** to the native Appearance → Menus screen.
+A Gutenberg-powered mega menu builder for WordPress. Build rich mega menus visually using the block editor.
+
+== Description ==
 
 ![Preview of Snap Mega Menu Builder](https://github.com/miketropi/snap-megamenu-builder/blob/master/preview.jpg?raw=true)
 
-## Features
+= Features =
 
 - **Visual builder** — Use the block editor to design mega menu content with columns, images, buttons, and more.
 - **Per-item settings** — Enable/disable, width mode, background color, animation per menu item.
@@ -15,15 +25,15 @@ A WordPress plugin that adds a **Gutenberg-powered mega menu builder** to the na
 - **Accessible** — ARIA attributes, keyboard navigation, focus trapping.
 - **Theme-friendly** — CSS custom properties for easy theme overrides.
 
-## Requirements
+== Requirements ==
 
 - WordPress 6.0+
 - PHP 8.0+
 - Node.js 18+ (for development)
 
-## Installation
+== Installation ==
 
-```bash
+~~~
 # Clone the plugin
 cd wp-content/plugins/
 git clone https://github.com/snapwp/snap-megamenu-builder.git snap-megamenu-builder
@@ -35,11 +45,11 @@ npm install
 
 # Build assets
 npm run build
-```
+~~~
 
 Activate the plugin in **Plugins** → **Installed Plugins**.
 
-## Usage
+== Usage ==
 
 1. Go to **Appearance → Menus**.
 2. Click the **"Mega Menu"** link on any top-level menu item.
@@ -48,11 +58,11 @@ Activate the plugin in **Plugins** → **Installed Plugins**.
 5. Use **Import** or **Export** in the modal header to apply a template or save your layout as JSON.
 6. Click **Save**.
 
-## Template store (plugin + theme)
+== Template Store ==
 
 The builder can load **starter layouts** from JSON files on disk. In the modal header, click **Import** to browse the template store or upload a JSON file. Click **Export** to download the current content and settings.
 
-### Where templates are loaded from
+= Where templates are loaded from =
 
 Templates are discovered from these folders (in order). If the same `slug` exists in more than one place, **later sources override earlier ones**:
 
@@ -64,19 +74,19 @@ Templates are discovered from these folders (in order). If the same `slug` exist
 
 **Example (Nextora parent theme):**
 
-```
+~~~
 wp-content/themes/nextora/mega-menu-templates/brand-nav.json
-```
+~~~
 
 **Example (child theme override):**
 
-```
+~~~
 wp-content/themes/nextora-child/mega-menu-templates/three-column-nav.json
-```
+~~~
 
 A child-theme file with the same filename/slug as a plugin template replaces the plugin version in the Import dropdown.
 
-### Built-in plugin templates
+= Built-in plugin templates =
 
 | Slug | Title |
 |------|-------|
@@ -85,11 +95,11 @@ A child-theme file with the same filename/slug as a plugin template replaces the
 
 See `templates/` in this plugin for reference implementations.
 
-### Template JSON format
+= Template JSON format =
 
 Each file is a single JSON object:
 
-```json
+~~~
 {
   "slug": "my-custom-menu",
   "title": "My Custom Menu",
@@ -103,7 +113,7 @@ Each file is a single JSON object:
   },
   "content": "<!-- wp:columns -->..."
 }
-```
+~~~
 
 | Field | Required | Notes |
 |-------|----------|-------|
@@ -116,9 +126,9 @@ Each file is a single JSON object:
 
 Exported files from **Export** use the same shape (they may omit `slug`). You can drop an export into `mega-menu-templates/` and add a `slug` to register it in the store.
 
-`content` is sanitized on load using the same rules as saved mega menu content. Use only blocks from the [allowed list](#allowed-blocks) (extend via `snap_megamenu_allowed_blocks`).
+`content` is sanitized on load using the same rules as saved mega menu content. Use only blocks from the allowed list below (extend via `snap_megamenu_allowed_blocks`).
 
-### Allowed blocks
+= Allowed blocks =
 
 | Category | Blocks |
 |----------|--------|
@@ -128,20 +138,20 @@ Exported files from **Export** use the same shape (they may omit `slug`). You ca
 | Media | `core/cover` |
 | Embeds / widgets | `core/shortcode`, `core/html` |
 
-```php
+~~~
 add_filter( 'snap_megamenu_allowed_blocks', function ( array $blocks ): array {
     $blocks[] = 'my-plugin/custom-block';
     return $blocks;
 } );
-```
+~~~
 
-### Import behaviour
+= Import behaviour =
 
 - **Template store** — Lists all valid JSON templates from the plugin and active theme(s).
 - **Upload JSON file** — Import any file matching the format above (does not need to live in a template folder).
 - Applying a template replaces the current **Content Builder** content and **Settings** in the modal. Click **Save** to persist changes to the menu item.
 
-### REST API
+= REST API =
 
 | Method | Route | Description |
 |--------|-------|-------------|
@@ -150,9 +160,9 @@ add_filter( 'snap_megamenu_allowed_blocks', function ( array $blocks ): array {
 
 Requires `edit_theme_options`.
 
-### PHP hooks
+= PHP hooks =
 
-```php
+~~~
 // Add or replace template scan directories (source label => absolute path).
 add_filter( 'snap_megamenu_template_directories', function ( $directories ) {
     $directories['custom'] = '/path/to/my/templates';
@@ -169,19 +179,32 @@ add_filter( 'snap_megamenu_templates', function ( $templates ) {
 add_filter( 'snap_megamenu_template_data', function ( $template, $slug ) {
     return $template;
 }, 10, 2 );
-```
+~~~
 
-## Development
+== Frequently Asked Questions ==
 
-```bash
+= How do I add my theme's menu location? =
+
+Use the `snap_megamenu_locations` filter:
+
+~~~
+add_filter( 'snap_megamenu_locations', function ( $locations ) {
+    $locations[] = 'your-theme-location';
+    return $locations;
+} );
+~~~
+
+== Changelog ==
+
+= 0.0.5 =
+
+* Initial release.
+
+== Development ==
+
+~~~
 npm run start       # Watch mode
 npm run build       # Production build
 composer check      # PHP lint + PHPCS + PHPStan
 npm run check:js    # ESLint + Stylelint
-```
-
-See [docs/AGENT.md](docs/AGENT.md) for full architecture documentation.
-
-## License
-
-GPL-2.0-or-later
+~~~
