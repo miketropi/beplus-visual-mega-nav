@@ -60,8 +60,7 @@
 }
 
 .snap-megamenu-tab-container__tab:hover {
-	background:
- linear-gradient(to right, color-mix(in srgb, currentcolor 10%, transparent), transparent);
+	background: linear-gradient(to right, color-mix(in srgb, currentcolor 10%, transparent), transparent);
 	opacity: 1;
 }
 
