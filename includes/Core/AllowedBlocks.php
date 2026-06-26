@@ -42,6 +42,8 @@ final class AllowedBlocks {
 			// Navigation.
 			'core/page-list',
 			'snap-megamenu/link-item',
+			'snap-megamenu/tab-container',
+			'snap-megamenu/tab-panel',
 
 			// Media.
 			'core/cover',

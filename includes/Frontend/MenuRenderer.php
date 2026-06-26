@@ -209,9 +209,24 @@ final class MenuRenderer {
 			SNAP_MEGAMENU_VERSION
 		);
 
+		wp_enqueue_style(
+			'snap-megamenu-tab-container',
+			SNAP_MEGAMENU_URL . 'blocks/tab-container/style.css',
+			[],
+			SNAP_MEGAMENU_VERSION
+		);
+
 		wp_enqueue_script(
 			'snap-megamenu-front',
 			SNAP_MEGAMENU_URL . 'assets/js/frontend.js',
+			[],
+			SNAP_MEGAMENU_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'snap-megamenu-tabs',
+			SNAP_MEGAMENU_URL . 'assets/js/tabs.js',
 			[],
 			SNAP_MEGAMENU_VERSION,
 			true

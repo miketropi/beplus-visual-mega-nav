@@ -35,6 +35,8 @@ final class BlockRegistry {
 		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/snap-navigation' );
 		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/nav-menu-area' );
 		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/nav-toggle' );
+		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/tab-container' );
+		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/tab-panel' );
 	}
 
 	/**

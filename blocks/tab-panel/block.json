@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "snap-megamenu/tab-panel",
+	"title": "Tab Panel",
+	"category": "snap-megamenu",
+	"parent": [ "snap-megamenu/tab-container" ],
+	"description": "A single tab panel for use inside the Tab Container block.",
+	"keywords": [ "tab", "panel", "mega menu" ],
+	"textdomain": "snap-megamenu-builder",
+	"icon": "category",
+	"style": "file:./style.css",
+	"editorStyle": "file:./editor.css",
+	"render": "file:./render.php",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": false
+	},
+	"attributes": {
+		"tabLabel": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}
