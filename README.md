@@ -208,5 +208,3 @@ npm run build       # Production build
 composer check      # PHP lint + PHPCS + PHPStan
 npm run check:js    # ESLint + Stylelint
 ~~~
-
-See [docs/AGENT.md](docs/AGENT.md) for full architecture documentation.
