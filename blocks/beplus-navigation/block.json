@@ -1,14 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "snap-megamenu/snap-navigation",
-	"title": "Snap Navigation",
+	"name": "beplus-visual-mega-nav/beplus-navigation",
+	"title": "BePlus Navigation",
 	"category": "header",
-	"parent": [ "snap-megamenu/snap-header", "core/group", "core/column" ],
+	"parent": [ "beplus-visual-mega-nav/beplus-header", "core/group", "core/column" ],
 	"icon": "menu",
 	"description": "Flexible navigation container that hosts a classic menu and hamburger toggle.",
-	"keywords": [ "navigation", "menu", "nav", "snap" ],
-	"textdomain": "snap-megamenu-builder",
+	"keywords": [ "navigation", "menu", "nav", "beplus" ],
+	"textdomain": "beplus-visual-mega-nav",
 	"attributes": {
 		"overlayId": {
 			"type": "string",
@@ -16,11 +16,11 @@
 		}
 	},
 	"usesContext": [
-		"snap-megamenu/instanceId",
-		"snap-megamenu/mobileBreakpoint"
+		"beplus-visual-mega-nav/instanceId",
+		"beplus-visual-mega-nav/mobileBreakpoint"
 	],
 	"providesContext": {
-		"snap-megamenu/overlayId": "overlayId"
+		"beplus-visual-mega-nav/overlayId": "overlayId"
 	},
 	"supports": {
 		"layout": {

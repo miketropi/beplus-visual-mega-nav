@@ -3,7 +3,7 @@ import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 
 export default function Edit({ attributes, setAttributes, context }) {
 	const { overlayId, layout, style } = attributes;
-	const instanceId = context['snap-megamenu/instanceId'] || '';
+	const instanceId = context['beplus-visual-mega-nav/instanceId'] || '';
 
 	useEffect(() => {
 		if (!overlayId && instanceId) {
@@ -81,8 +81,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 		<div {...blockProps}>
 			<InnerBlocks
 				template={[
-					['snap-megamenu/nav-menu-area', {}],
-					['snap-megamenu/nav-toggle', {}],
+					['beplus-visual-mega-nav/nav-menu-area', {}],
+					['beplus-visual-mega-nav/nav-toggle', {}],
 				]}
 				templateLock={false}
 			/>

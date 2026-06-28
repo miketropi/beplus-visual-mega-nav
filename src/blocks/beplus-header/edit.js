@@ -48,35 +48,35 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('Mobile Breakpoint', 'snap-megamenu-builder')}
+					title={__('Mobile Breakpoint', 'beplus-visual-mega-nav')}
 				>
 					<SelectControl
-						label={__('Breakpoint', 'snap-megamenu-builder')}
+						label={__('Breakpoint', 'beplus-visual-mega-nav')}
 						value={mobileBreakpoint}
 						options={[
 							{
 								label: __(
 									'Mobile (600px)',
-									'snap-megamenu-builder'
+									'beplus-visual-mega-nav'
 								),
 								value: 600,
 							},
 							{
 								label: __(
 									'Tablet (782px)',
-									'snap-megamenu-builder'
+									'beplus-visual-mega-nav'
 								),
 								value: 782,
 							},
 							{
 								label: __(
 									'Desktop (1024px)',
-									'snap-megamenu-builder'
+									'beplus-visual-mega-nav'
 								),
 								value: 1024,
 							},
 							{
-								label: __('Custom', 'snap-megamenu-builder'),
+								label: __('Custom', 'beplus-visual-mega-nav'),
 								value: -1,
 							},
 						]}
@@ -92,7 +92,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<TextControl
 							label={__(
 								'Custom breakpoint (px)',
-								'snap-megamenu-builder'
+								'beplus-visual-mega-nav'
 							)}
 							type="number"
 							value={(
@@ -109,39 +109,42 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						/>
 					)}
 				</PanelBody>
-				<PanelBody title={__('Sticky', 'snap-megamenu-builder')}>
+				<PanelBody title={__('Sticky', 'beplus-visual-mega-nav')}>
 					<ToggleControl
-						label={__('Sticky header', 'snap-megamenu-builder')}
+						label={__('Sticky header', 'beplus-visual-mega-nav')}
 						checked={sticky}
 						onChange={(value) => setAttributes({ sticky: value })}
 					/>
 					{sticky && (
 						<SelectControl
-							label={__('Scroll effect', 'snap-megamenu-builder')}
+							label={__(
+								'Scroll effect',
+								'beplus-visual-mega-nav'
+							)}
 							value={scrollEffect}
 							options={[
 								{
-									label: __('None', 'snap-megamenu-builder'),
+									label: __('None', 'beplus-visual-mega-nav'),
 									value: 'none',
 								},
 								{
 									label: __(
 										'Shrink',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									),
 									value: 'shrink',
 								},
 								{
 									label: __(
 										'Hide on scroll',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									),
 									value: 'hide-on-scroll',
 								},
 								{
 									label: __(
 										'Background on scroll',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									),
 									value: 'bg-on-scroll',
 								},
@@ -155,7 +158,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<ColorPalette
 							label={__(
 								'Scroll background color',
-								'snap-megamenu-builder'
+								'beplus-visual-mega-nav'
 							)}
 							colors={themeColors}
 							disableCustomColors={disableCustomColors}
@@ -171,7 +174,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					<ToggleControl
 						label={__(
 							'Transparent at top',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 						checked={transparentTop}
 						onChange={(value) =>
@@ -179,18 +182,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						}
 						help={__(
 							'Header has no background when at the top of the page.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 					/>
 				</PanelBody>
 				<PanelBody
-					title={__('Grid Columns', 'snap-megamenu-builder')}
+					title={__('Grid Columns', 'beplus-visual-mega-nav')}
 					initialOpen={false}
 				>
 					<TextControl
 						label={__(
 							'Grid template columns',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 						value={gridColumns || 'auto 1fr'}
 						onChange={(value) =>
@@ -201,14 +204,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						placeholder="auto 1fr"
 						help={__(
 							'CSS grid-template-columns value, e.g. "auto 1fr", "auto 1fr auto", "1fr 2fr 1fr".',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<div {...blockProps}>
 				<InnerBlocks
-					template={[['snap-megamenu/snap-navigation', {}]]}
+					template={[['beplus-visual-mega-nav/beplus-navigation', {}]]}
 					templateLock={false}
 				/>
 			</div>

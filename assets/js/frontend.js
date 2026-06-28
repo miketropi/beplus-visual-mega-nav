@@ -5,18 +5,18 @@
  * Tablet (768–1023px): off-canvas panel sliding from right.
  * Mobile (<768px): accordion inline panels (works in cloned mobile nav portals).
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 ( function () {
 	'use strict';
 
 	const MEGA_ITEMS = '.has-mega-menu';
-	const PANEL_CLASS = 'snap-megamenu-mega-panel';
+	const PANEL_CLASS = 'beplus-vmn-mega-panel';
 	const OPEN_CLASS = 'is-open';
-	const ACCORDION_CLASS = 'snap-megamenu--open';
-	const TOGGLE_CLASS = 'snap-megamenu-toggle';
-	const ENHANCED_ATTR = 'data-snap-megamenu-enhanced';
+	const ACCORDION_CLASS = 'beplus-vmn--open';
+	const TOGGLE_CLASS = 'beplus-vmn-toggle';
+	const ENHANCED_ATTR = 'data-beplus-vmn-enhanced';
 	const ARIA_EXPANDED = 'aria-expanded';
 
 	/** Accordion mode — mobile only (<768px). */
@@ -91,10 +91,10 @@
 	 * @return {HTMLElement}
 	 */
 	function getOrCreateOverlay() {
-		let overlay = document.querySelector( '.snap-megamenu-overlay' );
+		let overlay = document.querySelector( '.beplus-vmn-overlay' );
 		if ( ! overlay ) {
 			overlay = document.createElement( 'div' );
-			overlay.className = 'snap-megamenu-overlay';
+			overlay.className = 'beplus-vmn-overlay';
 			overlay.setAttribute( 'aria-hidden', 'true' );
 			document.body.appendChild( overlay );
 			overlay.addEventListener( 'click', closeAll );
@@ -113,7 +113,7 @@
 	 * Hide the backdrop overlay and unlock body scroll.
 	 */
 	function hideOverlay() {
-		const overlay = document.querySelector( '.snap-megamenu-overlay' );
+		const overlay = document.querySelector( '.beplus-vmn-overlay' );
 		if ( overlay ) {
 			overlay.classList.remove( 'is-visible' );
 		}
@@ -342,7 +342,7 @@
 		);
 
 		toggle.innerHTML =
-			'<span class="snap-megamenu-toggle__icon" aria-hidden="true">' +
+			'<span class="beplus-vmn-toggle__icon" aria-hidden="true">' +
 			'<svg viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
 			'<path d="M1.5 1.75 6 6.25l4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
 			'</svg></span>';
@@ -565,5 +565,5 @@
 
 	// Public API for external scripts to re-init the menu engine
 	// on a cloned subtree (e.g. Snap Header clone-to-body portal).
-	window.snapMegaMenuReInit = enhanceItems;
+	window.beplusVmnReInit = enhanceItems;
 } )();

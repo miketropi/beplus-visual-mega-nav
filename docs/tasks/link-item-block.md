@@ -1,7 +1,7 @@
 # Task: Link Item block
 
 **Status:** Implemented  
-**Plugin:** Snap Mega Menu Builder (`snap-megamenu-builder`)  
+**Plugin:** Beplus Visual Mega Navigation (`beplus-visual-mega-nav`)  
 **Related:** [`../AGENT.md`](../AGENT.md), [`../../AGENTS.md`](../../AGENTS.md)
 
 ---
@@ -26,7 +26,7 @@ The block replaces ad-hoc combinations of `core/button`, `core/paragraph`, and `
 | Purpose-built mega menu link | Single block for “label + URL + badge” rows |
 | WordPress-native link picking | Reuse `@wordpress/block-editor` **LinkControl** (same UX as core blocks) |
 | Stable internal URLs | Dynamic `render.php` resolves permalinks from post ID when slug/path changes |
-| Project conventions | Namespace `Snap\MegaMenuBuilder\`, text domain `snap-megamenu-builder`, prefix `snap-megamenu-*` |
+| Project conventions | Namespace `Snap\MegaMenuBuilder\`, text domain `beplus-visual-mega-nav`, prefix `beplus-vmn-*` |
 | Allowlist integration | Register in `AllowedBlocks` under Navigation |
 | No front-end JS required | Static markup from PHP; style via block + theme CSS |
 
@@ -48,10 +48,10 @@ The block replaces ad-hoc combinations of `core/button`, `core/paragraph`, and `
 |----------|--------|
 | Name | `snap-megamenu/link-item` |
 | Title | Link Item |
-| Category | `widgets` or custom `snap-megamenu` category |
+| Category | `widgets` or custom `beplus-vmn` category |
 | Icon | `admin-links` (or `link` from `@wordpress/icons` in editor) |
 | API version | `3` (`block.json`) |
-| Text domain | `snap-megamenu-builder` |
+| Text domain | `beplus-visual-mega-nav` |
 | Render | Dynamic — `render.php` |
 | Supports | `html: false`, `anchor: false`, `reusable: false`, `multiple: true` |
 
@@ -113,7 +113,7 @@ If internal post is trashed/missing, render a non-link span or `#` with `aria-di
 
 - Preview resembles frontend: `<a>` or placeholder when URL empty
 - Badge visible next to label when `badge` is set
-- Use `useBlockProps()` on wrapper `div.snap-megamenu-link-item`
+- Use `useBlockProps()` on wrapper `div.beplus-vmn-link-item`
 - Block appender: not applicable (leaf block)
 
 ### LinkControl settings
@@ -124,19 +124,19 @@ Restrict to public post types suitable for mega menus:
 // Pseudocode — settings passed to LinkControl
 settings={ [
     {
-        title: __( 'Content', 'snap-megamenu-builder' ),
+        title: __( 'Content', 'beplus-visual-mega-nav' ),
         icon: page,
         id: 'post-type-page',
     },
     {
-        title: __( 'Posts', 'snap-megamenu-builder' ),
+        title: __( 'Posts', 'beplus-visual-mega-nav' ),
         icon: post,
         id: 'post-type-post',
     },
 ] }
 ```
 
-Expose post types via filter `snap_megamenu_link_item_link_settings` so themes can add CPTs.
+Expose post types via filter `beplus_vmn_link_item_link_settings` so themes can add CPTs.
 
 ---
 
@@ -145,12 +145,12 @@ Expose post types via filter `snap_megamenu_link_item_link_settings` so themes c
 Semantic, theme-overridable structure:
 
 ```html
-<div class="snap-megamenu-link-item snap-megamenu-link-item--badge-accent">
-  <a class="snap-megamenu-link-item__link" href="…" rel="…" target="…">
-    <span class="snap-megamenu-link-item__label">Shop all</span>
-    <span class="snap-megamenu-link-item__badge">New</span>
+<div class="beplus-vmn-link-item beplus-vmn-link-item--badge-accent">
+  <a class="beplus-vmn-link-item__link" href="…" rel="…" target="…">
+    <span class="beplus-vmn-link-item__label">Shop all</span>
+    <span class="beplus-vmn-link-item__badge">New</span>
   </a>
-  <p class="snap-megamenu-link-item__description">Optional subtitle</p>
+  <p class="beplus-vmn-link-item__description">Optional subtitle</p>
 </div>
 ```
 
@@ -160,8 +160,8 @@ If `url` is empty in the editor preview only; on frontend omit `<a>` or render `
 
 - Base styles in `blocks/link-item/style.css` (loaded via `block.json`)
 - Minimal layout: flex row for label + badge; badge as pill
-- CSS custom properties for theme overrides, e.g. `--snap-megamenu-link-item-badge-bg`
-- Mobile accordion panel: no extra JS; inherit width from `.snap-megamenu-mega-panel__inner`
+- CSS custom properties for theme overrides, e.g. `--beplus-vmn-link-item-badge-bg`
+- Mobile accordion panel: no extra JS; inherit width from `.beplus-vmn-mega-panel__inner`
 
 **Accessibility**
 
@@ -196,7 +196,7 @@ src/blocks/link-item/   # alternative: keep JS next to src/ and point block.json
 | Step | Action |
 |------|--------|
 | 1 | Add webpack entry `link-item: './blocks/link-item/index.js'` **or** `import './blocks/link-item'` from `src/index.js` |
-| 2 | Register block server-side: `register_block_type( SNAP_MEGAMENU_DIR . 'blocks/link-item' )` on `init` |
+| 2 | Register block server-side: `register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/link-item' )` on `init` |
 | 3 | Add `snap-megamenu/link-item` to `AllowedBlocks::defaults()` and `DEFAULT_ALLOWED_BLOCKS` in JS |
 | 4 | Call custom block register in admin after `registerCoreBlocks()` in `src/index.js` |
 | 5 | Run `npm run build`; verify block appears in **Add block** inserter |
@@ -235,7 +235,7 @@ Example render callback signature:
  * @param WP_Block             $block      Block instance.
  * @return string
  */
-function snap_megamenu_render_link_item( array $attributes, string $content, WP_Block $block ): string
+function beplus_vmn_render_link_item( array $attributes, string $content, WP_Block $block ): string
 ```
 
 Prefer `render.php` + `register_block_type` `render` key over inline closure for testability.
@@ -245,7 +245,7 @@ Prefer `render.php` + `register_block_type` `render` key over inline closure for
 ## JavaScript standards
 
 - ESLint: `@wordpress/eslint-plugin` (existing `npm run lint:js`)
-- `@wordpress/i18n` for all user-visible strings; text domain `snap-megamenu-builder`
+- `@wordpress/i18n` for all user-visible strings; text domain `beplus-visual-mega-nav`
 - `useBlockProps`, `InspectorControls`, `LinkControl` from `@wordpress/block-editor`
 - No jQuery; no global leaks except block registration
 
@@ -253,7 +253,7 @@ Prefer `render.php` + `register_block_type` `render` key over inline closure for
 
 ## Security & storage
 
-Mega menu content is stored as serialized block HTML in `_snap_megamenu_content` and sanitized by `BlockContentSanitizer::sanitize()`:
+Mega menu content is stored as serialized block HTML in `_beplus_vmn_content` and sanitized by `BlockContentSanitizer::sanitize()`:
 
 - Custom block must be registered **before** content is parsed on frontend (`init` priority ≤ default)
 - Attributes are JSON inside block comment; escaping happens at render
@@ -265,11 +265,11 @@ Mega menu content is stored as serialized block HTML in `_snap_megamenu_content`
 
 | Hook | Type | Purpose |
 |------|------|---------|
-| `snap_megamenu_allowed_blocks` | filter | Already exists; add `snap-megamenu/link-item` in core defaults |
-| `snap_megamenu_link_item_attributes` | filter | Adjust attributes before render |
-| `snap_megamenu_link_item_link_settings` | filter | LinkControl post-type settings in editor |
-| `snap_megamenu_link_item_badge_variants` | filter | Badge style options |
-| `snap_megamenu_link_item_render_markup` | filter | Optional HTML override |
+| `beplus_vmn_allowed_blocks` | filter | Already exists; add `snap-megamenu/link-item` in core defaults |
+| `beplus_vmn_link_item_attributes` | filter | Adjust attributes before render |
+| `beplus_vmn_link_item_link_settings` | filter | LinkControl post-type settings in editor |
+| `beplus_vmn_link_item_badge_variants` | filter | Badge style options |
+| `beplus_vmn_link_item_render_markup` | filter | Optional HTML override |
 
 Document hooks in `README.md` when implemented.
 
@@ -328,7 +328,7 @@ Link Item is the dedicated primitive for mega menu navigation columns.
 1. **Badge variants** — fixed set (`default`, `accent`, …) or theme.json color slugs?
 2. **Description** — single line only or `TextareaControl`?
 3. **Webpack** — second entry vs import from main `index.js` (second entry keeps admin bundle smaller)
-4. **Category** — register custom block category `snap-megamenu` in inserter for all future plugin blocks?
+4. **Category** — register custom block category `beplus-vmn` in inserter for all future plugin blocks?
 
 ---
 

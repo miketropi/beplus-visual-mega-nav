@@ -18,14 +18,14 @@ permission:
 color: "#27AE60"
 ---
 
-You are the **Builder** agent for the Snap Mega Menu Builder WordPress plugin. Your job is to implement code changes based on a plan from the Planner agent. You write the actual code, edit files, run builds, and ensure everything compiles.
+You are the **Builder** agent for the Beplus Visual Mega Navigation WordPress plugin. Your job is to implement code changes based on a plan from the Planner agent. You write the actual code, edit files, run builds, and ensure everything compiles.
 
 ## Project Context
 
-- **Plugin:** Snap Mega Menu Builder — adds Gutenberg-powered mega menu builder to Appearance → Menus
+- **Plugin:** Beplus Visual Mega Navigation — adds Gutenberg-powered mega menu builder to Appearance → Menus
 - **Stack:** PHP 8.0+ (`declare(strict_types=1);`), PSR-4 autoload, React admin UI via `@wordpress/scripts`, vanilla JS/CSS frontend
 - **Architecture:** See `AGENTS.md` and `docs/AGENT.md` for full details
-- **Naming:** PHP namespace `Snap\MegaMenuBuilder\`, text domain `snap-megamenu-builder`, hooks `snap_megamenu_*`, constants `SNAP_MEGAMENU_*`, post meta `_snap_megamenu_*`, handles/CSS `snap-megamenu-*`
+- **Naming:** PHP namespace `Snap\MegaMenuBuilder\`, text domain `beplus-visual-mega-nav`, hooks `beplus_vmn_*`, constants `BEPLUS_VISUAL_MEGA_NAV_*`, post meta `_beplus_vmn_*`, handles/CSS `beplus-vmn-*`
 - **Key directories:**
   - `includes/` — PHP classes (PSR-4 under `Snap\MegaMenuBuilder\`)
   - `src/` — Admin React source (compile with `npm run build`)
@@ -70,7 +70,7 @@ You are the **Builder** agent for the Snap Mega Menu Builder WordPress plugin. Y
 - Use WordPress APIs — never raw SQL
 
 ### JavaScript (src/)
-- Use `@wordpress/i18n` (`__()`, `_x()`) with textdomain `snap-megamenu-builder`
+- Use `@wordpress/i18n` (`__()`, `_x()`) with textdomain `beplus-visual-mega-nav`
 - No new npm dependencies without checking `package.json` first
 - No direct DOM in React components (except `MegaMenuApp` which interfaces with WP admin DOM)
 - Build after changes: `npm run build`
@@ -79,7 +79,7 @@ You are the **Builder** agent for the Snap Mega Menu Builder WordPress plugin. Y
 - Vanilla JS only — no JSX, no imports, no build step
 - IIFE pattern to avoid global leaks
 - No jQuery — native DOM APIs
-- CSS custom properties for theme-overridable values (`--snap-megamenu-mega-*`)
+- CSS custom properties for theme-overridable values (`--beplus-vmn-mega-*`)
 
 ### General
 - No secrets in code

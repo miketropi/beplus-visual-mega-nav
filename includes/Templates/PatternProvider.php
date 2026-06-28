@@ -2,12 +2,12 @@
 /**
  * Registers header block patterns from the plugin's parts/ directory.
  *
- * @package Snap\MegaMenuBuilder\Templates
+ * @package Beplus\VisualMegaNav\Templates
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Templates;
+namespace Beplus\VisualMegaNav\Templates;
 
 /**
  * Registers plugin header layouts as block patterns.
@@ -17,7 +17,7 @@ final class PatternProvider {
 	/**
 	 * Pattern category slug.
 	 */
-	private const CATEGORY = 'snap-megamenu';
+	private const CATEGORY = 'beplus-vmn';
 
 	/**
 	 * Hook into the block patterns system.
@@ -37,7 +37,7 @@ final class PatternProvider {
 	public function register_category(): void {
 		register_block_pattern_category(
 			self::CATEGORY,
-			[ 'label' => __( 'Snap Mega Menu', 'snap-megamenu-builder' ) ]
+			[ 'label' => __( 'Mega Menu', 'beplus-visual-mega-nav' ) ]
 		);
 	}
 
@@ -55,14 +55,13 @@ final class PatternProvider {
 			}
 
 			register_block_pattern(
-				'snap-megamenu-builder/' . $slug,
+				'beplus-visual-mega-nav/' . $slug,
 				[
 					'title'       => $data['title'],
 					'description' => $data['description'],
 					'content'     => $content,
 					'categories'  => [ self::CATEGORY ],
-					// Surface the pattern where header template parts are edited/created.
-					'blockTypes'  => [ 'core/template-part/header' ],
+					'blockTypes'  => $data['blockTypes'] ?? [ 'core/template-part/header' ],
 					'inserter'    => true,
 				]
 			);
@@ -70,16 +69,17 @@ final class PatternProvider {
 	}
 
 	/**
-	 * Pattern definitions (same titles/files as the old template parts).
+	 * Pattern definitions.
 	 *
-	 * @return array<string, array{title: string, description: string, file: string}>
+	 * @return array<string, array{title: string, description: string, file: string, blockTypes?: string[]}>
 	 */
 	private function get_patterns(): array {
 		return [
-			'header-centered' => [
-				'title'       => __( 'Snap Header — Inline Logo / Nav', 'snap-megamenu-builder' ),
-				'description' => __( 'Header layout with inline site logo and navigation. Includes mobile toggle.', 'snap-megamenu-builder' ),
+			'header-logo-menu-toggle' => [
+				'title'       => __( 'BePlus Header Inline — Logo / Menu / Toggle', 'beplus-visual-mega-nav' ),
+				'description' => __( 'A header with site logo, classic navigation menu, and a mobile hamburger toggle.', 'beplus-visual-mega-nav' ),
 				'file'        => 'header-inline.html',
+				'blockTypes'  => [ 'core/template-part/header' ],
 			],
 		];
 	}
@@ -92,7 +92,7 @@ final class PatternProvider {
 	 * @return string Block markup, or '' if unreadable.
 	 */
 	private function load_content( string $file, string $slug ): string {
-		$path = SNAP_MEGAMENU_DIR . 'parts/' . $file;
+		$path = BEPLUS_VISUAL_MEGA_NAV_DIR . 'parts/' . $file;
 
 		if ( ! file_exists( $path ) ) {
 			return '';
@@ -108,6 +108,6 @@ final class PatternProvider {
 		 * @param string $content Raw block markup.
 		 * @param string $slug    Pattern slug.
 		 */
-		return (string) apply_filters( 'snap_megamenu_template_part_content', $content, $slug );
+		return (string) apply_filters( 'beplus_vmn_template_part_content', $content, $slug );
 	}
 }

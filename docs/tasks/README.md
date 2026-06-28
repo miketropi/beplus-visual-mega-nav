@@ -1,6 +1,6 @@
 # Task specs
 
-Implementation specs for Snap Mega Menu Builder features. These documents are **planning only** until linked work is merged.
+Implementation specs for Beplus Visual Mega Navigation features. These documents are **planning only** until linked work is merged.
 
 | Task | Status | Description |
 |------|--------|-------------|

@@ -64,7 +64,7 @@ export default function IsolatedEditor({
 					const frame = wp.media({
 						title: __(
 							'Select or Upload Media',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						),
 						multiple: false,
 						library: { type: allowedTypes },
@@ -93,8 +93,8 @@ export default function IsolatedEditor({
 	);
 
 	const editorClass = disabled
-		? 'snap-megamenu-isolated-editor snap-megamenu-isolated-editor--disabled'
-		: 'snap-megamenu-isolated-editor';
+		? 'beplus-vmn-isolated-editor beplus-vmn-isolated-editor--disabled'
+		: 'beplus-vmn-isolated-editor';
 
 	return (
 		<div className={editorClass}>
@@ -102,12 +102,12 @@ export default function IsolatedEditor({
 				<Notice status="warning" isDismissible={false}>
 					{__(
 						'Enable the mega menu in Settings to show this content on the front end.',
-						'snap-megamenu-builder'
+						'beplus-visual-mega-nav'
 					)}
 				</Notice>
 			)}
 
-			<div className="snap-megamenu-isolated-editor__workspace">
+			<div className="beplus-vmn-isolated-editor__workspace">
 				<SlotFillProvider>
 					<BlockEditorProvider
 						value={value}
@@ -122,9 +122,9 @@ export default function IsolatedEditor({
 							scope=".editor-styles-wrapper"
 						/>
 
-						<div className="snap-megamenu-editor-layout interface-interface-skeleton__editor">
-							<div className="snap-megamenu-editor-toolbar">
-								<div className="snap-megamenu-editor-toolbar__controls">
+						<div className="beplus-vmn-editor-layout interface-interface-skeleton__editor">
+							<div className="beplus-vmn-editor-toolbar">
+								<div className="beplus-vmn-editor-toolbar__controls">
 									<EditorUndoRedo
 										hasUndo={hasUndo}
 										hasRedo={hasRedo}
@@ -137,13 +137,13 @@ export default function IsolatedEditor({
 									/>
 									<EditorListViewToggle />
 								</div>
-								<div className="snap-megamenu-editor-toolbar__blocks">
+								<div className="beplus-vmn-editor-toolbar__blocks">
 									<BlockToolbar hideDragHandle />
 								</div>
 							</div>
 
-							<div className="snap-megamenu-editor-main">
-								<div className="snap-megamenu-editor-canvas">
+							<div className="beplus-vmn-editor-main">
+								<div className="beplus-vmn-editor-canvas">
 									<WritingFlow className="editor-styles-wrapper">
 										<ObserveTyping>
 											<BlockList />
@@ -151,16 +151,16 @@ export default function IsolatedEditor({
 									</WritingFlow>
 								</div>
 
-								<aside className="snap-megamenu-editor-sidebar interface-complementary-area">
+								<aside className="beplus-vmn-editor-sidebar interface-complementary-area">
 									<div className="interface-complementary-area-header">
 										<h2 className="interface-complementary-area-header__title">
 											{__(
 												'Block',
-												'snap-megamenu-builder'
+												'beplus-visual-mega-nav'
 											)}
 										</h2>
 									</div>
-									<div className="snap-megamenu-editor-sidebar__content">
+									<div className="beplus-vmn-editor-sidebar__content">
 										<BlockInspector />
 									</div>
 								</aside>

@@ -1,11 +1,11 @@
 /**
  * Nav Toggle — editor-only styles.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 /* Keep the toggle visible in editor at all viewport sizes. */
-.snap-nav-toggle-preview {
+.beplus-nav-toggle-preview {
 	pointer-events: none;
 	opacity: 0.7;
 }

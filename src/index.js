@@ -15,8 +15,8 @@ import MegaMenuApp from './components/MegaMenuApp';
 
 import './css/admin.css';
 import './blocks/link-item';
-import './blocks/snap-header';
-import './blocks/snap-navigation';
+import './blocks/beplus-header';
+import './blocks/beplus-navigation';
 import './blocks/nav-menu-area';
 import './blocks/nav-toggle';
 
@@ -33,7 +33,7 @@ domReady(() => {
 	}
 
 	// Mount React app.
-	const mountPoint = document.getElementById('snap-megamenu-root');
+	const mountPoint = document.getElementById('beplus-vmn-root');
 	if (!mountPoint) {
 		return;
 	}

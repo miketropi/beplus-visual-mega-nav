@@ -1,21 +1,21 @@
 /**
- * Snap Header — frontend JS engine.
+ * BePlus Header — frontend JS engine.
  *
  * Handles sticky positioning (spacer + sentinel), scroll effects,
  * Nav Toggle activation, clone-to-body mobile portal, focus trap,
  * scroll lock, and resume-aware teardown.
  *
- * Loaded via viewScript — only when a snap-header block is on the page.
+ * Loaded via viewScript — only when a beplus-header block is on the page.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 (function () {
 	'use strict';
 
-	var HEADER_SELECTOR = '.wp-block-snap-megamenu-snap-header.is-sticky';
-	var TOGGLE_SELECTOR = '.wp-block-snap-megamenu-nav-toggle';
-	var MENU_AREA_SELECTOR = '.wp-block-snap-megamenu-nav-menu-area';
-	var PORTAL_CLASS = 'snap-nav-portal';
+	var HEADER_SELECTOR = '.wp-block-beplus-visual-mega-nav-beplus-header.is-sticky';
+	var TOGGLE_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-toggle';
+	var MENU_AREA_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-menu-area';
+	var PORTAL_CLASS = 'beplus-nav-portal';
 	var FIXED_CLASS = 'is-fixed-active';
 
 	var instances = new WeakMap();
@@ -32,9 +32,9 @@
 	}
 
 	/**
-	 * Initialize one Snap Header instance.
+	 * Initialize one BePlus Header instance.
 	 *
-	 * @param {HTMLElement} header The .wp-block-snap-megamenu-snap-header element.
+	 * @param {HTMLElement} header The .wp-block-beplus-visual-mega-nav-beplus-header element.
 	 */
 	function initHeader(header) {
 		if (instances.has(header)) {
@@ -78,13 +78,13 @@
 
 		// Sentinel — 1px tall block in normal flow, right before the header.
 		var sentinel = document.createElement('div');
-		sentinel.className = 'snap-hdr-sentinel';
+		sentinel.className = 'beplus-hdr-sentinel';
 		sentinel.style.cssText = 'height:1px;pointer-events:none;';
 		header.parentNode.insertBefore(sentinel, header);
 
 		// Spacer — keeps page content from jumping when header becomes fixed.
 		var spacer = document.createElement('div');
-		spacer.className = 'snap-hdr-spacer';
+		spacer.className = 'beplus-hdr-spacer';
 		spacer.setAttribute('aria-hidden', 'true');
 		spacer.style.display = 'none';
 		header.parentNode.insertBefore(spacer, header);
@@ -198,7 +198,7 @@
 			}
 
 			// Skip editor-only preview buttons.
-			if (toggle.classList.contains('snap-nav-toggle-preview')) {
+			if (toggle.classList.contains('beplus-nav-toggle-preview')) {
 				return;
 			}
 
@@ -244,7 +244,7 @@
 	}
 
 	/**
-	 * Deep-clone the Snap Navigation subtree, sanitize it, wrap in portal,
+	 * Deep-clone the BePlus Navigation subtree, sanitize it, wrap in portal,
 	 * and append to document.body.
 	 *
 	 * @param {Object} state Instance state.
@@ -278,7 +278,7 @@
 
 		// Close button.
 		var closeBtn = document.createElement('button');
-		closeBtn.className = 'snap-nav-portal__close';
+		closeBtn.className = 'beplus-nav-portal__close';
 		closeBtn.type = 'button';
 		closeBtn.setAttribute('aria-label', 'Close navigation');
 		closeBtn.innerHTML =
@@ -293,8 +293,8 @@
 		document.body.appendChild(portalRoot);
 
 		// Re-init the existing menu engine on the cloned subtree.
-		if (typeof window.snapMegaMenuReInit === 'function') {
-			window.snapMegaMenuReInit(portalRoot);
+		if (typeof window.beplusVmnReInit === 'function') {
+			window.beplusVmnReInit(portalRoot);
 		}
 
 		// Bind close-on-backdrop-click.
@@ -360,10 +360,10 @@
 			'--wp--preset--font-family--body',
 			'--wp--style--root--padding-left',
 			'--wp--style--root--padding-right',
-			'--snap-megamenu-mega-bg',
-			'--snap-megamenu-mega-shadow',
-			'--snap-megamenu-mega-padding',
-			'--snap-megamenu-mega-z',
+			'--beplus-vmn-mega-bg',
+			'--beplus-vmn-mega-shadow',
+			'--beplus-vmn-mega-padding',
+			'--beplus-vmn-mega-z',
 		];
 
 		var styles = '';
@@ -646,7 +646,7 @@
 	}
 
 	// Expose public teardown for hot-module / SPA navigation.
-	window.snapHeaderTeardown = function () {
+	window.beplusHeaderTeardown = function () {
 		document
 			.querySelectorAll(HEADER_SELECTOR)
 			.forEach(function (header) {

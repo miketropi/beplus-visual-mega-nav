@@ -97,19 +97,19 @@ export default function EditorUndoRedo({
 	);
 
 	return (
-		<div className="snap-megamenu-editor-undo-redo">
+		<div className="beplus-vmn-editor-undo-redo">
 			<Button
-				className="snap-megamenu-editor-undo-redo__button"
+				className="beplus-vmn-editor-undo-redo__button"
 				icon={undo}
-				label={__('Undo', 'snap-megamenu-builder')}
+				label={__('Undo', 'beplus-visual-mega-nav')}
 				onClick={handleUndo}
 				disabled={disabled || !hasUndo}
 				showTooltip
 			/>
 			<Button
-				className="snap-megamenu-editor-undo-redo__button"
+				className="beplus-vmn-editor-undo-redo__button"
 				icon={redo}
-				label={__('Redo', 'snap-megamenu-builder')}
+				label={__('Redo', 'beplus-visual-mega-nav')}
 				onClick={handleRedo}
 				disabled={disabled || !hasRedo}
 				showTooltip

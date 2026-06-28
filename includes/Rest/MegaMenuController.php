@@ -3,18 +3,18 @@
  * REST API controller for mega menu item data.
  *
  * Endpoints:
- *   GET  /snap-megamenu/v1/item/<id>   — Retrieve settings + content.
- *   POST /snap-megamenu/v1/item/<id>   — Save settings + content.
+ *   GET  /beplus-visual-mega-nav/v1/item/<id>   — Retrieve settings + content.
+ *   POST /beplus-visual-mega-nav/v1/item/<id>   — Save settings + content.
  *
- * @package Snap\MegaMenuBuilder\Rest
+ * @package Beplus\VisualMegaNav\Rest
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Rest;
+namespace Beplus\VisualMegaNav\Rest;
 
-use Snap\MegaMenuBuilder\Core\BlockContentSanitizer;
-use Snap\MegaMenuBuilder\Core\MetaKeys;
+use Beplus\VisualMegaNav\Core\BlockContentSanitizer;
+use Beplus\VisualMegaNav\Core\MetaKeys;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -24,7 +24,7 @@ use WP_Error;
  */
 final class MegaMenuController {
 
-	private const NAMESPACE = 'snap-megamenu/v1';
+	private const NAMESPACE = 'beplus-visual-mega-nav/v1';
 
 	/**
 	 * Register REST routes.
@@ -67,7 +67,7 @@ final class MegaMenuController {
 
 		return new WP_Error(
 			'rest_forbidden',
-			esc_html__( 'You do not have permission to manage mega menus.', 'snap-megamenu-builder' ),
+			esc_html__( 'You do not have permission to manage mega menus.', 'beplus-visual-mega-nav' ),
 			[ 'status' => 403 ]
 		);
 	}

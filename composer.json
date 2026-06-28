@@ -1,5 +1,5 @@
 {
-	"name": "snap/megamenu-builder",
+	"name": "beplus/visual-mega-nav",
 	"description": "Gutenberg-powered mega menu builder for WordPress.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
@@ -21,12 +21,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Snap\\MegaMenuBuilder\\": "includes/"
+			"Beplus\\VisualMegaNav\\": "includes/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Snap\\MegaMenuBuilder\\Tests\\": "tests/php/"
+			"Beplus\\VisualMegaNav\\Tests\\": "tests/php/"
 		}
 	},
 	"config": {

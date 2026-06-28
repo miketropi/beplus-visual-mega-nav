@@ -4,20 +4,20 @@
  * Sticky positioning, scroll effects, transparent top, and WordPress
  * admin bar offset.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
-.wp-block-snap-megamenu-snap-header {
+.wp-block-beplus-visual-mega-nav-beplus-header {
 	position: relative;
 	transition: background-color 0.3s ease, background 0.3s ease;
 }
 
-.wp-block-snap-megamenu-snap-header .wp-block-group {
+.wp-block-beplus-visual-mega-nav-beplus-header .wp-block-group {
 	position: initial;
 }
 
 
 /* ---------- Sticky positioning (only when JS activates it) ---------- */
-.wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+.wp-block-beplus-visual-mega-nav-beplus-header.is-sticky.is-fixed-active {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -26,26 +26,26 @@
 }
 
 /* ---------- WordPress admin bar offset ---------- */
-body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+body.admin-bar .wp-block-beplus-visual-mega-nav-beplus-header.is-sticky.is-fixed-active {
 	top: 32px;
 }
 
 @media (max-width: 782px) {
 
-	body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+	body.admin-bar .wp-block-beplus-visual-mega-nav-beplus-header.is-sticky.is-fixed-active {
 		top: 46px;
 	}
 }
 
 @media (max-width: 600px) {
 
-	body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
+	body.admin-bar .wp-block-beplus-visual-mega-nav-beplus-header.is-sticky.is-fixed-active {
 		top: 0;
 	}
 }
 
 /* ---------- Spacer ---------- */
-.snap-hdr-spacer {
+.beplus-hdr-spacer {
 	display: block;
 }
 
@@ -54,7 +54,7 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 /* Shrink: reduce padding when stuck */
 @media (prefers-reduced-motion: no-preference) {
 
-	.wp-block-snap-megamenu-snap-header.scroll-shrink.is-stuck {
+	.wp-block-beplus-visual-mega-nav-beplus-header.scroll-shrink.is-stuck {
 		transition: padding 0.3s ease;
 		padding-top: 4px;
 		padding-bottom: 4px;
@@ -64,26 +64,26 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 /* Hide-on-scroll: slide out when scrolling down */
 @media (prefers-reduced-motion: no-preference) {
 
-	.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll {
+	.wp-block-beplus-visual-mega-nav-beplus-header.scroll-hide-on-scroll {
 		transition: transform 0.3s ease;
 	}
 }
 
-.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll.is-hidden {
+.wp-block-beplus-visual-mega-nav-beplus-header.scroll-hide-on-scroll.is-hidden {
 	transform: translateY(-100%);
 }
 
 /* Background-on-scroll: apply background only when stuck */
-.wp-block-snap-megamenu-snap-header.scroll-bg-on-scroll.is-stuck {
-	background-color: var(--snap-hdr-scroll-bg);
+.wp-block-beplus-visual-mega-nav-beplus-header.scroll-bg-on-scroll.is-stuck {
+	background-color: var(--beplus-hdr-scroll-bg);
 }
 
 /* ---------- Transparent at top ---------- */
-.wp-block-snap-megamenu-snap-header.is-transparent-top {
+.wp-block-beplus-visual-mega-nav-beplus-header.is-transparent-top {
 	background-color: transparent;
 }
 
-.wp-block-snap-megamenu-snap-header.is-transparent-top.is-stuck {
+.wp-block-beplus-visual-mega-nav-beplus-header.is-transparent-top.is-stuck {
 
 	/* background reverts to the block's configured background color */
 
@@ -93,8 +93,14 @@ body.admin-bar .wp-block-snap-megamenu-snap-header.is-sticky.is-fixed-active {
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
 
-	.wp-block-snap-megamenu-snap-header.scroll-hide-on-scroll,
-	.wp-block-snap-megamenu-snap-header.scroll-shrink {
+	.wp-block-beplus-visual-mega-nav-beplus-header.scroll-hide-on-scroll,
+	.wp-block-beplus-visual-mega-nav-beplus-header.scroll-shrink {
 		transition: none !important;
 	}
+}
+
+.wp-block-beplus-visual-mega-nav-beplus-header .wp-block-site-logo,
+.wp-block-beplus-visual-mega-nav-beplus-header .wp-block-site-title {
+	display: flex;
+	align-items: center;
 }

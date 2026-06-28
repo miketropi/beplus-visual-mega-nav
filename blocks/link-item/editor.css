@@ -1,19 +1,19 @@
 /**
  * Link Item block — editor-only styles.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
-.editor-styles-wrapper .snap-megamenu-link-item {
+.editor-styles-wrapper .beplus-vmn-link-item {
 	margin-block: 0.25rem 0.75rem;
 }
 
-.editor-styles-wrapper .snap-megamenu-link-item .components-notice {
+.editor-styles-wrapper .beplus-vmn-link-item .components-notice {
 	margin-bottom: 0.5rem;
 }
 
 /* Mirror frontend badge/link layout inside the canvas. */
-.editor-styles-wrapper .snap-megamenu-link-item__link {
+.editor-styles-wrapper .beplus-vmn-link-item__link {
 	pointer-events: none;
 }
 

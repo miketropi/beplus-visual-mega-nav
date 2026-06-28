@@ -5,14 +5,14 @@
  * Enqueues Gutenberg block-editor assets on the nav-menus.php screen
  * and prints the mount-point container for the React app.
  *
- * @package Snap\MegaMenuBuilder\Admin
+ * @package Beplus\VisualMegaNav\Admin
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Admin;
+namespace Beplus\VisualMegaNav\Admin;
 
-use Snap\MegaMenuBuilder\Core\AllowedBlocks;
+use Beplus\VisualMegaNav\Core\AllowedBlocks;
 
 /**
  * Hooks into the Appearance → Menus page.
@@ -37,11 +37,11 @@ final class NavMenuPage {
 	 * @return void
 	 */
 	public function enqueue_block_editor_styles(): void {
-		wp_register_style( 'snap-megamenu-block-editor', false, [], SNAP_MEGAMENU_VERSION );
-		wp_enqueue_style( 'snap-megamenu-block-editor' );
+		wp_register_style( 'beplus-vmn-block-editor', false, [], BEPLUS_VISUAL_MEGA_NAV_VERSION );
+		wp_enqueue_style( 'beplus-vmn-block-editor' );
 		wp_add_inline_style(
-			'snap-megamenu-block-editor',
-			'.block-editor-iframe__html .snap-megamenu-mega-panel { display: none; }'
+			'beplus-vmn-block-editor',
+			'.block-editor-iframe__html .beplus-vmn-mega-panel { display: none; }'
 		);
 	}
 
@@ -59,7 +59,7 @@ final class NavMenuPage {
 		// Ensure media modal is available (for image blocks).
 		wp_enqueue_media();
 
-		$asset_file = SNAP_MEGAMENU_DIR . 'build/index.asset.php';
+		$asset_file = BEPLUS_VISUAL_MEGA_NAV_DIR . 'build/index.asset.php';
 
 		if ( ! file_exists( $asset_file ) ) {
 			return;
@@ -87,8 +87,8 @@ final class NavMenuPage {
 
 		// Plugin script.
 		wp_enqueue_script(
-			'snap-megamenu-admin',
-			SNAP_MEGAMENU_URL . 'build/index.js',
+			'beplus-vmn-admin',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'build/index.js',
 			$script_dependencies,
 			$asset['version'],
 			true
@@ -99,19 +99,19 @@ final class NavMenuPage {
 
 		// Localized data for JS (scalars only — editorSettings is injected separately).
 		wp_localize_script(
-			'snap-megamenu-admin',
-			'snapMegaMenu',
+			'beplus-vmn-admin',
+			'beplusVmn',
 			[
-				'restBase'      => esc_url_raw( rest_url( 'snap-megamenu/v1' ) ),
+				'restBase'      => esc_url_raw( rest_url( 'beplus-visual-mega-nav/v1' ) ),
 				'nonce'         => wp_create_nonce( 'wp_rest' ),
-				'version'       => SNAP_MEGAMENU_VERSION,
+				'version'       => BEPLUS_VISUAL_MEGA_NAV_VERSION,
 				'allowedBlocks' => AllowedBlocks::get(),
 			]
 		);
 
 		wp_add_inline_script(
-			'snap-megamenu-admin',
-			'window.snapMegaMenu = window.snapMegaMenu || {}; window.snapMegaMenu.editorSettings = ' . wp_json_encode(
+			'beplus-vmn-admin',
+			'window.beplusVmn = window.beplusVmn || {}; window.beplusVmn.editorSettings = ' . wp_json_encode(
 				$this->get_block_editor_settings(),
 				JSON_HEX_TAG | JSON_UNESCAPED_SLASHES
 			) . ';',
@@ -129,12 +129,12 @@ final class NavMenuPage {
 	 */
 	private function get_block_editor_settings(): array {
 		if ( ! function_exists( 'get_block_editor_settings' ) ) {
-			require ABSPATH . WPINC . '/block-editor.php';
+			require_once ABSPATH . WPINC . '/block-editor.php';
 		}
 
 		$block_editor_context = new \WP_Block_Editor_Context(
 			[
-				'name' => 'snap-megamenu/editor',
+				'name' => 'beplus-visual-mega-nav/editor',
 			]
 		);
 
@@ -176,25 +176,26 @@ final class NavMenuPage {
 	 * @return void
 	 */
 	private function enqueue_plugin_build_styles( string $version ): void {
-		if ( ! file_exists( SNAP_MEGAMENU_DIR . 'build/index.css' ) ) {
+		if ( ! file_exists( BEPLUS_VISUAL_MEGA_NAV_DIR . 'build/index.css' ) ) {
 			return;
 		}
 
-		wp_enqueue_style( 'wp-base-styles' );
+		wp_register_style( 'beplus-vmn-base-styles', false, [], BEPLUS_VISUAL_MEGA_NAV_VERSION );
+		wp_enqueue_style( 'beplus-vmn-base-styles' );
 
 		wp_enqueue_style(
-			'snap-megamenu-admin',
-			SNAP_MEGAMENU_URL . 'build/index.css',
-			[ 'wp-base-styles', 'wp-components', 'wp-block-editor', 'wp-edit-blocks' ],
+			'beplus-vmn-admin',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'build/index.css',
+			[ 'beplus-vmn-base-styles', 'wp-components', 'wp-block-editor', 'wp-edit-blocks' ],
 			$version
 		);
 
 		// Frontend block styles (e.g. link-item style.css) — webpack entry style-index.css.
-		if ( file_exists( SNAP_MEGAMENU_DIR . 'build/style-index.css' ) ) {
+		if ( file_exists( BEPLUS_VISUAL_MEGA_NAV_DIR . 'build/style-index.css' ) ) {
 			wp_enqueue_style(
-				'snap-megamenu-blocks',
-				SNAP_MEGAMENU_URL . 'build/style-index.css',
-				[ 'snap-megamenu-admin', 'wp-edit-blocks' ],
+				'beplus-vmn-blocks',
+				BEPLUS_VISUAL_MEGA_NAV_URL . 'build/style-index.css',
+				[ 'beplus-vmn-admin', 'wp-edit-blocks' ],
 				$version
 			);
 		}
@@ -212,6 +213,6 @@ final class NavMenuPage {
 			return;
 		}
 
-		echo '<div id="snap-megamenu-root"></div>';
+		echo '<div id="beplus-vmn-root"></div>';
 	}
 }

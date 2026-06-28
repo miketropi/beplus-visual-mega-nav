@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<ruleset name="Snap Mega Menu Builder">
-	<description>WordPress coding standards for Snap Mega Menu Builder plugin.</description>
+<ruleset name="Beplus Visual Mega Navigation">
+	<description>WordPress coding standards for Beplus Visual Mega Navigation plugin.</description>
 
 	<!-- Scan these files -->
-	<file>snap-megamenu-builder.php</file>
+	<file>beplus-visual-mega-nav.php</file>
 	<file>includes/</file>
 	<file>blocks/</file>
 
@@ -42,7 +42,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="snap-megamenu-builder"/>
+				<element value="beplus-visual-mega-nav"/>
 			</property>
 		</properties>
 	</rule>
@@ -54,6 +54,9 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
+				<element value="beplus"/>
+				<element value="Beplus"/>
+				<element value="BEPLUS"/>
 				<element value="snap"/>
 				<element value="Snap"/>
 				<element value="SNAP"/>

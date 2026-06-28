@@ -5,12 +5,12 @@
  * The wp_kses_post() and sanitize_text_field() functions both destroy
  * block delimiter comments, which breaks parse() on reload.
  *
- * @package Snap\MegaMenuBuilder\Core
+ * @package Beplus\VisualMegaNav\Core
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Core;
+namespace Beplus\VisualMegaNav\Core;
 
 /**
  * Block-content-aware sanitization for nav_menu_item meta.

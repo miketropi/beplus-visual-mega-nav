@@ -12,8 +12,8 @@ import { __ } from '@wordpress/i18n';
 export default function EditorBlockInserterToggle({ disabled = false }) {
 	return (
 		<Dropdown
-			className="snap-megamenu-inserter-dropdown"
-			contentClassName="snap-megamenu-inserter-dropdown__popover"
+			className="beplus-vmn-inserter-dropdown"
+			contentClassName="beplus-vmn-inserter-dropdown__popover"
 			popoverProps={{
 				placement: 'bottom-start',
 				offset: 4,
@@ -21,9 +21,9 @@ export default function EditorBlockInserterToggle({ disabled = false }) {
 			}}
 			renderToggle={({ isOpen, onToggle }) => (
 				<Button
-					className="snap-megamenu-inserter-toggle"
+					className="beplus-vmn-inserter-toggle"
 					icon={plus}
-					label={__('Add block', 'snap-megamenu-builder')}
+					label={__('Add block', 'beplus-visual-mega-nav')}
 					onClick={onToggle}
 					aria-expanded={isOpen}
 					isPressed={isOpen}
@@ -32,20 +32,20 @@ export default function EditorBlockInserterToggle({ disabled = false }) {
 				/>
 			)}
 			renderContent={({ onClose }) => (
-				<div className="snap-megamenu-inserter-dropdown__panel">
-					<div className="snap-megamenu-inserter-dropdown__header">
-						<h3 className="snap-megamenu-inserter-dropdown__title">
-							{__('Add block', 'snap-megamenu-builder')}
+				<div className="beplus-vmn-inserter-dropdown__panel">
+					<div className="beplus-vmn-inserter-dropdown__header">
+						<h3 className="beplus-vmn-inserter-dropdown__title">
+							{__('Add block', 'beplus-visual-mega-nav')}
 						</h3>
 						<Button
-							className="snap-megamenu-inserter-dropdown__close"
+							className="beplus-vmn-inserter-dropdown__close"
 							icon={closeSmall}
-							label={__('Close', 'snap-megamenu-builder')}
+							label={__('Close', 'beplus-visual-mega-nav')}
 							onClick={onClose}
 							size="small"
 						/>
 					</div>
-					<div className="snap-megamenu-inserter-dropdown__content">
+					<div className="beplus-vmn-inserter-dropdown__content">
 						<InserterLibrary
 							rootClientId=""
 							isAppender

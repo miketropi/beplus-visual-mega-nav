@@ -4,18 +4,18 @@
  * Desktop: horizontal nav with up to 4-level nested dropdown submenus.
  * Mobile: vertical stacked menu (portal handles the layout).
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 /* ---------- Block container ---------- */
-.wp-block-snap-megamenu-nav-menu-area {
+.wp-block-beplus-visual-mega-nav-nav-menu-area {
 	display: flex;
 
 	/* flex: 1; */
 }
 
 /* ---------- Top-level menu bar ---------- */
-.snap-nav-menu {
+.beplus-nav-menu {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -25,12 +25,12 @@
 	gap: 0;
 }
 
-.snap-nav-menu li {
+.beplus-nav-menu li {
 	position: relative;
 	margin: 0;
 }
 
-.snap-nav-menu .menu-item > a {
+.beplus-nav-menu .menu-item > a {
 	display: block;
 	padding: 0.5em 0.75em;
 	text-decoration: none;
@@ -38,14 +38,14 @@
 	white-space: nowrap;
 }
 
-.snap-nav-portal .snap-nav-menu .menu-item > a {
+.beplus-nav-portal .beplus-nav-menu .menu-item > a {
 	padding: 1rem 0;
 }
 
 /* ---------- Sub-menu dropdowns (levels 1-3) ---------- */
 
 /* All sub-menus: hidden by default, absolute positioned */
-.snap-nav-menu .sub-menu {
+.beplus-nav-menu .sub-menu {
 	display: none;
 	position: absolute;
 	z-index: 999;
@@ -53,26 +53,26 @@
 	list-style: none;
 	margin: 0;
 	padding: 0.5em 0;
-	background: var(--snap-megamenu-mega-bg, #fff);
+	background: var(--beplus-vmn-mega-bg, #fff);
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 	border-radius: 4px;
 }
 
 /* Level 1 sub-menu: directly below parent (top: 100%) */
-.snap-nav-menu > li > .sub-menu {
+.beplus-nav-menu > li > .sub-menu {
 	top: 100%;
 	left: 0;
 }
 
 /* Level 2+ sub-menu: fly out to the right (top: 0; left: 100%) */
-.snap-nav-menu .sub-menu .sub-menu {
+.beplus-nav-menu .sub-menu .sub-menu {
 	top: 0;
 	left: 100%;
 }
 
 /* Show sub-menu on hover and focus-within */
-.snap-nav-menu li:hover > .sub-menu,
-.snap-nav-menu li:focus-within > .sub-menu {
+.beplus-nav-menu li:hover > .sub-menu,
+.beplus-nav-menu li:focus-within > .sub-menu {
 	display: block;
 }
 
@@ -82,22 +82,22 @@
    see frontend.css */
 
 /* ---------- Sub-menu items ---------- */
-.snap-nav-menu .sub-menu li {
+.beplus-nav-menu .sub-menu li {
 	width: 100%;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-.snap-nav-menu .sub-menu a {
+.beplus-nav-menu .sub-menu a {
 	padding: 0.6em 1.25em;
 }
 
-.snap-nav-menu .sub-menu a:hover,
-.snap-nav-menu .sub-menu a:focus {
+.beplus-nav-menu .sub-menu a:hover,
+.beplus-nav-menu .sub-menu a:focus {
 	background: rgba(0, 0, 0, 0.04);
 }
 
 /* ---------- Arrow indicator for items with children ---------- */
-.snap-nav-menu .menu-item-has-children > a::after {
+.beplus-nav-menu .menu-item-has-children > a::after {
 	content: "";
 	display: inline-block;
 	width: 6px;
@@ -111,27 +111,27 @@
 }
 
 /* Sub-menu arrow points right instead of down */
-.snap-nav-menu .sub-menu .menu-item-has-children > a::after {
+.beplus-nav-menu .sub-menu .menu-item-has-children > a::after {
 	transform: rotate(-45deg) translateY(-1px);
 }
 
 /* ---------- Accessibility ---------- */
 
 /* Ensure focus-visible shows the sub-menu */
-.snap-nav-menu li:has(> a:focus-visible) > .sub-menu {
+.beplus-nav-menu li:has(> a:focus-visible) > .sub-menu {
 	display: block;
 }
 
 /* ---------- Responsive — mobile vertical menu ---------- */
 @media (max-width: 782px) {
 
-	.snap-nav-menu {
+	.beplus-nav-menu {
 		flex-direction: column;
 		align-items: stretch;
 		gap: 0;
 	}
 
-	.snap-nav-menu .sub-menu {
+	.beplus-nav-menu .sub-menu {
 		position: static;
 		display: none;
 		box-shadow: none;
@@ -142,12 +142,12 @@
 
 	/* Show sub-menus when parent is "open" (toggled by JS or CSS) */
 	/* stylelint-disable-next-line no-descending-specificity */
-	.snap-nav-menu li.is-parent-open > .sub-menu {
+	.beplus-nav-menu li.is-parent-open > .sub-menu {
 		display: block;
 	}
 
 	/* Always show all sub-menus in mobile portal for easy scrolling */
-	.snap-nav-portal .snap-nav-menu .sub-menu {
+	.beplus-nav-portal .beplus-nav-menu .sub-menu {
 		display: block;
 	}
 }
@@ -155,7 +155,7 @@
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
 
-	.snap-nav-menu .sub-menu {
+	.beplus-nav-menu .sub-menu {
 		transition: none;
 	}
 }

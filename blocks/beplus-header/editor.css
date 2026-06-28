@@ -1,20 +1,20 @@
 /**
  * Snap Header — editor styles.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 /* Ensure the header container is visible in the editor. */
-.wp-block-snap-megamenu-snap-header {
+.wp-block-beplus-visual-mega-nav-beplus-header {
 	min-height: 60px;
 	outline: 1px dashed rgba(0, 0, 0, 0.15);
 }
 
-.wp-block-snap-megamenu-snap-header.is-sticky {
+.wp-block-beplus-visual-mega-nav-beplus-header.is-sticky {
 	outline-color: rgba(0, 124, 186, 0.4);
 }
 
-.wp-block-snap-megamenu-snap-header.block-editor-block-list__block:hover {
+.wp-block-beplus-visual-mega-nav-beplus-header.block-editor-block-list__block:hover {
 	outline-color: var(--wp-admin-theme-color, #007cba);
 }
 
@@ -24,10 +24,10 @@
  * Use display:contents so the outer grid sees actual blocks as grid items,
  * matching what the frontend renders.
  */
-.wp-block-snap-megamenu-snap-header > .block-editor-inner-blocks {
+.wp-block-beplus-visual-mega-nav-beplus-header > .block-editor-inner-blocks {
 	display: contents;
 }
 
-.wp-block-snap-megamenu-snap-header > .block-editor-inner-blocks > .block-editor-block-list__layout {
+.wp-block-beplus-visual-mega-nav-beplus-header > .block-editor-inner-blocks > .block-editor-block-list__layout {
 	display: contents;
 }
