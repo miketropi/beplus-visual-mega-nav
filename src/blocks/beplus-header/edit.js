@@ -211,7 +211,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			</InspectorControls>
 			<div {...blockProps}>
 				<InnerBlocks
-					template={[['beplus-visual-mega-nav/beplus-navigation', {}]]}
+					template={[
+						['beplus-visual-mega-nav/beplus-navigation', {}],
+					]}
 					templateLock={false}
 				/>
 			</div>

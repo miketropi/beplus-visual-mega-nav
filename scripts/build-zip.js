@@ -53,6 +53,7 @@ const excludeTops = new Set([
 const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), `${pluginName}-`));
 const targetDir = path.join(buildDir, pluginName);
 
+// eslint-disable-next-line no-console
 console.log(`Building in ${targetDir}…`);
 
 // Copy plugin files, excluding dev-only items.
@@ -67,7 +68,8 @@ fs.cpSync(pluginDir, targetDir, {
 		if (excludeTops.has(top)) return false;
 
 		// Recursive exclusions (match at any depth).
-		if (parts.some((p) => p === '.DS_Store' || p.startsWith('._'))) return false;
+		if (parts.some((p) => p === '.DS_Store' || p.startsWith('._')))
+			return false;
 
 		return true;
 	},
@@ -89,7 +91,10 @@ const output = fs.createWriteStream(zipPath);
 const archive = archiver('zip', { zlib: { level: 9 } });
 
 output.on('close', () => {
-	console.log(`Created ${zipName} (${(archive.pointer() / 1024).toFixed(1)} KB)`);
+	// eslint-disable-next-line no-console
+	console.log(
+		`Created ${zipName} (${(archive.pointer() / 1024).toFixed(1)} KB)`
+	);
 	fs.rmSync(buildDir, { recursive: true, force: true });
 });
 
