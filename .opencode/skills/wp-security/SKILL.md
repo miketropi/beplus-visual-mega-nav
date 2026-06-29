@@ -48,7 +48,7 @@ All admin and REST operations require capability verification:
 
 // In admin pages
 if ( ! current_user_can( 'edit_theme_options' ) ) {
-    wp_die( esc_html__( 'You do not have sufficient permissions.', 'snap-megamenu-builder' ) );
+    wp_die( esc_html__( 'You do not have sufficient permissions.', 'beplus-visual-mega-nav' ) );
 }
 ```
 
@@ -60,7 +60,7 @@ Every form submission and REST request that modifies data must verify a nonce:
 
 ```php
 // Admin POST
-check_admin_referer( 'snap_megamenu_action', 'snap_megamenu_nonce' );
+check_admin_referer( 'beplus_vmn_action', 'beplus_vmn_nonce' );
 
 // REST API — WordPress handles nonce via X-WP-Nonce header automatically
 // when using apiFetch with `nonce` from wpApiSettings
@@ -69,7 +69,7 @@ check_admin_referer( 'snap_megamenu_action', 'snap_megamenu_nonce' );
 ## SQL / Database
 
 - **Never write raw SQL.** Use `WP_Query`, `get_posts()`, `get_post_meta()`, `update_post_meta()`.
-- Meta keys use the `_snap_megamenu_*` prefix (defined in `MetaKeys` constants).
+- Meta keys use the `_beplus_vmn_*` prefix (defined in `MetaKeys` constants).
 - If raw SQL is unavoidable (it shouldn't be), use `$wpdb->prepare()`.
 
 ## File operations

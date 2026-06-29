@@ -3,7 +3,7 @@ description: Implement a feature or fix using the full Planner > Builder > Revie
 agent: general
 ---
 
-You are executing the **Planner > Builder > Review > QA** pipeline for the Snap Mega Menu Builder project.
+You are executing the **Planner > Builder > Review > QA** pipeline for the Beplus Visual Mega Navigation project.
 
 ## Task
 $ARGUMENTS

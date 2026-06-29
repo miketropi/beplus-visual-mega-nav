@@ -1,6 +1,6 @@
 ---
 name: js-quality
-description: Use when writing, editing, or reviewing JavaScript files in src/ or assets/. ALWAYS run build after src/ changes. Use ONLY for snap-megamenu-builder frontend/admin JS code — not for generic JS questions.
+description: Use when writing, editing, or reviewing JavaScript files in src/ or assets/. ALWAYS run build after src/ changes. Use ONLY for beplus-visual-mega-nav frontend/admin JS code — not for generic JS questions.
 ---
 
 # JavaScript Quality & Build Pipeline
@@ -43,13 +43,13 @@ npm run format           # Prettier format
 ### Dependencies
 - All dependencies come from `@wordpress/*` packages (see `package.json`)
 - Do NOT add new npm dependencies without checking `package.json` first
-- Use `@wordpress/i18n` (`__()`, `_x()`, `sprintf()`) for translatable strings — textdomain `snap-megamenu-builder`
+- Use `@wordpress/i18n` (`__()`, `_x()`, `sprintf()`) for translatable strings — textdomain `beplus-visual-mega-nav`
 
 ### Key files and their roles
 
 | File | Role |
 |------|------|
-| `src/index.js` | Entry: `registerCoreBlocks()`, mount `MegaMenuApp` on `#snap-megamenu-root` |
+| `src/index.js` | Entry: `registerCoreBlocks()`, mount `MegaMenuApp` on `#beplus-vmn-root` |
 | `src/components/MegaMenuApp.js` | MutationObserver on `#menu-to-edit`; injects "Mega Menu" buttons |
 | `src/components/MegaMenuModal.js` | Full-screen modal: Settings + Content Builder tabs; REST load/save |
 | `src/components/IsolatedEditor.js` | Standalone `BlockEditorProvider` with curated block list |
@@ -63,13 +63,13 @@ npm run format           # Prettier format
 - Custom block is **server-rendered** (`save: () => null`) via `includes/Blocks/LinkItemRenderer.php`
 
 ### Extending allowed blocks
-Use the JS filter `snap-megamenu.allowedBlocks` (admin only):
+Use the JS filter `beplus-vmn.allowedBlocks` (admin only):
 ```js
 import { addFilter } from '@wordpress/hooks';
-addFilter('snap-megamenu.allowedBlocks', 'my-plugin', (blocks) => [...blocks, 'my-plugin/card']);
+addFilter('beplus-vmn.allowedBlocks', 'my-plugin', (blocks) => [...blocks, 'my-plugin/card']);
 ```
 
-Prefer the PHP filter `snap_megamenu_allowed_blocks` for server+client parity.
+Prefer the PHP filter `beplus_vmn_allowed_blocks` for server+client parity.
 
 ## Frontend vanilla JS/JS (`assets/`)
 
@@ -77,13 +77,13 @@ No build step — these files are enqueued directly.
 
 ### Files
 - `assets/js/frontend.js` — IIFE, vanilla JS. Handles hover/focus flyout, mobile accordion, ARIA, keyboard escape, Nextora portal compatibility.
-- `assets/css/frontend.css` — Theme-overridable via CSS custom properties `--snap-megamenu-mega-*`.
+- `assets/css/frontend.css` — Theme-overridable via CSS custom properties `--beplus-vmn-mega-*`.
 
 ### Conventions for frontend JS
 - **No build step** — write vanilla JS (no JSX, no imports)
 - **No jQuery** — use `document.querySelector`, `addEventListener`, etc.
 - IIFE pattern to avoid global leaks
-- Use existing CSS classes: `.has-mega-menu`, `.snap-megamenu-mega-panel`, `.is-open`
+- Use existing CSS classes: `.has-mega-menu`, `.beplus-vmn-mega-panel`, `.is-open`
 
 ## Testing JS
 ```bash

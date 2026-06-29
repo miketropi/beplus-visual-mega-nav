@@ -4,7 +4,7 @@ includes:
 parameters:
     level: 8
     paths:
-        - snap-megamenu-builder.php
+        - beplus-visual-mega-nav.php
         - includes/
     excludePaths:
         - vendor/
@@ -22,8 +22,8 @@ parameters:
     ignoreErrors:
         # WordPress global functions / constants that PHPStan may not resolve.
         - '#Function apply_filters invoked with#'
-        # Plugin constants are defined at runtime in snap-megamenu-builder.php.
-        - '#Constant SNAP_MEGAMENU_(DIR|URL|BASENAME) not found\.#'
+        # Plugin constants are defined at runtime in beplus-visual-mega-nav.php.
+        - '#Constant BEPLUS_VISUAL_MEGA_NAV_(DIR|URL|BASENAME) not found\.#'
         # WordPress core constant.
         - '#Constant WPINC not found\.#'
         # Walker overrides: WordPress passes $args as stdClass at runtime
@@ -36,3 +36,6 @@ parameters:
         - identifier: missingType.iterableValue
         # Safety default in match over enum-like constants.
         - '#Match arm is unreachable because previous comparison is always true\.#'
+        # wp_style_add_data accepts 'group' as a valid key for footer deferral,
+        # but WordPress core stubs only list alt/path/rtl/suffix/title.
+        - '#Parameter \#2 \$key of function wp_style_add_data expects .*alt.+\|.+\|.+\|.+\|.+title., .group. given\.#'

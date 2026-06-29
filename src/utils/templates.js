@@ -46,7 +46,7 @@ export function normalizeSettings(settings = {}) {
  */
 export async function fetchTemplates() {
 	const response = await apiFetch({
-		path: '/snap-megamenu/v1/templates',
+		path: '/beplus-visual-mega-nav/v1/templates',
 	});
 
 	return response?.templates ?? [];
@@ -60,7 +60,7 @@ export async function fetchTemplates() {
  */
 export async function fetchTemplate(slug) {
 	return apiFetch({
-		path: `/snap-megamenu/v1/templates/${slug}`,
+		path: `/beplus-visual-mega-nav/v1/templates/${slug}`,
 	});
 }
 

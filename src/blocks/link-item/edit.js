@@ -29,26 +29,26 @@ import {
 
 const DEFAULT_BADGE_VARIANTS = [
 	{
-		label: __('Default', 'snap-megamenu-builder'),
+		label: __('Default', 'beplus-visual-mega-nav'),
 		value: 'default',
 	},
 	{
-		label: __('Accent', 'snap-megamenu-builder'),
+		label: __('Accent', 'beplus-visual-mega-nav'),
 		value: 'accent',
 	},
 	{
-		label: __('Muted', 'snap-megamenu-builder'),
+		label: __('Muted', 'beplus-visual-mega-nav'),
 		value: 'muted',
 	},
 	{
-		label: __('Outline', 'snap-megamenu-builder'),
+		label: __('Outline', 'beplus-visual-mega-nav'),
 		value: 'outline',
 	},
 ];
 
 function getBadgeVariantOptions() {
 	const variants = applyFilters(
-		'snap-megamenu.link-item-badge-variants',
+		'beplus-vmn.link-item-badge-variants',
 		DEFAULT_BADGE_VARIANTS
 	);
 
@@ -95,7 +95,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const isInvalid = useIsInvalidLink(kind, type, id);
 
 	const blockProps = useBlockProps({
-		className: `snap-megamenu-link-item snap-megamenu-link-item--badge-${badgeVariant || 'default'}`,
+		className: `beplus-vmn-link-item beplus-vmn-link-item--badge-${badgeVariant || 'default'}`,
 	});
 
 	const linkValue = useMemo(
@@ -129,7 +129,7 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('Link', 'snap-megamenu-builder')}
+					title={__('Link', 'beplus-visual-mega-nav')}
 					initialOpen={true}
 				>
 					<LinkControl
@@ -145,20 +145,20 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={__('Content', 'snap-megamenu-builder')}
+					title={__('Content', 'beplus-visual-mega-nav')}
 					initialOpen={true}
 				>
 					<TextControl
-						label={__('Label', 'snap-megamenu-builder')}
+						label={__('Label', 'beplus-visual-mega-nav')}
 						value={label}
 						onChange={(value) => setAttributes({ label: value })}
 						help={__(
 							'Visible link text shown in the mega menu.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 					/>
 					<TextControl
-						label={__('Description', 'snap-megamenu-builder')}
+						label={__('Description', 'beplus-visual-mega-nav')}
 						value={description}
 						onChange={(value) =>
 							setAttributes({ description: value })
@@ -166,17 +166,17 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={__('Badge', 'snap-megamenu-builder')}
+					title={__('Badge', 'beplus-visual-mega-nav')}
 					initialOpen={false}
 				>
 					<TextControl
-						label={__('Badge text', 'snap-megamenu-builder')}
+						label={__('Badge text', 'beplus-visual-mega-nav')}
 						value={badge}
 						onChange={(value) => setAttributes({ badge: value })}
-						placeholder={__('New', 'snap-megamenu-builder')}
+						placeholder={__('New', 'beplus-visual-mega-nav')}
 					/>
 					<SelectControl
-						label={__('Badge style', 'snap-megamenu-builder')}
+						label={__('Badge style', 'beplus-visual-mega-nav')}
 						value={badgeVariant || 'default'}
 						options={badgeOptions}
 						onChange={(value) =>
@@ -191,25 +191,25 @@ export default function Edit({ attributes, setAttributes }) {
 					<Notice status="warning" isDismissible={false}>
 						{__(
 							'This link is broken or the linked item is not published.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 					</Notice>
 				)}
 
 				{url ? (
 					<a
-						className="snap-megamenu-link-item__link"
+						className="beplus-vmn-link-item__link"
 						href={url}
 						onClick={(event) => event.preventDefault()}
 						target={opensInNewTab ? '_blank' : undefined}
 						rel={opensInNewTab ? 'noopener noreferrer' : undefined}
 					>
-						<span className="snap-megamenu-link-item__label">
-							{label || __('Link Item', 'snap-megamenu-builder')}
+						<span className="beplus-vmn-link-item__label">
+							{label || __('Link Item', 'beplus-visual-mega-nav')}
 						</span>
 						{badge ? (
 							<span
-								className="snap-megamenu-link-item__badge"
+								className="beplus-vmn-link-item__badge"
 								aria-hidden="true"
 							>
 								{badge}
@@ -217,17 +217,17 @@ export default function Edit({ attributes, setAttributes }) {
 						) : null}
 					</a>
 				) : (
-					<span className="snap-megamenu-link-item__label snap-megamenu-link-item__label--placeholder">
+					<span className="beplus-vmn-link-item__label beplus-vmn-link-item__label--placeholder">
 						{label ||
 							__(
 								'Search for a page/post or enter a URL in block settings →',
-								'snap-megamenu-builder'
+								'beplus-visual-mega-nav'
 							)}
 					</span>
 				)}
 
 				{description ? (
-					<p className="snap-megamenu-link-item__description">
+					<p className="beplus-vmn-link-item__description">
 						{description}
 					</p>
 				) : null}

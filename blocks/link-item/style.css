@@ -1,41 +1,41 @@
 /**
  * Link Item block — frontend styles.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
-.snap-megamenu-link-item {
-	--snap-megamenu-link-item-gap: 0.5rem;
-	--snap-megamenu-link-item-badge-bg: var(--wp--preset--color--primary, #3858e9);
-	--snap-megamenu-link-item-badge-color: #fff;
-	--snap-megamenu-link-item-badge-muted-bg: #e5e7eb;
-	--snap-megamenu-link-item-badge-muted-color: #374151;
-	--snap-megamenu-link-item-description-color: #6b7280;
+.beplus-vmn-link-item {
+	--beplus-vmn-link-item-gap: 0.5rem;
+	--beplus-vmn-link-item-badge-bg: var(--wp--preset--color--primary, #3858e9);
+	--beplus-vmn-link-item-badge-color: #fff;
+	--beplus-vmn-link-item-badge-muted-bg: #e5e7eb;
+	--beplus-vmn-link-item-badge-muted-color: #374151;
+	--beplus-vmn-link-item-description-color: #6b7280;
 	margin: 0 0 0.5rem;
 }
 
-.snap-megamenu-link-item__link {
+.beplus-vmn-link-item__link {
 	display: inline-flex;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: var(--snap-megamenu-link-item-gap);
+	gap: var(--beplus-vmn-link-item-gap);
 	color: inherit;
 	text-decoration: none;
 	font-weight: 500;
 	line-height: 1.4;
 }
 
-.snap-megamenu-link-item__link:hover,
-.snap-megamenu-link-item__link:focus-visible {
+.beplus-vmn-link-item__link:hover,
+.beplus-vmn-link-item__link:focus-visible {
 	text-decoration: underline;
 }
 
-.snap-megamenu-link-item__label--placeholder {
+.beplus-vmn-link-item__label--placeholder {
 	color: #9ca3af;
 	font-style: italic;
 }
 
-.snap-megamenu-link-item__badge {
+.beplus-vmn-link-item__badge {
 	display: inline-flex;
 	align-items: center;
 	padding: 0.125rem 0.5rem;
@@ -45,29 +45,29 @@
 	line-height: 1.4;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	background: var(--snap-megamenu-link-item-badge-bg);
-	color: var(--snap-megamenu-link-item-badge-color);
+	background: var(--beplus-vmn-link-item-badge-bg);
+	color: var(--beplus-vmn-link-item-badge-color);
 }
 
-.snap-megamenu-link-item--badge-accent .snap-megamenu-link-item__badge {
+.beplus-vmn-link-item--badge-accent .beplus-vmn-link-item__badge {
 	background: var(--wp--preset--color--vivid-red, #cf2e2e);
 	color: #fff;
 }
 
-.snap-megamenu-link-item--badge-muted .snap-megamenu-link-item__badge {
-	background: var(--snap-megamenu-link-item-badge-muted-bg);
-	color: var(--snap-megamenu-link-item-badge-muted-color);
+.beplus-vmn-link-item--badge-muted .beplus-vmn-link-item__badge {
+	background: var(--beplus-vmn-link-item-badge-muted-bg);
+	color: var(--beplus-vmn-link-item-badge-muted-color);
 }
 
-.snap-megamenu-link-item--badge-outline .snap-megamenu-link-item__badge {
+.beplus-vmn-link-item--badge-outline .beplus-vmn-link-item__badge {
 	background: transparent;
 	color: inherit;
 	border: 1px solid currentcolor;
 }
 
-.snap-megamenu-link-item__description {
+.beplus-vmn-link-item__description {
 	margin: 0.25rem 0 0;
 	font-size: 0.875rem;
 	line-height: 1.45;
-	color: var(--snap-megamenu-link-item-description-color);
+	color: var(--beplus-vmn-link-item-description-color);
 }

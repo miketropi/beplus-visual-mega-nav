@@ -18,7 +18,7 @@ import MegaMenuModal from './MegaMenuModal';
  * @param {Function}    onClick  Click handler receiving the menu item ID.
  */
 function injectButton(menuItem, onClick) {
-	if (menuItem.querySelector('.snap-megamenu-btn')) {
+	if (menuItem.querySelector('.beplus-vmn-btn')) {
 		return;
 	}
 
@@ -35,8 +35,8 @@ function injectButton(menuItem, onClick) {
 	const separator = document.createTextNode(' | ');
 	const btn = document.createElement('a');
 	btn.href = '#';
-	btn.className = 'snap-megamenu-btn';
-	btn.textContent = __('Mega Menu', 'snap-megamenu-builder');
+	btn.className = 'beplus-vmn-btn';
+	btn.textContent = __('Mega Menu', 'beplus-visual-mega-nav');
 	btn.dataset.menuItemId = id;
 
 	btn.addEventListener('click', (e) => {
@@ -56,9 +56,7 @@ function injectButton(menuItem, onClick) {
  */
 function cleanupButtons(container) {
 	container
-		.querySelectorAll(
-			'.menu-item:not(.menu-item-depth-0) .snap-megamenu-btn'
-		)
+		.querySelectorAll('.menu-item:not(.menu-item-depth-0) .beplus-vmn-btn')
 		.forEach((btn) => {
 			// Remove the preceding " | " text node.
 			const prev = btn.previousSibling;

@@ -2,12 +2,12 @@
 /**
  * Registers plugin blocks server-side.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Blocks;
+namespace Beplus\VisualMegaNav\Blocks;
 
 /**
  * Block type registration on init.
@@ -30,11 +30,11 @@ final class BlockRegistry {
 	 * @return void
 	 */
 	public function register_blocks(): void {
-		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/link-item' );
-		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/snap-header' );
-		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/snap-navigation' );
-		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/nav-menu-area' );
-		register_block_type( SNAP_MEGAMENU_DIR . 'blocks/nav-toggle' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/link-item' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/beplus-header' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/beplus-navigation' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/nav-menu-area' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/nav-toggle' );
 	}
 
 	/**
@@ -47,7 +47,7 @@ final class BlockRegistry {
 	public function register_block_category( array $categories, \WP_Block_Editor_Context $editor_context ): array {
 		unset( $editor_context );
 
-		$slug = 'snap-megamenu';
+		$slug = 'beplus-vmn';
 
 		foreach ( $categories as $category ) {
 			if ( isset( $category['slug'] ) && $slug === $category['slug'] ) {
@@ -60,7 +60,7 @@ final class BlockRegistry {
 			[
 				[
 					'slug'  => $slug,
-					'title' => __( 'Mega Menu', 'snap-megamenu-builder' ),
+					'title' => __( 'Mega Menu', 'beplus-visual-mega-nav' ),
 					'icon'  => null,
 				],
 			]

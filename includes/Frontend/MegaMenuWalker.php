@@ -3,12 +3,12 @@
  * Custom nav menu walker for mega menu panels.
  *
  * @deprecated 1.0.1 Use MegaMenuWalkerDelegator instead.
- * @package Snap\MegaMenuBuilder\Frontend
+ * @package Beplus\VisualMegaNav\Frontend
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Frontend;
+namespace Beplus\VisualMegaNav\Frontend;
 
 /**
  * Walker that injects mega menu panel HTML after root-level items.

@@ -1,7 +1,7 @@
 node_modules
 vendor
 .DS_Store
-snap-megamenu-builder.zip
+beplus-visual-mega-nav.zip
 .opencode/qdrant-status.json
 .env
 build

@@ -24,27 +24,27 @@ export default function SettingsPanel({
 	};
 
 	const panelClass = enabled
-		? 'snap-megamenu-settings-panel'
-		: 'snap-megamenu-settings-panel snap-megamenu-settings-panel--disabled';
+		? 'beplus-vmn-settings-panel'
+		: 'beplus-vmn-settings-panel beplus-vmn-settings-panel--disabled';
 
 	return (
 		<Panel className={panelClass}>
 			<PanelBody
-				title={__('General', 'snap-megamenu-builder')}
+				title={__('General', 'beplus-visual-mega-nav')}
 				initialOpen={true}
 			>
 				<PanelRow>
 					<ToggleControl
-						label={__('Enable Mega Menu', 'snap-megamenu-builder')}
+						label={__('Enable Mega Menu', 'beplus-visual-mega-nav')}
 						help={
 							enabled
 								? __(
 										'Mega menu is active for this item.',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									)
 								: __(
 										'Default sub-menu will be used.',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									)
 						}
 						checked={enabled}
@@ -54,23 +54,23 @@ export default function SettingsPanel({
 			</PanelBody>
 
 			<PanelBody
-				title={__('Appearance', 'snap-megamenu-builder')}
+				title={__('Appearance', 'beplus-visual-mega-nav')}
 				initialOpen={false}
 			>
 				<SelectControl
-					label={__('Open Animation', 'snap-megamenu-builder')}
+					label={__('Open Animation', 'beplus-visual-mega-nav')}
 					value={settings.animation}
 					options={[
 						{
-							label: __('Fade', 'snap-megamenu-builder'),
+							label: __('Fade', 'beplus-visual-mega-nav'),
 							value: 'fade',
 						},
 						{
-							label: __('Slide Down', 'snap-megamenu-builder'),
+							label: __('Slide Down', 'beplus-visual-mega-nav'),
 							value: 'slide',
 						},
 						{
-							label: __('None', 'snap-megamenu-builder'),
+							label: __('None', 'beplus-visual-mega-nav'),
 							value: 'none',
 						},
 					]}

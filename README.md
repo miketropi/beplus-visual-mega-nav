@@ -1,4 +1,4 @@
-=== Snap Mega Menu Builder ===
+=== Beplus Visual Mega Navigation ===
 Contributors: beplusthemes
 Tags: mega-menu, gutenberg, navigation, block-editor, menu-builder
 Requires at least: 6.0
@@ -12,7 +12,7 @@ A Gutenberg-powered mega menu builder for WordPress. Build rich mega menus visua
 
 == Description ==
 
-![Preview of Snap Mega Menu Builder](https://github.com/miketropi/snap-megamenu-builder/blob/master/preview.jpg?raw=true)
+![Preview of Beplus Visual Mega Navigation](https://github.com/miketropi/beplus-visual-mega-nav/blob/master/preview.jpg?raw=true)
 
 = Features =
 
@@ -36,8 +36,8 @@ A Gutenberg-powered mega menu builder for WordPress. Build rich mega menus visua
 ~~~
 # Clone the plugin
 cd wp-content/plugins/
-git clone https://github.com/snapwp/snap-megamenu-builder.git snap-megamenu-builder
-cd snap-megamenu-builder
+git clone https://github.com/miketropi/beplus-visual-mega-nav.git beplus-visual-mega-nav
+cd beplus-visual-mega-nav
 
 # Install dependencies
 composer install
@@ -68,7 +68,7 @@ Templates are discovered from these folders (in order). If the same `slug` exist
 
 | Priority | Source       | Path |
 |----------|--------------|------|
-| 1 (low)  | Plugin       | `snap-megamenu-builder/templates/*.json` |
+| 1 (low)  | Plugin       | `beplus-visual-mega-nav/templates/*.json` |
 | 2        | Parent theme | `{theme}/mega-menu-templates/*.json` |
 | 3 (high) | Child theme  | `{child-theme}/mega-menu-templates/*.json` |
 
@@ -126,7 +126,7 @@ Each file is a single JSON object:
 
 Exported files from **Export** use the same shape (they may omit `slug`). You can drop an export into `mega-menu-templates/` and add a `slug` to register it in the store.
 
-`content` is sanitized on load using the same rules as saved mega menu content. Use only blocks from the allowed list below (extend via `snap_megamenu_allowed_blocks`).
+`content` is sanitized on load using the same rules as saved mega menu content. Use only blocks from the allowed list below (extend via `beplus_vmn_allowed_blocks`).
 
 = Allowed blocks =
 
@@ -134,12 +134,12 @@ Exported files from **Export** use the same shape (they may omit `slug`). You ca
 |----------|--------|
 | Layout | `core/columns`, `core/column`, `core/group`, `core/row`, `core/stack` |
 | Content | `core/heading`, `core/paragraph`, `core/list`, `core/list-item`, `core/image`, `core/buttons`, `core/button`, `core/separator`, `core/spacer` |
-| Navigation | `core/page-list`, `snap-megamenu/link-item` |
+| Navigation | `core/page-list`, `beplus-visual-mega-nav/link-item` |
 | Media | `core/cover` |
 | Embeds / widgets | `core/shortcode`, `core/html` |
 
 ~~~
-add_filter( 'snap_megamenu_allowed_blocks', function ( array $blocks ): array {
+add_filter( 'beplus_vmn_allowed_blocks', function ( array $blocks ): array {
     $blocks[] = 'my-plugin/custom-block';
     return $blocks;
 } );
@@ -155,8 +155,8 @@ add_filter( 'snap_megamenu_allowed_blocks', function ( array $blocks ): array {
 
 | Method | Route | Description |
 |--------|-------|-------------|
-| `GET` | `/wp-json/snap-megamenu/v1/templates` | List template summaries (`slug`, `title`, `description`, `source`). |
-| `GET` | `/wp-json/snap-megamenu/v1/templates/{slug}` | Load full template (`settings` + `content`). |
+| `GET` | `/wp-json/beplus-visual-mega-nav/v1/templates` | List template summaries (`slug`, `title`, `description`, `source`). |
+| `GET` | `/wp-json/beplus-visual-mega-nav/v1/templates/{slug}` | Load full template (`settings` + `content`). |
 
 Requires `edit_theme_options`.
 
@@ -164,19 +164,19 @@ Requires `edit_theme_options`.
 
 ~~~
 // Add or replace template scan directories (source label => absolute path).
-add_filter( 'snap_megamenu_template_directories', function ( $directories ) {
+add_filter( 'beplus_vmn_template_directories', function ( $directories ) {
     $directories['custom'] = '/path/to/my/templates';
     return $directories;
 } );
 
 // Filter the template list returned to the admin UI.
-add_filter( 'snap_megamenu_templates', function ( $templates ) {
+add_filter( 'beplus_vmn_templates', function ( $templates ) {
     // $templates is keyed by slug.
     return $templates;
 } );
 
 // Filter a single template before it is returned.
-add_filter( 'snap_megamenu_template_data', function ( $template, $slug ) {
+add_filter( 'beplus_vmn_template_data', function ( $template, $slug ) {
     return $template;
 }, 10, 2 );
 ~~~
@@ -185,10 +185,10 @@ add_filter( 'snap_megamenu_template_data', function ( $template, $slug ) {
 
 = How do I add my theme's menu location? =
 
-Use the `snap_megamenu_locations` filter:
+Use the `beplus_vmn_locations` filter:
 
 ~~~
-add_filter( 'snap_megamenu_locations', function ( $locations ) {
+add_filter( 'beplus_vmn_locations', function ( $locations ) {
     $locations[] = 'your-theme-location';
     return $locations;
 } );

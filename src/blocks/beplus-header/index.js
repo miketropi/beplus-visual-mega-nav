@@ -1,6 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
-import blockDef from '../../../blocks/snap-navigation/block.json';
+import blockDef from '../../../blocks/beplus-header/block.json';
 import Edit from './edit';
 
 registerBlockType(blockDef.name, {
