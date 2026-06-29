@@ -2,12 +2,12 @@
 /**
  * Block allowlist for the mega menu Content Builder.
  *
- * @package Snap\MegaMenuBuilder\Core
+ * @package Beplus\VisualMegaNav\Core
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Core;
+namespace Beplus\VisualMegaNav\Core;
 
 /**
  * Curated block types for the isolated editor.
@@ -41,9 +41,9 @@ final class AllowedBlocks {
 
 			// Navigation.
 			'core/page-list',
-			'snap-megamenu/link-item',
-			'snap-megamenu/tab-container',
-			'snap-megamenu/tab-panel',
+			'beplus-visual-mega-nav/link-item',
+			'beplus-visual-mega-nav/tab-container',
+			'beplus-visual-mega-nav/tab-panel',
 
 			// Media.
 			'core/cover',
@@ -55,12 +55,12 @@ final class AllowedBlocks {
 	}
 
 	/**
-	 * Allowed block names after the {@see 'snap_megamenu_allowed_blocks'} filter.
+	 * Allowed block names after the {@see 'beplus_vmn_allowed_blocks'} filter.
 	 *
 	 * @return string[]
 	 */
 	public static function get(): array {
-		$blocks = apply_filters( 'snap_megamenu_allowed_blocks', self::defaults() );
+		$blocks = apply_filters( 'beplus_vmn_allowed_blocks', self::defaults() );
 
 		if ( ! is_array( $blocks ) ) {
 			return self::defaults();

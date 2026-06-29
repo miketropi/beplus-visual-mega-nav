@@ -10,29 +10,30 @@
  * accent is user-configurable (via block attribute).
  *
  * Theme overrides via CSS custom properties:
- *   --snap-mm-tab-sidebar-width
- *   --snap-mm-tab-gap
- *   --snap-mm-tab-btn-padding
- *   --snap-mm-tab-btn-font-size
- *   --snap-mm-tab-text-color
- *   --snap-mm-tab-indicator-color
- *   --snap-mm-tab-indicator-width
- *   --snap-mm-tab-divider-color
- *   --snap-mm-tab-panel-padding-top
+ *   --beplus-vmn-tab-sidebar-width
+ *   --beplus-vmn-tab-gap
+ *   --beplus-vmn-tab-btn-padding
+ *   --beplus-vmn-tab-btn-font-size
+ *   --beplus-vmn-tab-text-color
+ *   --beplus-vmn-tab-indicator-color
+ *   --beplus-vmn-tab-indicator-width
+ *   --beplus-vmn-tab-divider-color
+ *   --beplus-vmn-tab-panel-padding-top
  */
 
 /* stylelint-disable no-duplicate-selectors */
 
-.snap-megamenu-tab-container {
-	--snap-mm-tab-sidebar-width: 184px;
-	--snap-mm-tab-gap: 2rem;
-	--snap-mm-tab-btn-padding: 0.75rem;
-	--snap-mm-tab-btn-font-size: var(--wp--preset--font-size--small, 0.8125rem);
-	--snap-mm-tab-text-color: var(--wp--preset--color--foreground, #1e1e1e);
-	--snap-mm-tab-indicator-color: var(--wp--preset--color--primary, var(--wp--preset--color--vivid-cyan-blue, #3858e9));
-	--snap-mm-tab-indicator-width: 2px;
-	--snap-mm-tab-divider-color: color-mix(in srgb, currentcolor 8%, transparent);
-	--snap-mm-tab-panel-padding-top: 0.25rem;
+.beplus-vmn-tab-container {
+	--beplus-vmn-tab-sidebar-width: 184px;
+	--beplus-vmn-tab-gap: 2rem;
+	--beplus-vmn-tab-btn-padding: 0.75rem;
+	--beplus-vmn-tab-btn-font-size: var(--wp--preset--font-size--small, 0.8125rem);
+	--beplus-vmn-tab-text-color: var(--wp--preset--color--foreground, #1e1e1e);
+	/* stylelint-disable-next-line max-line-length */
+	--beplus-vmn-tab-indicator-color: var(--wp--preset--color--primary, var(--wp--preset--color--vivid-cyan-blue, #3858e9));
+	--beplus-vmn-tab-indicator-width: 2px;
+	--beplus-vmn-tab-divider-color: color-mix(in srgb, currentcolor 8%, transparent);
+	--beplus-vmn-tab-panel-padding-top: 0.25rem;
 }
 
 /* stylelint-enable no-duplicate-selectors */
@@ -41,13 +42,13 @@
    Shared: tab button
    ================================================================ */
 
-.snap-megamenu-tab-container__tab {
+.beplus-vmn-tab-container__tab {
 	display: inline-flex;
 	align-items: center;
-	padding: var(--snap-mm-tab-btn-padding);
+	padding: var(--beplus-vmn-tab-btn-padding);
 	margin: 0;
-	color: var(--snap-mm-tab-text-color, #1e1e1e);
-	font-size: var(--snap-mm-tab-btn-font-size, 0.8125rem);
+	color: var(--beplus-vmn-tab-text-color, #1e1e1e);
+	font-size: var(--beplus-vmn-tab-btn-font-size, 0.8125rem);
 	font-weight: 450;
 	line-height: 1.35;
 	letter-spacing: 0.005em;
@@ -59,42 +60,42 @@
 		background-color 0.2s ease;
 }
 
-.snap-megamenu-tab-container__tab:hover {
+.beplus-vmn-tab-container__tab:hover {
 	background: linear-gradient(to right, color-mix(in srgb, currentcolor 10%, transparent), transparent);
 	opacity: 1;
 }
 
-.snap-megamenu-tab-container__tab[aria-selected="true"] {
+.beplus-vmn-tab-container__tab[aria-selected="true"] {
 	opacity: 1;
 	font-weight: 540;
 }
 
-.snap-megamenu-tab-container__tab:focus-visible {
+.beplus-vmn-tab-container__tab:focus-visible {
 	outline: none;
 	border-radius: 6px;
 	box-shadow:
-		0 0 0 1.5px var(--snap-mm-tab-indicator-color, #3858e9),
-		0 0 0 3px color-mix(in srgb, var(--snap-mm-tab-indicator-color, #3858e9) 15%, transparent);
+		0 0 0 1.5px var(--beplus-vmn-tab-indicator-color, #3858e9),
+		0 0 0 3px color-mix(in srgb, var(--beplus-vmn-tab-indicator-color, #3858e9) 15%, transparent);
 }
 
 /* ================================================================
    Vertical layout (default)
    ================================================================ */
 
-.snap-megamenu-tab-container--vertical {
+.beplus-vmn-tab-container--vertical {
 	display: grid;
-	grid-template-columns: var(--snap-mm-tab-sidebar-width) 1fr;
-	gap: var(--snap-mm-tab-gap);
+	grid-template-columns: var(--beplus-vmn-tab-sidebar-width) 1fr;
+	gap: var(--beplus-vmn-tab-gap);
 	align-items: start;
 }
 
 /* Vertical: sidebar shell */
-.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__sidebar {
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__sidebar {
 	position: relative;
 }
 
 /* Vertical: tablist */
-.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__tablist {
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tablist {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -103,19 +104,19 @@
 }
 
 /* Vertical: full-width tab buttons */
-.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__tab {
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tab {
 	width: 100%;
 	text-align: left;
 }
 
 /* Vertical: sliding indicator (left edge, top/height driven by JS) */
-.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__indicator {
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__indicator {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: var(--snap-mm-tab-indicator-width, 2px);
+	width: var(--beplus-vmn-tab-indicator-width, 2px);
 	border-radius: 1px;
-	background: var(--snap-mm-tab-indicator-color, #3858e9);
+	background: var(--beplus-vmn-tab-indicator-color, #3858e9);
 	pointer-events: none;
 	transition:
 		top 0.3s cubic-bezier(0.32, 0.72, 0, 1),
@@ -126,33 +127,33 @@
    Horizontal layout
    ================================================================ */
 
-.snap-megamenu-tab-container--horizontal {
+.beplus-vmn-tab-container--horizontal {
 	display: block;
 }
 
 /* Horizontal: tablist row */
-.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__tablist {
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tablist {
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	gap: var(--snap-mm-tab-gap);
-	border-bottom: 1px solid var(--snap-mm-tab-divider-color, rgba(0, 0, 0, 0.08));
+	gap: var(--beplus-vmn-tab-gap);
+	border-bottom: 1px solid var(--beplus-vmn-tab-divider-color, rgba(0, 0, 0, 0.08));
 }
 
 /* Horizontal: tab buttons reset vertical specificity */
-.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__tab {
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tab {
 	width: auto;
 	margin-bottom: -1px;
 }
 
 /* Horizontal: sliding indicator (bottom edge, left/width driven by JS) */
-.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__indicator {
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__indicator {
 	position: absolute;
 	bottom: -1px;
 	left: 0;
-	height: var(--snap-mm-tab-indicator-width, 2px);
+	height: var(--beplus-vmn-tab-indicator-width, 2px);
 	border-radius: 1px;
-	background: var(--snap-mm-tab-indicator-color, #3858e9);
+	background: var(--beplus-vmn-tab-indicator-color, #3858e9);
 	pointer-events: none;
 	transition:
 		left 0.3s cubic-bezier(0.32, 0.72, 0, 1),
@@ -163,15 +164,15 @@
    Content panels (both modes)
    ================================================================ */
 
-.snap-megamenu-tab-container__content {
+.beplus-vmn-tab-container__content {
 	min-height: 100%;
 }
 
-.snap-megamenu-tab-container__panel {
-	padding-top: var(--snap-mm-tab-panel-padding-top);
+.beplus-vmn-tab-container__panel {
+	padding-top: var(--beplus-vmn-tab-panel-padding-top);
 }
 
-.snap-megamenu-tab-container__panel[hidden] {
+.beplus-vmn-tab-container__panel[hidden] {
 	display: none;
 }
 
@@ -181,8 +182,8 @@
 
 @media (prefers-color-scheme: dark) {
 
-	.snap-megamenu-tab-container {
-		--snap-mm-tab-text-color: var(--wp--preset--color--foreground, #f0f1f3);
+	.beplus-vmn-tab-container {
+		--beplus-vmn-tab-text-color: var(--wp--preset--color--foreground, #f0f1f3);
 	}
 
 }
@@ -194,9 +195,9 @@
 /* Tablet: narrower sidebar */
 @media (min-width: 601px) and (max-width: 1023px) {
 
-	.snap-megamenu-tab-container {
-		--snap-mm-tab-sidebar-width: 140px;
-		--snap-mm-tab-gap: 1.25rem;
+	.beplus-vmn-tab-container {
+		--beplus-vmn-tab-sidebar-width: 140px;
+		--beplus-vmn-tab-gap: 1.25rem;
 	}
 
 }
@@ -204,31 +205,31 @@
 /* Mobile: vertical → stacked, tabs become horizontal scroll row */
 @media (max-width: 600px) {
 
-	.snap-megamenu-tab-container--vertical {
+	.beplus-vmn-tab-container--vertical {
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 	}
 
-	.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__sidebar {
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__sidebar {
 		order: -1;
 	}
 
-	.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__tablist {
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tablist {
 		flex-direction: row;
 		gap: 0.25rem;
 		padding: 0 0 0.5rem;
-		border-bottom: 1px solid var(--snap-mm-tab-divider-color, rgba(0, 0, 0, 0.08));
+		border-bottom: 1px solid var(--beplus-vmn-tab-divider-color, rgba(0, 0, 0, 0.08));
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
 		scrollbar-width: none;
 	}
 
-	.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__tablist::-webkit-scrollbar {
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tablist::-webkit-scrollbar {
 		display: none;
 	}
 
-	.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__tab {
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tab {
 		width: auto;
 		flex-shrink: 0;
 		text-align: center;
@@ -237,32 +238,32 @@
 	}
 
 	/* Hide indicator on mobile — rely on aria-selected styling instead */
-	.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__indicator {
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__indicator {
 		display: none;
 	}
 
-	.snap-megamenu-tab-container--vertical .snap-megamenu-tab-container__tab[aria-selected="true"] {
-		border-bottom: 2px solid var(--snap-mm-tab-indicator-color, #3858e9);
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tab[aria-selected="true"] {
+		border-bottom: 2px solid var(--beplus-vmn-tab-indicator-color, #3858e9);
 		border-radius: 0;
 	}
 
 	/* Horizontal: tabs scroll on mobile too */
-	.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__tablist {
+	.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tablist {
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
 		scrollbar-width: none;
 		gap: 1rem;
 	}
 
-	.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__tablist::-webkit-scrollbar {
+	.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tablist::-webkit-scrollbar {
 		display: none;
 	}
 
-	.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__tab {
+	.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tab {
 		flex-shrink: 0;
 	}
 
-	.snap-megamenu-tab-container__content {
+	.beplus-vmn-tab-container__content {
 		min-height: 0;
 	}
 
@@ -272,24 +273,24 @@
    Editor-only preview
    ================================================================ */
 
-.snap-megamenu-tab-container__placeholder-tabs {
+.beplus-vmn-tab-container__placeholder-tabs {
 	display: flex;
 	flex-direction: column;
 	gap: 1px;
 }
 
-.snap-megamenu-tab-container--horizontal .snap-megamenu-tab-container__placeholder-tabs {
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__placeholder-tabs {
 	flex-direction: row;
-	gap: var(--snap-mm-tab-gap);
+	gap: var(--beplus-vmn-tab-gap);
 }
 
-.snap-megamenu-tab-container__tab.is-placeholder {
-	padding: var(--snap-mm-tab-btn-padding);
+.beplus-vmn-tab-container__tab.is-placeholder {
+	padding: var(--beplus-vmn-tab-btn-padding);
 	opacity: 0.55;
 	font-style: italic;
 }
 
-.snap-megamenu-tab-container__tab.is-active {
+.beplus-vmn-tab-container__tab.is-active {
 	opacity: 1;
 	font-weight: 540;
 }

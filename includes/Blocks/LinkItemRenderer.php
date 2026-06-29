@@ -2,15 +2,15 @@
 /**
  * Renders the Link Item block on the frontend.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Blocks;
+namespace Beplus\VisualMegaNav\Blocks;
 
 /**
- * Dynamic output for snap-megamenu/link-item.
+ * Dynamic output for beplus-visual-mega-nav/link-item.
  */
 final class LinkItemRenderer {
 
@@ -44,7 +44,7 @@ final class LinkItemRenderer {
 		 * @param array<string, mixed> $attributes Block attributes.
 		 * @param \WP_Block|null       $block      Block instance.
 		 */
-		$attributes = apply_filters( 'snap_megamenu_link_item_attributes', $attributes, $block );
+		$attributes = apply_filters( 'beplus_vmn_link_item_attributes', $attributes, $block );
 
 		$label         = sanitize_text_field( (string) $attributes['label'] );
 		$url           = (string) $attributes['url'];
@@ -66,7 +66,7 @@ final class LinkItemRenderer {
 		$url = esc_url( $url );
 
 		$wrapper_class = sprintf(
-			'snap-megamenu-link-item snap-megamenu-link-item--badge-%s',
+			'beplus-vmn-link-item beplus-vmn-link-item--badge-%s',
 			esc_attr( $badge_variant )
 		);
 
@@ -96,7 +96,7 @@ final class LinkItemRenderer {
 			}
 
 			$link_attrs = [
-				'class' => 'snap-megamenu-link-item__link',
+				'class' => 'beplus-vmn-link-item__link',
 				'href'  => $url,
 			];
 
@@ -114,13 +114,13 @@ final class LinkItemRenderer {
 
 			$markup .= sprintf( '<a %s>', self::build_html_attributes( $link_attrs ) );
 			$markup .= sprintf(
-				'<span class="snap-megamenu-link-item__label">%s</span>',
+				'<span class="beplus-vmn-link-item__label">%s</span>',
 				esc_html( $label )
 			);
 
 			if ( '' !== $badge ) {
 				$markup .= sprintf(
-					'<span class="snap-megamenu-link-item__badge" aria-hidden="true">%s</span>',
+					'<span class="beplus-vmn-link-item__badge" aria-hidden="true">%s</span>',
 					esc_html( $badge )
 				);
 			}
@@ -128,21 +128,21 @@ final class LinkItemRenderer {
 			if ( $opens_new && '' !== $label ) {
 				$markup .= sprintf(
 					'<span class="screen-reader-text">%s</span>',
-					esc_html__( '(opens in a new tab)', 'snap-megamenu-builder' )
+					esc_html__( '(opens in a new tab)', 'beplus-visual-mega-nav' )
 				);
 			}
 
 			$markup .= '</a>';
 		} else {
 			$markup .= sprintf(
-				'<span class="snap-megamenu-link-item__label snap-megamenu-link-item__label--placeholder">%s</span>',
-				esc_html( $label ?: __( 'Link Item', 'snap-megamenu-builder' ) )
+				'<span class="beplus-vmn-link-item__label beplus-vmn-link-item__label--placeholder">%s</span>',
+				esc_html( $label ?: __( 'Link Item', 'beplus-visual-mega-nav' ) )
 			);
 		}
 
 		if ( '' !== $description ) {
 			$markup .= sprintf(
-				'<p class="snap-megamenu-link-item__description">%s</p>',
+				'<p class="beplus-vmn-link-item__description">%s</p>',
 				esc_html( $description )
 			);
 		}
@@ -156,7 +156,7 @@ final class LinkItemRenderer {
 		 * @param array<string, mixed> $attributes Block attributes.
 		 * @param \WP_Block|null       $block      Block instance.
 		 */
-		return (string) apply_filters( 'snap_megamenu_link_item_render_markup', $markup, $attributes, $block );
+		return (string) apply_filters( 'beplus_vmn_link_item_render_markup', $markup, $attributes, $block );
 	}
 
 	/**
@@ -173,7 +173,7 @@ final class LinkItemRenderer {
 		 *
 		 * @param string[] $allowed Variant slugs.
 		 */
-		$allowed = apply_filters( 'snap_megamenu_link_item_badge_variants', $allowed );
+		$allowed = apply_filters( 'beplus_vmn_link_item_badge_variants', $allowed );
 
 		if ( ! is_array( $allowed ) ) {
 			$allowed = [ 'default', 'accent', 'muted', 'outline' ];

@@ -2,7 +2,7 @@
 /**
  * Snap Header block — frontend markup.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  *
  * @var array<string, mixed> $attributes Block attributes.
  * @var string               $content    Inner blocks.
@@ -35,8 +35,8 @@ if ( ! in_array( $effect, $allowed_effects, true ) ) {
 }
 
 $classes = [
-	'wp-block-snap-megamenu-snap-header',
-	'snap-hdr-' . $instance_id,
+	'wp-block-beplus-visual-mega-nav-beplus-header',
+	'beplus-hdr-' . $instance_id,
 	'is-layout-grid',
 ];
 
@@ -60,20 +60,17 @@ if ( 'bg-on-scroll' === $effect && ! empty( $attributes['scrollBgColor'] ) ) {
 	$is_hex    = (bool) sanitize_hex_color( $scroll_bg );
 	$is_preset = (bool) preg_match( '/^var\(--wp--preset--color--[\w-]+\)$/', $scroll_bg );
 	if ( $is_hex || $is_preset ) {
-		$wrapper_style = sprintf( '--snap-hdr-scroll-bg:%s;', $scroll_bg );
+		$wrapper_style = sprintf( '--beplus-hdr-scroll-bg:%s;', $scroll_bg );
 	}
 }
 
 // Sanitize grid-template-columns value.
-$grid_columns = isset( $attributes['gridColumns'] )
-	? sanitize_text_field( (string) $attributes['gridColumns'] )
-	: 'auto 1fr';
-if ( '' === $grid_columns ) {
-	$grid_columns = 'auto 1fr';
-}
-$grid_style = 'grid-template-columns:' . $grid_columns . ';';
+$grid_columns = \Beplus\VisualMegaNav\Core\CssSanitizer::sanitizeGridColumns(
+	isset( $attributes['gridColumns'] ) ? (string) $attributes['gridColumns'] : 'auto 1fr'
+);
+$grid_style   = 'grid-template-columns:' . $grid_columns . ';';
 
-$classes[] = 'wp-container-snap-header-' . $instance_id;
+$classes[] = 'wp-container-beplus-header-' . $instance_id;
 
 $wrapper_attributes = get_block_wrapper_attributes(
 	[
@@ -85,20 +82,22 @@ $wrapper_attributes = get_block_wrapper_attributes(
 	]
 );
 
-$style = sprintf(
-	'<style>'
-	. '.wp-container-snap-header-%2$s{display:grid;%3$s}'
-	. '@media (max-width:%1$dpx){.snap-hdr-%2$s .is-desktop-only{display:none}}'
-	. '@media (min-width:%4$dpx){.snap-hdr-%2$s .is-mobile-only{display:none}}'
-	. '@media (min-width:%4$dpx){.snap-nav-portal[data-instance="%2$s"]{display:none}}'
-	. '</style>',
+$inline_css = sprintf(
+	'.wp-container-beplus-header-%2$s{display:grid;%3$s}'
+	. '@media (max-width:%1$dpx){.beplus-hdr-%2$s .is-desktop-only{display:none}}'
+	. '@media (min-width:%4$dpx){.beplus-hdr-%2$s .is-mobile-only{display:none}}'
+	. '@media (min-width:%4$dpx){.beplus-nav-portal[data-instance="%2$s"]{display:none}}',
 	$breakpoint,
 	esc_attr( $instance_id ),
 	$grid_style,
 	$breakpoint + 1
 );
 
-echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safely constructed with esc_attr $instance_id.
+if ( ! wp_style_is( 'beplus-vmn-header-inline', 'registered' ) ) {
+	wp_register_style( 'beplus-vmn-header-inline', false, [], BEPLUS_VISUAL_MEGA_NAV_VERSION );
+}
+wp_add_inline_style( 'beplus-vmn-header-inline', $inline_css );
+wp_enqueue_style( 'beplus-vmn-header-inline' );
 printf( '<div %1$s>%2$s</div>', $wrapper_attributes, $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() and InnerBlocks $content are pre-escaped.
 
 // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

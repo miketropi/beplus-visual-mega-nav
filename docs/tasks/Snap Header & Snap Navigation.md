@@ -203,7 +203,7 @@ If the header has a `shrink` scroll effect, `offsetHeight` decreases when stuck.
 ```js
 function initFixedHeader(header) {
   const spacer = document.createElement('div');
-  spacer.className = 'snap-hdr-spacer';
+  spacer.className = 'beplus-hdr-spacer';
   spacer.setAttribute('aria-hidden', 'true');
   header.parentNode.insertBefore(spacer, header);
 
@@ -233,7 +233,7 @@ Use `IntersectionObserver` on a sentinel `<div>` of height `1px` placed before t
 ```js
 function initStuckObserver(header) {
   const sentinel = document.createElement('div');
-  sentinel.className = 'snap-hdr-sentinel';
+  sentinel.className = 'beplus-hdr-sentinel';
   sentinel.style.cssText = 'height:1px;width:1px;';
   header.parentNode.insertBefore(sentinel, header);
 
@@ -291,12 +291,12 @@ Inspector presets: Mobile (600), Tablet (782), Desktop (1024), Custom (number in
 Emit a `<style>` block in the render callback, scoped to a unique class on the wrapper:
 
 ```php
-$classes[] = 'snap-hdr-' . esc_attr( $instance_id );
+$classes[] = 'beplus-hdr-' . esc_attr( $instance_id );
 
 $style = sprintf(
     '<style>'
-  . '@media (max-width:%1$dpx){.snap-hdr-%2$s .is-desktop-only{display:none}}'
-  . '@media (min-width:%3$dpx){.snap-hdr-%2$s .is-mobile-only{display:none}}'
+  . '@media (max-width:%1$dpx){.beplus-hdr-%2$s .is-desktop-only{display:none}}'
+  . '@media (min-width:%3$dpx){.beplus-hdr-%2$s .is-mobile-only{display:none}}'
   . '</style>',
     $breakpoint,
     esc_attr( $instance_id ),
@@ -367,7 +367,7 @@ function your_plugin_render_snap_header( $attributes, $content ) {
 
     $classes = [
         'wp-block-your-plugin-snap-header',
-        'snap-hdr-' . $instance_id,
+        'beplus-hdr-' . $instance_id,
     ];
     if ( ! empty( $attributes['sticky'] ) )         { $classes[] = 'is-sticky'; }
     if ( ! empty( $attributes['transparentTop'] ) ) { $classes[] = 'is-transparent-top'; }
@@ -384,8 +384,8 @@ function your_plugin_render_snap_header( $attributes, $content ) {
 
     $style = sprintf(
         '<style>'
-      . '@media (max-width:%1$dpx){.snap-hdr-%2$s .is-desktop-only{display:none}}'
-      . '@media (min-width:%3$dpx){.snap-hdr-%2$s .is-mobile-only{display:none}}'
+      . '@media (max-width:%1$dpx){.beplus-hdr-%2$s .is-desktop-only{display:none}}'
+      . '@media (min-width:%3$dpx){.beplus-hdr-%2$s .is-mobile-only{display:none}}'
       . '</style>',
         $breakpoint,
         $instance_id,
@@ -521,7 +521,7 @@ First tap on toggle (below breakpoint):
   1. Locate the Snap Navigation source subtree.
   2. Deep-clone the subtree (`cloneNode(true)`).
   3. Sanitize the clone (see 12.1.3).
-  4. Wrap in a portal root: <div class="snap-nav-portal" id="{overlayId}">
+  4. Wrap in a portal root: <div class="beplus-nav-portal" id="{overlayId}">
   5. Append portal root to document.body.
   6. Re-bind interactive behaviour (see 12.1.4).
   7. Open the portal (set data-state="open"), focus first focusable element.
@@ -558,7 +558,7 @@ After `cloneNode(true)`, walk the cloned subtree and:
 
 The portal root sits under `<body>` and does NOT inherit CSS custom properties, color, or font from Snap Header. To keep mobile styling consistent and isolated:
 
-- Apply a dedicated class `snap-nav-portal` to the portal root. All mobile-specific CSS targets this class.
+- Apply a dedicated class `beplus-nav-portal` to the portal root. All mobile-specific CSS targets this class.
 - Mirror critical CSS variables from Snap Header onto the portal root at clone time (read computed values from the source and set them as inline `--vars` on the portal). This preserves theme.json-driven colors.
 - Tag the portal with `data-instance="{instanceId}"` so multiple Snap Headers' portals do not cross-style.
 - The portal's stacking context is independent of the header. Use a defined `z-index` (e.g. 9998 — below admin bar's 99999, above typical content). Document this.
@@ -568,9 +568,9 @@ The portal root sits under `<body>` and does NOT inherit CSS custom properties, 
 The original Snap Navigation subtree must be hidden below the breakpoint so it does not double-render. Use the per-instance breakpoint CSS already emitted by Snap Header:
 
 ```css
-/* Already scoped by .snap-hdr-{instanceId} via per-instance <style> */
+/* Already scoped by .beplus-hdr-{instanceId} via per-instance <style> */
 @media (max-width: {breakpoint}px) {
-  .snap-hdr-{instanceId} .wp-block-your-plugin-snap-navigation {
+  .beplus-hdr-{instanceId} .wp-block-your-plugin-snap-navigation {
     display: none;
   }
 }
@@ -580,7 +580,7 @@ Above the breakpoint, the portal root is hidden:
 
 ```css
 @media (min-width: {breakpoint + 1}px) {
-  .snap-nav-portal[data-instance="{instanceId}"] {
+  .beplus-nav-portal[data-instance="{instanceId}"] {
     display: none;
   }
 }

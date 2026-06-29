@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
 export const LINK_CONTROL_SETTINGS = [
 	{
 		id: 'opensInNewTab',
-		title: __('Open in new tab', 'snap-megamenu-builder'),
+		title: __('Open in new tab', 'beplus-visual-mega-nav'),
 	},
 ];
 
@@ -50,7 +50,7 @@ export function getSuggestionsQuery(type, kind) {
 			break;
 	}
 
-	return applyFilters('snap-megamenu.link-item-suggestions-query', query, {
+	return applyFilters('beplus-vmn.link-item-suggestions-query', query, {
 		type,
 		kind,
 	});

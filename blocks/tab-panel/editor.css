@@ -2,22 +2,22 @@
  * Tab Panel block — editor styles.
  */
 
-.snap-megamenu-tab-panel {
+.beplus-vmn-tab-panel {
 	padding: 1rem;
 	border: 1px solid rgba(0, 0, 0, 0.08);
 	border-radius: 8px;
 }
 
-.snap-megamenu-tab-panel__header {
+.beplus-vmn-tab-panel__header {
 	margin-bottom: 0.75rem;
 	padding-bottom: 0.75rem;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.snap-megamenu-tab-panel__header .components-base-control {
+.beplus-vmn-tab-panel__header .components-base-control {
 	margin-bottom: 0;
 }
 
-.snap-megamenu-tab-panel__content {
+.beplus-vmn-tab-panel__content {
 	min-height: 3rem;
 }

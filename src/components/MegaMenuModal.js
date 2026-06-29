@@ -33,7 +33,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 	useEffect(() => {
 		setLoading(true);
 		apiFetch({
-			path: `/snap-megamenu/v1/item/${menuItemId}`,
+			path: `/beplus-visual-mega-nav/v1/item/${menuItemId}`,
 		})
 			.then((data) => {
 				setEnabled(data.enabled || false);
@@ -45,7 +45,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 					status: 'error',
 					message: __(
 						'Failed to load mega menu data.',
-						'snap-megamenu-builder'
+						'beplus-visual-mega-nav'
 					),
 				});
 			})
@@ -58,7 +58,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 
 		try {
 			await apiFetch({
-				path: `/snap-megamenu/v1/item/${menuItemId}`,
+				path: `/beplus-visual-mega-nav/v1/item/${menuItemId}`,
 				method: 'POST',
 				data: {
 					enabled,
@@ -69,7 +69,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 
 			setNotice({
 				status: 'success',
-				message: __('Mega menu saved.', 'snap-megamenu-builder'),
+				message: __('Mega menu saved.', 'beplus-visual-mega-nav'),
 			});
 
 			setTimeout(onClose, 900);
@@ -78,7 +78,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 				status: 'error',
 				message: __(
 					'Failed to save. Please try again.',
-					'snap-megamenu-builder'
+					'beplus-visual-mega-nav'
 				),
 			});
 		} finally {
@@ -96,7 +96,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 	};
 
 	const headerActions = loading ? null : (
-		<div className="snap-megamenu-modal__header-actions">
+		<div className="beplus-vmn-modal__header-actions">
 			<TemplatePanel
 				settings={settings}
 				content={content}
@@ -104,11 +104,11 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 				onNotice={setNotice}
 			/>
 			<span
-				className="snap-megamenu-modal__header-divider"
+				className="beplus-vmn-modal__header-divider"
 				aria-hidden="true"
 			/>
 			<Button variant="tertiary" onClick={onClose}>
-				{__('Cancel', 'snap-megamenu-builder')}
+				{__('Cancel', 'beplus-visual-mega-nav')}
 			</Button>
 			<Button
 				variant="primary"
@@ -117,8 +117,8 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 				disabled={saving}
 			>
 				{saving
-					? __('Saving…', 'snap-megamenu-builder')
-					: __('Save', 'snap-megamenu-builder')}
+					? __('Saving…', 'beplus-visual-mega-nav')
+					: __('Save', 'beplus-visual-mega-nav')}
 			</Button>
 		</div>
 	);
@@ -126,72 +126,75 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 	const tabs = [
 		{
 			name: 'settings',
-			title: __('Settings', 'snap-megamenu-builder'),
-			className: 'snap-megamenu-tab-settings',
+			title: __('Settings', 'beplus-visual-mega-nav'),
+			className: 'beplus-vmn-tab-settings',
 		},
 		{
 			name: 'builder',
-			title: __('Content Builder', 'snap-megamenu-builder'),
-			className: 'snap-megamenu-tab-builder',
+			title: __('Content Builder', 'beplus-visual-mega-nav'),
+			className: 'beplus-vmn-tab-builder',
 		},
 	];
 
 	return (
 		<Modal
-			title={__('Mega Menu Builder', 'snap-megamenu-builder')}
+			title={__('Mega Menu Builder', 'beplus-visual-mega-nav')}
 			headerActions={headerActions}
 			onRequestClose={onClose}
 			isFullScreen={true}
-			className="snap-megamenu-modal"
+			className="beplus-vmn-modal"
 		>
 			{loading ? (
-				<div className="snap-megamenu-modal__loading">
+				<div className="beplus-vmn-modal__loading">
 					<Spinner />
-					<p className="snap-megamenu-modal__loading-text">
-						{__('Loading mega menu data…', 'snap-megamenu-builder')}
+					<p className="beplus-vmn-modal__loading-text">
+						{__(
+							'Loading mega menu data…',
+							'beplus-visual-mega-nav'
+						)}
 					</p>
 				</div>
 			) : (
-				<div className="snap-megamenu-modal__shell admin-ui-page">
-					<div className="snap-megamenu-modal__intro">
-						<div className="snap-megamenu-modal__intro-text">
+				<div className="beplus-vmn-modal__shell admin-ui-page">
+					<div className="beplus-vmn-modal__intro">
+						<div className="beplus-vmn-modal__intro-text">
 							<p className="admin-ui-page__header-subtitle">
 								{sprintf(
 									/* translators: %s: menu item ID number */
 									__(
 										'Editing menu item #%s',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									),
 									menuItemId
 								)}
 							</p>
-							<p className="snap-megamenu-modal__intro-hint">
+							<p className="beplus-vmn-modal__intro-hint">
 								{enabled
 									? __(
 											'Changes apply to this menu item only.',
-											'snap-megamenu-builder'
+											'beplus-visual-mega-nav'
 										)
 									: __(
 											'Enable the mega menu to replace the default sub-menu.',
-											'snap-megamenu-builder'
+											'beplus-visual-mega-nav'
 										)}
 							</p>
 						</div>
 						<span
 							className={
 								enabled
-									? 'snap-megamenu-status-pill snap-megamenu-status-pill--active'
-									: 'snap-megamenu-status-pill'
+									? 'beplus-vmn-status-pill beplus-vmn-status-pill--active'
+									: 'beplus-vmn-status-pill'
 							}
 						>
 							{enabled
-								? __('Enabled', 'snap-megamenu-builder')
-								: __('Disabled', 'snap-megamenu-builder')}
+								? __('Enabled', 'beplus-visual-mega-nav')
+								: __('Disabled', 'beplus-visual-mega-nav')}
 						</span>
 					</div>
 
 					{notice && (
-						<div className="snap-megamenu-modal__notice">
+						<div className="beplus-vmn-modal__notice">
 							<Notice
 								status={notice.status}
 								isDismissible={true}
@@ -202,7 +205,7 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 						</div>
 					)}
 
-					<TabPanel className="snap-megamenu-modal__tabs" tabs={tabs}>
+					<TabPanel className="beplus-vmn-modal__tabs" tabs={tabs}>
 						{(tab) => {
 							if (tab.name === 'settings') {
 								return (

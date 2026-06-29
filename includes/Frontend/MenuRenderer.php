@@ -5,14 +5,14 @@
  * Replaces default sub-menus with mega menu panels for items
  * that have mega menu enabled.
  *
- * @package Snap\MegaMenuBuilder\Frontend
+ * @package Beplus\VisualMegaNav\Frontend
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Frontend;
+namespace Beplus\VisualMegaNav\Frontend;
 
-use Snap\MegaMenuBuilder\Core\MetaKeys;
+use Beplus\VisualMegaNav\Core\MetaKeys;
 use Walker;
 
 /**
@@ -66,7 +66,7 @@ final class MenuRenderer {
 
 		$inner = $args['walker'] ?? null;
 
-		if ( is_string( $inner ) && class_exists( $inner ) ) {
+		if ( is_string( $inner ) && class_exists( $inner ) && is_subclass_of( $inner, \Walker::class ) ) {
 			$inner = new $inner();
 		}
 
@@ -86,12 +86,12 @@ final class MenuRenderer {
 	 * @return bool
 	 */
 	private function should_apply_walker( array $args ): bool {
-		$filtered = apply_filters( 'snap_megamenu_apply_walker', null, $args );
+		$filtered = apply_filters( 'beplus_vmn_apply_walker', null, $args );
 		if ( null !== $filtered ) {
 			return (bool) $filtered;
 		}
 
-		$locations = apply_filters( 'snap_megamenu_locations', [ 'primary', 'main-menu', 'header' ] );
+		$locations = apply_filters( 'beplus_vmn_locations', [ 'primary', 'main-menu', 'header' ] );
 
 		if (
 			! empty( $args['theme_location'] )
@@ -174,61 +174,66 @@ final class MenuRenderer {
 	 * @return void
 	 */
 	public function enqueue_frontend_assets(): void {
+		// Inline style handle for snap-header block per-instance CSS.
+		wp_register_style( 'beplus-vmn-header-inline', false, [], BEPLUS_VISUAL_MEGA_NAV_VERSION );
+		wp_enqueue_style( 'beplus-vmn-header-inline' );
+		wp_style_add_data( 'beplus-vmn-header-inline', 'group', 1 );
+
 		wp_enqueue_style(
-			'snap-megamenu-front',
-			SNAP_MEGAMENU_URL . 'assets/css/frontend.css',
+			'beplus-vmn-front',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/css/frontend.css',
 			[],
-			SNAP_MEGAMENU_VERSION
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
 		wp_enqueue_style(
-			'snap-megamenu-snap-header',
-			SNAP_MEGAMENU_URL . 'blocks/snap-header/style.css',
+			'beplus-vmn-header',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/beplus-header/style.css',
 			[],
-			SNAP_MEGAMENU_VERSION
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
 		wp_enqueue_style(
-			'snap-megamenu-snap-nav',
-			SNAP_MEGAMENU_URL . 'blocks/snap-navigation/style.css',
+			'beplus-vmn-navigation',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/beplus-navigation/style.css',
 			[],
-			SNAP_MEGAMENU_VERSION
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
 		wp_enqueue_style(
-			'snap-megamenu-nav-toggle',
-			SNAP_MEGAMENU_URL . 'blocks/nav-toggle/style.css',
+			'beplus-vmn-nav-toggle',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/nav-toggle/style.css',
 			[],
-			SNAP_MEGAMENU_VERSION
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
 		wp_enqueue_style(
-			'snap-megamenu-nav-menu-area',
-			SNAP_MEGAMENU_URL . 'blocks/nav-menu-area/style.css',
+			'beplus-vmn-nav-menu-area',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/nav-menu-area/style.css',
 			[],
-			SNAP_MEGAMENU_VERSION
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
 		wp_enqueue_style(
-			'snap-megamenu-tab-container',
-			SNAP_MEGAMENU_URL . 'blocks/tab-container/style.css',
+			'beplus-vmn-tab-container',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/tab-container/style.css',
 			[],
-			SNAP_MEGAMENU_VERSION
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
 		wp_enqueue_script(
-			'snap-megamenu-front',
-			SNAP_MEGAMENU_URL . 'assets/js/frontend.js',
+			'beplus-vmn-front',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/frontend.js',
 			[],
-			SNAP_MEGAMENU_VERSION,
+			BEPLUS_VISUAL_MEGA_NAV_VERSION,
 			true
 		);
 
 		wp_enqueue_script(
-			'snap-megamenu-tabs',
-			SNAP_MEGAMENU_URL . 'assets/js/tabs.js',
+			'beplus-vmn-tabs',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/tabs.js',
 			[],
-			SNAP_MEGAMENU_VERSION,
+			BEPLUS_VISUAL_MEGA_NAV_VERSION,
 			true
 		);
 	}

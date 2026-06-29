@@ -28,7 +28,7 @@ function normalizeSpacingFeatures(spacing = {}) {
  * @return {Object} Block editor settings for BlockEditorProvider.
  */
 export function getMergedEditorSettings(overrides = {}) {
-	const baseSettings = window.snapMegaMenu?.editorSettings ?? {};
+	const baseSettings = window.beplusVmn?.editorSettings ?? {};
 	const features = baseSettings.__experimentalFeatures ?? {};
 
 	return {

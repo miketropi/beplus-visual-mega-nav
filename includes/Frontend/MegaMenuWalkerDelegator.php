@@ -2,12 +2,12 @@
 /**
  * Wraps a theme walker and injects mega menu panels.
  *
- * @package Snap\MegaMenuBuilder\Frontend
+ * @package Beplus\VisualMegaNav\Frontend
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Frontend;
+namespace Beplus\VisualMegaNav\Frontend;
 
 use Walker;
 use Walker_Nav_Menu;

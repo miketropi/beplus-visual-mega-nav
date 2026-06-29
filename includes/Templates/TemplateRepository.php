@@ -7,14 +7,14 @@
  *   - {parent-theme}/mega-menu-templates/*.json
  *   - {child-theme}/mega-menu-templates/*.json  (overrides same slug)
  *
- * @package Snap\MegaMenuBuilder\Templates
+ * @package Beplus\VisualMegaNav\Templates
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Templates;
+namespace Beplus\VisualMegaNav\Templates;
 
-use Snap\MegaMenuBuilder\Core\BlockContentSanitizer;
+use Beplus\VisualMegaNav\Core\BlockContentSanitizer;
 
 /**
  * Discovers, validates, and returns mega menu templates.
@@ -30,7 +30,7 @@ final class TemplateRepository {
 	 */
 	public function get_template_directories(): array {
 		$directories = [
-			'plugin' => SNAP_MEGAMENU_DIR . 'templates',
+			'plugin' => BEPLUS_VISUAL_MEGA_NAV_DIR . 'templates',
 			'theme'  => get_template_directory() . '/mega-menu-templates',
 		];
 
@@ -43,7 +43,7 @@ final class TemplateRepository {
 		 *
 		 * @param array<string, string> $directories Source label => absolute path.
 		 */
-		return apply_filters( 'snap_megamenu_template_directories', $directories );
+		return apply_filters( 'beplus_vmn_template_directories', $directories );
 	}
 
 	/**
@@ -82,7 +82,7 @@ final class TemplateRepository {
 		 *
 		 * @param array<string, array<string, mixed>> $templates Keyed by slug.
 		 */
-		$templates = apply_filters( 'snap_megamenu_templates', $templates );
+		$templates = apply_filters( 'beplus_vmn_templates', $templates );
 
 		return array_values( $templates );
 	}
@@ -130,7 +130,7 @@ final class TemplateRepository {
 		 * @param array<string, mixed> $found Full template payload.
 		 * @param string               $slug  Requested slug.
 		 */
-		return apply_filters( 'snap_megamenu_template_data', $found, $slug );
+		return apply_filters( 'beplus_vmn_template_data', $found, $slug );
 	}
 
 	/**

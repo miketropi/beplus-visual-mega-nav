@@ -2,7 +2,7 @@
 /**
  * Snap Navigation block — frontend markup.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  *
  * @var array<string, mixed> $attributes Block attributes.
  * @var string               $content    Inner blocks.
@@ -19,24 +19,15 @@ if ( ! isset( $attributes ) || ! is_array( $attributes ) ) {
 	$attributes = [];
 }
 
-$instance_id = $block->context['snap-megamenu/instanceId'] ?? '';
+$instance_id = $block->context['beplus-visual-mega-nav/instanceId'] ?? '';
 $overlay_id  = ! empty( $attributes['overlayId'] )
 	? sanitize_html_class( (string) $attributes['overlayId'] )
 	: ( '' !== $instance_id ? sanitize_html_class( 'overlay-' . $instance_id ) : '' );
 
-// Resolves a WordPress preset reference ("var:preset|spacing|50") to CSS var() syntax,
-// or returns the raw value as-is if it's not a preset reference.
-$resolve_preset = static function ( string $value ): string {
-	if ( str_starts_with( $value, 'var:preset|' ) ) {
-		// Format: var:preset|category|slug.
-		$parts = explode( '|', $value );
-		$cat   = $parts[1] ?? '';
-		$slug  = $parts[2] ?? '';
-		if ( '' !== $cat && '' !== $slug ) {
-			return 'var(--wp--preset--' . esc_attr( $cat ) . '--' . esc_attr( $slug ) . ')';
-		}
-	}
-	return $value;
+// Resolve and sanitize spacing values — only preset references and safe CSS
+// length values pass through; invalid values return an empty string.
+$resolve_spacing_value = static function ( string $value ): string {
+	return \Beplus\VisualMegaNav\Core\CssSanitizer::sanitizeSpacingValue( $value );
 };
 
 // Build inline flex layout styles from the layout attribute.
@@ -67,21 +58,21 @@ if ( isset( $layout['verticalAlignment'] ) && '' !== $layout['verticalAlignment'
 // Merge spacing (padding per-side) into inline CSS.
 $padding = isset( $spacing['padding'] ) && is_array( $spacing['padding'] ) ? $spacing['padding'] : [];
 if ( isset( $padding['top'] ) && '' !== $padding['top'] ) {
-	$inline_css .= 'padding-top:' . $resolve_preset( (string) $padding['top'] ) . ';';
+	$inline_css .= 'padding-top:' . $resolve_spacing_value( (string) $padding['top'] ) . ';';
 }
 if ( isset( $padding['right'] ) && '' !== $padding['right'] ) {
-	$inline_css .= 'padding-right:' . $resolve_preset( (string) $padding['right'] ) . ';';
+	$inline_css .= 'padding-right:' . $resolve_spacing_value( (string) $padding['right'] ) . ';';
 }
 if ( isset( $padding['bottom'] ) && '' !== $padding['bottom'] ) {
-	$inline_css .= 'padding-bottom:' . $resolve_preset( (string) $padding['bottom'] ) . ';';
+	$inline_css .= 'padding-bottom:' . $resolve_spacing_value( (string) $padding['bottom'] ) . ';';
 }
 if ( isset( $padding['left'] ) && '' !== $padding['left'] ) {
-	$inline_css .= 'padding-left:' . $resolve_preset( (string) $padding['left'] ) . ';';
+	$inline_css .= 'padding-left:' . $resolve_spacing_value( (string) $padding['left'] ) . ';';
 }
 
 // Block gap.
 if ( isset( $spacing['blockGap'] ) && '' !== $spacing['blockGap'] ) {
-	$inline_css .= 'gap:' . $resolve_preset( (string) $spacing['blockGap'] ) . ';';
+	$inline_css .= 'gap:' . $resolve_spacing_value( (string) $spacing['blockGap'] ) . ';';
 }
 
 $wrapper_attributes = get_block_wrapper_attributes(

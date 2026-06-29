@@ -1,14 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "snap-megamenu/nav-toggle",
+	"name": "beplus-visual-mega-nav/nav-toggle",
 	"title": "Nav Toggle",
 	"category": "header",
-	"ancestor": [ "snap-megamenu/snap-header" ],
+	"ancestor": [ "beplus-visual-mega-nav/beplus-header" ],
 	"icon": "menu",
 	"description": "Hamburger button that opens the mobile navigation overlay below the breakpoint.",
-	"keywords": [ "hamburger", "toggle", "menu", "mobile", "snap" ],
-	"textdomain": "snap-megamenu-builder",
+	"keywords": [ "hamburger", "toggle", "menu", "mobile", "beplus" ],
+	"textdomain": "beplus-visual-mega-nav",
 	"attributes": {
 		"iconStyle": {
 			"type": "string",
@@ -24,9 +24,9 @@
 		}
 	},
 	"usesContext": [
-		"snap-megamenu/overlayId",
-		"snap-megamenu/instanceId",
-		"snap-megamenu/mobileBreakpoint"
+		"beplus-visual-mega-nav/overlayId",
+		"beplus-visual-mega-nav/instanceId",
+		"beplus-visual-mega-nav/mobileBreakpoint"
 	],
 	"supports": {
 		"html": false,

@@ -12,7 +12,7 @@
  * The "indicatorColor" attribute controls the accent bar.
  * Text and divider colours follow the active theme automatically.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  *
  * @var array<string, mixed> $attributes Block attributes.
  * @var string               $content    Inner blocks.
@@ -34,16 +34,16 @@ $layout_mode = isset( $attributes['layoutMode'] ) && 'horizontal' === $attribute
 	: 'vertical';
 
 // Build container class string.
-$extra_class  = 'snap-megamenu-tab-container';
-$extra_class .= ' snap-megamenu-tab-container--' . $layout_mode;
+$extra_class  = 'beplus-vmn-tab-container';
+$extra_class .= ' beplus-vmn-tab-container--' . $layout_mode;
 
 // Collect colour overrides that will be output as inline CSS custom properties.
 $colour_overrides = [];
 
 $indicator_color = isset( $attributes['indicatorColor'] ) ? sanitize_hex_color( (string) $attributes['indicatorColor'] ) : '';
 if ( '' !== $indicator_color ) {
-	$colour_overrides[] = sprintf( '--snap-mm-tab-text-color:%s', $indicator_color );
-	$colour_overrides[] = sprintf( '--snap-mm-tab-indicator-color:%s', $indicator_color );
+	$colour_overrides[] = sprintf( '--beplus-vmn-tab-text-color:%s', $indicator_color );
+	$colour_overrides[] = sprintf( '--beplus-vmn-tab-indicator-color:%s', $indicator_color );
 }
 
 $container_style = '';
@@ -73,10 +73,10 @@ if ( 0 === $panel_count ) {
 	return;
 }
 
-$instance_id = wp_unique_id( 'snap-mm-' );
+$instance_id = wp_unique_id( 'beplus-vmn-' );
 
 printf(
-	'<div %1$s data-snap-mm-tabs="%2$s" data-snap-mm-layout="%3$s"%4$s>',
+	'<div %1$s data-beplus-vmn-tabs="%2$s" data-beplus-vmn-layout="%3$s"%4$s>',
 	$wrapper_attributes, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	esc_attr( $instance_id ),
 	esc_attr( $layout_mode ),
@@ -85,12 +85,12 @@ printf(
 
 // ---- Tab list ----
 if ( 'horizontal' === $layout_mode ) {
-	echo '<div class="snap-megamenu-tab-container__tablist" role="tablist" aria-label="' . esc_attr__( 'Tabs', 'snap-megamenu-builder' ) . '">';
-	echo '<span class="snap-megamenu-tab-container__indicator" aria-hidden="true"></span>';
+	echo '<div class="beplus-vmn-tab-container__tablist" role="tablist" aria-label="' . esc_attr__( 'Tabs', 'beplus-visual-mega-nav' ) . '">';
+	echo '<span class="beplus-vmn-tab-container__indicator" aria-hidden="true"></span>';
 } else {
-	echo '<div class="snap-megamenu-tab-container__sidebar">';
-	echo '<div class="snap-megamenu-tab-container__tablist" role="tablist" aria-orientation="vertical">';
-	echo '<span class="snap-megamenu-tab-container__indicator" aria-hidden="true"></span>';
+	echo '<div class="beplus-vmn-tab-container__sidebar">';
+	echo '<div class="beplus-vmn-tab-container__tablist" role="tablist" aria-orientation="vertical">';
+	echo '<span class="beplus-vmn-tab-container__indicator" aria-hidden="true"></span>';
 }
 
 for ( $i = 0; $i < $panel_count; $i++ ) {
@@ -99,11 +99,11 @@ for ( $i = 0; $i < $panel_count; $i++ ) {
 
 	if ( '' === $label ) {
 		/* translators: %d: tab number */
-		$label = sprintf( __( 'Tab %d', 'snap-megamenu-builder' ), $i + 1 );
+		$label = sprintf( __( 'Tab %d', 'beplus-visual-mega-nav' ), $i + 1 );
 	}
 
 	printf(
-		'<div class="snap-megamenu-tab-container__tab" role="tab" id="%1$s" aria-selected="%2$s" aria-controls="%3$s" tabindex="%4$d">%5$s</div>',
+		'<div class="beplus-vmn-tab-container__tab" role="tab" id="%1$s" aria-selected="%2$s" aria-controls="%3$s" tabindex="%4$d">%5$s</div>',
 		esc_attr( $instance_id . '-tab-' . $i ),
 		$is_active ? 'true' : 'false',
 		esc_attr( $instance_id . '-tabpanel-' . $i ),
@@ -119,7 +119,7 @@ if ( 'vertical' === $layout_mode ) {
 }
 
 // ---- Content panels ----
-echo '<div class="snap-megamenu-tab-container__content">';
+echo '<div class="beplus-vmn-tab-container__content">';
 
 if ( $block instanceof \WP_Block && isset( $block->inner_blocks ) ) {
 	$idx = 0;
@@ -131,7 +131,7 @@ if ( $block instanceof \WP_Block && isset( $block->inner_blocks ) ) {
 		$is_active = 0 === $idx;
 
 		printf(
-			'<div class="snap-megamenu-tab-container__panel" role="tabpanel" id="%1$s" aria-labelledby="%2$s"%3$s>',
+			'<div class="beplus-vmn-tab-container__panel" role="tabpanel" id="%1$s" aria-labelledby="%2$s"%3$s>',
 			esc_attr( $instance_id . '-tabpanel-' . $idx ),
 			esc_attr( $instance_id . '-tab-' . $idx ),
 			$is_active ? '' : ' hidden'

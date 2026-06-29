@@ -10,13 +10,13 @@
  * Activates on hover (desktop) or click.
  * Keyboard: Arrow keys navigate, Home/End, Enter/Space.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 (function () {
 	'use strict';
 
-	var CONTAINER_SEL = '.snap-megamenu-tab-container';
+	var CONTAINER_SEL = '.beplus-vmn-tab-container';
 
 	function init() {
 		var containers = document.querySelectorAll(CONTAINER_SEL);
@@ -29,24 +29,24 @@
 	 * @param {HTMLElement} container
 	 */
 	function setupContainer(container) {
-		if (container.dataset.snapMmTabsEnhanced) {
+		if (container.dataset.beplusVmnTabsEnhanced) {
 			return;
 		}
 
-		container.dataset.snapMmTabsEnhanced = 'true';
+		container.dataset.beplusVmnTabsEnhanced = 'true';
 
 		var layout =
-			container.dataset.snapMmLayout || container.getAttribute('data-snap-mm-layout') || 'vertical';
+			container.dataset.beplusVmnLayout || container.getAttribute('data-beplus-vmn-layout') || 'vertical';
 		var isHorizontal = layout === 'horizontal';
 
 		var tabs = container.querySelectorAll(
-			'.snap-megamenu-tab-container__tablist > [role="tab"]'
+			'.beplus-vmn-tab-container__tablist > [role="tab"]'
 		);
 		var indicator = container.querySelector(
-			'.snap-megamenu-tab-container__indicator'
+			'.beplus-vmn-tab-container__indicator'
 		);
 		var panels = container.querySelectorAll(
-			'.snap-megamenu-tab-container__content > [role="tabpanel"]'
+			'.beplus-vmn-tab-container__content > [role="tabpanel"]'
 		);
 
 		if (!tabs.length || !panels.length) {
@@ -116,7 +116,7 @@
 		}
 
 		var tablist = container.querySelector(
-			'.snap-megamenu-tab-container__tablist'
+			'.beplus-vmn-tab-container__tablist'
 		);
 		if (tablist && indicator) {
 			tablist.addEventListener('mouseleave', function () {
@@ -141,7 +141,7 @@
 		 * @param {boolean}     isHorizontal
 		 */
 		function positionIndicator(indicator, tab, isHorizontal) {
-			var tablist = tab.closest('.snap-megamenu-tab-container__tablist');
+			var tablist = tab.closest('.beplus-vmn-tab-container__tablist');
 			if (!tablist) return;
 
 			var tablistRect = tablist.getBoundingClientRect();
@@ -227,7 +227,7 @@
 					}
 					activateTab(currentIndex);
 					var tl = container.querySelector(
-						'.snap-megamenu-tab-container__tablist'
+						'.beplus-vmn-tab-container__tablist'
 					);
 					if (tl) {
 						tl.dispatchEvent(

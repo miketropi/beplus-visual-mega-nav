@@ -1,6 +1,6 @@
 ---
 name: php-quality
-description: Use when writing, editing, or reviewing PHP files (*.php) in includes/ or snap-megamenu-builder.php. Run after every PHP change to verify no lint/CS/Stan errors were introduced. Do NOT skip.
+description: Use when writing, editing, or reviewing PHP files (*.php) in includes/ or beplus-visual-mega-nav.php. Run after every PHP change to verify no lint/CS/Stan errors were introduced. Do NOT skip.
 ---
 
 # PHP Quality Enforcement
@@ -42,7 +42,7 @@ All rules come from `phpcs.xml.dist` and `phpstan.neon`. Key conventions:
 ### Required in every file
 - `declare(strict_types=1);` as the first line after `<?php`
 - Namespace: `Snap\MegaMenuBuilder\` (matches directory under `includes/`)
-- Text domain: `snap-megamenu-builder` for all translatable strings
+- Text domain: `beplus-visual-mega-nav` for all translatable strings
 
 ### Class conventions
 - **`final` classes** preferred — only remove `final` if there's a real extension use case
@@ -50,22 +50,22 @@ All rules come from `phpcs.xml.dist` and `phpstan.neon`. Key conventions:
 - PSR-4: `Snap\MegaMenuBuilder\Foo\Bar` lives in `includes/Foo/Bar.php`
 
 ### WordPress conventions
-- **Prefix all globals:** hooks use `snap_megamenu_*`, constants use `SNAP_MEGAMENU_*`, handles use `snap-megamenu-*`
+- **Prefix all globals:** hooks use `beplus_vmn_*`, constants use `BEPLUS_VISUAL_MEGA_NAV_*`, handles use `beplus-vmn-*`
 - **Escape output:** `esc_html()`, `esc_attr()`, `esc_url()`, `wp_kses_post()` — never echo raw data
 - **Capability checks:** `current_user_can('edit_theme_options')` for admin operations
 - **Nonce verification:** Always verify nonces on POST endpoints
 - **Use WordPress APIs** (WP_Query, WP_Post, get_post_meta) — never raw SQL
-- **I18n:** `__()`, `_e()`, `esc_html__()`, etc. with `snap-megamenu-builder` textdomain
+- **I18n:** `__()`, `_e()`, `esc_html__()`, etc. with `beplus-visual-mega-nav` textdomain
 
 ### Naming map (from AGENTS.md)
 | Context | Value |
 |---------|-------|
-| Plugin folder / text domain | `snap-megamenu-builder` |
+| Plugin folder / text domain | `beplus-visual-mega-nav` |
 | PHP namespace | `Snap\MegaMenuBuilder\` |
-| PHP constants | `SNAP_MEGAMENU_*` |
-| Post meta keys | `_snap_megamenu_*` |
-| REST namespace | `snap-megamenu/v1` |
-| PHP filters | `snap_megamenu_*` |
+| PHP constants | `BEPLUS_VISUAL_MEGA_NAV_*` |
+| Post meta keys | `_beplus_vmn_*` |
+| REST namespace | `beplus-visual-mega-nav/v1` |
+| PHP filters | `beplus_vmn_*` |
 
 ### Legacy compatibility
 `MetaKeys::get()` falls back to `_jemented_megamenu_*` meta when new keys are empty. Do NOT remove this fallback.

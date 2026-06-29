@@ -2,14 +2,14 @@
 /**
  * Renders mega menu panel markup for a nav menu item.
  *
- * @package Snap\MegaMenuBuilder\Frontend
+ * @package Beplus\VisualMegaNav\Frontend
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Frontend;
+namespace Beplus\VisualMegaNav\Frontend;
 
-use Snap\MegaMenuBuilder\Core\MetaKeys;
+use Beplus\VisualMegaNav\Core\MetaKeys;
 
 /**
  * Shared HTML output for mega menu panels.
@@ -55,18 +55,18 @@ final class MegaMenuPanelRenderer {
 		$inline_styles = self::build_inline_styles( $width, $custom_w, $bg_color );
 
 		$output .= sprintf(
-			'<div class="snap-megamenu-mega-panel" data-animation="%s" style="%s" role="region" aria-label="%s">',
+			'<div class="beplus-vmn-mega-panel" data-animation="%s" style="%s" role="region" aria-label="%s">',
 			esc_attr( $animation ),
 			esc_attr( $inline_styles ),
 			esc_attr(
 				sprintf(
 					/* translators: %s: menu item title */
-					__( 'Mega menu for %s', 'snap-megamenu-builder' ),
+					__( 'Mega menu for %s', 'beplus-visual-mega-nav' ),
 					$item->title
 				)
 			)
 		);
-		$output .= '<div class="snap-megamenu-mega-panel__inner">';
+		$output .= '<div class="beplus-vmn-mega-panel__inner">';
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core WordPress hook
 		$output .= apply_filters( 'the_content', $content );
 		$output .= '</div></div>';

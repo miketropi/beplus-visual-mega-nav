@@ -11,24 +11,24 @@ import { __ } from '@wordpress/i18n';
 export default function Edit({ attributes, setAttributes }) {
 	const { tabLabel } = attributes;
 	const blockProps = useBlockProps({
-		className: 'snap-megamenu-tab-panel',
+		className: 'beplus-vmn-tab-panel',
 	});
 
 	return (
 		<div {...blockProps}>
-			<div className="snap-megamenu-tab-panel__header">
+			<div className="beplus-vmn-tab-panel__header">
 				<TextControl
-					label={__('Tab Label', 'snap-megamenu-builder')}
+					label={__('Tab Label', 'beplus-visual-mega-nav')}
 					value={tabLabel}
 					onChange={(value) => setAttributes({ tabLabel: value })}
 					placeholder={__(
 						'Tab button text (e.g. Overview)',
-						'snap-megamenu-builder'
+						'beplus-visual-mega-nav'
 					)}
 					__nextHasNoMarginBottom
 				/>
 			</div>
-			<div className="snap-megamenu-tab-panel__content">
+			<div className="beplus-vmn-tab-panel__content">
 				<InnerBlocks
 					allowedBlocks={true}
 					template={[
@@ -38,7 +38,7 @@ export default function Edit({ attributes, setAttributes }) {
 								level: 3,
 								placeholder: __(
 									'Tab heading',
-									'snap-megamenu-builder'
+									'beplus-visual-mega-nav'
 								),
 							},
 						],

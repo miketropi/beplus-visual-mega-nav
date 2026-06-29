@@ -1,7 +1,7 @@
 /**
  * Webpack configuration — extends @wordpress/scripts default.
  *
- * @package Snap\MegaMenuBuilder
+ * @package Beplus\VisualMegaNavBuilder
  */
 
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );

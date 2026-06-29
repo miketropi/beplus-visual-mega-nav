@@ -1,30 +1,31 @@
 /**
- * Snap Header — frontend JS engine.
+ * BePlus Header — frontend JS engine.
  *
  * Handles sticky positioning (spacer + sentinel), scroll effects,
  * Nav Toggle activation, clone-to-body mobile portal, focus trap,
  * scroll lock, and resume-aware teardown.
  *
- * Loaded via viewScript — only when a snap-header block is on the page.
+ * Loaded via viewScript — only when a beplus-header block is on the page.
  *
- * @package Snap\MegaMenu
+ * @package
  */
 (function () {
 	'use strict';
 
-	var HEADER_SELECTOR = '.wp-block-snap-megamenu-snap-header.is-sticky';
-	var TOGGLE_SELECTOR = '.wp-block-snap-megamenu-nav-toggle';
-	var MENU_AREA_SELECTOR = '.wp-block-snap-megamenu-nav-menu-area';
-	var PORTAL_CLASS = 'snap-nav-portal';
-	var FIXED_CLASS = 'is-fixed-active';
+	const HEADER_SELECTOR =
+		'.wp-block-beplus-visual-mega-nav-beplus-header.is-sticky';
+	const TOGGLE_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-toggle';
+	const MENU_AREA_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-menu-area';
+	const PORTAL_CLASS = 'beplus-nav-portal';
+	const FIXED_CLASS = 'is-fixed-active';
 
-	var instances = new WeakMap();
+	const instances = new WeakMap();
 
 	/**
 	 * Locate all sticky headers on the page and initialize them.
 	 */
 	function init() {
-		var headers = document.querySelectorAll(HEADER_SELECTOR);
+		const headers = document.querySelectorAll(HEADER_SELECTOR);
 		if (!headers.length) {
 			return;
 		}
@@ -32,23 +33,23 @@
 	}
 
 	/**
-	 * Initialize one Snap Header instance.
+	 * Initialize one BePlus Header instance.
 	 *
-	 * @param {HTMLElement} header The .wp-block-snap-megamenu-snap-header element.
+	 * @param {HTMLElement} header The .wp-block-beplus-visual-mega-nav-beplus-header element.
 	 */
 	function initHeader(header) {
 		if (instances.has(header)) {
 			return;
 		}
 
-		var breakpointRaw = header.getAttribute('data-breakpoint');
-		var breakpoint = parseInt(breakpointRaw, 10) || 782;
-		var instanceId = header.getAttribute('data-instance') || '';
+		const breakpointRaw = header.getAttribute('data-breakpoint');
+		const breakpoint = parseInt(breakpointRaw, 10) || 782;
+		const instanceId = header.getAttribute('data-instance') || '';
 
-		var state = {
-			header: header,
-			breakpoint: breakpoint,
-			instanceId: instanceId,
+		const state = {
+			header,
+			breakpoint,
+			instanceId,
 			portalRoot: null,
 			portalCreated: false,
 			activeToggle: null,
@@ -74,17 +75,17 @@
 	 * @param {Object}      state  Instance state.
 	 */
 	function initSticky(header, state) {
-		var effect = header.getAttribute('data-scroll-effect') || 'none';
+		const effect = header.getAttribute('data-scroll-effect') || 'none';
 
 		// Sentinel — 1px tall block in normal flow, right before the header.
-		var sentinel = document.createElement('div');
-		sentinel.className = 'snap-hdr-sentinel';
+		const sentinel = document.createElement('div');
+		sentinel.className = 'beplus-hdr-sentinel';
 		sentinel.style.cssText = 'height:1px;pointer-events:none;';
 		header.parentNode.insertBefore(sentinel, header);
 
 		// Spacer — keeps page content from jumping when header becomes fixed.
-		var spacer = document.createElement('div');
-		spacer.className = 'snap-hdr-spacer';
+		const spacer = document.createElement('div');
+		spacer.className = 'beplus-hdr-spacer';
 		spacer.setAttribute('aria-hidden', 'true');
 		spacer.style.display = 'none';
 		header.parentNode.insertBefore(spacer, header);
@@ -93,19 +94,18 @@
 			spacer.style.height = header.offsetHeight + 'px';
 		}
 
-		var ro = new ResizeObserver(measureSpacer);
+		const ro = new ResizeObserver(measureSpacer);
 		ro.observe(header);
 		measureSpacer();
 
 		// IntersectionObserver with admin bar offset so the sentinel
 		// triggers when it scrolls past the admin bar, not the viewport top.
-		var io;
 		function createStickyIO() {
-			var bar = document.getElementById('wpadminbar');
-			var barHeight = bar ? bar.offsetHeight : 0;
-			var obs = new IntersectionObserver(
+			const bar = document.getElementById('wpadminbar');
+			const barHeight = bar ? bar.offsetHeight : 0;
+			const obs = new IntersectionObserver(
 				function (entries) {
-					var isStuck = !entries[0].isIntersecting;
+					const isStuck = !entries[0].isIntersecting;
 					header.classList.toggle('is-stuck', isStuck);
 					header.classList.toggle(FIXED_CLASS, isStuck);
 					spacer.style.display = isStuck ? 'block' : 'none';
@@ -119,12 +119,12 @@
 			return obs;
 		}
 
-		io = createStickyIO();
+		const io = createStickyIO();
 
 		// Watch admin bar for height changes (desktop 32 px ↔ mobile 46 px).
-		var adminBar = document.getElementById('wpadminbar');
+		const adminBar = document.getElementById('wpadminbar');
 		if (adminBar) {
-			var barRO = new ResizeObserver(function () {
+			const barRO = new ResizeObserver(function () {
 				if (state.io) {
 					state.io.disconnect();
 				}
@@ -154,7 +154,7 @@
 	 * @param {Object}      state  Instance state.
 	 */
 	function bindScrollHide(header, state) {
-		var ticking = false;
+		let ticking = false;
 
 		function onScroll() {
 			if (ticking) {
@@ -162,8 +162,9 @@
 			}
 			ticking = true;
 			requestAnimationFrame(function () {
-				var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-				var isDown = scrollY > state.lastScrollY && scrollY > 100;
+				const scrollY =
+					window.pageYOffset || document.documentElement.scrollTop;
+				const isDown = scrollY > state.lastScrollY && scrollY > 100;
 
 				if (isDown) {
 					header.classList.add('is-hidden');
@@ -191,14 +192,14 @@
 	 * @param {Object}      state  Instance state.
 	 */
 	function initToggles(header, state) {
-		var toggles = header.querySelectorAll(TOGGLE_SELECTOR);
+		const toggles = header.querySelectorAll(TOGGLE_SELECTOR);
 		Array.prototype.forEach.call(toggles, function (toggle) {
 			if (!(toggle instanceof HTMLElement)) {
 				return;
 			}
 
 			// Skip editor-only preview buttons.
-			if (toggle.classList.contains('snap-nav-toggle-preview')) {
+			if (toggle.classList.contains('beplus-nav-toggle-preview')) {
 				return;
 			}
 
@@ -223,7 +224,7 @@
 	 * @param {Object}      state  Instance state.
 	 */
 	function handleToggleClick(toggle, state) {
-		var isBelowBreakpoint = window.innerWidth <= state.breakpoint;
+		const isBelowBreakpoint = window.innerWidth <= state.breakpoint;
 		if (!isBelowBreakpoint) {
 			return;
 		}
@@ -244,27 +245,27 @@
 	}
 
 	/**
-	 * Deep-clone the Snap Navigation subtree, sanitize it, wrap in portal,
+	 * Deep-clone the BePlus Navigation subtree, sanitize it, wrap in portal,
 	 * and append to document.body.
 	 *
 	 * @param {Object} state Instance state.
 	 */
 	function createPortal(state) {
-		var header = state.header;
-		var menuArea = header.querySelector(MENU_AREA_SELECTOR);
+		const header = state.header;
+		const menuArea = header.querySelector(MENU_AREA_SELECTOR);
 
 		if (!(menuArea instanceof HTMLElement)) {
 			return;
 		}
 
 		// Clone the menu area subtree (nav menu only, no toggle).
-		var clone = menuArea.cloneNode(true);
+		const clone = menuArea.cloneNode(true);
 
 		// Sanitize: rewrite all IDs to avoid duplicates.
 		sanitizeClone(clone, state.instanceId);
 
 		// Create portal root.
-		var portalRoot = document.createElement('div');
+		const portalRoot = document.createElement('div');
 		portalRoot.className = PORTAL_CLASS;
 		portalRoot.id = 'overlay-' + state.instanceId;
 		portalRoot.setAttribute('data-state', 'closed');
@@ -277,8 +278,8 @@
 		mirrorCSSVariables(header, portalRoot);
 
 		// Close button.
-		var closeBtn = document.createElement('button');
-		closeBtn.className = 'snap-nav-portal__close';
+		const closeBtn = document.createElement('button');
+		closeBtn.className = 'beplus-nav-portal__close';
 		closeBtn.type = 'button';
 		closeBtn.setAttribute('aria-label', 'Close navigation');
 		closeBtn.innerHTML =
@@ -293,8 +294,8 @@
 		document.body.appendChild(portalRoot);
 
 		// Re-init the existing menu engine on the cloned subtree.
-		if (typeof window.snapMegaMenuReInit === 'function') {
-			window.snapMegaMenuReInit(portalRoot);
+		if (typeof window.beplusVmnReInit === 'function') {
+			window.beplusVmnReInit(portalRoot);
 		}
 
 		// Bind close-on-backdrop-click.
@@ -312,7 +313,7 @@
 	 * Walk the cloned subtree and rewrite all id attributes to avoid
 	 * duplicates with the original DOM. Also strips editor-only attrs.
 	 *
-	 * @param {Node}   subtree   Cloned node.
+	 * @param {Node}   subtree    Cloned node.
 	 * @param {string} instanceId Instance ID for suffix.
 	 */
 	function sanitizeClone(subtree, instanceId) {
@@ -322,20 +323,20 @@
 
 		// Rewrite IDs.
 		if (subtree.hasAttribute('id')) {
-			var originalId = subtree.getAttribute('id');
+			const originalId = subtree.getAttribute('id');
 			subtree.setAttribute('id', originalId + '--portal-' + instanceId);
 		}
 
 		// Strip editor-only attributes.
-		var editorAttrs = ['data-block', 'data-type', 'data-title'];
-		for (var i = 0; i < editorAttrs.length; i++) {
+		const editorAttrs = ['data-block', 'data-type', 'data-title'];
+		for (let i = 0; i < editorAttrs.length; i++) {
 			if (subtree.hasAttribute(editorAttrs[i])) {
 				subtree.removeAttribute(editorAttrs[i]);
 			}
 		}
 
 		// Walk children.
-		var children = subtree.children;
+		const children = subtree.children;
 		if (children) {
 			Array.prototype.forEach.call(children, function (child) {
 				sanitizeClone(child, instanceId);
@@ -351,8 +352,8 @@
 	 * @param {HTMLElement} portalRoot The portal root element.
 	 */
 	function mirrorCSSVariables(source, portalRoot) {
-		var computed = getComputedStyle(source);
-		var varsToMirror = [
+		const computed = getComputedStyle(source);
+		const varsToMirror = [
 			'--wp--preset--color--background',
 			'--wp--preset--color--foreground',
 			'--wp--preset--color--primary',
@@ -360,15 +361,15 @@
 			'--wp--preset--font-family--body',
 			'--wp--style--root--padding-left',
 			'--wp--style--root--padding-right',
-			'--snap-megamenu-mega-bg',
-			'--snap-megamenu-mega-shadow',
-			'--snap-megamenu-mega-padding',
-			'--snap-megamenu-mega-z',
+			'--beplus-vmn-mega-bg',
+			'--beplus-vmn-mega-shadow',
+			'--beplus-vmn-mega-padding',
+			'--beplus-vmn-mega-z',
 		];
 
-		var styles = '';
-		for (var i = 0; i < varsToMirror.length; i++) {
-			var val = computed.getPropertyValue(varsToMirror[i]).trim();
+		let styles = '';
+		for (let i = 0; i < varsToMirror.length; i++) {
+			const val = computed.getPropertyValue(varsToMirror[i]).trim();
 			if (val) {
 				styles += varsToMirror[i] + ':' + val + ';';
 			}
@@ -385,7 +386,7 @@
 	 * @param {Object} state Instance state.
 	 */
 	function openPortal(state) {
-		var portalRoot = state.portalRoot;
+		const portalRoot = state.portalRoot;
 		if (!portalRoot || state.isPortalOpen) {
 			return;
 		}
@@ -429,7 +430,7 @@
 	 * @param {Object} state Instance state.
 	 */
 	function closePortal(state) {
-		var portalRoot = state.portalRoot;
+		const portalRoot = state.portalRoot;
 		if (!portalRoot || !state.isPortalOpen) {
 			return;
 		}
@@ -444,7 +445,7 @@
 		}
 
 		// Delay scroll unlock until transition finishes.
-		var done = false;
+		let done = false;
 		function finish() {
 			if (done) {
 				return;
@@ -468,7 +469,7 @@
 	 * @param {HTMLElement} container Container element.
 	 */
 	function focusFirst(container) {
-		var focusable = getFocusableElements(container);
+		const focusable = getFocusableElements(container);
 		if (focusable.length) {
 			focusable[0].focus();
 		} else {
@@ -483,24 +484,22 @@
 	 * @param {HTMLElement}   container Container element.
 	 */
 	function trapFocus(e, container) {
-		var focusable = getFocusableElements(container);
+		const focusable = getFocusableElements(container);
 		if (!focusable.length) {
 			return;
 		}
 
-		var first = focusable[0];
-		var last = focusable[focusable.length - 1];
+		const first = focusable[0];
+		const last = focusable[focusable.length - 1];
 
 		if (e.shiftKey) {
 			if (document.activeElement === first) {
 				e.preventDefault();
 				last.focus();
 			}
-		} else {
-			if (document.activeElement === last) {
-				e.preventDefault();
-				first.focus();
-			}
+		} else if (document.activeElement === last) {
+			e.preventDefault();
+			first.focus();
 		}
 	}
 
@@ -508,10 +507,10 @@
 	 * Get all focusable elements within a container.
 	 *
 	 * @param {HTMLElement} container Container element.
-	 * @return {HTMLElement[]}
+	 * @return {HTMLElement[]} Array of focusable elements.
 	 */
 	function getFocusableElements(container) {
-		var selectors = [
+		const selectors = [
 			'a[href]',
 			'button:not([disabled])',
 			'input:not([disabled]):not([type="hidden"])',
@@ -520,7 +519,7 @@
 			'[tabindex]:not([tabindex="-1"])',
 		];
 
-		var elements = container.querySelectorAll(selectors.join(','));
+		const elements = container.querySelectorAll(selectors.join(','));
 		return Array.prototype.filter.call(elements, function (el) {
 			return el.offsetParent !== null || el === container;
 		});
@@ -531,7 +530,8 @@
 	 * ----------------------------------------------------------------- */
 
 	function lockScroll(state) {
-		state.scrollY = window.pageYOffset || document.documentElement.scrollTop;
+		state.scrollY =
+			window.pageYOffset || document.documentElement.scrollTop;
 		document.documentElement.style.overflow = 'hidden';
 		document.body.style.overflow = 'hidden';
 		document.body.style.position = 'fixed';
@@ -562,10 +562,10 @@
 	 * @param {Object}      state  Instance state.
 	 */
 	function bindResize(header, state) {
-		var previousBelow = window.innerWidth <= state.breakpoint;
+		let previousBelow = window.innerWidth <= state.breakpoint;
 
 		function onResize() {
-			var isBelow = window.innerWidth <= state.breakpoint;
+			const isBelow = window.innerWidth <= state.breakpoint;
 
 			if (!isBelow && previousBelow && state.isPortalOpen) {
 				closePortal(state);
@@ -646,13 +646,11 @@
 	}
 
 	// Expose public teardown for hot-module / SPA navigation.
-	window.snapHeaderTeardown = function () {
-		document
-			.querySelectorAll(HEADER_SELECTOR)
-			.forEach(function (header) {
-				if (instances.has(header)) {
-					teardown(instances.get(header));
-				}
-			});
+	window.beplusHeaderTeardown = function () {
+		document.querySelectorAll(HEADER_SELECTOR).forEach(function (header) {
+			if (instances.has(header)) {
+				teardown(instances.get(header));
+			}
+		});
 	};
 })();

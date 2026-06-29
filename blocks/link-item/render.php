@@ -2,7 +2,7 @@
 /**
  * Link Item block — frontend markup.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  *
  * @var array<string, mixed> $attributes Block attributes.
  * @var string               $content    Inner blocks (unused).
@@ -17,4 +17,4 @@ if ( ! isset( $attributes ) || ! is_array( $attributes ) ) {
 	$attributes = []; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- WordPress block convention
 }
 
-echo \Snap\MegaMenuBuilder\Blocks\LinkItemRenderer::render( $attributes, $block ?? null ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo \Beplus\VisualMegaNav\Blocks\LinkItemRenderer::render( $attributes, $block ?? null ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

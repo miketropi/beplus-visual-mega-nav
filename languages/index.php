@@ -2,5 +2,5 @@
 /**
  * Silence is golden.
  *
- * @package Snap\MegaMenuBuilder
+ * @package Beplus\VisualMegaNav
  */

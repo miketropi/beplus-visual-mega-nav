@@ -2,21 +2,21 @@
 /**
  * Post meta keys for mega menu data (with legacy fallbacks).
  *
- * @package Snap\MegaMenuBuilder\Core
+ * @package Beplus\VisualMegaNav\Core
  */
 
 declare(strict_types=1);
 
-namespace Snap\MegaMenuBuilder\Core;
+namespace Beplus\VisualMegaNav\Core;
 
 /**
  * Central registry for nav_menu_item meta keys.
  */
 final class MetaKeys {
 
-	public const ENABLED  = '_snap_megamenu_enabled';
-	public const SETTINGS = '_snap_megamenu_settings';
-	public const CONTENT  = '_snap_megamenu_content';
+	public const ENABLED  = '_beplus_vmn_enabled';
+	public const SETTINGS = '_beplus_vmn_settings';
+	public const CONTENT  = '_beplus_vmn_content';
 
 	private const LEGACY_ENABLED  = '_jemented_megamenu_enabled';
 	private const LEGACY_SETTINGS = '_jemented_megamenu_settings';

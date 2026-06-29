@@ -9,28 +9,28 @@ import { __ } from '@wordpress/i18n';
 
 export default function Edit({ attributes, setAttributes, context }) {
 	const { iconStyle, label, labelVisible } = attributes;
-	const overlayId = context['snap-megamenu/overlayId'] || '';
+	const overlayId = context['beplus-visual-mega-nav/overlayId'] || '';
 
 	const blockProps = useBlockProps({
-		className: 'is-mobile-only snap-nav-toggle-preview',
+		className: 'is-mobile-only beplus-nav-toggle-preview',
 	});
 
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('Toggle Settings', 'snap-megamenu-builder')}
+					title={__('Toggle Settings', 'beplus-visual-mega-nav')}
 				>
 					<SelectControl
-						label={__('Icon style', 'snap-megamenu-builder')}
+						label={__('Icon style', 'beplus-visual-mega-nav')}
 						value={iconStyle}
 						options={[
 							{
-								label: __('3 lines', 'snap-megamenu-builder'),
+								label: __('3 lines', 'beplus-visual-mega-nav'),
 								value: 'lines-3',
 							},
 							{
-								label: __('2 lines', 'snap-megamenu-builder'),
+								label: __('2 lines', 'beplus-visual-mega-nav'),
 								value: 'lines-2',
 							},
 						]}
@@ -39,7 +39,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						}
 					/>
 					<ToggleControl
-						label={__('Show label', 'snap-megamenu-builder')}
+						label={__('Show label', 'beplus-visual-mega-nav')}
 						checked={labelVisible}
 						onChange={(value) =>
 							setAttributes({ labelVisible: value })
@@ -47,12 +47,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					{labelVisible && (
 						<TextControl
-							label={__('Label', 'snap-megamenu-builder')}
+							label={__('Label', 'beplus-visual-mega-nav')}
 							value={label}
 							onChange={(value) =>
 								setAttributes({ label: value })
 							}
-							placeholder={__('Menu', 'snap-megamenu-builder')}
+							placeholder={__('Menu', 'beplus-visual-mega-nav')}
 						/>
 					)}
 				</PanelBody>
@@ -62,10 +62,10 @@ export default function Edit({ attributes, setAttributes, context }) {
 				{...blockProps}
 				aria-expanded="false"
 				aria-controls={overlayId || undefined}
-				aria-label={label || __('Open menu', 'snap-megamenu-builder')}
+				aria-label={label || __('Open menu', 'beplus-visual-mega-nav')}
 			>
 				<span
-					className={`snap-nav-toggle__icon snap-nav-toggle__icon--${iconStyle}`}
+					className={`beplus-nav-toggle__icon beplus-nav-toggle__icon--${iconStyle}`}
 					aria-hidden="true"
 				>
 					<span></span>
@@ -73,7 +73,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<span></span>
 				</span>
 				{labelVisible && label && (
-					<span className="snap-nav-toggle__label">{label}</span>
+					<span className="beplus-nav-toggle__label">{label}</span>
 				)}
 			</button>
 		</>

@@ -3,7 +3,7 @@ description: Execute the full Planner > Builder > Review > QA pipeline
 agent: general
 ---
 
-You are executing the **Planner > Builder > Review > QA** pipeline for the Snap Mega Menu Builder project.
+You are executing the **Planner > Builder > Review > QA** pipeline for the Beplus Visual Mega Navigation project.
 
 ## Task
 $ARGUMENTS

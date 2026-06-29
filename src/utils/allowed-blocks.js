@@ -2,11 +2,11 @@
  * Blocks allowed inside the mega menu Content Builder.
  *
  * Defaults are mirrored in `includes/Core/AllowedBlocks.php`. At runtime the
- * server list is passed via `window.snapMegaMenu.allowedBlocks`.
+ * server list is passed via `window.beplusVmn.allowedBlocks`.
  *
  * Third-party extensions:
- * - PHP: `snap_megamenu_allowed_blocks` filter (recommended).
- * - JS:  `snap-megamenu.allowedBlocks` filter via `@wordpress/hooks`.
+ * - PHP: `beplus_vmn_allowed_blocks` filter (recommended).
+ * - JS:  `beplus-vmn.allowedBlocks` filter via `@wordpress/hooks`.
  *
  * @package
  */
@@ -39,9 +39,9 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 
 	// Navigation.
 	'core/page-list',
-	'snap-megamenu/link-item',
-	'snap-megamenu/tab-container',
-	'snap-megamenu/tab-panel',
+	'beplus-visual-mega-nav/link-item',
+	'beplus-visual-mega-nav/tab-container',
+	'beplus-visual-mega-nav/tab-panel',
 
 	// Media.
 	'core/cover',
@@ -57,13 +57,13 @@ export const DEFAULT_ALLOWED_BLOCKS = [
  * @return {string[]} Block names.
  */
 export function getAllowedBlocks() {
-	const fromPhp = window.snapMegaMenu?.allowedBlocks;
+	const fromPhp = window.beplusVmn?.allowedBlocks;
 	const blocks =
 		Array.isArray(fromPhp) && fromPhp.length
 			? fromPhp
 			: DEFAULT_ALLOWED_BLOCKS;
 
-	return applyFilters('snap-megamenu.allowedBlocks', blocks);
+	return applyFilters('beplus-vmn.allowedBlocks', blocks);
 }
 
 /** @deprecated Use getAllowedBlocks() — kept for backwards compatibility. */

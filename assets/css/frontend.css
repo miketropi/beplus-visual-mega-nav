@@ -5,23 +5,23 @@
  * Tablet (768–1023px): off-canvas panel sliding from right.
  * Mobile (<768px): inline accordion (mobile nav drawer friendly).
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 /* ---------- CSS Custom Properties (theme-overridable) ---------- */
 :root {
-	--snap-megamenu-mega-bg: #fff;
-	--snap-megamenu-mega-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-	--snap-megamenu-mega-radius: 0;
-	--snap-megamenu-mega-padding: 24px;
-	--snap-megamenu-mega-z: 99999;
-	--snap-megamenu-mega-transition: 0.25s ease;
-	--snap-megamenu-mega-mobile-padding: 16px;
-	--snap-megamenu-toggle-size: 2.25rem;
-	--snap-megamenu-toggle-radius: 9999px;
-	--snap-megamenu-toggle-border: color-mix(in srgb, currentcolor 14%, transparent);
-	--snap-megamenu-toggle-hover-bg: color-mix(in srgb, currentcolor 8%, transparent);
-	--snap-megamenu-toggle-active-bg: color-mix(in srgb, currentcolor 12%, transparent);
+	--beplus-vmn-mega-bg: #fff;
+	--beplus-vmn-mega-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--beplus-vmn-mega-radius: 0;
+	--beplus-vmn-mega-padding: 24px;
+	--beplus-vmn-mega-z: 99999;
+	--beplus-vmn-mega-transition: 0.25s ease;
+	--beplus-vmn-mega-mobile-padding: 16px;
+	--beplus-vmn-toggle-size: 2.25rem;
+	--beplus-vmn-toggle-radius: 9999px;
+	--beplus-vmn-toggle-border: color-mix(in srgb, currentcolor 14%, transparent);
+	--beplus-vmn-toggle-hover-bg: color-mix(in srgb, currentcolor 8%, transparent);
+	--beplus-vmn-toggle-active-bg: color-mix(in srgb, currentcolor 12%, transparent);
 }
 
 /* ---------- Menu item container ---------- */
@@ -34,24 +34,24 @@
 }
 
 /* ---------- Mega panel (shared) ---------- */
-.snap-megamenu-mega-panel {
-	background: var(--snap-megamenu-mega-bg);
-	border-radius: var(--snap-megamenu-mega-radius);
+.beplus-vmn-mega-panel {
+	background: var(--beplus-vmn-mega-bg);
+	border-radius: var(--beplus-vmn-mega-radius);
 	transition:
-		opacity var(--snap-megamenu-mega-transition),
-		visibility var(--snap-megamenu-mega-transition),
-		transform var(--snap-megamenu-mega-transition),
-		max-height var(--snap-megamenu-mega-transition);
+		opacity var(--beplus-vmn-mega-transition),
+		visibility var(--beplus-vmn-mega-transition),
+		transform var(--beplus-vmn-mega-transition),
+		max-height var(--beplus-vmn-mega-transition);
 }
 
-.snap-megamenu-mega-panel__inner {
+.beplus-vmn-mega-panel__inner {
 	margin: 0 auto;
 }
 
 /* Block content: prevent horizontal overflow in narrow viewports */
-.snap-megamenu-mega-panel__inner img,
-.snap-megamenu-mega-panel__inner video,
-.snap-megamenu-mega-panel__inner iframe {
+.beplus-vmn-mega-panel__inner img,
+.beplus-vmn-mega-panel__inner video,
+.beplus-vmn-mega-panel__inner iframe {
 	max-width: 100%;
 	height: auto;
 }
@@ -59,19 +59,19 @@
 /* ---------- Desktop flyout (≥1024px) ---------- */
 @media (min-width: 1024px) {
 
-	.snap-megamenu-mega-panel {
+	.beplus-vmn-mega-panel {
 		position: absolute;
 		top: 100%;
 		left: 0;
-		z-index: var(--snap-megamenu-mega-z);
+		z-index: var(--beplus-vmn-mega-z);
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
 	}
 
-	.has-mega-menu:hover > .snap-megamenu-mega-panel,
-	.has-mega-menu:focus-within > .snap-megamenu-mega-panel,
-	.snap-megamenu-mega-panel.is-open {
+	.has-mega-menu:hover > .beplus-vmn-mega-panel,
+	.has-mega-menu:focus-within > .beplus-vmn-mega-panel,
+	.beplus-vmn-mega-panel.is-open {
 		opacity: 1;
 		visibility: visible;
 		pointer-events: auto;
@@ -96,17 +96,17 @@
 		z-index: 1;
 	}
 
-	.snap-megamenu-mega-panel[data-animation="slide"] {
+	.beplus-vmn-mega-panel[data-animation="slide"] {
 		transform: translateY(-8px);
 	}
 
-	.has-mega-menu:hover > .snap-megamenu-mega-panel[data-animation="slide"],
-	.has-mega-menu:focus-within > .snap-megamenu-mega-panel[data-animation="slide"],
-	.snap-megamenu-mega-panel[data-animation="slide"].is-open {
+	.has-mega-menu:hover > .beplus-vmn-mega-panel[data-animation="slide"],
+	.has-mega-menu:focus-within > .beplus-vmn-mega-panel[data-animation="slide"],
+	.beplus-vmn-mega-panel[data-animation="slide"].is-open {
 		transform: translateY(0);
 	}
 
-	.snap-megamenu-toggle {
+	.beplus-vmn-toggle {
 		display: none;
 	}
 }
@@ -143,7 +143,7 @@
 		display: none;
 	}
 
-	.snap-megamenu-mega-panel {
+	.beplus-vmn-mega-panel {
 		position: static;
 		flex: 1 0 100%;
 		width: 100%;
@@ -156,8 +156,8 @@
 		box-shadow: none;
 	}
 
-	.has-mega-menu.snap-megamenu--open > .snap-megamenu-mega-panel,
-	.snap-megamenu-mega-panel.is-open {
+	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel,
+	.beplus-vmn-mega-panel.is-open {
 		max-height: none;
 		overflow: visible;
 		opacity: 1;
@@ -165,27 +165,27 @@
 		pointer-events: auto;
 	}
 
-	.snap-megamenu-mega-panel__inner {
-		padding: var(--snap-megamenu-mega-mobile-padding) 0;
+	.beplus-vmn-mega-panel__inner {
+		padding: var(--beplus-vmn-mega-mobile-padding) 0;
 	}
 
 	/* Stack multi-column block layouts */
-	.snap-megamenu-mega-panel__inner .wp-block-columns {
+	.beplus-vmn-mega-panel__inner .wp-block-columns {
 		flex-direction: column !important;
-		gap: var(--snap-megamenu-mega-mobile-padding) !important;
+		gap: var(--beplus-vmn-mega-mobile-padding) !important;
 	}
 
-	.snap-megamenu-mega-panel__inner .wp-block-column {
+	.beplus-vmn-mega-panel__inner .wp-block-column {
 		flex-basis: 100% !important;
 		width: 100% !important;
 	}
 
-	.snap-megamenu-mega-panel__inner .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+	.beplus-vmn-mega-panel__inner .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
 		flex-basis: 100% !important;
 	}
 
 	/* Accordion toggle (themes without their own control) */
-	.snap-megamenu-toggle {
+	.beplus-vmn-toggle {
 		-webkit-appearance: none;
 		appearance: none;
 		flex: 0 0 auto;
@@ -193,14 +193,14 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--snap-megamenu-toggle-size);
-		height: var(--snap-megamenu-toggle-size);
+		width: var(--beplus-vmn-toggle-size);
+		height: var(--beplus-vmn-toggle-size);
 		margin: 0;
 		margin-inline-start: auto;
 		margin-inline-end: 0;
 		padding: 0;
 		border: none;
-		border-radius: var(--snap-megamenu-toggle-radius);
+		border-radius: var(--beplus-vmn-toggle-radius);
 		background: transparent;
 		color: inherit;
 		font: inherit;
@@ -213,23 +213,23 @@
 			transform 0.15s ease;
 	}
 
-	.snap-megamenu-toggle:hover,
-	.snap-megamenu-toggle:focus-visible {
-		background-color: var(--snap-megamenu-toggle-hover-bg);
+	.beplus-vmn-toggle:hover,
+	.beplus-vmn-toggle:focus-visible {
+		background-color: var(--beplus-vmn-toggle-hover-bg);
 		border-color: color-mix(in srgb, currentcolor 22%, transparent);
 	}
 
-	.snap-megamenu-toggle:focus-visible {
+	.beplus-vmn-toggle:focus-visible {
 		outline: 2px solid currentcolor;
 		outline-offset: 2px;
 	}
 
-	.snap-megamenu-toggle[aria-expanded="true"] {
-		background-color: var(--snap-megamenu-toggle-active-bg);
+	.beplus-vmn-toggle[aria-expanded="true"] {
+		background-color: var(--beplus-vmn-toggle-active-bg);
 		border-color: color-mix(in srgb, currentcolor 24%, transparent);
 	}
 
-	.snap-megamenu-toggle__icon {
+	.beplus-vmn-toggle__icon {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -239,13 +239,13 @@
 		transition: transform 0.2s ease;
 	}
 
-	.snap-megamenu-toggle__icon svg {
+	.beplus-vmn-toggle__icon svg {
 		display: block;
 		width: 100%;
 		height: 100%;
 	}
 
-	.snap-megamenu-toggle[aria-expanded="true"] .snap-megamenu-toggle__icon {
+	.beplus-vmn-toggle[aria-expanded="true"] .beplus-vmn-toggle__icon {
 		transform: rotate(180deg);
 	}
 }
@@ -253,14 +253,14 @@
 /* ---------- Tablet off-canvas (768px–1023px) ---------- */
 @media (min-width: 768px) and (max-width: 1023px) {
 
-	.snap-megamenu-mega-panel {
+	.beplus-vmn-mega-panel {
 		position: fixed;
 		top: 0;
 		right: 0;
 		bottom: 0;
 		width: 360px;
 		max-width: 85vw;
-		z-index: var(--snap-megamenu-mega-z);
+		z-index: var(--beplus-vmn-mega-z);
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 		overscroll-behavior: contain;
@@ -274,37 +274,37 @@
 		box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
 		border-radius: 0;
 		transition:
-			transform var(--snap-megamenu-mega-transition),
-			visibility var(--snap-megamenu-mega-transition);
+			transform var(--beplus-vmn-mega-transition),
+			visibility var(--beplus-vmn-mega-transition);
 	}
 
-	.snap-megamenu-mega-panel.is-open,
-	.has-mega-menu.snap-megamenu--open > .snap-megamenu-mega-panel {
+	.beplus-vmn-mega-panel.is-open,
+	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel {
 		transform: translateX(0);
 		visibility: visible;
 		pointer-events: auto;
 		overflow-y: auto;
 	}
 
-	.snap-megamenu-mega-panel__inner {
-		padding: var(--snap-megamenu-mega-padding);
+	.beplus-vmn-mega-panel__inner {
+		padding: var(--beplus-vmn-mega-padding);
 	}
 
 	/* Backdrop overlay */
-	.snap-megamenu-overlay {
+	.beplus-vmn-overlay {
 		position: fixed;
 		inset: 0;
-		z-index: calc(var(--snap-megamenu-mega-z) - 1);
+		z-index: calc(var(--beplus-vmn-mega-z) - 1);
 		background: rgba(0, 0, 0, 0.35);
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
 		transition:
-			opacity var(--snap-megamenu-mega-transition),
-			visibility var(--snap-megamenu-mega-transition);
+			opacity var(--beplus-vmn-mega-transition),
+			visibility var(--beplus-vmn-mega-transition);
 	}
 
-	.snap-megamenu-overlay.is-visible {
+	.beplus-vmn-overlay.is-visible {
 		opacity: 1;
 		visibility: visible;
 		pointer-events: auto;
@@ -343,7 +343,7 @@
 	}
 
 	/* stylelint-disable max-line-length */
-	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-mega-panel {
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .beplus-vmn-mega-panel {
 		flex: 1 0 100%;
 		width: 100%;
 
@@ -354,23 +354,23 @@
 	}
 
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .nextora-submenu-toggle,
-	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle {
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .beplus-vmn-toggle {
 		flex: 0 0 auto;
 		align-self: center;
 		margin-inline-start: auto;
 	}
 
 	/* Match Nextora drawer toggle tokens when available */
-	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle {
-		--snap-megamenu-toggle-radius: var(--wp--preset--spacing--05, 0.375rem);
-		--snap-megamenu-toggle-border: var(--nextora-nav-mobile-drawer-border, color-mix(in srgb, currentColor 14%, transparent));
-		--snap-megamenu-toggle-hover-bg: var(--nextora-nav-panel-hover-bg, color-mix(in srgb, currentColor 8%, transparent));
-		--snap-megamenu-toggle-active-bg: var(--nextora-nav-panel-hover-bg, color-mix(in srgb, currentColor 12%, transparent));
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .beplus-vmn-toggle {
+		--beplus-vmn-toggle-radius: var(--wp--preset--spacing--05, 0.375rem);
+		--beplus-vmn-toggle-border: var(--nextora-nav-mobile-drawer-border, color-mix(in srgb, currentColor 14%, transparent));
+		--beplus-vmn-toggle-hover-bg: var(--nextora-nav-panel-hover-bg, color-mix(in srgb, currentColor 8%, transparent));
+		--beplus-vmn-toggle-active-bg: var(--nextora-nav-panel-hover-bg, color-mix(in srgb, currentColor 12%, transparent));
 		width: 2.5rem;
 		height: 2.5rem;
 	}
 
-	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .snap-megamenu-toggle:focus-visible {
+	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .beplus-vmn-toggle:focus-visible {
 		outline-color: var(--wp--preset--color--primary, currentColor);
 	}
 	/* stylelint-enable max-line-length */

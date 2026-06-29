@@ -1,14 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "snap-megamenu/nav-menu-area",
+	"name": "beplus-visual-mega-nav/nav-menu-area",
 	"title": "Menu Area",
 	"category": "header",
-	"parent": [ "snap-megamenu/snap-navigation" ],
+	"parent": [ "beplus-visual-mega-nav/beplus-navigation" ],
 	"icon": "list-view",
 	"description": "Renders a classic WordPress menu using the existing mega menu engine.",
-	"keywords": [ "menu", "navigation", "classic menu", "snap" ],
-	"textdomain": "snap-megamenu-builder",
+	"keywords": [ "menu", "navigation", "classic menu", "beplus" ],
+	"textdomain": "beplus-visual-mega-nav",
 	"attributes": {
 		"menuId": {
 			"type": "number",
@@ -16,7 +16,7 @@
 		}
 	},
 	"usesContext": [
-		"snap-megamenu/instanceId"
+		"beplus-visual-mega-nav/instanceId"
 	],
 	"supports": {
 		"html": false,

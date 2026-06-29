@@ -5,7 +5,7 @@
  * Renders a classic WordPress menu via wp_nav_menu(), delegating to
  * the existing mega menu walker engine (MegaMenuWalkerDelegator).
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  *
  * @var array<string, mixed> $attributes Block attributes.
  * @var string               $content    Inner blocks (unused).
@@ -43,7 +43,7 @@ $menu_args = [
 	'menu'            => $menu_id,
 	'container'       => '',
 	'container_class' => '',
-	'menu_class'      => 'snap-nav-menu',
+	'menu_class'      => 'beplus-nav-menu',
 	'echo'            => false,
 	'fallback_cb'     => false,
 	'depth'           => 0,

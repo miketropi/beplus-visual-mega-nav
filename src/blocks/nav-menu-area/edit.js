@@ -14,7 +14,7 @@ export default function Edit({ attributes, setAttributes }) {
 	}, []);
 
 	const menuOptions = [
-		{ label: __('— Select a menu —', 'snap-megamenu-builder'), value: 0 },
+		{ label: __('— Select a menu —', 'beplus-visual-mega-nav'), value: 0 },
 		...menus.map((menu) => ({
 			label: menu.name,
 			value: menu.id,
@@ -27,7 +27,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<Notice status="warning" isDismissible={false}>
 					{__(
 						'No menus found. Create one in Appearance → Menus.',
-						'snap-megamenu-builder'
+						'beplus-visual-mega-nav'
 					)}
 				</Notice>
 			</div>
@@ -37,9 +37,11 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={__('Menu Settings', 'snap-megamenu-builder')}>
+				<PanelBody
+					title={__('Menu Settings', 'beplus-visual-mega-nav')}
+				>
 					<SelectControl
-						label={__('Select menu', 'snap-megamenu-builder')}
+						label={__('Select menu', 'beplus-visual-mega-nav')}
 						value={menuId}
 						options={menuOptions}
 						onChange={(value) =>
@@ -51,14 +53,14 @@ export default function Edit({ attributes, setAttributes }) {
 			<div {...blockProps}>
 				{menuId > 0 ? (
 					<ServerSideRender
-						block="snap-megamenu/nav-menu-area"
+						block="beplus-visual-mega-nav/nav-menu-area"
 						attributes={attributes}
 					/>
 				) : (
 					<Notice status="info" isDismissible={false}>
 						{__(
 							'Select a menu to display.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 					</Notice>
 				)}

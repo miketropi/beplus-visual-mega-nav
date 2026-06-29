@@ -5,7 +5,7 @@
  * Outputs inner blocks only. The parent Tab Container wraps each panel
  * with the tabpanel role, ID, and hidden state.
  *
- * @package Snap\MegaMenuBuilder\Blocks
+ * @package Beplus\VisualMegaNav\Blocks
  *
  * @var array<string, mixed> $attributes Block attributes.
  * @var string               $content    Inner blocks.

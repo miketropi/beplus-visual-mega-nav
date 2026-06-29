@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "snap-megamenu/snap-header",
-	"title": "Snap Header",
+	"name": "beplus-visual-mega-nav/beplus-header",
+	"title": "BePlus Header",
 	"category": "header",
 	"icon": "table-row-before",
 	"description": "Outer header container with sticky positioning, scroll effects, and per-instance mobile breakpoint.",
-	"keywords": [ "header", "sticky", "navigation", "snap" ],
-	"textdomain": "snap-megamenu-builder",
+	"keywords": [ "header", "sticky", "navigation", "beplus" ],
+	"textdomain": "beplus-visual-mega-nav",
 	"attributes": {
 		"instanceId": {
 			"type": "string",
@@ -39,9 +39,9 @@
 		}
 	},
 	"providesContext": {
-		"snap-megamenu/instanceId": "instanceId",
-		"snap-megamenu/mobileBreakpoint": "mobileBreakpoint",
-		"snap-megamenu/sticky": "sticky"
+		"beplus-visual-mega-nav/instanceId": "instanceId",
+		"beplus-visual-mega-nav/mobileBreakpoint": "mobileBreakpoint",
+		"beplus-visual-mega-nav/sticky": "sticky"
 	},
 	"supports": {
 		"spacing": {

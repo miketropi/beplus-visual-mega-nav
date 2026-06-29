@@ -4,23 +4,23 @@
  * Desktop: flex container wrapping the menu and toggle.
  * Mobile: the portal overlay (clone-to-body) styles.
  *
- * @package Snap\MegaMenu
+ * @package Beplus\VisualMegaNav
  */
 
 /* ---------- Navigation wrapper (desktop) ---------- */
-.wp-block-snap-megamenu-snap-navigation {
+.wp-block-beplus-visual-mega-nav-beplus-navigation {
 	flex: 1;
 }
 
 /* ---------- Portal root (mobile overlay) ---------- */
-.snap-nav-portal {
+.beplus-nav-portal {
 	position: fixed;
 	inset: 0;
 	z-index: 99999;
-	background: var(--snap-megamenu-mega-bg, #fff);
+	background: var(--beplus-vmn-mega-bg, #fff);
 	overflow-y: auto;
 	overscroll-behavior: contain;
-	padding: var(--snap-megamenu-mega-padding, 24px);
+	padding: var(--beplus-vmn-mega-padding, 24px);
 	padding-top: 60px;
 	visibility: hidden;
 	opacity: 0;
@@ -28,14 +28,14 @@
 	transition: visibility 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
 }
 
-.snap-nav-portal[data-state="open"] {
+.beplus-nav-portal[data-state="open"] {
 	visibility: visible;
 	opacity: 1;
 	transform: translateX(0);
 }
 
 /* ---------- Portal close button ---------- */
-.snap-nav-portal__close {
+.beplus-nav-portal__close {
 	position: absolute;
 	top: 16px;
 	right: 16px;
@@ -53,39 +53,39 @@
 	border-radius: 4px;
 }
 
-.snap-nav-portal__close:hover,
-.snap-nav-portal__close:focus-visible {
+.beplus-nav-portal__close:hover,
+.beplus-nav-portal__close:focus-visible {
 	background: rgba(0, 0, 0, 0.07);
 	outline: 2px solid currentcolor;
 	outline-offset: 2px;
 }
 
 /* ---------- Portal inner menu ---------- */
-.snap-nav-portal .wp-block-snap-megamenu-nav-menu-area {
+.beplus-nav-portal .wp-block-beplus-visual-mega-nav-nav-menu-area {
 	width: 100%;
 }
 
-.snap-nav-portal .snap-nav-menu {
+.beplus-nav-portal .beplus-nav-menu {
 	flex-direction: column;
 	align-items: stretch;
 	gap: 0;
 }
 
-.snap-nav-portal .snap-nav-menu li {
+.beplus-nav-portal .beplus-nav-menu li {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
 
-.snap-nav-portal .snap-nav-menu li.menu-item li.menu-item {
+.beplus-nav-portal .beplus-nav-menu li.menu-item li.menu-item {
 	border-bottom: none;
 }
 
-.snap-nav-portal .snap-nav-menu a {
+.beplus-nav-portal .beplus-nav-menu a {
 	padding: 14px 0;
 	font-size: 1.05em;
 }
 
 /* Show all sub-menu levels in portal (no hover dropdowns on mobile) */
-.snap-nav-portal .snap-nav-menu .sub-menu {
+.beplus-nav-portal .beplus-nav-menu .sub-menu {
 	display: block;
 	position: static;
 	min-width: 0;
@@ -95,13 +95,13 @@
 	border-radius: 0;
 }
 
-.snap-nav-portal .snap-nav-menu .sub-menu a {
+.beplus-nav-portal .beplus-nav-menu .sub-menu a {
 	padding: 10px 0;
 	font-size: 0.95em;
 	opacity: 0.85;
 }
 
-.snap-nav-portal .snap-nav-menu .sub-menu .sub-menu a {
+.beplus-nav-portal .beplus-nav-menu .sub-menu .sub-menu a {
 	font-size: 0.9em;
 	opacity: 0.75;
 }
@@ -113,12 +113,12 @@
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
 
-	.snap-nav-portal {
+	.beplus-nav-portal {
 		transition: none !important;
 	}
 }
 
-.wp-block-snap-megamenu-snap-navigation .wc-block-mini-cart {
+.wp-block-beplus-visual-mega-nav-beplus-navigation .wc-block-mini-cart {
 	display: flex;
 }
 

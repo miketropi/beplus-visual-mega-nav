@@ -52,7 +52,7 @@ export default function TemplatePanel({
 						status: 'error',
 						message: __(
 							'Could not load templates.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						),
 					});
 				}
@@ -75,7 +75,7 @@ export default function TemplatePanel({
 			status: 'success',
 			message: __(
 				'Template exported. You can share this JSON file or add it to your theme.',
-				'snap-megamenu-builder'
+				'beplus-visual-mega-nav'
 			),
 		});
 	};
@@ -96,11 +96,11 @@ export default function TemplatePanel({
 				error?.message === 'missing_content'
 					? __(
 							'The file does not contain valid block content.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)
 					: __(
 							'Could not read that file. Choose a valid JSON template.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						);
 
 			onNotice({ status: 'error', message });
@@ -118,7 +118,7 @@ export default function TemplatePanel({
 				status: 'error',
 				message: __(
 					'Could not load that template.',
-					'snap-megamenu-builder'
+					'beplus-visual-mega-nav'
 				),
 			});
 		} finally {
@@ -143,24 +143,24 @@ export default function TemplatePanel({
 			status: 'success',
 			message: __(
 				'Template applied. Save to keep these changes.',
-				'snap-megamenu-builder'
+				'beplus-visual-mega-nav'
 			),
 		});
 	};
 
 	return (
-		<div className="snap-megamenu-template-panel">
+		<div className="beplus-vmn-template-panel">
 			<input
 				ref={fileInputRef}
 				type="file"
 				accept="application/json,.json"
-				className="snap-megamenu-template-panel__file-input"
+				className="beplus-vmn-template-panel__file-input"
 				onChange={handleImportFile}
 			/>
 
 			<Dropdown
-				className="snap-megamenu-template-import-dropdown"
-				contentClassName="snap-megamenu-template-import-dropdown__popover"
+				className="beplus-vmn-template-import-dropdown"
+				contentClassName="beplus-vmn-template-import-dropdown__popover"
 				popoverProps={{
 					placement: 'bottom-end',
 					offset: 4,
@@ -168,76 +168,79 @@ export default function TemplatePanel({
 				}}
 				renderToggle={({ isOpen, onToggle }) => (
 					<Button
-						className="snap-megamenu-template-import-dropdown__toggle"
+						className="beplus-vmn-template-import-dropdown__toggle"
 						variant="secondary"
 						icon={upload}
 						onClick={onToggle}
 						aria-expanded={isOpen}
 						isPressed={isOpen}
 					>
-						<span className="snap-megamenu-template-import-dropdown__toggle-label">
-							{__('Import', 'snap-megamenu-builder')}
+						<span className="beplus-vmn-template-import-dropdown__toggle-label">
+							{__('Import', 'beplus-visual-mega-nav')}
 						</span>
 						<Icon
-							className="snap-megamenu-template-import-dropdown__chevron"
+							className="beplus-vmn-template-import-dropdown__chevron"
 							icon={chevronDown}
 							size={18}
 						/>
 					</Button>
 				)}
 				renderContent={({ onClose }) => (
-					<div className="snap-megamenu-template-import-dropdown__panel">
-						<div className="snap-megamenu-template-import-dropdown__header">
-							<h3 className="snap-megamenu-template-import-dropdown__title">
-								{__('Import template', 'snap-megamenu-builder')}
+					<div className="beplus-vmn-template-import-dropdown__panel">
+						<div className="beplus-vmn-template-import-dropdown__header">
+							<h3 className="beplus-vmn-template-import-dropdown__title">
+								{__(
+									'Import template',
+									'beplus-visual-mega-nav'
+								)}
 							</h3>
 							<Button
-								className="snap-megamenu-template-import-dropdown__close"
+								className="beplus-vmn-template-import-dropdown__close"
 								icon={closeSmall}
-								label={__('Close', 'snap-megamenu-builder')}
+								label={__('Close', 'beplus-visual-mega-nav')}
 								onClick={onClose}
 								size="small"
 							/>
 						</div>
 
-						<div className="snap-megamenu-template-import-dropdown__body">
-							<section className="snap-megamenu-template-import-dropdown__section">
-								<h4 className="snap-megamenu-template-import-dropdown__section-title">
+						<div className="beplus-vmn-template-import-dropdown__body">
+							<section className="beplus-vmn-template-import-dropdown__section">
+								<h4 className="beplus-vmn-template-import-dropdown__section-title">
 									{__(
 										'Template store',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									)}
 								</h4>
-								<p className="snap-megamenu-template-import-dropdown__section-hint">
+								<p className="beplus-vmn-template-import-dropdown__section-hint">
 									{__(
 										'Built-in layouts from the plugin or your theme.',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									)}
 								</p>
 
 								{loadingTemplates && (
-									<div className="snap-megamenu-template-import-dropdown__loading">
+									<div className="beplus-vmn-template-import-dropdown__loading">
 										<Spinner />
 									</div>
 								)}
 
 								{!loadingTemplates &&
 									templates.length === 0 && (
-										<p className="snap-megamenu-template-import-dropdown__empty">
+										<p className="beplus-vmn-template-import-dropdown__empty">
 											{__(
 												'No templates found. Add JSON files to the plugin templates/ folder or your theme mega-menu-templates/ folder.',
-												'snap-megamenu-builder'
+												'beplus-visual-mega-nav'
 											)}
 										</p>
 									)}
 
 								{!loadingTemplates && templates.length > 0 && (
-									<ul className="snap-megamenu-template-import-dropdown__list">
+									<ul className="beplus-vmn-template-import-dropdown__list">
 										{templates.map((template) => (
 											<li key={template.slug}>
 												<button
 													type="button"
-													className="snap-megamenu-template-import-dropdown__item"
+													className="beplus-vmn-template-import-dropdown__item"
 													onClick={() => {
 														onClose();
 														handleApplyStoreTemplate(
@@ -246,18 +249,18 @@ export default function TemplatePanel({
 													}}
 													disabled={!!applyingSlug}
 												>
-													<span className="snap-megamenu-template-import-dropdown__item-icon">
+													<span className="beplus-vmn-template-import-dropdown__item-icon">
 														<Icon
 															icon={layout}
 															size={20}
 														/>
 													</span>
-													<span className="snap-megamenu-template-import-dropdown__item-body">
-														<span className="snap-megamenu-template-import-dropdown__item-title">
+													<span className="beplus-vmn-template-import-dropdown__item-body">
+														<span className="beplus-vmn-template-import-dropdown__item-title">
 															{template.title}
 														</span>
 														{template.description && (
-															<span className="snap-megamenu-template-import-dropdown__item-description">
+															<span className="beplus-vmn-template-import-dropdown__item-description">
 																{
 																	template.description
 																}
@@ -265,7 +268,7 @@ export default function TemplatePanel({
 														)}
 													</span>
 													<span
-														className={`snap-megamenu-template-import-dropdown__badge snap-megamenu-template-import-dropdown__badge--${template.source}`}
+														className={`beplus-vmn-template-import-dropdown__badge beplus-vmn-template-import-dropdown__badge--${template.source}`}
 													>
 														{getTemplateSourceLabel(
 															template.source
@@ -282,12 +285,12 @@ export default function TemplatePanel({
 								)}
 							</section>
 
-							<section className="snap-megamenu-template-import-dropdown__section snap-megamenu-template-import-dropdown__section--file">
-								<h4 className="snap-megamenu-template-import-dropdown__section-title">
-									{__('From file', 'snap-megamenu-builder')}
+							<section className="beplus-vmn-template-import-dropdown__section beplus-vmn-template-import-dropdown__section--file">
+								<h4 className="beplus-vmn-template-import-dropdown__section-title">
+									{__('From file', 'beplus-visual-mega-nav')}
 								</h4>
 								<Button
-									className="snap-megamenu-template-import-dropdown__upload"
+									className="beplus-vmn-template-import-dropdown__upload"
 									variant="secondary"
 									icon={upload}
 									onClick={() => {
@@ -297,7 +300,7 @@ export default function TemplatePanel({
 								>
 									{__(
 										'Upload JSON file…',
-										'snap-megamenu-builder'
+										'beplus-visual-mega-nav'
 									)}
 								</Button>
 							</section>
@@ -307,40 +310,40 @@ export default function TemplatePanel({
 			/>
 
 			<Button variant="secondary" icon={download} onClick={handleExport}>
-				{__('Export', 'snap-megamenu-builder')}
+				{__('Export', 'beplus-visual-mega-nav')}
 			</Button>
 
 			{confirmTemplate && (
 				<Modal
-					title={__('Apply template?', 'snap-megamenu-builder')}
+					title={__('Apply template?', 'beplus-visual-mega-nav')}
 					onRequestClose={() => setConfirmTemplate(null)}
-					className="snap-megamenu-template-confirm-modal"
+					className="beplus-vmn-template-confirm-modal"
 				>
 					<p>
 						{__(
 							'This will replace the current content and settings in the builder. Unsaved changes will be lost.',
-							'snap-megamenu-builder'
+							'beplus-visual-mega-nav'
 						)}
 					</p>
 					{confirmTemplate.title && (
-						<p className="snap-megamenu-template-confirm-modal__title">
+						<p className="beplus-vmn-template-confirm-modal__title">
 							<strong>{confirmTemplate.title}</strong>
 						</p>
 					)}
 					{confirmTemplate.description && (
-						<p className="snap-megamenu-template-confirm-modal__description">
+						<p className="beplus-vmn-template-confirm-modal__description">
 							{confirmTemplate.description}
 						</p>
 					)}
-					<div className="snap-megamenu-template-confirm-modal__actions">
+					<div className="beplus-vmn-template-confirm-modal__actions">
 						<Button
 							variant="tertiary"
 							onClick={() => setConfirmTemplate(null)}
 						>
-							{__('Cancel', 'snap-megamenu-builder')}
+							{__('Cancel', 'beplus-visual-mega-nav')}
 						</Button>
 						<Button variant="primary" onClick={handleConfirmApply}>
-							{__('Apply template', 'snap-megamenu-builder')}
+							{__('Apply template', 'beplus-visual-mega-nav')}
 						</Button>
 					</div>
 				</Modal>

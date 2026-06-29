@@ -7,7 +7,7 @@
         "serve",
         "--mcp",
         "--path",
-        "/Users/hieuhuynh/Local Sites/gifflow/app/public/wp-content/plugins/snap-megamenu-builder"
+        "/Users/hieuhuynh/Local Sites/gifflow/app/public/wp-content/plugins/beplus-visual-mega-nav"
       ]
     }
   }
