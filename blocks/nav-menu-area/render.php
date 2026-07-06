@@ -55,6 +55,6 @@ if ( ! is_string( $menu_html ) || '' === trim( $menu_html ) ) {
 	return;
 }
 
-printf( '<nav %1$s>%2$s</nav>', $wrapper_attributes, $menu_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes and wp_nav_menu output are pre-escaped.
+printf( '<nav %1$s>%2$s</nav>', $wrapper_attributes, wp_kses_post( $menu_html ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() returns pre-escaped attributes.
 
 // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

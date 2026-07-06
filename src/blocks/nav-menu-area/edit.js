@@ -1,25 +1,64 @@
-import { useSelect } from '@wordpress/data';
+import { useState, useEffect } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { SelectControl, Notice, PanelBody } from '@wordpress/components';
+import {
+	SelectControl,
+	Notice,
+	PanelBody,
+	Spinner,
+} from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 
 export default function Edit({ attributes, setAttributes }) {
 	const { menuId } = attributes;
 	const blockProps = useBlockProps();
 
-	const menus = useSelect((select) => {
-		const { getEntityRecords } = select('core');
-		return getEntityRecords('root', 'menu', { per_page: 100 }) || [];
+	const [menus, setMenus] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		setIsLoading(true);
+		setError(null);
+
+		apiFetch({ path: '/wp/v2/menus' })
+			.then((data) => {
+				setMenus(Array.isArray(data) ? data : []);
+			})
+			.catch(() => {
+				setError(
+					__(
+						'Unable to load menus. Check that the REST API is available.',
+						'beplus-visual-mega-nav'
+					)
+				);
+				setMenus([]);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}, []);
 
-	const menuOptions = [
-		{ label: __('— Select a menu —', 'beplus-visual-mega-nav'), value: 0 },
-		...menus.map((menu) => ({
-			label: menu.name,
-			value: menu.id,
-		})),
-	];
+	if (isLoading) {
+		return (
+			<div {...blockProps}>
+				<div className="beplus-vmn-menu-area-loading">
+					<Spinner />
+				</div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div {...blockProps}>
+				<Notice status="error" isDismissible={false}>
+					{error}
+				</Notice>
+			</div>
+		);
+	}
 
 	if (menus.length === 0) {
 		return (
@@ -33,6 +72,14 @@ export default function Edit({ attributes, setAttributes }) {
 			</div>
 		);
 	}
+
+	const menuOptions = [
+		{ label: __('— Select a menu —', 'beplus-visual-mega-nav'), value: 0 },
+		...menus.map((menu) => ({
+			label: menu.name,
+			value: menu.id,
+		})),
+	];
 
 	return (
 		<>

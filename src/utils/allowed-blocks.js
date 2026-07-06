@@ -47,6 +47,12 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 	// Embeds / widgets.
 	'core/shortcode',
 	'core/html',
+
+	// Plugin blocks.
+	'beplus-visual-mega-nav/beplus-header',
+	'beplus-visual-mega-nav/beplus-navigation',
+	'beplus-visual-mega-nav/nav-menu-area',
+	'beplus-visual-mega-nav/nav-toggle',
 ];
 
 /**

@@ -98,6 +98,6 @@ if ( ! wp_style_is( 'beplus-vmn-header-inline', 'registered' ) ) {
 }
 wp_add_inline_style( 'beplus-vmn-header-inline', $inline_css );
 wp_enqueue_style( 'beplus-vmn-header-inline' );
-printf( '<div %1$s>%2$s</div>', $wrapper_attributes, $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() and InnerBlocks $content are pre-escaped.
+printf( '<div %1$s>%2$s</div>', $wrapper_attributes, wp_kses_post( $content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() returns pre-escaped attributes.
 
 // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
