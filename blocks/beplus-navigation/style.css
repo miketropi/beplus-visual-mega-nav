@@ -63,6 +63,7 @@
 /* ---------- Portal inner menu ---------- */
 .beplus-nav-portal .wp-block-beplus-visual-mega-nav-nav-menu-area {
 	width: 100%;
+	display: block;
 }
 
 .beplus-nav-portal .beplus-nav-menu {

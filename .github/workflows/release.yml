@@ -46,6 +46,17 @@ jobs:
           files: beplus-visual-mega-nav.zip
           generate_release_notes: true
 
+      - name: Unzip build for SVN deploy
+        run: unzip -q beplus-visual-mega-nav.zip -d build-deploy
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: beplus-visual-mega-nav
+          BUILD_DIR: build-deploy/beplus-visual-mega-nav
+
       - name: Notify deploy
         if: success()
         run: |
@@ -53,6 +64,6 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.NOTIFY_TOKEN }}" \
             -d "{
-              \"text\": \"✅ *Release ${{ github.ref_name }}* published successfully!\\n📦 Repo: ${{ github.repository }}\\n🔗 https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}\",
+              \"text\": \"✅ *Beplus Visual Mega Navigation ${{ github.ref_name }}* released!\\n📦 GitHub: ${{ github.repository }}\\n🔗 Release: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}\\n🔗 WordPress.org: https://wordpress.org/plugins/beplus-visual-mega-nav\",
               \"branch\": \"alert-beplus-services-noti\"
             }"

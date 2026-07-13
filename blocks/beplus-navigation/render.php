@@ -82,6 +82,6 @@ $wrapper_attributes = get_block_wrapper_attributes(
 	]
 );
 
-printf( '<div %1$s>%2$s</div>', $wrapper_attributes, $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() and InnerBlocks $content are pre-escaped.
+printf( '<div %1$s>%2$s</div>', $wrapper_attributes, wp_kses_post( $content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() returns pre-escaped attributes.
 
 // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
