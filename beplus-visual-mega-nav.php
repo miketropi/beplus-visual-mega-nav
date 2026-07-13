@@ -3,7 +3,7 @@
  * Plugin Name:       Beplus Visual Mega Navigation
  * Plugin URI:        https://github.com/miketropi/beplus-visual-mega-nav
  * Description:       A Gutenberg-powered visual mega navigation builder for WordPress. Build rich mega menus visually using the block editor.
- * Version:           0.0.7
+ * Version:           0.0.8
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Beplusthemes
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'BEPLUS_VISUAL_MEGA_NAV_VERSION', '0.0.7' );
+define( 'BEPLUS_VISUAL_MEGA_NAV_VERSION', '0.0.8' );
 define( 'BEPLUS_VISUAL_MEGA_NAV_FILE', __FILE__ );
 define( 'BEPLUS_VISUAL_MEGA_NAV_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEPLUS_VISUAL_MEGA_NAV_URL', plugin_dir_url( __FILE__ ) );
