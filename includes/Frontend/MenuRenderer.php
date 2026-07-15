@@ -214,9 +214,24 @@ final class MenuRenderer {
 			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
+		wp_enqueue_style(
+			'beplus-vmn-tab-container',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/tab-container/style.css',
+			[],
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
+		);
+
 		wp_enqueue_script(
 			'beplus-vmn-front',
 			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/frontend.js',
+			[],
+			BEPLUS_VISUAL_MEGA_NAV_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'beplus-vmn-tabs',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/tabs.js',
 			[],
 			BEPLUS_VISUAL_MEGA_NAV_VERSION,
 			true

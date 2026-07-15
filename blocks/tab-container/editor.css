@@ -1,0 +1,10 @@
+/**
+ * Tab Container block — editor styles.
+ *
+ * The main tab layout lives in style.css (shared with frontend).
+ * Editor-only overrides go here.
+ */
+
+.beplus-vmn-tab-container__tablist {
+	user-select: none;
+}
