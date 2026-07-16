@@ -324,6 +324,10 @@
 	position: static !important;
 }
 
+.nextora-header-block .nextora-header-menu > li.has-mega-menu:hover {
+	z-index: 1;
+}
+
 /* Mobile drawer: accordion layout for mega items */
 @media (max-width: 1023px) {
 

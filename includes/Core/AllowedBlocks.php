@@ -52,6 +52,9 @@ final class AllowedBlocks {
 
 			// Third-party blocks.
 			'nextora/box-icon',
+			'nextora/box-image',
+			'nextora/advanced-button',
+			'nextora/advanced-button-button',
 
 			// Plugin blocks.
 			'beplus-visual-mega-nav/beplus-header',

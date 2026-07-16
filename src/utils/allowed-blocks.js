@@ -48,6 +48,12 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 	'core/shortcode',
 	'core/html',
 
+	// Third-party blocks.
+	'nextora/box-icon',
+	'nextora/box-image',
+	'nextora/advanced-button',
+	'nextora/advanced-button-button',
+
 	// Plugin blocks.
 	'beplus-visual-mega-nav/beplus-header',
 	'beplus-visual-mega-nav/beplus-navigation',
