@@ -1,0 +1,23 @@
+/**
+ * Tab Panel block — editor styles.
+ */
+
+.beplus-vmn-tab-panel {
+	padding: 1rem;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 8px;
+}
+
+.beplus-vmn-tab-panel__header {
+	margin-bottom: 0.75rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.beplus-vmn-tab-panel__header .components-base-control {
+	margin-bottom: 0;
+}
+
+.beplus-vmn-tab-panel__content {
+	min-height: 3rem;
+}

@@ -1,0 +1,296 @@
+/**
+ * Tab Container block — frontend and editor styles.
+ *
+ * Two layout modes:
+ *   - vertical   (default): sidebar left, content right.
+ *   - horizontal: tab row on top, content below.
+ *
+ * A thin sliding indicator bar follows the active tab.
+ * Colours follow WordPress theme presets. Only the indicator
+ * accent is user-configurable (via block attribute).
+ *
+ * Theme overrides via CSS custom properties:
+ *   --beplus-vmn-tab-sidebar-width
+ *   --beplus-vmn-tab-gap
+ *   --beplus-vmn-tab-btn-padding
+ *   --beplus-vmn-tab-btn-font-size
+ *   --beplus-vmn-tab-text-color
+ *   --beplus-vmn-tab-indicator-color
+ *   --beplus-vmn-tab-indicator-width
+ *   --beplus-vmn-tab-divider-color
+ *   --beplus-vmn-tab-panel-padding-top
+ */
+
+/* stylelint-disable no-duplicate-selectors */
+
+.beplus-vmn-tab-container {
+	--beplus-vmn-tab-sidebar-width: 184px;
+	--beplus-vmn-tab-gap: 2rem;
+	--beplus-vmn-tab-btn-padding: 0.75rem;
+	--beplus-vmn-tab-btn-font-size: var(--wp--preset--font-size--small, 0.8125rem);
+	--beplus-vmn-tab-text-color: var(--wp--preset--color--foreground, #1e1e1e);
+	/* stylelint-disable-next-line max-line-length */
+	--beplus-vmn-tab-indicator-color: var(--wp--preset--color--primary, var(--wp--preset--color--vivid-cyan-blue, #3858e9));
+	--beplus-vmn-tab-indicator-width: 2px;
+	--beplus-vmn-tab-divider-color: color-mix(in srgb, currentcolor 8%, transparent);
+	--beplus-vmn-tab-panel-padding-top: 0.25rem;
+}
+
+/* stylelint-enable no-duplicate-selectors */
+
+/* ================================================================
+   Shared: tab button
+   ================================================================ */
+
+.beplus-vmn-tab-container__tab {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--beplus-vmn-tab-btn-padding);
+	margin: 0;
+	color: var(--beplus-vmn-tab-text-color, #1e1e1e);
+	font-size: var(--beplus-vmn-tab-btn-font-size, 0.8125rem);
+	font-weight: 450;
+	line-height: 1.35;
+	letter-spacing: 0.005em;
+	cursor: pointer;
+	user-select: none;
+	opacity: 0.8;
+	transition:
+		opacity 0.2s ease,
+		background-color 0.2s ease;
+}
+
+.beplus-vmn-tab-container__tab:hover {
+	background: linear-gradient(to right, color-mix(in srgb, currentcolor 10%, transparent), transparent);
+	opacity: 1;
+}
+
+.beplus-vmn-tab-container__tab[aria-selected="true"] {
+	opacity: 1;
+	font-weight: 540;
+}
+
+.beplus-vmn-tab-container__tab:focus-visible {
+	outline: none;
+	border-radius: 6px;
+	box-shadow:
+		0 0 0 1.5px var(--beplus-vmn-tab-indicator-color, #3858e9),
+		0 0 0 3px color-mix(in srgb, var(--beplus-vmn-tab-indicator-color, #3858e9) 15%, transparent);
+}
+
+/* ================================================================
+   Vertical layout (default)
+   ================================================================ */
+
+.beplus-vmn-tab-container--vertical {
+	display: grid;
+	grid-template-columns: var(--beplus-vmn-tab-sidebar-width) 1fr;
+	gap: var(--beplus-vmn-tab-gap);
+	align-items: start;
+}
+
+/* Vertical: sidebar shell */
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__sidebar {
+	position: relative;
+}
+
+/* Vertical: tablist */
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tablist {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	padding: 2px 0;
+}
+
+/* Vertical: full-width tab buttons */
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tab {
+	width: 100%;
+	text-align: left;
+}
+
+/* Vertical: sliding indicator (left edge, top/height driven by JS) */
+.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__indicator {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: var(--beplus-vmn-tab-indicator-width, 2px);
+	border-radius: 1px;
+	background: var(--beplus-vmn-tab-indicator-color, #3858e9);
+	pointer-events: none;
+	transition:
+		top 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+		height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ================================================================
+   Horizontal layout
+   ================================================================ */
+
+.beplus-vmn-tab-container--horizontal {
+	display: block;
+}
+
+/* Horizontal: tablist row */
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tablist {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	gap: var(--beplus-vmn-tab-gap);
+	border-bottom: 1px solid var(--beplus-vmn-tab-divider-color, rgba(0, 0, 0, 0.08));
+}
+
+/* Horizontal: tab buttons reset vertical specificity */
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tab {
+	width: auto;
+	margin-bottom: -1px;
+}
+
+/* Horizontal: sliding indicator (bottom edge, left/width driven by JS) */
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__indicator {
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	height: var(--beplus-vmn-tab-indicator-width, 2px);
+	border-radius: 1px;
+	background: var(--beplus-vmn-tab-indicator-color, #3858e9);
+	pointer-events: none;
+	transition:
+		left 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+		width 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ================================================================
+   Content panels (both modes)
+   ================================================================ */
+
+.beplus-vmn-tab-container__content {
+	min-height: 100%;
+}
+
+.beplus-vmn-tab-container__panel {
+	padding-top: var(--beplus-vmn-tab-panel-padding-top);
+}
+
+.beplus-vmn-tab-container__panel[hidden] {
+	display: none;
+}
+
+/* ================================================================
+   Dark mode
+   ================================================================ */
+
+@media (prefers-color-scheme: dark) {
+
+	.beplus-vmn-tab-container {
+		--beplus-vmn-tab-text-color: var(--wp--preset--color--foreground, #f0f1f3);
+	}
+
+}
+
+/* ================================================================
+   Responsive
+   ================================================================ */
+
+/* Tablet: narrower sidebar */
+@media (min-width: 601px) and (max-width: 1023px) {
+
+	.beplus-vmn-tab-container {
+		--beplus-vmn-tab-sidebar-width: 140px;
+		--beplus-vmn-tab-gap: 1.25rem;
+	}
+
+}
+
+/* Mobile: vertical → stacked, tabs become horizontal scroll row */
+@media (max-width: 600px) {
+
+	.beplus-vmn-tab-container--vertical {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__sidebar {
+		order: -1;
+	}
+
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tablist {
+		flex-direction: row;
+		gap: 0.25rem;
+		padding: 0 0 0.5rem;
+		border-bottom: 1px solid var(--beplus-vmn-tab-divider-color, rgba(0, 0, 0, 0.08));
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tablist::-webkit-scrollbar {
+		display: none;
+	}
+
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tab {
+		width: auto;
+		flex-shrink: 0;
+		text-align: center;
+		margin-bottom: -1px;
+		border-radius: 0;
+	}
+
+	/* Hide indicator on mobile — rely on aria-selected styling instead */
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__indicator {
+		display: none;
+	}
+
+	.beplus-vmn-tab-container--vertical .beplus-vmn-tab-container__tab[aria-selected="true"] {
+		border-bottom: 2px solid var(--beplus-vmn-tab-indicator-color, #3858e9);
+		border-radius: 0;
+	}
+
+	/* Horizontal: tabs scroll on mobile too */
+	.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tablist {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		gap: 1rem;
+	}
+
+	.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tablist::-webkit-scrollbar {
+		display: none;
+	}
+
+	.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__tab {
+		flex-shrink: 0;
+	}
+
+	.beplus-vmn-tab-container__content {
+		min-height: 0;
+	}
+
+}
+
+/* ================================================================
+   Editor-only preview
+   ================================================================ */
+
+.beplus-vmn-tab-container__placeholder-tabs {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+.beplus-vmn-tab-container--horizontal .beplus-vmn-tab-container__placeholder-tabs {
+	flex-direction: row;
+	gap: var(--beplus-vmn-tab-gap);
+}
+
+.beplus-vmn-tab-container__tab.is-placeholder {
+	padding: var(--beplus-vmn-tab-btn-padding);
+	opacity: 0.55;
+	font-style: italic;
+}
+
+.beplus-vmn-tab-container__tab.is-active {
+	opacity: 1;
+	font-weight: 540;
+}

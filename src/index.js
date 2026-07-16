@@ -19,6 +19,8 @@ import './blocks/beplus-header';
 import './blocks/beplus-navigation';
 import './blocks/nav-menu-area';
 import './blocks/nav-toggle';
+import './blocks/tab-container';
+import './blocks/tab-panel';
 
 // Register core blocks so they're available in the isolated editor.
 registerCoreBlocks();

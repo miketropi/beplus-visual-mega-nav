@@ -40,6 +40,8 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 	// Navigation.
 	'core/page-list',
 	'beplus-visual-mega-nav/link-item',
+	'beplus-visual-mega-nav/tab-container',
+	'beplus-visual-mega-nav/tab-panel',
 
 	// Media.
 	'core/cover',
