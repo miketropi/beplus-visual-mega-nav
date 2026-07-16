@@ -109,6 +109,8 @@ final class NavMenuPage {
 			]
 		);
 
+		$this->enqueue_third_party_block_editor_assets();
+
 		wp_add_inline_script(
 			'beplus-vmn-admin',
 			'window.beplusVmn = window.beplusVmn || {}; window.beplusVmn.editorSettings = ' . wp_json_encode(
@@ -199,6 +201,47 @@ final class NavMenuPage {
 				$version
 			);
 		}
+	}
+
+	/**
+	 * Enqueue editor scripts and styles for third-party blocks
+	 * allowed in the mega menu Content Builder.
+	 *
+	 * Core blocks are bundled in wp-block-library; plugin-owned
+	 * blocks are imported in src/index.js. This method covers
+	 * blocks from themes or other plugins.
+	 *
+	 * @return void
+	 */
+	private function enqueue_third_party_block_editor_assets(): void {
+		$blocks   = AllowedBlocks::get();
+		$registry = \WP_Block_Type_Registry::get_instance();
+
+		foreach ( $blocks as $block_name ) {
+			if ( str_starts_with( $block_name, 'core/' ) ) {
+				continue;
+			}
+			if ( str_starts_with( $block_name, 'beplus-visual-mega-nav/' ) ) {
+				continue;
+			}
+
+			$block_type = $registry->get_registered( $block_name );
+			if ( ! $block_type instanceof \WP_Block_Type ) {
+				continue;
+			}
+
+			foreach ( $block_type->editor_script_handles as $handle ) {
+				wp_enqueue_script( $handle );
+			}
+
+			foreach ( $block_type->editor_style_handles as $handle ) {
+				wp_enqueue_style( $handle );
+			}
+		}
+
+		// Allow blocks to inject inline scripts (e.g. icon catalogs).
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core hook.
+		do_action( 'enqueue_block_editor_assets' );
 	}
 
 	/**

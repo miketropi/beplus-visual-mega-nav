@@ -17,7 +17,7 @@ import {
 	__unstableEditorStyles as EditorStyles,
 } from '@wordpress/block-editor';
 import { serialize, parse } from '@wordpress/blocks';
-import { SlotFillProvider, Popover, Notice } from '@wordpress/components';
+import { SlotFillProvider, Notice } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { getAllowedBlocks } from '../utils/allowed-blocks';
@@ -167,7 +167,6 @@ export default function IsolatedEditor({
 							</div>
 						</div>
 					</BlockEditorProvider>
-					<Popover.Slot />
 				</SlotFillProvider>
 			</div>
 		</div>

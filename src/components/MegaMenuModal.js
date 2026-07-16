@@ -71,8 +71,6 @@ export default function MegaMenuModal({ menuItemId, onClose }) {
 				status: 'success',
 				message: __('Mega menu saved.', 'beplus-visual-mega-nav'),
 			});
-
-			setTimeout(onClose, 900);
 		} catch {
 			setNotice({
 				status: 'error',
