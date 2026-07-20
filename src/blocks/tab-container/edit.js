@@ -1,12 +1,19 @@
 /**
  * Tab Container block — editor UI.
  *
- * Single inspector: layout mode (vertical/horizontal) + accent indicator color.
- * Text and divider colors follow the active theme automatically.
+ * Click a tab button to show only the corresponding panel content
+ * (like the frontend). Layout and color settings in the inspector.
  *
  * @package
  */
 
+import {
+	useState,
+	useLayoutEffect,
+	useRef,
+	useEffect,
+	useCallback,
+} from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import {
 	InnerBlocks,
@@ -18,8 +25,114 @@ import { __ } from '@wordpress/i18n';
 
 const ALLOWED_BLOCKS = ['beplus-visual-mega-nav/tab-panel'];
 
+/*
+ * ---- Icon helpers ----
+ */
+
+let cachedIconEntries = null;
+
+async function loadIcons() {
+	if (cachedIconEntries) {
+		return cachedIconEntries;
+	}
+
+	const iconsUrl = window.nextoraIconBlock?.iconsUrl ?? '';
+	if (!iconsUrl) {
+		return [];
+	}
+
+	const response = await fetch(iconsUrl);
+	if (!response.ok) {
+		return [];
+	}
+
+	const data = await response.json();
+	cachedIconEntries = Array.isArray(data) ? data : [];
+	return cachedIconEntries;
+}
+
+function SvgNode({ node }) {
+	if (!Array.isArray(node) || !node.length) {
+		return null;
+	}
+
+	const [tag, attrs, ...rest] = node;
+	const children = rest.length > 0 && Array.isArray(rest[0]) ? rest[0] : rest;
+
+	const Tag = tag;
+	const props = {};
+
+	if (attrs && typeof attrs === 'object') {
+		Object.entries(attrs).forEach(([k, v]) => {
+			props[k] = v;
+		});
+	}
+
+	return (
+		<Tag {...props}>
+			{children.map((child, i) =>
+				Array.isArray(child) ? <SvgNode key={i} node={child} /> : null
+			)}
+		</Tag>
+	);
+}
+
+function TabIconPreview({ name }) {
+	const [catalog, setCatalog] = useState(null);
+
+	useEffect(() => {
+		let mounted = true;
+		loadIcons()
+			.then((data) => {
+				if (!mounted) return;
+				if (Array.isArray(data)) {
+					const lookup = {};
+					data.forEach((icon) => {
+						if (icon.name) lookup[icon.name] = icon;
+					});
+					setCatalog(lookup);
+				}
+			})
+			.catch(() => {});
+
+		return () => {
+			mounted = false;
+		};
+	}, []);
+
+	const icon = catalog ? catalog[name] : null;
+
+	if (!icon || !icon.nodes || !icon.nodes.length) {
+		return null;
+	}
+
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			aria-hidden="true"
+		>
+			{icon.nodes.map((node, idx) => (
+				<SvgNode key={idx} node={node} />
+			))}
+		</svg>
+	);
+}
+
+/*
+ * ---- Main edit component ----
+ */
+
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const { layoutMode = 'vertical', indicatorColor = '' } = attributes;
+
+	const [activeTab, setActiveTab] = useState(0);
+	const contentRef = useRef(null);
 
 	const isHorizontal = layoutMode === 'horizontal';
 	const blockProps = useBlockProps({
@@ -42,9 +155,36 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		(block) => block.name === 'beplus-visual-mega-nav/tab-panel'
 	);
 
-	const tabLabels = tabPanels.map(
-		(block) => block.attributes?.tabLabel || ''
-	);
+	// Reset active tab index when panels are removed.
+	useEffect(() => {
+		if (tabPanels.length === 0) {
+			setActiveTab(0);
+		} else if (activeTab >= tabPanels.length) {
+			setActiveTab(Math.max(0, tabPanels.length - 1));
+		}
+	}, [tabPanels.length, activeTab]);
+
+	// Show only the active panel via the hidden attribute.
+	useLayoutEffect(() => {
+		if (!contentRef.current) return;
+
+		const panels = contentRef.current.querySelectorAll(
+			'.wp-block-beplus-visual-mega-nav-tab-panel, ' +
+				'[data-type="beplus-visual-mega-nav/tab-panel"]'
+		);
+
+		panels.forEach((panel, i) => {
+			if (i === activeTab) {
+				panel.removeAttribute('hidden');
+			} else {
+				panel.setAttribute('hidden', '');
+			}
+		});
+	}, [activeTab, tabPanels.length]);
+
+	const handleTabClick = useCallback((index) => {
+		setActiveTab(index);
+	}, []);
 
 	const renderTabs = () => {
 		if (tabPanels.length === 0) {
@@ -63,16 +203,76 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			);
 		}
 
-		return tabLabels.map((label, i) => (
-			<span
-				key={i}
-				className={`beplus-vmn-tab-container__tab${
-					i === 0 ? ' is-active' : ''
-				}`}
-			>
-				{label || __('Untitled', 'beplus-visual-mega-nav')}
-			</span>
-		));
+		return tabPanels.map((panel, i) => {
+			const label =
+				panel.attributes?.tabLabel ||
+				__('Untitled', 'beplus-visual-mega-nav');
+			const hasExtra =
+				panel?.attributes?.tabSubLabel || panel?.attributes?.tabIcon;
+			const isActive = i === activeTab;
+
+			if (!hasExtra) {
+				return (
+					<button
+						key={panel.clientId}
+						type="button"
+						className={`beplus-vmn-tab-container__tab${
+							isActive ? ' is-active' : ''
+						}`}
+						onClick={() => handleTabClick(i)}
+					>
+						{label}
+					</button>
+				);
+			}
+
+			const icon = panel?.attributes?.tabIcon || '';
+			const iconColor = panel?.attributes?.tabIconColor || '';
+			const sublabel = panel?.attributes?.tabSubLabel || '';
+
+			let iconStyle;
+			if (icon && iconColor) {
+				const resolved = /^[a-z0-9-]+$/.test(iconColor)
+					? `var(--wp--preset--color--${iconColor})`
+					: iconColor;
+				iconStyle = {
+					'--beplus-vmn-tab-icon-color': resolved,
+				};
+			}
+
+			return (
+				<button
+					key={panel.clientId}
+					type="button"
+					className={`beplus-vmn-tab-container__tab${
+						isActive ? ' is-active' : ''
+					}`}
+					onClick={() => handleTabClick(i)}
+				>
+					<span className="beplus-vmn-tab-container__tab-inner">
+						{icon && (
+							<span
+								className="beplus-vmn-tab-container__tab-icon beplus-vmn-tab-container__tab-icon--stacked"
+								aria-hidden="true"
+								style={iconStyle}
+							>
+								<TabIconPreview name={icon} />
+							</span>
+						)}
+						<span className="beplus-vmn-tab-container__tab-text">
+							<span className="beplus-vmn-tab-container__tab-label">
+								{label}
+							</span>
+							{sublabel && (
+								<span className="beplus-vmn-tab-container__tab-sublabel">
+									{sublabel}
+								</span>
+							)}
+						</span>
+					</span>
+				</button>
+			);
+		});
 	};
 
 	return (
@@ -80,7 +280,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<InspectorControls>
 				<PanelBody
 					title={__('Layout', 'beplus-visual-mega-nav')}
-					initialOpen={true}
+					initialOpen={false}
 				>
 					<SelectControl
 						label={__('Navigation mode', 'beplus-visual-mega-nav')}
@@ -88,14 +288,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						options={[
 							{
 								label: __(
-									'Vertical — sidebar on the left',
+									'Vertical \u2014 sidebar on the left',
 									'beplus-visual-mega-nav'
 								),
 								value: 'vertical',
 							},
 							{
 								label: __(
-									'Horizontal — tabs across the top',
+									'Horizontal \u2014 tabs across the top',
 									'beplus-visual-mega-nav'
 								),
 								value: 'horizontal',
@@ -115,7 +315,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						label={__('Indicator accent', 'beplus-visual-mega-nav')}
 						value={indicatorColor}
 						onChange={(value) =>
-							setAttributes({ indicatorColor: value || '' })
+							setAttributes({
+								indicatorColor: value || '',
+							})
 						}
 						clearable={true}
 					/>
@@ -148,7 +350,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</div>
 					</div>
 				)}
-				<div className="beplus-vmn-tab-container__content">
+				<div
+					className="beplus-vmn-tab-container__content"
+					ref={contentRef}
+				>
 					<InnerBlocks
 						allowedBlocks={ALLOWED_BLOCKS}
 						template={[

@@ -8,3 +8,23 @@
 .beplus-vmn-tab-container__tablist {
 	user-select: none;
 }
+
+/* Reset <button> to match <span> tab appearance */
+.beplus-vmn-tab-container__tab {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	border: none;
+	font-family: inherit;
+	cursor: pointer;
+}
+
+.beplus-vmn-tab-container__tab.is-placeholder {
+	cursor: default;
+}
+
+/* Panel hidden state in editor */
+.beplus-vmn-tab-container__content > [data-type="beplus-visual-mega-nav/tab-panel"][hidden],
+.beplus-vmn-tab-container__content > .wp-block-beplus-visual-mega-nav-tab-panel[hidden] {
+	display: none;
+}

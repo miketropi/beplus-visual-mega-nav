@@ -94,6 +94,19 @@ final class MegaMenuController {
 		$settings = MetaKeys::get( $id, MetaKeys::SETTINGS );
 		$content  = MetaKeys::get( $id, MetaKeys::CONTENT );
 
+		// Decode any `&amp;` / `\u0026` that survived the storage pipeline.
+		if ( is_string( $content ) && '' !== $content ) {
+			$content = html_entity_decode( $content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			$content = preg_replace_callback(
+				'/\\\\u([0-9a-fA-F]{4})/',
+				static function ( array $m ): string {
+					$char = mb_chr( (int) hexdec( $m[1] ), 'UTF-8' );
+					return is_string( $char ) ? $char : $m[0];
+				},
+				$content
+			);
+		}
+
 		return new WP_REST_Response(
 			[
 				'id'       => $id,
@@ -138,12 +151,12 @@ final class MegaMenuController {
 			);
 		}
 
-		// Save content — preserve Gutenberg block comments.
+		// Save content — already sanitized by REST arg schema callback.
 		if ( null !== $content ) {
 			MetaKeys::update(
 				$id,
 				MetaKeys::CONTENT,
-				BlockContentSanitizer::sanitize( $content )
+				(string) $content
 			);
 		}
 

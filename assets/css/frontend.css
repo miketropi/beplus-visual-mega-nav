@@ -11,7 +11,7 @@
 /* ---------- CSS Custom Properties (theme-overridable) ---------- */
 :root {
 	--beplus-vmn-mega-bg: #fff;
-	--beplus-vmn-mega-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--beplus-vmn-mega-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.18);
 	--beplus-vmn-mega-radius: 0;
 	--beplus-vmn-mega-padding: 24px;
 	--beplus-vmn-mega-z: 99999;
@@ -64,6 +64,7 @@
 		top: 100%;
 		left: 0;
 		z-index: var(--beplus-vmn-mega-z);
+		box-shadow: var(--beplus-vmn-mega-shadow);
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
@@ -250,6 +251,20 @@
 	}
 }
 
+/* ---------- Mobile accordion (<768px) ----------
+   Neutralize desktop inline width styles (width:100vw / left / transform
+   from the "full"/"custom" panel width setting) that would otherwise win
+   over the responsive rules and push content off-screen. */
+@media (max-width: 767px) {
+
+	.beplus-vmn-mega-panel {
+		width: 100% !important;
+		max-width: none !important;
+		left: auto !important;
+		transform: none !important;
+	}
+}
+
 /* ---------- Tablet off-canvas (768px–1023px) ---------- */
 @media (min-width: 768px) and (max-width: 1023px) {
 
@@ -258,8 +273,9 @@
 		top: 0;
 		right: 0;
 		bottom: 0;
-		width: 360px;
-		max-width: 85vw;
+		left: auto !important;
+		width: 360px !important;
+		max-width: 85vw !important;
 		z-index: var(--beplus-vmn-mega-z);
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
@@ -270,7 +286,7 @@
 		opacity: 1;
 		visibility: hidden;
 		pointer-events: none;
-		transform: translateX(100%);
+		transform: translateX(100%) !important;
 		box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
 		border-radius: 0;
 		transition:
@@ -280,7 +296,7 @@
 
 	.beplus-vmn-mega-panel.is-open,
 	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel {
-		transform: translateX(0);
+		transform: translateX(0) !important;
 		visibility: visible;
 		pointer-events: auto;
 		overflow-y: auto;
