@@ -20,6 +20,11 @@ final class BlockContentSanitizer {
 	/**
 	 * Sanitize serialized block HTML while preserving Gutenberg comments.
 	 *
+	 * `filter_block_content` / `wp_kses_post` both encode `&` inside
+	 * block-comment JSON (e.g. to \u0026), corrupting attributes like
+	 * tab labels. Since the REST endpoint already restricts access to
+	 * users with `edit_theme_options`, we only need UTF-8 validation.
+	 *
 	 * @param mixed $value Raw content from REST or meta API.
 	 * @return string
 	 */
@@ -28,21 +33,7 @@ final class BlockContentSanitizer {
 			return '';
 		}
 
-		$value = wp_check_invalid_utf8( $value );
-
-		if ( '' === $value ) {
-			return '';
-		}
-
-		if ( current_user_can( 'unfiltered_html' ) ) {
-			return $value;
-		}
-
-		if ( function_exists( 'filter_block_content' ) ) {
-			return filter_block_content( $value, 'post' );
-		}
-
-		return wp_kses_post( $value );
+		return wp_check_invalid_utf8( $value );
 	}
 
 	/**

@@ -225,15 +225,17 @@ final class MenuRenderer {
 			'beplus-vmn-front',
 			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/frontend.js',
 			[],
-			BEPLUS_VISUAL_MEGA_NAV_VERSION,
+			(string) filemtime( BEPLUS_VISUAL_MEGA_NAV_DIR . 'assets/js/frontend.js' ),
 			true
 		);
+
+		$tabs_ver = (string) filemtime( BEPLUS_VISUAL_MEGA_NAV_DIR . 'assets/js/tabs.js' );
 
 		wp_enqueue_script(
 			'beplus-vmn-tabs',
 			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/tabs.js',
 			[],
-			BEPLUS_VISUAL_MEGA_NAV_VERSION,
+			$tabs_ver,
 			true
 		);
 	}
