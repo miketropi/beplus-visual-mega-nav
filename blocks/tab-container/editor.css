@@ -28,3 +28,63 @@
 .beplus-vmn-tab-container__content > .wp-block-beplus-visual-mega-nav-tab-panel[hidden] {
 	display: none;
 }
+
+/* ================================================================
+   Tab row wrapper — holds tab + move buttons
+   ================================================================ */
+
+.beplus-vmn-tab-container__tab-row {
+	display: flex;
+	align-items: center;
+	gap: 0;
+}
+
+/* ================================================================
+   Move up / down buttons
+   ================================================================ */
+
+.beplus-vmn-tab-container__tab-move {
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	margin-left: 2px;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.beplus-vmn-tab-container__tab-row:hover .beplus-vmn-tab-container__tab-move {
+	opacity: 1;
+}
+
+.beplus-vmn-tab-container__tab-move-btn {
+	-webkit-appearance: none;
+	appearance: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 1px 3px;
+	color: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 16px;
+	border-radius: 3px;
+	opacity: 0.5;
+}
+
+.beplus-vmn-tab-container__tab-move-btn:hover:not(:disabled) {
+	opacity: 1;
+	background: rgba(0, 0, 0, 0.07);
+}
+
+.beplus-vmn-tab-container__tab-move-btn:disabled {
+	opacity: 0.12;
+	cursor: default;
+}
+
+.beplus-vmn-tab-container__tab-move-btn svg {
+	width: 10px;
+	height: 10px;
+	pointer-events: none;
+}

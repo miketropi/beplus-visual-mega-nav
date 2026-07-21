@@ -10,22 +10,23 @@
  * Activates on hover (desktop) or click.
  * Keyboard: Arrow keys navigate, Home/End, Enter/Space.
  *
- * @package Beplus\VisualMegaNav
+ * @package
  */
 
 (function () {
 	'use strict';
 
-	var CONTAINER_SEL = '.beplus-vmn-tab-container';
-	var ICON_SEL = '.beplus-vmn-tab-container__tab-icon[data-beplus-vmn-icon]';
+	const CONTAINER_SEL = '.beplus-vmn-tab-container';
+	const ICON_SEL =
+		'.beplus-vmn-tab-container__tab-icon[data-beplus-vmn-icon]';
 
 	// Cached icon catalog (shared across all containers).
-	var iconCatalog = null;
-	var iconFetching = false;
+	let iconCatalog = null;
+	let iconFetching = false;
 
 	function init() {
-		var containers = document.querySelectorAll(CONTAINER_SEL);
-		for (var c = 0; c < containers.length; c++) {
+		const containers = document.querySelectorAll(CONTAINER_SEL);
+		for (let c = 0; c < containers.length; c++) {
 			setupContainer(containers[c]);
 		}
 
@@ -42,15 +43,15 @@
 			return;
 		}
 
-		var scheduled = false;
+		let scheduled = false;
 
-		var observer = new MutationObserver(function (mutations) {
-			var relevant = false;
+		const observer = new MutationObserver(function (mutations) {
+			let relevant = false;
 
-			for (var m = 0; m < mutations.length; m++) {
-				var added = mutations[m].addedNodes;
-				for (var a = 0; a < added.length; a++) {
-					var node = added[a];
+			for (let m = 0; m < mutations.length; m++) {
+				const added = mutations[m].addedNodes;
+				for (let a = 0; a < added.length; a++) {
+					const node = added[a];
 					if (
 						node.nodeType === 1 &&
 						((node.matches && node.matches(CONTAINER_SEL)) ||
@@ -85,7 +86,7 @@
 	 * is available (e.g. Nextora provides lucide-icons.json).
 	 */
 	function renderTabIcons() {
-		var iconEls = document.querySelectorAll(ICON_SEL);
+		const iconEls = document.querySelectorAll(ICON_SEL);
 		if (!iconEls.length) {
 			return;
 		}
@@ -107,7 +108,7 @@
 	}
 
 	function fetchIconCatalog() {
-		var iconsUrl =
+		const iconsUrl =
 			(window.nextoraIconBlock && window.nextoraIconBlock.iconsUrl) || '';
 		if (!iconsUrl) {
 			return Promise.reject(new Error('No icon library'));
@@ -121,9 +122,9 @@
 				return r.json();
 			})
 			.then(function (data) {
-				var map = {};
+				const map = {};
 				if (Array.isArray(data)) {
-					for (var i = 0; i < data.length; i++) {
+					for (let i = 0; i < data.length; i++) {
 						if (data[i].name) {
 							map[data[i].name] = data[i];
 						}
@@ -134,7 +135,7 @@
 	}
 
 	function drawIcons(iconEls) {
-		for (var i = 0; i < iconEls.length; i++) {
+		for (let i = 0; i < iconEls.length; i++) {
 			drawIcon(iconEls[i]);
 		}
 	}
@@ -146,17 +147,20 @@
 
 		el._beplusVmnIconRendered = true;
 
-		var name = el.getAttribute('data-beplus-vmn-icon');
+		const name = el.getAttribute('data-beplus-vmn-icon');
 		if (!name || !iconCatalog || !iconCatalog[name]) {
 			return;
 		}
 
-		var icon = iconCatalog[name];
+		const icon = iconCatalog[name];
 		if (!icon.nodes || !icon.nodes.length) {
 			return;
 		}
 
-		var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		const svg = document.createElementNS(
+			'http://www.w3.org/2000/svg',
+			'svg'
+		);
 		svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 		svg.setAttribute('viewBox', '0 0 24 24');
 		svg.setAttribute('fill', 'none');
@@ -166,7 +170,7 @@
 		svg.setAttribute('stroke-linejoin', 'round');
 		svg.setAttribute('aria-hidden', 'true');
 
-		for (var n = 0; n < icon.nodes.length; n++) {
+		for (let n = 0; n < icon.nodes.length; n++) {
 			appendNode(svg, icon.nodes[n]);
 		}
 
@@ -178,17 +182,17 @@
 			return;
 		}
 
-		var tag = node[0];
-		var attrs = node[1] || {};
-		var children = node.length > 2 ? node.slice(2) : [];
+		const tag = node[0];
+		const attrs = node[1] || {};
+		const children = node.length > 2 ? node.slice(2) : [];
 
-		var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-		var keys = Object.keys(attrs);
-		for (var k = 0; k < keys.length; k++) {
+		const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+		const keys = Object.keys(attrs);
+		for (let k = 0; k < keys.length; k++) {
 			el.setAttribute(keys[k], attrs[keys[k]]);
 		}
 
-		for (var c = 0; c < children.length; c++) {
+		for (let c = 0; c < children.length; c++) {
 			appendNode(el, children[c]);
 		}
 
@@ -208,17 +212,16 @@
 		container._beplusVmnTabsEnhanced = true;
 		container.removeAttribute('data-beplus-vmn-tabs-enhanced');
 
-		var layout =
-			container.dataset.beplusVmnLayout || container.getAttribute('data-beplus-vmn-layout') || 'vertical';
-		var isHorizontal = layout === 'horizontal';
+		const layout =
+			container.dataset.beplusVmnLayout ||
+			container.getAttribute('data-beplus-vmn-layout') ||
+			'vertical';
+		const isHorizontal = layout === 'horizontal';
 
-		var tabs = container.querySelectorAll(
+		const tabs = container.querySelectorAll(
 			'.beplus-vmn-tab-container__tablist > [role="tab"]'
 		);
-		var indicator = container.querySelector(
-			'.beplus-vmn-tab-container__indicator'
-		);
-		var panels = container.querySelectorAll(
+		const panels = container.querySelectorAll(
 			'.beplus-vmn-tab-container__content > [role="tabpanel"]'
 		);
 
@@ -226,7 +229,10 @@
 			return;
 		}
 
-		var activeIndex = getActiveIndex(tabs);
+		const indicator = container.querySelector(
+			'.beplus-vmn-tab-container__indicator'
+		);
+		let activeIndex = getActiveIndex(tabs);
 
 		if (indicator && tabs[activeIndex]) {
 			positionIndicator(indicator, tabs[activeIndex], isHorizontal);
@@ -234,20 +240,17 @@
 
 		updateIndicatorColor(tabs[activeIndex]);
 
-		for (var i = 0; i < tabs.length; i++) {
+		for (let i = 0; i < tabs.length; i++) {
 			(function (idx) {
-				var touched = false;
-				var startX = 0;
-				var startY = 0;
+				let touched = false;
+				let startX = 0;
+				let startY = 0;
 
 				// Re-sync ARIA id references — clone id de-duplication
 				// (Nextora portal) can break aria-controls/labelledby.
 				if (panels[idx]) {
 					if (panels[idx].id) {
-						tabs[idx].setAttribute(
-							'aria-controls',
-							panels[idx].id
-						);
+						tabs[idx].setAttribute('aria-controls', panels[idx].id);
 					}
 					if (tabs[idx].id) {
 						panels[idx].setAttribute(
@@ -276,7 +279,7 @@
 				});
 
 				tabs[idx].addEventListener('touchstart', function (e) {
-					var t = e.touches[0];
+					const t = e.touches[0];
 					if (t) {
 						startX = t.clientX;
 						startY = t.clientY;
@@ -284,9 +287,9 @@
 				});
 
 				tabs[idx].addEventListener('touchend', function (e) {
-					var t = e.changedTouches[0];
-					var dx = t ? t.clientX - startX : 0;
-					var dy = t ? t.clientY - startY : 0;
+					const t = e.changedTouches[0];
+					const dx = t ? t.clientX - startX : 0;
+					const dy = t ? t.clientY - startY : 0;
 
 					if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
 						return;
@@ -305,7 +308,7 @@
 			})(i);
 		}
 
-		var tablist = container.querySelector(
+		const tablist = container.querySelector(
 			'.beplus-vmn-tab-container__tablist'
 		);
 		if (tablist && indicator) {
@@ -327,33 +330,31 @@
 		 * Vertical   — sets top + height.
 		 * Horizontal — sets left + width.
 		 *
-		 * @param {HTMLElement} indicator
+		 * @param {HTMLElement} indicatorEl
 		 * @param {HTMLElement} tab
-		 * @param {boolean}     isHorizontal
+		 * @param {boolean}     isHoriz
 		 */
-		function positionIndicator(indicator, tab, isHorizontal) {
-			var tablist = tab.closest('.beplus-vmn-tab-container__tablist');
-			if (!tablist) return;
+		function positionIndicator(indicatorEl, tab, isHoriz) {
+			const list = tab.closest('.beplus-vmn-tab-container__tablist');
+			if (!list) return;
 
-			var tablistRect = tablist.getBoundingClientRect();
-			var tabRect = tab.getBoundingClientRect();
+			const listRect = list.getBoundingClientRect();
+			const tabRect = tab.getBoundingClientRect();
 
-			if (isHorizontal) {
-				indicator.style.left =
-					tabRect.left - tablistRect.left + 'px';
-				indicator.style.width = tabRect.width + 'px';
-				indicator.style.top = '';
-				indicator.style.height = '';
+			if (isHoriz) {
+				indicatorEl.style.left = tabRect.left - listRect.left + 'px';
+				indicatorEl.style.width = tabRect.width + 'px';
+				indicatorEl.style.top = '';
+				indicatorEl.style.height = '';
 			} else {
-				indicator.style.top =
-					tabRect.top - tablistRect.top + 'px';
-				indicator.style.height = tabRect.height + 'px';
-				indicator.style.left = '';
-				indicator.style.width = '';
+				indicatorEl.style.top = tabRect.top - listRect.top + 'px';
+				indicatorEl.style.height = tabRect.height + 'px';
+				indicatorEl.style.left = '';
+				indicatorEl.style.width = '';
 			}
 		}
 
-		var animating = false;
+		let animating = false;
 
 		/**
 		 * @param {number}  index
@@ -364,13 +365,12 @@
 				return;
 			}
 
-			var prevIndex = activeIndex;
-			var shouldAnimate =
-				animate &&
-				window.matchMedia('(min-width: 601px)').matches;
+			const prevIndex = activeIndex;
+			const shouldAnimate =
+				animate && window.matchMedia('(min-width: 601px)').matches;
 
 			// Update ARIA states immediately.
-			for (var j = 0; j < tabs.length; j++) {
+			for (let j = 0; j < tabs.length; j++) {
 				if (j === index) {
 					tabs[j].setAttribute('aria-selected', 'true');
 					tabs[j].tabIndex = 0;
@@ -394,8 +394,8 @@
 
 			// ---- Animated switch ----
 			animating = true;
-			var leaving = panels[prevIndex];
-			var entering = panels[index];
+			const leaving = panels[prevIndex];
+			const entering = panels[index];
 
 			if (leaving) {
 				leaving.classList.add(
@@ -412,9 +412,7 @@
 				);
 				// Force reflow so the browser picks up the initial state.
 				void entering.offsetWidth;
-				entering.classList.add(
-					'beplus-vmn-tab-panel--visible'
-				);
+				entering.classList.add('beplus-vmn-tab-panel--visible');
 			}
 
 			function cleanup() {
@@ -436,21 +434,15 @@
 			}
 
 			if (entering) {
-				entering.addEventListener(
-					'transitionend',
-					function handler(e) {
-						if (
-							e.target === entering &&
-							e.propertyName === 'transform'
-						) {
-							entering.removeEventListener(
-								'transitionend',
-								handler
-							);
-							cleanup();
-						}
+				entering.addEventListener('transitionend', function handler(e) {
+					if (
+						e.target === entering &&
+						e.propertyName === 'transform'
+					) {
+						entering.removeEventListener('transitionend', handler);
+						cleanup();
 					}
-				);
+				});
 			}
 
 			// Safety fallback in case transitionend never fires.
@@ -466,7 +458,7 @@
 		 */
 		function updateIndicatorColor(tab) {
 			if (!tab) return;
-			var color = tab.getAttribute('data-beplus-vmn-tab-color');
+			const color = tab.getAttribute('data-beplus-vmn-tab-color');
 			if (color) {
 				container.style.setProperty(
 					'--beplus-vmn-tab-indicator-color',
@@ -482,11 +474,11 @@
 		/**
 		 * @param {KeyboardEvent} e
 		 * @param {number}        currentIndex
+		 * @return {void} No value returned; updates focus or activates a tab.
 		 */
 		function handleKeydown(e, currentIndex) {
-			var nextIndex;
-			var nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
-			var prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
+			let nextIndex;
+			const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
 
 			switch (e.key) {
 				case 'ArrowRight':
@@ -524,7 +516,7 @@
 						);
 					}
 					activateTab(currentIndex, true);
-					var tl = container.querySelector(
+					const tl = container.querySelector(
 						'.beplus-vmn-tab-container__tablist'
 					);
 					if (tl) {
@@ -542,13 +534,11 @@
 
 		/**
 		 * @param {NodeList} tabElements
-		 * @return {number}
+		 * @return {number} Zero-based index of the active tab, or 0 if none.
 		 */
 		function getActiveIndex(tabElements) {
-			for (var j = 0; j < tabElements.length; j++) {
-				if (
-					tabElements[j].getAttribute('aria-selected') === 'true'
-				) {
+			for (let j = 0; j < tabElements.length; j++) {
+				if (tabElements[j].getAttribute('aria-selected') === 'true') {
 					return j;
 				}
 			}
