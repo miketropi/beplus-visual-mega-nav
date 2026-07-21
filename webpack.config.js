@@ -1,10 +1,10 @@
 /**
  * Webpack configuration — extends @wordpress/scripts default.
  *
- * @package Beplus\VisualMegaNavBuilder
+ * @package
  */
 
-const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 
 module.exports = {
 	...defaultConfig,

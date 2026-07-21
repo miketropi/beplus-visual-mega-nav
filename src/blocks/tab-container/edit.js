@@ -3,6 +3,7 @@
  *
  * Click a tab button to show only the corresponding panel content
  * (like the frontend). Layout and color settings in the inspector.
+ * Tabs can be reordered via move-up/move-down buttons.
  *
  * @package
  */
@@ -14,7 +15,7 @@ import {
 	useEffect,
 	useCallback,
 } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import {
 	InnerBlocks,
 	useBlockProps,
@@ -125,6 +126,46 @@ function TabIconPreview({ name }) {
 }
 
 /*
+ * ---- Chevron icons (move buttons) ----
+ */
+
+function ChevronUpIcon() {
+	return (
+		<svg
+			width="10"
+			height="10"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="3"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			aria-hidden="true"
+		>
+			<polyline points="18 15 12 9 6 15" />
+		</svg>
+	);
+}
+
+function ChevronDownIcon() {
+	return (
+		<svg
+			width="10"
+			height="10"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="3"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			aria-hidden="true"
+		>
+			<polyline points="6 9 12 15 18 9" />
+		</svg>
+	);
+}
+
+/*
  * ---- Main edit component ----
  */
 
@@ -150,6 +191,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		(select) => select('core/block-editor').getBlocks(clientId),
 		[clientId]
 	);
+
+	const { moveBlockToPosition } = useDispatch('core/block-editor');
 
 	const tabPanels = innerBlocks.filter(
 		(block) => block.name === 'beplus-visual-mega-nav/tab-panel'
@@ -186,6 +229,30 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		setActiveTab(index);
 	}, []);
 
+	// ---- Move up / down handlers ----
+
+	const handleMoveUp = useCallback(
+		(e, index) => {
+			e.stopPropagation();
+			if (index <= 0) return;
+			const block = tabPanels[index];
+			if (!block) return;
+			moveBlockToPosition(block.clientId, clientId, clientId, index - 1);
+		},
+		[tabPanels, clientId, moveBlockToPosition]
+	);
+
+	const handleMoveDown = useCallback(
+		(e, index) => {
+			e.stopPropagation();
+			if (index >= tabPanels.length - 1) return;
+			const block = tabPanels[index];
+			if (!block) return;
+			moveBlockToPosition(block.clientId, clientId, clientId, index + 1);
+		},
+		[tabPanels, clientId, moveBlockToPosition]
+	);
+
 	const renderTabs = () => {
 		if (tabPanels.length === 0) {
 			return (
@@ -211,44 +278,33 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				panel?.attributes?.tabSubLabel || panel?.attributes?.tabIcon;
 			const isActive = i === activeTab;
 
-			if (!hasExtra) {
+			const tabClasses = [
+				'beplus-vmn-tab-container__tab',
+				isActive ? 'is-active' : '',
+			]
+				.filter(Boolean)
+				.join(' ');
+
+			const renderTabContent = () => {
+				if (!hasExtra) {
+					return label;
+				}
+
+				const icon = panel?.attributes?.tabIcon || '';
+				const iconColor = panel?.attributes?.tabIconColor || '';
+				const sublabel = panel?.attributes?.tabSubLabel || '';
+
+				let iconStyle;
+				if (icon && iconColor) {
+					const resolved = /^[a-z0-9-]+$/.test(iconColor)
+						? `var(--wp--preset--color--${iconColor})`
+						: iconColor;
+					iconStyle = {
+						'--beplus-vmn-tab-icon-color': resolved,
+					};
+				}
+
 				return (
-					<button
-						key={panel.clientId}
-						type="button"
-						className={`beplus-vmn-tab-container__tab${
-							isActive ? ' is-active' : ''
-						}`}
-						onClick={() => handleTabClick(i)}
-					>
-						{label}
-					</button>
-				);
-			}
-
-			const icon = panel?.attributes?.tabIcon || '';
-			const iconColor = panel?.attributes?.tabIconColor || '';
-			const sublabel = panel?.attributes?.tabSubLabel || '';
-
-			let iconStyle;
-			if (icon && iconColor) {
-				const resolved = /^[a-z0-9-]+$/.test(iconColor)
-					? `var(--wp--preset--color--${iconColor})`
-					: iconColor;
-				iconStyle = {
-					'--beplus-vmn-tab-icon-color': resolved,
-				};
-			}
-
-			return (
-				<button
-					key={panel.clientId}
-					type="button"
-					className={`beplus-vmn-tab-container__tab${
-						isActive ? ' is-active' : ''
-					}`}
-					onClick={() => handleTabClick(i)}
-				>
 					<span className="beplus-vmn-tab-container__tab-inner">
 						{icon && (
 							<span
@@ -270,7 +326,58 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							)}
 						</span>
 					</span>
-				</button>
+				);
+			};
+
+			const isFirst = i === 0;
+			const isLast = i === tabPanels.length - 1;
+
+			return (
+				<div
+					key={panel.clientId}
+					className="beplus-vmn-tab-container__tab-row"
+				>
+					<button
+						type="button"
+						className={tabClasses}
+						onClick={() => handleTabClick(i)}
+					>
+						{renderTabContent()}
+					</button>
+					{tabPanels.length > 1 && (
+						<div className="beplus-vmn-tab-container__tab-move">
+							<button
+								type="button"
+								className="beplus-vmn-tab-container__tab-move-btn"
+								onClick={(e) => handleMoveUp(e, i)}
+								disabled={isFirst}
+								aria-label={__(
+									'Move up',
+									'beplus-visual-mega-nav'
+								)}
+								title={__('Move up', 'beplus-visual-mega-nav')}
+							>
+								<ChevronUpIcon />
+							</button>
+							<button
+								type="button"
+								className="beplus-vmn-tab-container__tab-move-btn"
+								onClick={(e) => handleMoveDown(e, i)}
+								disabled={isLast}
+								aria-label={__(
+									'Move down',
+									'beplus-visual-mega-nav'
+								)}
+								title={__(
+									'Move down',
+									'beplus-visual-mega-nav'
+								)}
+							>
+								<ChevronDownIcon />
+							</button>
+						</div>
+					)}
+				</div>
 			);
 		});
 	};
