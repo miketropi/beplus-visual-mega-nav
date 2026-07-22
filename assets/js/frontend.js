@@ -297,6 +297,48 @@
 			},
 			true
 		);
+
+		document.addEventListener(
+			'mouseenter',
+			(e) => {
+				if (isAccordionMode() || isOffcanvasMode()) {
+					return;
+				}
+
+				const target = e.target;
+				if (!(target instanceof Element)) {
+					return;
+				}
+
+				const megaItem = target.closest(MEGA_ITEMS);
+				if (!megaItem || !(megaItem instanceof HTMLElement)) {
+					return;
+				}
+
+				closeAllExcept(megaItem);
+			},
+			true
+		);
+	}
+
+	/**
+	 * Close all open mega panels except the given item.
+	 *
+	 * @param {HTMLElement} keepItem Menu item to keep open.
+	 */
+	function closeAllExcept(keepItem) {
+		document.querySelectorAll(MEGA_ITEMS).forEach((item) => {
+			if (item === keepItem || !(item instanceof HTMLElement)) {
+				return;
+			}
+
+			const panel = getPanel(item);
+			const link = getLink(item);
+
+			if (panel?.classList.contains(OPEN_CLASS) && link) {
+				closePanel(panel, link, item);
+			}
+		});
 	}
 
 	/**
@@ -374,9 +416,9 @@
 	 */
 	function handleLinkClick(e, item, panel, link) {
 		if (!isAccordionMode() && !isOffcanvasMode()) {
-			const isOpen = panel.classList.contains(OPEN_CLASS);
+			const href = link.getAttribute('href');
 
-			if (isOpen && link.getAttribute('href') !== '#') {
+			if (href && href !== '#') {
 				return;
 			}
 
@@ -507,6 +549,13 @@
 		panel.classList.remove(OPEN_CLASS);
 		item.classList.remove(ACCORDION_CLASS);
 		link.setAttribute(ARIA_EXPANDED, 'false');
+
+		if (
+			document.activeElement instanceof HTMLElement &&
+			item.contains(document.activeElement)
+		) {
+			document.activeElement.blur();
+		}
 
 		restoreFromBody(panel);
 
