@@ -57,6 +57,7 @@ final class AllowedBlocks {
 			'beplus-visual-mega-nav/beplus-navigation',
 			'beplus-visual-mega-nav/nav-menu-area',
 			'beplus-visual-mega-nav/nav-toggle',
+			'beplus-visual-mega-nav/hero-artwork-dock',
 		];
 	}
 
