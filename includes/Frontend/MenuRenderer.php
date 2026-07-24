@@ -100,7 +100,9 @@ final class MenuRenderer {
 			return true;
 		}
 
-		if ( ! empty( $args['menu'] ) && $this->menu_has_mega_items( (int) $args['menu'] ) ) {
+		$menu_id = $args['menu'] instanceof \WP_Term ? $args['menu']->term_id : (int) $args['menu'];
+
+		if ( ! empty( $args['menu'] ) && $this->menu_has_mega_items( $menu_id ) ) {
 			return true;
 		}
 
