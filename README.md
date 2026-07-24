@@ -4,7 +4,7 @@ Tags: mega-menu, gutenberg, navigation, block-editor, menu-builder
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 0.0.9
+Stable tag: 0.0.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -195,6 +195,10 @@ add_filter( 'beplus_vmn_locations', function ( $locations ) {
 ~~~
 
 == Changelog ==
+
+= 0.0.10 =
+* Fixed some PHP issues
+* Improved backend editor
 
 = 0.0.9 =
 
