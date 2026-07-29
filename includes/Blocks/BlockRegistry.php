@@ -39,6 +39,7 @@ final class BlockRegistry {
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/tab-panel' );
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/hero-artwork-dock' );
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/blog-list' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/quote' );
 	}
 
 	/**

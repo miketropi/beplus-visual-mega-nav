@@ -16,5 +16,6 @@ import './blocks/tab-container';
 import './blocks/tab-panel';
 import './blocks/hero-artwork-dock';
 import './blocks/blog-list';
+import './blocks/quote';
 
 registerCoreBlocks();

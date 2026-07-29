@@ -300,10 +300,19 @@
 		portalRoot.appendChild(clone);
 		document.body.appendChild(portalRoot);
 
-		// Re-init the existing menu engine on the cloned subtree.
+		// Re-init the existing mega menu engine on the cloned subtree.
 		if (typeof window.beplusVmnReInit === 'function') {
 			window.beplusVmnReInit(portalRoot);
 		}
+
+		// Notify block viewScripts (Quote, Blog List, Hero Artwork, etc.)
+		// that a fresh clone of the nav DOM exists so they can re-scan
+		// for new block instances inside the portal.
+		document.dispatchEvent(
+			new CustomEvent('beplus:portal-ready', {
+				detail: { portal: portalRoot },
+			})
+		);
 
 		// Bind close-on-backdrop-click.
 		portalRoot.addEventListener('click', function (e) {

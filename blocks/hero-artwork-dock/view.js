@@ -533,4 +533,9 @@
 		});
 		instances = new WeakMap();
 	};
+
+	// Re-scan when the mobile navigation portal clones blocks.
+	document.addEventListener('beplus:portal-ready', function () {
+		init();
+	});
 })();
