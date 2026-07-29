@@ -48,8 +48,9 @@
 	box-shadow: var(--beplus-hero-card-shadow);
 	opacity: 0;
 	transform:
+		translateX(-50%)
 		rotate(var(--beplus-hero-card-rotation))
-		translateY(0px);
+		translateY(0);
 	transition: opacity 0.3s ease-out, transform 0.1s ease-out;
 	will-change: transform, opacity;
 }
@@ -61,13 +62,15 @@
 
 /* Entrance animation */
 @keyframes beplus-hero-entrance {
+
 	0% {
 		opacity: 0;
-		transform: rotate(var(--beplus-hero-card-rotation)) scale(0.85) translateY(25px);
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) scale(0.85) translateY(25px);
 	}
+
 	100% {
 		opacity: 1;
-		transform: rotate(var(--beplus-hero-card-rotation)) scale(1) translateY(0px);
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) scale(1) translateY(0);
 	}
 }
 
@@ -78,12 +81,14 @@
 
 /* Idle float animation */
 @keyframes beplus-hero-float {
+
 	0%,
 	100% {
-		transform: rotate(var(--beplus-hero-card-rotation)) translateY(0px);
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) translateY(0);
 	}
+
 	50% {
-		transform: rotate(var(--beplus-hero-card-rotation)) translateY(-8px);
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) translateY(-8px);
 	}
 }
 
@@ -94,6 +99,7 @@
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
 	.beplus-hero-card {
 		transition: none;
 	}
@@ -104,7 +110,7 @@
 
 	.beplus-hero-card.has-entered {
 		opacity: 1;
-		transform: rotate(var(--beplus-hero-card-rotation)) scale(1) translateY(0px);
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) scale(1) translateY(0);
 	}
 
 	.beplus-hero-artwork[data-floating="1"] .beplus-hero-card.is-idle {

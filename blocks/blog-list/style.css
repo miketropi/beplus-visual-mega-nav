@@ -1,0 +1,188 @@
+/**
+ * Blog List — frontend block styles.
+ *
+ * Compact post list with soft hover and staggered entrance
+ * animations. Designed for mega menu panels (~300-350px wide).
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+/* ---------- List container ---------- */
+.beplus-vmn-blog-list {
+	--beplus-vmn-blog-gap: 0;
+	--beplus-vmn-blog-item-padding: 12px 0;
+	--beplus-vmn-blog-divider: 1px solid rgba(128, 128, 128, 0.15);
+
+	container-type: inline-size;
+}
+
+.beplus-vmn-blog-list__items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* ---------- List item ---------- */
+.beplus-vmn-blog-list__item {
+	border-bottom: var(--beplus-vmn-blog-divider);
+	opacity: 0;
+	transform: translateY(6px);
+	animation: beplus-vmn-blog-enter 0.4s ease forwards;
+	animation-delay: var(--beplus-vmn-enter-delay, 0ms);
+}
+
+.beplus-vmn-blog-list__item:last-child {
+	border-bottom: none;
+}
+
+/* ---------- Link ---------- */
+.beplus-vmn-blog-list__link {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: var(--beplus-vmn-blog-item-padding);
+	text-decoration: none;
+	color: inherit;
+	border-radius: 6px;
+	transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.beplus-vmn-blog-list__link:hover {
+	background-color: rgba(128, 128, 128, 0.06);
+	transform: translateX(4px);
+}
+
+.beplus-vmn-blog-list__link:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: -2px;
+	border-radius: 6px;
+}
+
+/* ---------- Thumbnail ---------- */
+.beplus-vmn-blog-list__thumb {
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.beplus-vmn-blog-list__thumb img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ---------- Body ---------- */
+.beplus-vmn-blog-list__body {
+	flex: 1;
+	min-width: 0;
+}
+
+/* ---------- Title ---------- */
+.beplus-vmn-blog-list__title {
+	display: block;
+	font-size: 0.925em;
+	font-weight: 600;
+	line-height: 1.3;
+	margin-bottom: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ---------- Meta row ---------- */
+.beplus-vmn-blog-list__meta {
+	font-size: 0.75em;
+	color: rgba(128, 128, 128, 0.85);
+	line-height: 1.4;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ---------- Excerpt ---------- */
+.beplus-vmn-blog-list__excerpt {
+	margin: 4px 0 0;
+	font-size: 0.8em;
+	line-height: 1.45;
+	color: rgba(128, 128, 128, 0.75);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* ---------- Empty state ---------- */
+.beplus-vmn-blog-list__empty {
+	margin: 0;
+	padding: 16px;
+	font-size: 0.85em;
+	color: rgba(128, 128, 128, 0.7);
+	text-align: center;
+}
+
+/* ---------- Entrance animation ---------- */
+@keyframes beplus-vmn-blog-enter {
+
+	0% {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ---------- Floating thumbnail (mouse-tracking hover preview) ---------- */
+.beplus-blog-list-float-thumb {
+	position: fixed;
+	z-index: 9999;
+	pointer-events: none;
+	width: var(--beplus-bl-thumb-w, 220px);
+	height: var(--beplus-bl-thumb-h, 140px);
+	object-fit: cover;
+	border-radius: 8px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+	opacity: 0;
+	transform: scale(0.85);
+	transition: opacity 0.25s ease, transform 0.25s ease;
+	will-change: transform, opacity, left, top;
+}
+
+.beplus-blog-list-float-thumb.is-visible {
+	opacity: 1;
+	transform: scale(1);
+	transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.beplus-blog-list-float-thumb.is-hiding {
+	opacity: 0;
+	transform: scale(0.9);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.beplus-vmn-blog-list__item[data-thumbnail] {
+	cursor: default;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+	.beplus-vmn-blog-list__item {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+
+	.beplus-vmn-blog-list__link {
+		transition: none;
+	}
+
+	.beplus-blog-list-float-thumb {
+		display: none;
+	}
+}

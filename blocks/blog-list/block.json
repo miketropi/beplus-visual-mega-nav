@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "beplus-visual-mega-nav/blog-list",
+	"title": "Blog List",
+	"category": "beplus-vmn",
+	"icon": "list-view",
+	"description": "Clean, minimal recent posts list designed for mega menu dropdowns. Compact layout with soft animations.",
+	"keywords": [ "blog", "posts", "recent", "list", "mega menu" ],
+	"textdomain": "beplus-visual-mega-nav",
+	"attributes": {
+		"postsToShow": {
+			"type": "number",
+			"default": 5
+		},
+		"showThumbnail": {
+			"type": "boolean",
+			"default": true
+		},
+		"showDate": {
+			"type": "boolean",
+			"default": true
+		},
+		"showCategory": {
+			"type": "boolean",
+			"default": false
+		},
+		"showExcerpt": {
+			"type": "boolean",
+			"default": false
+		},
+		"showAuthor": {
+			"type": "boolean",
+			"default": false
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date"
+		},
+		"order": {
+			"type": "string",
+			"default": "DESC"
+		},
+		"categories": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		}
+	},
+	"style": "file:./style.css",
+	"editorStyle": [ "file:./editor.css", "file:./style.css" ],
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php",
+	"editorScript": "file:../../build/blocks.js"
+}

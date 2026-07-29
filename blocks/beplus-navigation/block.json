@@ -13,6 +13,10 @@
 		"overlayId": {
 			"type": "string",
 			"default": ""
+		},
+		"mobileBreakpoint": {
+			"type": "number",
+			"default": 782
 		}
 	},
 	"usesContext": [

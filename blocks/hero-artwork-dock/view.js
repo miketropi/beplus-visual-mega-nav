@@ -5,10 +5,16 @@
  * soft entrance animation for artwork cards docked to the
  * bottom of hero containers.
  *
+ * When both hover motion and float animation are enabled the two
+ * engines cooperate via an idle timer:
+ *   - Mousemove  → pause float, apply JS parallax (inline transform)
+ *   - Mouse idle → transition to rest position, clear inline style,
+ *                  restart CSS float so @keyframes take over.
+ *
  * Visibility is controlled via CSS classes (not inline styles):
- *   .beplus-hero-card            → opacity: 0 (hidden by default)
- *   .beplus-hero-card.is-entering → CSS animation (opacity 0→1 + slide up)
- *   .beplus-hero-card.has-entered → opacity: 1 (visible, post-entrance)
+ *   .beplus-hero-card              → opacity: 0 (hidden by default)
+ *   .beplus-hero-card.is-entering  → CSS animation (opacity 0→1 + slide up)
+ *   .beplus-hero-card.has-entered  → opacity: 1 (visible, post-entrance)
  *
  * Loaded via viewScript — only when a hero-artwork-dock block is on the page.
  *
@@ -17,19 +23,31 @@
 (function () {
 	'use strict';
 
-	var ARTWORK_SEL = '.beplus-hero-artwork';
-	var CARD_SEL = '.beplus-hero-card';
-	var IDLE_CLASS = 'is-idle';
-	var ENTERING_CLASS = 'is-entering';
-	var ENTERED_CLASS = 'has-entered';
+	const ARTWORK_SEL = '.beplus-hero-artwork';
+	const CARD_SEL = '.beplus-hero-card';
+	const IDLE_CLASS = 'is-idle';
+	const ENTERING_CLASS = 'is-entering';
+	const ENTERED_CLASS = 'has-entered';
 
-	var instances = new WeakMap();
+	/**
+	 * Milliseconds of no mousemove before the engine considers the
+	 *  pointer "idle" and hands control back to the CSS float animation.
+	 */
+	const IDLE_TIMEOUT = 500;
+
+	/**
+	 * Delay after the idle transform transition (0.4 s) before clearing
+	 *  inline styles — gives the smooth return-to-rest time to finish.
+	 */
+	const FLOAT_RESUME_DELAY = 450;
+
+	let instances = new WeakMap();
 
 	/**
 	 * Initialize all hero artwork docks on the page.
 	 */
 	function init() {
-		var artworks = document.querySelectorAll(ARTWORK_SEL);
+		const artworks = document.querySelectorAll(ARTWORK_SEL);
 		if (!artworks.length) {
 			return;
 		}
@@ -46,17 +64,25 @@
 			return;
 		}
 
-		var instanceId = artwork.getAttribute('data-instance') || '';
-		var hoverEnabled = artwork.getAttribute('data-hover') === '1';
-		var floatEnabled = artwork.getAttribute('data-floating') === '1';
-		var perspective = parseInt(artwork.getAttribute('data-perspective'), 10) || 800;
+		const instanceId = artwork.getAttribute('data-instance') || '';
+		const hoverEnabled = artwork.getAttribute('data-hover') === '1';
+		const floatEnabled = artwork.getAttribute('data-floating') === '1';
+		const perspective =
+			parseInt(artwork.getAttribute('data-perspective'), 10) || 800;
 
-		var cardEls = artwork.querySelectorAll(CARD_SEL);
-		var cards = [];
+		const cardEls = artwork.querySelectorAll(CARD_SEL);
+		const cards = [];
+
+		// Seed mouse position to viewport center so cards have a neutral
+		// starting position before the first mousemove fires.
+		const viewportW =
+			window.innerWidth || document.documentElement.clientWidth;
+		const viewportH =
+			window.innerHeight || document.documentElement.clientHeight;
 
 		Array.prototype.forEach.call(cardEls, function (el, idx) {
 			cards.push({
-				el: el,
+				el,
 				depth: parseInt(el.getAttribute('data-depth'), 10) || 0,
 				rotation: parseFloat(el.getAttribute('data-rotation')) || 0,
 				width: parseInt(el.getAttribute('data-width'), 10) || 200,
@@ -65,19 +91,20 @@
 			});
 		});
 
-		var state = {
-			artwork: artwork,
-			instanceId: instanceId,
-			hoverEnabled: hoverEnabled,
-			floatEnabled: floatEnabled,
-			perspective: perspective,
-			cards: cards,
-			mouseX: 0,
-			mouseY: 0,
-			isHovering: false,
+		const state = {
+			artwork,
+			instanceId,
+			hoverEnabled,
+			floatEnabled,
+			perspective,
+			cards,
+			mouseX: viewportW / 2,
+			mouseY: viewportH / 2,
 			isVisible: true,
 			hasEntered: false,
 			animationFrameId: null,
+			_idleTimer: null,
+			_resumeFloatTimer: null,
 		};
 
 		instances.set(artwork, state);
@@ -87,7 +114,6 @@
 		}
 
 		// Float starts after entrance completes (see triggerEntrance).
-		// If entrance already played (e.g. re-init), start float now.
 		if (floatEnabled && state.hasEntered) {
 			startFloatAnimation(state);
 		}
@@ -100,8 +126,8 @@
 		requestAnimationFrame(function () {
 			requestAnimationFrame(function () {
 				if (state.hasEntered) return;
-				var rect = artwork.getBoundingClientRect();
-				var isInViewport =
+				const rect = artwork.getBoundingClientRect();
+				const isInViewport =
 					rect.top < window.innerHeight &&
 					rect.bottom > 0 &&
 					rect.width > 0 &&
@@ -114,15 +140,63 @@
 	}
 
 	/* --------------------------------------------------------------------
-	 * Mouse tracking
+	 * Mouse tracking — document-level mousemove for page-global parallax.
+	 *
+	 * Cooperative float handling:
+	 *   - Every mousemove pauses the CSS float animation and resets an idle
+	 *     timer.  While the timer is live, JS parallax owns the transform.
+	 *   - When the idle timer fires we smoothly transition cards back to
+	 *     their rest position, then clear all inline transforms and hand
+	 *     control to the CSS @keyframes float animation.
+	 *   - mouseleave / visibilitychange / blur immediately trigger the same
+	 *     return-to-float sequence so cards never freeze.
 	 * ----------------------------------------------------------------- */
 
 	function bindMouseTracking(state) {
-		var ticking = false;
+		let ticking = false;
+
+		function clearIdleTimer() {
+			if (state._idleTimer) {
+				clearTimeout(state._idleTimer);
+				state._idleTimer = null;
+			}
+		}
+
+		function clearResumeTimer() {
+			if (state._resumeFloatTimer) {
+				clearTimeout(state._resumeFloatTimer);
+				state._resumeFloatTimer = null;
+			}
+		}
+
+		/**
+		 * Start the idle timer.  When it fires the mouse has been still
+		 * long enough — transition to idle position, then hand control
+		 * to the CSS float animation.
+		 */
+		function resetIdleTimer() {
+			clearIdleTimer();
+			if (!state.floatEnabled) {
+				return;
+			}
+			state._idleTimer = setTimeout(function () {
+				state._idleTimer = null;
+				returnToFloat(state);
+			}, IDLE_TIMEOUT);
+		}
 
 		function onMouseMove(e) {
 			state.mouseX = e.clientX;
 			state.mouseY = e.clientY;
+
+			// Cancel any pending return-to-float — mouse is moving again.
+			clearIdleTimer();
+			clearResumeTimer();
+
+			// Pause CSS float while JS parallax is driving transforms.
+			if (state.floatEnabled) {
+				pauseFloatAnimation(state);
+			}
 
 			if (!ticking) {
 				ticking = true;
@@ -131,93 +205,174 @@
 					ticking = false;
 				});
 			}
+
+			// Restart the idle countdown.
+			resetIdleTimer();
 		}
 
-		function onMouseEnter() {
-			state.isHovering = true;
-		}
-
+		// When the pointer leaves the document, go straight to float.
 		function onMouseLeave() {
-			state.isHovering = false;
-			applyMouseParallax(state, true);
+			clearIdleTimer();
+			clearResumeTimer();
+			returnToFloat(state);
 		}
 
 		document.addEventListener('mousemove', onMouseMove, { passive: true });
-		document.addEventListener('mouseenter', onMouseEnter, { passive: true });
 		document.addEventListener('mouseleave', onMouseLeave);
 
+		// Reset cards to idle when the tab loses focus (Alt+Tab, etc.)
+		// so they don't freeze at the last parallax position.
+		function onVisibilityChange() {
+			if (document.hidden) {
+				clearIdleTimer();
+				clearResumeTimer();
+				returnToFloat(state);
+			}
+		}
+		document.addEventListener('visibilitychange', onVisibilityChange);
+
+		// Belt-and-suspenders: blur on the window catches focus-loss
+		// scenarios where visibilitychange might not be enough.
+		function onBlur() {
+			clearIdleTimer();
+			clearResumeTimer();
+			returnToFloat(state);
+		}
+		window.addEventListener('blur', onBlur);
+
 		state._mouseMove = onMouseMove;
-		state._mouseEnter = onMouseEnter;
 		state._mouseLeave = onMouseLeave;
+		state._visibilityChange = onVisibilityChange;
+		state._blur = onBlur;
+	}
+
+	/**
+	 * Smoothly transition cards to their rest position, then clear
+	 * inline transforms so the CSS float @keyframes can take over.
+	 *
+	 * @param {Object} state Instance state.
+	 */
+	function returnToFloat(state) {
+		// Step 1 — smooth 0.4 s transition back to idle transform.
+		applyMouseParallax(state, true);
+
+		if (!state.floatEnabled) {
+			return;
+		}
+
+		// Step 2 — after the transition finishes, clear inline styles
+		// and restart the CSS float animation.
+		if (state._resumeFloatTimer) {
+			clearTimeout(state._resumeFloatTimer);
+		}
+		state._resumeFloatTimer = setTimeout(function () {
+			state._resumeFloatTimer = null;
+			const cards = state.cards;
+			for (let i = 0; i < cards.length; i++) {
+				cards[i].el.style.transform = '';
+				cards[i].el.style.transition = '';
+			}
+			startFloatAnimation(state);
+		}, FLOAT_RESUME_DELAY);
 	}
 
 	/**
 	 * Apply parallax transform to each card based on mouse position.
+	 *
+	 * @param {Object}  state  Instance state.
+	 * @param {boolean} toIdle If true, reset cards to resting transforms.
 	 */
 	function applyMouseParallax(state, toIdle) {
-		var cards = state.cards;
-		var viewportW = window.innerWidth || document.documentElement.clientWidth;
-		var viewportH = window.innerHeight || document.documentElement.clientHeight;
+		const cards = state.cards;
+		const viewportW =
+			window.innerWidth || document.documentElement.clientWidth;
+		const viewportH =
+			window.innerHeight || document.documentElement.clientHeight;
 
-		var nx = toIdle ? 0 : (state.mouseX / viewportW) * 2 - 1;
-		var ny = toIdle ? 0 : (state.mouseY / viewportH) * 2 - 1;
+		const nx = toIdle ? 0 : (state.mouseX / viewportW) * 2 - 1;
+		const ny = toIdle ? 0 : (state.mouseY / viewportH) * 2 - 1;
 
-		for (var i = 0; i < cards.length; i++) {
-			var card = cards[i];
-			var depthFactor = 1 + card.depth * 0.3;
-			var baseRotation = card.rotation;
+		for (let i = 0; i < cards.length; i++) {
+			const card = cards[i];
+			const depthFactor = 1 + card.depth * 0.3;
+			const baseRotation = card.rotation;
 
-			var ty = (6 + card.depth * 2) * ny * depthFactor;
+			let ty = (6 + card.depth * 2) * ny * depthFactor;
 			ty = clamp(ty, -12, 12);
 
-			var tx = (3 + card.depth * 1.5) * nx * depthFactor;
+			let tx = (3 + card.depth * 1.5) * nx * depthFactor;
 			tx = clamp(tx, -8, 8);
 
-			var tilt = (2 + card.depth * 0.6) * nx;
+			let tilt = (2 + card.depth * 0.6) * nx;
 			tilt = clamp(tilt, -4, 4);
-			var rot = baseRotation + tilt;
-
-			var tform = 'rotate(' + rot.toFixed(2) + 'deg) translateX(' + tx.toFixed(2) + 'px) translateY(' + ty.toFixed(2) + 'px)';
+			const rot = baseRotation + tilt;
 
 			if (toIdle) {
 				card.el.style.transition = 'transform 0.4s ease-out';
-				card.el.style.transform = 'rotate(' + baseRotation.toFixed(2) + 'deg) translateY(0px)';
-				card._resetTimer = setTimeout(function (el) {
-					el.style.transition = 'transform 0.1s ease-out';
-				}.bind(null, card.el), 420);
+				card.el.style.transform =
+					'translateX(-50%) rotate(' +
+					baseRotation.toFixed(2) +
+					'deg) translateY(0px)';
+				card._resetTimer = setTimeout(
+					function (el) {
+						el.style.transition = 'transform 0.1s ease-out';
+					}.bind(null, card.el),
+					420
+				);
 			} else {
 				if (card._resetTimer) {
 					clearTimeout(card._resetTimer);
 					card._resetTimer = null;
 				}
 				card.el.style.transition = 'transform 0.1s ease-out';
-				card.el.style.transform = tform;
+				card.el.style.transform =
+					'translateX(-50%) rotate(' +
+					rot.toFixed(2) +
+					'deg) translateX(' +
+					tx.toFixed(2) +
+					'px) translateY(' +
+					ty.toFixed(2) +
+					'px)';
 			}
 		}
 	}
 
 	/* --------------------------------------------------------------------
-	 * Idle float animation
+	 * Idle float animation (CSS @keyframes)
 	 * ----------------------------------------------------------------- */
 
 	function startFloatAnimation(state) {
-		var cards = state.cards;
+		// Skip if already running — avoids redundant DOM writes on every
+		// IntersectionObserver toggle (scroll in/out).
+		if (state._floatStarted) {
+			return;
+		}
+		state._floatStarted = true;
 
-		for (var i = 0; i < cards.length; i++) {
-			var card = cards[i];
+		const cards = state.cards;
+
+		for (let i = 0; i < cards.length; i++) {
+			const card = cards[i];
 			card.el.classList.add(IDLE_CLASS);
 
-			var duration = 3 + (i * 0.7) + (card.depth * 0.5);
-			var delay = i * 0.5;
+			const duration = 3 + i * 0.7 + card.depth * 0.5;
+			const delay = i * 0.5;
 
-			card.el.style.setProperty('--beplus-hero-float-duration', duration.toFixed(2) + 's');
-			card.el.style.setProperty('--beplus-hero-float-delay', delay.toFixed(2) + 's');
+			card.el.style.setProperty(
+				'--beplus-hero-float-duration',
+				duration.toFixed(2) + 's'
+			);
+			card.el.style.setProperty(
+				'--beplus-hero-float-delay',
+				delay.toFixed(2) + 's'
+			);
 		}
 	}
 
 	function pauseFloatAnimation(state) {
-		var cards = state.cards;
-		for (var i = 0; i < cards.length; i++) {
+		state._floatStarted = false;
+		const cards = state.cards;
+		for (let i = 0; i < cards.length; i++) {
 			cards[i].el.classList.remove(IDLE_CLASS);
 		}
 	}
@@ -227,9 +382,9 @@
 	 * ----------------------------------------------------------------- */
 
 	function bindIntersectionObserver(state) {
-		var io = new IntersectionObserver(
+		const io = new IntersectionObserver(
 			function (entries) {
-				var entry = entries[0];
+				const entry = entries[0];
 				state.isVisible = entry.isIntersecting;
 
 				if (entry.isIntersecting && !state.hasEntered) {
@@ -244,6 +399,8 @@
 					}
 				}
 
+				// Reset cards to idle when the artwork is off-screen,
+				// so they don't hold stale parallax transforms.
 				if (!state.isVisible) {
 					applyMouseParallax(state, true);
 				}
@@ -258,44 +415,43 @@
 	/**
 	 * Trigger entrance animation with staggered delays.
 	 * Center card enters first, then inner cards, then outer cards.
-	 * Each card gets .is-entering for the CSS keyframe animation,
-	 * then .has-entered for permanent visibility.
+	 * @param {Object} state
 	 */
 	function triggerEntrance(state) {
 		state.hasEntered = true;
 
-		var cards = state.cards;
-		var count = cards.length;
-		var midIdx = Math.floor(count / 2);
+		const cards = state.cards;
+		const count = cards.length;
+		const midIdx = Math.floor(count / 2);
 
-		for (var i = 0; i < count; i++) {
+		for (let i = 0; i < count; i++) {
 			(function (card, dist) {
-				var delay = dist * 100;
+				const delay = dist * 100;
 
-				// Mark as entering — triggers the CSS animation.
-				card.el.style.setProperty('--beplus-hero-enter-delay', delay + 'ms');
+				card.el.style.setProperty(
+					'--beplus-hero-enter-delay',
+					delay + 'ms'
+				);
 				card.el.classList.add(ENTERING_CLASS);
-
-				// Also mark as entered immediately as a fallback — if the
-				// animation doesn't play (e.g. prefers-reduced-motion),
-				// the card still becomes visible via the .has-entered class.
 				card.el.classList.add(ENTERED_CLASS);
 
-				// When entrance animation finishes, clean up.
-				card.el.addEventListener('animationend', function onEnterEnd(e) {
-					if (e.animationName !== 'beplus-hero-entrance') {
-						return;
-					}
-					card.el.removeEventListener('animationend', onEnterEnd);
-					card.el.classList.remove(ENTERING_CLASS);
-					card.el.style.removeProperty('--beplus-hero-enter-delay');
+				card.el.addEventListener(
+					'animationend',
+					function onEnterEnd(e) {
+						if (e.animationName !== 'beplus-hero-entrance') {
+							return;
+						}
+						card.el.removeEventListener('animationend', onEnterEnd);
+						card.el.classList.remove(ENTERING_CLASS);
+						card.el.style.removeProperty(
+							'--beplus-hero-enter-delay'
+						);
 
-					// .has-entered is already present — permanent visibility.
-
-					if (state.floatEnabled && state.isVisible) {
-						startFloatAnimation(state);
+						if (state.floatEnabled && state.isVisible) {
+							startFloatAnimation(state);
+						}
 					}
-				});
+				);
 			})(cards[i], Math.abs(i - midIdx));
 		}
 	}
@@ -318,23 +474,41 @@
 		if (state._mouseMove) {
 			document.removeEventListener('mousemove', state._mouseMove);
 		}
-		if (state._mouseEnter) {
-			document.removeEventListener('mouseenter', state._mouseEnter);
-		}
 		if (state._mouseLeave) {
 			document.removeEventListener('mouseleave', state._mouseLeave);
+		}
+		if (state._visibilityChange) {
+			document.removeEventListener(
+				'visibilitychange',
+				state._visibilityChange
+			);
+		}
+		if (state._blur) {
+			window.removeEventListener('blur', state._blur);
+		}
+		if (state._idleTimer) {
+			clearTimeout(state._idleTimer);
+			state._idleTimer = null;
+		}
+		if (state._resumeFloatTimer) {
+			clearTimeout(state._resumeFloatTimer);
+			state._resumeFloatTimer = null;
 		}
 
 		if (state._io) {
 			state._io.disconnect();
 		}
 
-		var cards = state.cards;
-		for (var i = 0; i < cards.length; i++) {
+		const cards = state.cards;
+		for (let i = 0; i < cards.length; i++) {
 			if (cards[i]._resetTimer) {
 				clearTimeout(cards[i]._resetTimer);
 			}
-			cards[i].el.classList.remove(IDLE_CLASS, ENTERING_CLASS, ENTERED_CLASS);
+			cards[i].el.classList.remove(
+				IDLE_CLASS,
+				ENTERING_CLASS,
+				ENTERED_CLASS
+			);
 			cards[i].el.style.transform = '';
 			cards[i].el.style.transition = '';
 			cards[i].el.style.removeProperty('--beplus-hero-enter-delay');

@@ -1,8 +1,18 @@
 import { useEffect } from '@wordpress/element';
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import {
+	InnerBlocks,
+	InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+import {
+	PanelBody,
+	__experimentalNumberControl as NumberControl,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 export default function Edit({ attributes, setAttributes, context }) {
-	const { overlayId, layout, style } = attributes;
+	const { overlayId, mobileBreakpoint, layout, style } = attributes;
 	const instanceId = context['beplus-visual-mega-nav/instanceId'] || '';
 
 	useEffect(() => {
@@ -78,14 +88,38 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const blockProps = useBlockProps({ style: flexStyle });
 
 	return (
-		<div {...blockProps}>
-			<InnerBlocks
-				template={[
-					['beplus-visual-mega-nav/nav-menu-area', {}],
-					['beplus-visual-mega-nav/nav-toggle', {}],
-				]}
-				templateLock={false}
-			/>
-		</div>
+		<>
+			<InspectorControls>
+				<PanelBody
+					title={__('Mobile Breakpoint', 'beplus-visual-mega-nav')}
+				>
+					<NumberControl
+						label={__('Breakpoint (px)', 'beplus-visual-mega-nav')}
+						value={mobileBreakpoint}
+						onChange={(value) =>
+							setAttributes({
+								mobileBreakpoint: parseInt(value, 10) || 782,
+							})
+						}
+						min={320}
+						max={1200}
+						step={1}
+						help={__(
+							'Viewport width below which the mobile toggle and portal activate.',
+							'beplus-visual-mega-nav'
+						)}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div {...blockProps}>
+				<InnerBlocks
+					template={[
+						['beplus-visual-mega-nav/nav-menu-area', {}],
+						['beplus-visual-mega-nav/nav-toggle', {}],
+					]}
+					templateLock={false}
+				/>
+			</div>
+		</>
 	);
 }

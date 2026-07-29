@@ -56,6 +56,7 @@ export const DEFAULT_ALLOWED_BLOCKS = [
 	'beplus-visual-mega-nav/nav-menu-area',
 	'beplus-visual-mega-nav/nav-toggle',
 	'beplus-visual-mega-nav/hero-artwork-dock',
+	'beplus-visual-mega-nav/blog-list',
 ];
 
 /**

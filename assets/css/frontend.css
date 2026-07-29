@@ -11,7 +11,7 @@
 /* ---------- CSS Custom Properties (theme-overridable) ---------- */
 :root {
 	--beplus-vmn-mega-bg: #fff;
-	--beplus-vmn-mega-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.18);
+	--beplus-vmn-mega-shadow: 0 20px 20px 4px rgba(0, 0, 0, 0.12);
 	--beplus-vmn-mega-radius: 0;
 	--beplus-vmn-mega-padding: 24px;
 	--beplus-vmn-mega-z: 99999;

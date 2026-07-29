@@ -14,6 +14,8 @@
 
 	const HEADER_SELECTOR =
 		'.wp-block-beplus-visual-mega-nav-beplus-header.is-sticky';
+	const NAVIGATION_SELECTOR =
+		'.wp-block-beplus-visual-mega-nav-beplus-navigation';
 	const TOGGLE_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-toggle';
 	const MENU_AREA_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-menu-area';
 	const PORTAL_CLASS = 'beplus-nav-portal';
@@ -42,7 +44,12 @@
 			return;
 		}
 
-		const breakpointRaw = header.getAttribute('data-breakpoint');
+		// Prefer the Navigation block's mobile breakpoint; fall back
+		// to the Header block's data-breakpoint for backward compatibility.
+		const navBlock = header.querySelector(NAVIGATION_SELECTOR);
+		const breakpointRaw =
+			(navBlock && navBlock.getAttribute('data-mobile-breakpoint')) ||
+			header.getAttribute('data-breakpoint');
 		const breakpoint = parseInt(breakpointRaw, 10) || 782;
 		const instanceId = header.getAttribute('data-instance') || '';
 

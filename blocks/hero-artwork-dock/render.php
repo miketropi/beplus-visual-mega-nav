@@ -80,10 +80,10 @@ foreach ( $sorted_cards as $index => $card ) {
 
 	$card_image_id  = isset( $card['imageId'] ) ? absint( $card['imageId'] ) : 0;
 	$card_image_url = isset( $card['imageUrl'] ) ? esc_url( (string) $card['imageUrl'] ) : '';
-	$card_width      = isset( $card['width'] ) ? absint( $card['width'] ) : 200;
-	$card_rotation   = isset( $card['rotation'] ) ? (float) $card['rotation'] : 0;
-	$card_depth      = isset( $card['depth'] ) ? absint( $card['depth'] ) : 0;
-	$card_id         = isset( $card['id'] ) ? sanitize_html_class( (string) $card['id'] ) : 'card-' . $index;
+	$card_width     = isset( $card['width'] ) ? absint( $card['width'] ) : 200;
+	$card_rotation  = isset( $card['rotation'] ) ? (float) $card['rotation'] : 0;
+	$card_depth     = isset( $card['depth'] ) ? absint( $card['depth'] ) : 0;
+	$card_id        = isset( $card['id'] ) ? sanitize_html_class( (string) $card['id'] ) : 'card-' . $index;
 
 	// Resolve image URL — prefer attachment ID for permalink stability.
 	if ( $card_image_id > 0 ) {
@@ -93,14 +93,16 @@ foreach ( $sorted_cards as $index => $card ) {
 		}
 	}
 
-	$card_width  = max( 120, min( 400, $card_width ) );
+	$card_width    = max( 120, min( 400, $card_width ) );
 	$card_rotation = max( -15, min( 15, $card_rotation ) );
 
 	// Center-grouped layout: cards fan out symmetrically from the middle.
 	// Middle card is the hero — slightly taller, highest z-index.
-	$mid_index        = (int) floor( $card_count / 2 );
-	$distance_center  = $index - $mid_index;
-	$spacing          = 13; // percentage separation between adjacent cards.
+	$mid_index       = (int) floor( $card_count / 2 );
+	$distance_center = $index - $mid_index;
+	// Card spread spacing — percentage separation between adjacent
+	// cards in the fan layout. Must match edit.js (CARD_SPACING = 13).
+	$spacing           = 13;
 	$spread_percentage = 50 + $distance_center * $spacing;
 
 	// z-index: highest at center, fanning out symmetrically.
@@ -113,7 +115,7 @@ foreach ( $sorted_cards as $index => $card ) {
 	$card_style .= 'z-index:' . esc_attr( (string) $card_z_index ) . ';';
 
 	// Center card (hero) is taller.
-	$is_center = ( 0 === $distance_center );
+	$is_center   = ( 0 === $distance_center );
 	$card_height = $is_center
 		? 'calc(var(--beplus-hero-artwork-height) + 90px)'
 		: 'calc(var(--beplus-hero-artwork-height) + 60px)';
@@ -125,15 +127,15 @@ foreach ( $sorted_cards as $index => $card ) {
 	// Center card also gets a slight bottom boost so its extra height doesn't push it down.
 	$bottom_offset = $is_center ? $clip_offset + 15 : $clip_offset;
 	$depth_shift   = $card_depth * 5; // depth affects vertical stagger.
-	$card_style .= 'bottom:-' . esc_attr( (string) $bottom_offset ) . 'px;';
-	$card_style .= 'margin-bottom:' . esc_attr( (string) $depth_shift ) . 'px;';
+	$card_style   .= 'bottom:-' . esc_attr( (string) $bottom_offset ) . 'px;';
+	$card_style   .= 'margin-bottom:' . esc_attr( (string) $depth_shift ) . 'px;';
 
 	if ( '' !== $card_image_url ) {
 		$card_style .= 'background-image:url(' . $card_image_url . ');';
 	} else {
 		// Fallback gradient when no image is set — keeps the stack visible.
 		// Palette shifts per card for a curated look.
-		$gradients = [
+		$gradients      = [
 			'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 40%, #93c5fd 100%)',
 			'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 40%, #c4b5fd 100%)',
 			'linear-gradient(135deg, #fce7f3 0%, #fbcfe8 40%, #f9a8d4 100%)',
@@ -141,7 +143,7 @@ foreach ( $sorted_cards as $index => $card ) {
 			'linear-gradient(135deg, #ffedd5 0%, #fed7aa 40%, #fdba74 100%)',
 		];
 		$gradient_index = $index % count( $gradients );
-		$card_style .= 'background-image:' . $gradients[ $gradient_index ] . ';';
+		$card_style    .= 'background-image:' . $gradients[ $gradient_index ] . ';';
 	}
 
 	$card_data  = ' data-card-id="' . esc_attr( $card_id ) . '"';
