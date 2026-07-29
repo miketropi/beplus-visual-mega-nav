@@ -96,13 +96,12 @@ export default function Edit({ attributes, setAttributes }) {
 			const next = [...quotes];
 			[next[index - 1], next[index]] = [next[index], next[index - 1]];
 			setAttributes({ quotes: next });
-			setModalQuote((prev) =>
-				prev && prev.index === index
-					? { ...prev, index: index - 1 }
-					: prev && prev.index === index - 1
-					? { ...prev, index }
-					: prev
-			);
+			setModalQuote((prev) => {
+				if (!prev) return prev;
+				if (prev.index === index) return { ...prev, index: index - 1 };
+				if (prev.index === index - 1) return { ...prev, index };
+				return prev;
+			});
 		},
 		[quotes, setAttributes]
 	);
@@ -113,13 +112,12 @@ export default function Edit({ attributes, setAttributes }) {
 			const next = [...quotes];
 			[next[index], next[index + 1]] = [next[index + 1], next[index]];
 			setAttributes({ quotes: next });
-			setModalQuote((prev) =>
-				prev && prev.index === index
-					? { ...prev, index: index + 1 }
-					: prev && prev.index === index + 1
-					? { ...prev, index }
-					: prev
-			);
+			setModalQuote((prev) => {
+				if (!prev) return prev;
+				if (prev.index === index) return { ...prev, index: index + 1 };
+				if (prev.index === index + 1) return { ...prev, index };
+				return prev;
+			});
 		},
 		[quotes, setAttributes]
 	);
@@ -152,7 +150,7 @@ export default function Edit({ attributes, setAttributes }) {
 										: __(
 												'Quote',
 												'beplus-visual-mega-nav'
-										  ) +
+											) +
 											' ' +
 											(i + 1)}
 								</strong>
@@ -174,12 +172,8 @@ export default function Edit({ attributes, setAttributes }) {
 										'Move down',
 										'beplus-visual-mega-nav'
 									)}
-									onClick={() =>
-										moveQuoteDown(i)
-									}
-									disabled={
-										i === quotes.length - 1
-									}
+									onClick={() => moveQuoteDown(i)}
+									disabled={i === quotes.length - 1}
 									isSmall
 								/>
 								<Button
@@ -204,9 +198,7 @@ export default function Edit({ attributes, setAttributes }) {
 										'Delete quote',
 										'beplus-visual-mega-nav'
 									)}
-									onClick={() =>
-										removeQuote(i)
-									}
+									onClick={() => removeQuote(i)}
 									disabled={quotes.length <= 1}
 									isSmall
 									isDestructive
@@ -225,10 +217,7 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 
 				<PanelBody
-					title={__(
-						'Carousel Settings',
-						'beplus-visual-mega-nav'
-					)}
+					title={__('Carousel Settings', 'beplus-visual-mega-nav')}
 					initialOpen={false}
 				>
 					<RangeControl
@@ -237,19 +226,14 @@ export default function Edit({ attributes, setAttributes }) {
 							'beplus-visual-mega-nav'
 						)}
 						value={transitionSpeed}
-						onChange={(v) =>
-							setAttr('transitionSpeed', v)
-						}
+						onChange={(v) => setAttr('transitionSpeed', v)}
 						min={100}
 						max={2000}
 						step={100}
 					/>
 
 					<ToggleControl
-						label={__(
-							'Auto-play',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Auto-play', 'beplus-visual-mega-nav')}
 						checked={autoPlay}
 						onChange={(v) => setAttr('autoPlay', v)}
 					/>
@@ -261,9 +245,7 @@ export default function Edit({ attributes, setAttributes }) {
 								'beplus-visual-mega-nav'
 							)}
 							value={autoPlayInterval}
-							onChange={(v) =>
-								setAttr('autoPlayInterval', v)
-							}
+							onChange={(v) => setAttr('autoPlayInterval', v)}
 							min={1000}
 							max={30000}
 							step={500}
@@ -276,38 +258,23 @@ export default function Edit({ attributes, setAttributes }) {
 							'beplus-visual-mega-nav'
 						)}
 						checked={textAnimation}
-						onChange={(v) =>
-							setAttr('textAnimation', v)
-						}
+						onChange={(v) => setAttr('textAnimation', v)}
 					/>
 
 					<ToggleControl
-						label={__(
-							'Show arrows',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Show arrows', 'beplus-visual-mega-nav')}
 						checked={showArrows}
-						onChange={(v) =>
-							setAttr('showArrows', v)
-						}
+						onChange={(v) => setAttr('showArrows', v)}
 					/>
 
 					<ToggleControl
-						label={__(
-							'Show dots',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Show dots', 'beplus-visual-mega-nav')}
 						checked={showDots}
-						onChange={(v) =>
-							setAttr('showDots', v)
-						}
+						onChange={(v) => setAttr('showDots', v)}
 					/>
 
 					<SelectControl
-						label={__(
-							'Quote Font',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Quote Font', 'beplus-visual-mega-nav')}
 						value={quoteFontFamily}
 						options={[
 							{
@@ -332,62 +299,34 @@ export default function Edit({ attributes, setAttributes }) {
 								value: 'Shadows Into Light Two',
 							},
 						]}
-						onChange={(v) =>
-							setAttr(
-								'quoteFontFamily',
-								v
-							)
-						}
+						onChange={(v) => setAttr('quoteFontFamily', v)}
 					/>
 
 					<ColorPalette
-						label={__(
-							'Quote text color',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Quote text color', 'beplus-visual-mega-nav')}
 						value={quoteTextColor || undefined}
-						onChange={(v) =>
-							setAttr(
-								'quoteTextColor',
-								v || ''
-							)
-						}
+						onChange={(v) => setAttr('quoteTextColor', v || '')}
 						clearable={true}
 					/>
 
 					<SelectControl
-						label={__(
-							'Quote text size',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Quote text size', 'beplus-visual-mega-nav')}
 						value={quoteTextSize}
 						options={[
 							{
-								label: __(
-									'Default',
-									'beplus-visual-mega-nav'
-								),
+								label: __('Default', 'beplus-visual-mega-nav'),
 								value: '',
 							},
 							{
-								label: __(
-									'Small',
-									'beplus-visual-mega-nav'
-								),
+								label: __('Small', 'beplus-visual-mega-nav'),
 								value: 'small',
 							},
 							{
-								label: __(
-									'Medium',
-									'beplus-visual-mega-nav'
-								),
+								label: __('Medium', 'beplus-visual-mega-nav'),
 								value: 'medium',
 							},
 							{
-								label: __(
-									'Large',
-									'beplus-visual-mega-nav'
-								),
+								label: __('Large', 'beplus-visual-mega-nav'),
 								value: 'large',
 							},
 							{
@@ -398,12 +337,7 @@ export default function Edit({ attributes, setAttributes }) {
 								value: 'xlarge',
 							},
 						]}
-						onChange={(v) =>
-							setAttr(
-								'quoteTextSize',
-								v
-							)
-						}
+						onChange={(v) => setAttr('quoteTextSize', v)}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -460,19 +394,14 @@ export default function Edit({ attributes, setAttributes }) {
 							<MediaUploadCheck>
 								<MediaUpload
 									onSelect={(media) =>
-										updateQuote(
-											modalQuote.index,
-											{
-												avatar: {
-													id: media.id,
-													url: media
-														.sizes
-														?.thumbnail
-														?.url ||
-														media.url,
-												},
-											}
-										)
+										updateQuote(modalQuote.index, {
+											avatar: {
+												id: media.id,
+												url:
+													media.sizes?.thumbnail
+														?.url || media.url,
+											},
+										})
 									}
 									allowedTypes={['image']}
 									render={({ open }) => (
@@ -480,16 +409,15 @@ export default function Edit({ attributes, setAttributes }) {
 											variant="secondary"
 											onClick={open}
 										>
-											{modalQuote.quote
-												.avatar?.url
+											{modalQuote.quote.avatar?.url
 												? __(
 														'Replace Image',
 														'beplus-visual-mega-nav'
-												  )
+													)
 												: __(
 														'Choose Avatar',
 														'beplus-visual-mega-nav'
-												  )}
+													)}
 										</Button>
 									)}
 								/>
@@ -499,22 +427,16 @@ export default function Edit({ attributes, setAttributes }) {
 									isDestructive
 									variant="tertiary"
 									onClick={() =>
-										updateQuote(
-											modalQuote.index,
-											{
-												avatar: {
-													id: 0,
-													url: '',
-												},
-											}
-										)
+										updateQuote(modalQuote.index, {
+											avatar: {
+												id: 0,
+												url: '',
+											},
+										})
 									}
 									style={{ marginLeft: 8 }}
 								>
-									{__(
-										'Remove',
-										'beplus-visual-mega-nav'
-									)}
+									{__('Remove', 'beplus-visual-mega-nav')}
 								</Button>
 							)}
 						</div>
@@ -528,34 +450,22 @@ export default function Edit({ attributes, setAttributes }) {
 								name: v,
 							})
 						}
-						placeholder={__(
-							'John Doe',
-							'beplus-visual-mega-nav'
-						)}
+						placeholder={__('John Doe', 'beplus-visual-mega-nav')}
 					/>
 
 					<TextControl
-						label={__(
-							'Position',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Position', 'beplus-visual-mega-nav')}
 						value={modalQuote.quote.position || ''}
 						onChange={(v) =>
 							updateQuote(modalQuote.index, {
 								position: v,
 							})
 						}
-						placeholder={__(
-							'CEO',
-							'beplus-visual-mega-nav'
-						)}
+						placeholder={__('CEO', 'beplus-visual-mega-nav')}
 					/>
 
 					<TextareaControl
-						label={__(
-							'Quote text',
-							'beplus-visual-mega-nav'
-						)}
+						label={__('Quote text', 'beplus-visual-mega-nav')}
 						value={modalQuote.quote.text || ''}
 						onChange={(v) =>
 							updateQuote(modalQuote.index, {
@@ -564,7 +474,7 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 						rows={4}
 						placeholder={__(
-							'This product changed the way we work...',
+							'This product changed the way we work…',
 							'beplus-visual-mega-nav'
 						)}
 						style={{ resize: 'vertical' }}

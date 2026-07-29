@@ -30,7 +30,8 @@
 	padding: 24px;
 	opacity: 0;
 	transform: translateY(8px);
-	transition: opacity var(--beplus-vmn-quote-speed, 0.4s) ease,
+	transition:
+		opacity var(--beplus-vmn-quote-speed, 0.4s) ease,
 		transform var(--beplus-vmn-quote-speed, 0.4s) ease;
 	pointer-events: none;
 }
@@ -48,7 +49,8 @@
 .beplus-vmn-quote__card.is-stacked {
 	z-index: 1;
 	opacity: 0.35;
-	transform: translateY(var(--beplus-vmn-card-offset, 8px))
+	transform:
+		translateY(var(--beplus-vmn-card-offset, 8px))
 		rotate(var(--beplus-vmn-card-rot, 0deg))
 		scale(0.95);
 	pointer-events: none;
@@ -232,6 +234,7 @@
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+
 	.beplus-vmn-quote__card {
 		transition: none;
 	}
@@ -245,6 +248,7 @@
 
 /* ---------- Tablet (max-width: 768px) ---------- */
 @media (max-width: 768px) {
+
 	.beplus-vmn-quote {
 		padding: 20px 36px;
 	}
@@ -296,6 +300,7 @@
 
 /* ---------- Mobile (max-width: 480px) ---------- */
 @media (max-width: 480px) {
+
 	.beplus-vmn-quote {
 		padding: 16px 24px;
 	}

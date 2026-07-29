@@ -10,6 +10,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -52,11 +54,11 @@ foreach ( $quotes_raw as $q ) {
 // Font family setup — must precede wrapper_attributes which uses $font_family.
 $font_family_raw = isset( $attrs['quoteFontFamily'] ) ? sanitize_text_field( (string) $attrs['quoteFontFamily'] ) : '';
 $allowed_fonts   = [
-	''                               => '',
-	'Cedarville Cursive'             => "'Cedarville Cursive', cursive",
-	'Shadows Into Light Two'         => "'Shadows Into Light Two', cursive",
+	''                       => '',
+	'Cedarville Cursive'     => "'Cedarville Cursive', cursive",
+	'Shadows Into Light Two' => "'Shadows Into Light Two', cursive",
 ];
-$font_family = $allowed_fonts[ $font_family_raw ] ?? '';
+$font_family     = $allowed_fonts[ $font_family_raw ] ?? '';
 
 // Enqueue Google Fonts only when a handwritten font is selected.
 if ( '' !== $font_family ) {
@@ -64,7 +66,7 @@ if ( '' !== $font_family ) {
 		'beplus-vmn-quote-fonts',
 		'https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Shadows+Into+Light+Two&display=swap',
 		[],
-		null
+		BEPLUS_VISUAL_MEGA_NAV_VERSION
 	);
 }
 
@@ -74,7 +76,7 @@ if ( '' !== $font_family ) {
 $text_color = isset( $attrs['quoteTextColor'] ) ? sanitize_text_field( (string) $attrs['quoteTextColor'] ) : '';
 
 // Text size.
-$size_map  = [
+$size_map      = [
 	'small'  => '1em',
 	'medium' => '1.25em',
 	'large'  => '1.5em',
@@ -95,17 +97,21 @@ if ( '' !== $text_size ) {
 	$wrapper_style .= '--beplus-vmn-quote-size:' . $text_size . ';';
 }
 
-$wrapper_attributes = get_block_wrapper_attributes( [
-	'class' => 'beplus-vmn-quote',
-	'style' => $wrapper_style,
-] );
+$wrapper_attributes = get_block_wrapper_attributes(
+	[
+		'class' => 'beplus-vmn-quote',
+		'style' => $wrapper_style,
+	]
+);
 
 if ( empty( $quotes ) ) {
+	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	printf(
 		'<div %s><p class="beplus-vmn-quote__empty">%s</p></div>',
 		$wrapper_attributes,
 		esc_html__( 'No quotes added yet.', 'beplus-visual-mega-nav' )
 	);
+	// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	return;
 }
 
@@ -140,7 +146,7 @@ foreach ( $quotes as $i => $quote ) {
 		$card_state = ' is-active';
 	} elseif ( $i <= 2 ) {
 		$card_state = ' is-stacked';
-		$j = $i - 1;
+		$j          = $i - 1;
 		$card_style = ' style="' . $stack_rotations[ $j ] . '"';
 	}
 	$dots .= sprintf(
@@ -196,6 +202,7 @@ foreach ( $quotes as $i => $quote ) {
 	);
 }
 
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 printf(
 	'<div %s%s>'
 		. '<div class="beplus-vmn-quote__stage">%s</div>'
@@ -204,7 +211,7 @@ printf(
 	. '</div>',
 	$wrapper_attributes,
 	$data_attrs,
-	$cards,
+	wp_kses_post( $cards ),
 	$show_arrows
 		? sprintf(
 			'<button type="button" class="beplus-vmn-quote__arrow beplus-vmn-quote__arrow--prev" aria-label="%s"></button>'
@@ -214,6 +221,7 @@ printf(
 		)
 		: '',
 	$show_dots
-		? '<div class="beplus-vmn-quote__dots">' . $dots . '</div>'
+		? '<div class="beplus-vmn-quote__dots">' . wp_kses_post( $dots ) . '</div>'
 		: ''
 );
+// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
