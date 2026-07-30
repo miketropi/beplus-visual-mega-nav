@@ -1,0 +1,29 @@
+/**
+ * Blog List — editor-only styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+/* ---------- Block placeholder ---------- */
+.wp-block-beplus-visual-mega-nav-blog-list {
+	min-height: 80px;
+	outline: 1px dashed rgba(0, 0, 0, 0.12);
+	padding: 12px;
+}
+
+/* ---------- Preview items — always visible ---------- */
+.editor-styles-wrapper .beplus-vmn-blog-list__item {
+	opacity: 1;
+	transform: none;
+	animation: none;
+}
+
+/* ---------- Preview link — no pointer interaction ---------- */
+.editor-styles-wrapper .beplus-vmn-blog-list__link {
+	pointer-events: none;
+}
+
+/* ---------- Hide floating thumb in editor ---------- */
+.editor-styles-wrapper .beplus-blog-list-float-thumb {
+	display: none;
+}

@@ -19,8 +19,11 @@ if ( ! isset( $attributes ) || ! is_array( $attributes ) ) {
 	$attributes = [];
 }
 
-$instance_id = $block->context['beplus-visual-mega-nav/instanceId'] ?? '';
-$overlay_id  = ! empty( $attributes['overlayId'] )
+$instance_id       = $block->context['beplus-visual-mega-nav/instanceId'] ?? '';
+$mobile_breakpoint = isset( $attributes['mobileBreakpoint'] )
+	? max( 320, min( 1200, absint( $attributes['mobileBreakpoint'] ) ) )
+	: 782;
+$overlay_id        = ! empty( $attributes['overlayId'] )
 	? sanitize_html_class( (string) $attributes['overlayId'] )
 	: ( '' !== $instance_id ? sanitize_html_class( 'overlay-' . $instance_id ) : '' );
 
@@ -77,8 +80,9 @@ if ( isset( $spacing['blockGap'] ) && '' !== $spacing['blockGap'] ) {
 
 $wrapper_attributes = get_block_wrapper_attributes(
 	[
-		'style'           => $inline_css,
-		'data-overlay-id' => '' !== $overlay_id ? $overlay_id : null,
+		'style'                  => $inline_css,
+		'data-overlay-id'        => '' !== $overlay_id ? $overlay_id : null,
+		'data-mobile-breakpoint' => $mobile_breakpoint,
 	]
 );
 

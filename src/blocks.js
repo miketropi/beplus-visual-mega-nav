@@ -14,5 +14,8 @@ import './blocks/nav-menu-area';
 import './blocks/nav-toggle';
 import './blocks/tab-container';
 import './blocks/tab-panel';
+import './blocks/hero-artwork-dock';
+import './blocks/blog-list';
+import './blocks/quote';
 
 registerCoreBlocks();

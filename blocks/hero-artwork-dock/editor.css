@@ -1,0 +1,53 @@
+/**
+ * Hero Artwork Dock — editor-only styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+.wp-block-beplus-visual-mega-nav-hero-artwork-dock {
+	min-height: 200px;
+	outline: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.editor-styles-wrapper .wp-block-beplus-visual-mega-nav-hero-artwork-dock {
+	position: relative;
+}
+
+.editor-styles-wrapper .beplus-hero-artwork {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+/* Clip line visual indicator */
+.editor-styles-wrapper .beplus-hero-artwork::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 100%;
+	border-bottom: 2px dashed rgba(0, 124, 186, 0.5);
+	z-index: 10;
+	pointer-events: none;
+}
+
+/* Card placeholders in editor — show even without images */
+.editor-styles-wrapper .beplus-hero-card {
+	border: 2px dashed rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.05);
+	min-height: 100px;
+}
+
+.editor-styles-wrapper .beplus-hero-card[style*="background-image"] {
+	border-color: transparent;
+	background-color: transparent;
+}
+
+/* Ensure block list layout doesn't collapse */
+.wp-block-beplus-visual-mega-nav-hero-artwork-dock > .block-editor-inner-blocks {
+	display: contents;
+}
+
+.wp-block-beplus-visual-mega-nav-hero-artwork-dock > .block-editor-inner-blocks > .block-editor-block-list__layout {
+	display: contents;
+}
