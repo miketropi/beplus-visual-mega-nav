@@ -143,7 +143,7 @@
 		}
 
 		// Show words sequentially.
-		for (var j = 0; j < words.length; j++) {
+		for (let j = 0; j < words.length; j++) {
 			(function (w, delay) {
 				state._wordTimer = setTimeout(function () {
 					w.classList.add(WORD_VISIBLE);

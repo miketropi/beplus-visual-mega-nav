@@ -46,7 +46,6 @@ const DEFAULT_CARD = {
 	width: 200,
 	rotation: 0,
 	depth: 0,
-	layerOrder: 0,
 };
 
 export default function Edit({ attributes, setAttributes, isSelected }) {
@@ -113,7 +112,6 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 		const newCard = {
 			...DEFAULT_CARD,
 			id: generateCardId(),
-			layerOrder: cards.length,
 		};
 		setAttributes({ cards: [...cards, newCard] });
 		// Capture the new card in modal state immediately — no render-time

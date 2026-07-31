@@ -46,8 +46,7 @@
 					"imageUrl": "",
 					"width": 180,
 					"rotation": -8,
-					"depth": 0,
-					"layerOrder": 0
+					"depth": 0
 				},
 				{
 					"id": "card-2",
@@ -55,8 +54,7 @@
 					"imageUrl": "",
 					"width": 200,
 					"rotation": -4,
-					"depth": 1,
-					"layerOrder": 1
+					"depth": 1
 				},
 				{
 					"id": "card-3",
@@ -64,8 +62,7 @@
 					"imageUrl": "",
 					"width": 260,
 					"rotation": 0,
-					"depth": 2,
-					"layerOrder": 2
+					"depth": 2
 				},
 				{
 					"id": "card-4",
@@ -73,8 +70,7 @@
 					"imageUrl": "",
 					"width": 200,
 					"rotation": 4,
-					"depth": 1,
-					"layerOrder": 3
+					"depth": 1
 				},
 				{
 					"id": "card-5",
@@ -82,8 +78,7 @@
 					"imageUrl": "",
 					"width": 180,
 					"rotation": 8,
-					"depth": 0,
-					"layerOrder": 4
+					"depth": 0
 				}
 			]
 		}

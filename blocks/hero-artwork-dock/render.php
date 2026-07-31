@@ -58,22 +58,11 @@ $artwork_data .= ' data-hover="' . ( $hover_motion ? '1' : '0' ) . '"';
 $artwork_data .= ' data-floating="' . ( $floating ? '1' : '0' ) . '"';
 $artwork_data .= ' data-perspective="' . esc_attr( (string) $perspective ) . '"';
 
-// Sort cards by layerOrder for z-index assignment.
-$sorted_cards = $cards;
-usort(
-	$sorted_cards,
-	static function ( array $a, array $b ): int {
-		$a_order = isset( $a['layerOrder'] ) ? (int) $a['layerOrder'] : 0;
-		$b_order = isset( $b['layerOrder'] ) ? (int) $b['layerOrder'] : 0;
-		return $a_order <=> $b_order;
-	}
-);
-
 // Build card HTML.
 $cards_html = '';
-$card_count = count( $sorted_cards );
+$card_count = count( $cards );
 
-foreach ( $sorted_cards as $index => $card ) {
+foreach ( $cards as $index => $card ) {
 	if ( ! is_array( $card ) ) {
 		continue;
 	}
