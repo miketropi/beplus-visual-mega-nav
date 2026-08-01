@@ -1,0 +1,25 @@
+/**
+ * Product Card — editor-only styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+/* ---------- Block placeholder ---------- */
+.wp-block-beplus-visual-mega-nav-product-card {
+	min-height: 380px; /* taller for the stacked deck */
+	outline: 1px dashed rgba(0, 0, 0, 0.12);
+	padding: 12px;
+}
+
+/* ---------- Preview cards — no GSAP transforms in the editor ---------- */
+.editor-styles-wrapper .beplus-vmn-product-card__card {
+	animation: none;
+	transform: none;
+	opacity: 1;
+}
+
+/* ---------- Preview add-to-cart / title link — no pointer interaction ---------- */
+.editor-styles-wrapper .beplus-vmn-product-card__add-to-cart,
+.editor-styles-wrapper .beplus-vmn-product-card__title a {
+	pointer-events: none;
+}

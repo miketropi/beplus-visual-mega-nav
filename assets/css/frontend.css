@@ -71,7 +71,6 @@
 	}
 
 	.has-mega-menu:hover > .beplus-vmn-mega-panel,
-	.has-mega-menu:focus-within > .beplus-vmn-mega-panel,
 	.beplus-vmn-mega-panel.is-open {
 		opacity: 1;
 		visibility: visible;
@@ -102,7 +101,6 @@
 	}
 
 	.has-mega-menu:hover > .beplus-vmn-mega-panel[data-animation="slide"],
-	.has-mega-menu:focus-within > .beplus-vmn-mega-panel[data-animation="slide"],
 	.beplus-vmn-mega-panel[data-animation="slide"].is-open {
 		transform: translateY(0);
 	}
