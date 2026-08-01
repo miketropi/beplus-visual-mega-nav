@@ -45,7 +45,7 @@ $autoplay         = isset( $attributes['autoplay'] ) ? (bool) $attributes['autop
 $autoplay_delay   = isset( $attributes['autoplayDelay'] ) ? max( 500, absint( $attributes['autoplayDelay'] ) ) : 3000;
 
 // Filter by — whitelist.
-$filter_by = isset( $attributes['filterBy'] ) ? sanitize_text_field( (string) $attributes['filterBy'] ) : 'all';
+$filter_by         = isset( $attributes['filterBy'] ) ? sanitize_text_field( (string) $attributes['filterBy'] ) : 'all';
 $allowed_filter_by = [ 'all', 'category', 'tag', 'ids', 'featured', 'onsale' ];
 if ( ! in_array( $filter_by, $allowed_filter_by, true ) ) {
 	$filter_by = 'all';
@@ -56,7 +56,7 @@ $card_width = isset( $attributes['cardWidth'] ) ? absint( $attributes['cardWidth
 $card_width = max( 180, $card_width );
 
 // Image ratio — whitelist.
-$image_ratio = isset( $attributes['imageRatio'] ) ? sanitize_text_field( (string) $attributes['imageRatio'] ) : 'auto';
+$image_ratio          = isset( $attributes['imageRatio'] ) ? sanitize_text_field( (string) $attributes['imageRatio'] ) : 'auto';
 $allowed_image_ratios = [ 'auto', '16-9', '4-3', '1-1' ];
 if ( ! in_array( $image_ratio, $allowed_image_ratios, true ) ) {
 	$image_ratio = 'auto';
@@ -188,7 +188,11 @@ if ( 'auto' === $image_ratio ) {
 	$card_img_height = (int) round( $card_width * 0.625 ); // 16:10-ish.
 	$card_img_style .= '--card-img-height:' . $card_img_height . 'px;';
 } else {
-	$ratio_value = [ '16-9' => '16/9', '4-3' => '4/3', '1-1' => '1/1' ][ $image_ratio ] ?? '';
+	$ratio_value = [
+		'16-9' => '16/9',
+		'4-3'  => '4/3',
+		'1-1'  => '1/1',
+	][ $image_ratio ] ?? '';
 	if ( '' !== $ratio_value ) {
 		$card_img_style .= '--card-img-height:auto;--card-img-ratio:' . $ratio_value . ';';
 	}
@@ -234,7 +238,7 @@ wp_enqueue_script( 'beplus-vmn-gsap' );
 // ---------------------------------------------------------------------------
 // Render card carousel.
 // ---------------------------------------------------------------------------
-$output = sprintf( '<div %s>', $wrapper_attributes );
+$output  = sprintf( '<div %s>', $wrapper_attributes );
 $output .= '<div class="beplus-vmn-product-card__deck">';
 $output .= '<div class="beplus-vmn-product-card__carousel">';
 $output .= '<div class="beplus-vmn-product-card__track">';
@@ -250,8 +254,8 @@ foreach ( $products as $post_item ) {
 	}
 
 	// Image (woocommerce_single size).
-	$image_html = '';
-	$image_url  = '';
+	$image_html   = '';
+	$image_url    = '';
 	$thumbnail_id = get_post_thumbnail_id( $product_id );
 	if ( $thumbnail_id ) {
 		$src = wp_get_attachment_image_src( $thumbnail_id, 'woocommerce_single' );

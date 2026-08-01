@@ -36,12 +36,12 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 // ---------------------------------------------------------------------------
 // Extract and sanitize attributes.
 // ---------------------------------------------------------------------------
-$posts_to_show     = isset( $attributes['postsToShow'] ) ? max( 1, min( 12, absint( $attributes['postsToShow'] ) ) ) : 4;
-$show_image        = isset( $attributes['showImage'] ) ? (bool) $attributes['showImage'] : true;
-$show_price        = isset( $attributes['showPrice'] ) ? (bool) $attributes['showPrice'] : true;
-$show_rating       = isset( $attributes['showRating'] ) ? (bool) $attributes['showRating'] : false;
-$show_add_to_cart  = isset( $attributes['showAddToCart'] ) ? (bool) $attributes['showAddToCart'] : false;
-$filter_by         = isset( $attributes['filterBy'] ) ? sanitize_text_field( (string) $attributes['filterBy'] ) : 'all';
+$posts_to_show    = isset( $attributes['postsToShow'] ) ? max( 1, min( 12, absint( $attributes['postsToShow'] ) ) ) : 4;
+$show_image       = isset( $attributes['showImage'] ) ? (bool) $attributes['showImage'] : true;
+$show_price       = isset( $attributes['showPrice'] ) ? (bool) $attributes['showPrice'] : true;
+$show_rating      = isset( $attributes['showRating'] ) ? (bool) $attributes['showRating'] : false;
+$show_add_to_cart = isset( $attributes['showAddToCart'] ) ? (bool) $attributes['showAddToCart'] : false;
+$filter_by        = isset( $attributes['filterBy'] ) ? sanitize_text_field( (string) $attributes['filterBy'] ) : 'all';
 
 // Order by — whitelist WC-compatible values.
 $order_by         = isset( $attributes['orderBy'] ) ? sanitize_text_field( (string) $attributes['orderBy'] ) : 'date';
@@ -101,9 +101,12 @@ switch ( $filter_by ) {
 	case 'category':
 		$category_ids = [];
 		if ( isset( $attributes['productCategories'] ) && is_array( $attributes['productCategories'] ) ) {
-			$category_ids = array_filter( array_map( 'absint', $attributes['productCategories'] ), static function ( int $id ): bool {
-				return $id > 0;
-			} );
+			$category_ids = array_filter(
+				array_map( 'absint', $attributes['productCategories'] ),
+				static function ( int $id ): bool {
+					return $id > 0;
+				}
+			);
 		}
 		if ( ! empty( $category_ids ) ) {
 			$query_args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
@@ -119,9 +122,12 @@ switch ( $filter_by ) {
 	case 'tag':
 		$tag_ids = [];
 		if ( isset( $attributes['productTags'] ) && is_array( $attributes['productTags'] ) ) {
-			$tag_ids = array_filter( array_map( 'absint', $attributes['productTags'] ), static function ( int $id ): bool {
-				return $id > 0;
-			} );
+			$tag_ids = array_filter(
+				array_map( 'absint', $attributes['productTags'] ),
+				static function ( int $id ): bool {
+					return $id > 0;
+				}
+			);
 		}
 		if ( ! empty( $tag_ids ) ) {
 			$query_args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
@@ -137,9 +143,12 @@ switch ( $filter_by ) {
 	case 'ids':
 		$ids_string = isset( $attributes['productIds'] ) ? sanitize_text_field( (string) $attributes['productIds'] ) : '';
 		if ( '' !== $ids_string ) {
-			$ids = array_filter( array_map( 'absint', explode( ',', $ids_string ) ), static function ( int $id ): bool {
-				return $id > 0;
-			} );
+			$ids = array_filter(
+				array_map( 'absint', explode( ',', $ids_string ) ),
+				static function ( int $id ): bool {
+					return $id > 0;
+				}
+			);
 			if ( ! empty( $ids ) ) {
 				$query_args['post__in']       = $ids;
 				$query_args['orderby']        = 'post__in';
@@ -263,7 +272,7 @@ foreach ( $products as $index => $post_item ) {
 		$average      = $product->get_average_rating();
 
 		if ( $rating_count > 0 ) {
-			$star_width = ( $average / 5 ) * 100;
+			$star_width  = ( $average / 5 ) * 100;
 			$rating_html = sprintf(
 				'<div class="beplus-vmn-product-list__rating" aria-label="%s">
 					<span class="beplus-vmn-product-list__rating-stars">
@@ -337,6 +346,6 @@ foreach ( $products as $index => $post_item ) {
 
 $output .= '</ul></div>';
 
-echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — all dynamic values escaped above.
+echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

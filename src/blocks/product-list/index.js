@@ -11,8 +11,8 @@ import Edit from './edit';
 import '../../../blocks/product-list/style.css';
 import '../../../blocks/product-list/editor.css';
 
-registerBlockType( metadata.name, {
+registerBlockType(metadata.name, {
 	...metadata,
 	edit: Edit,
 	save: () => null,
-} );
+});
