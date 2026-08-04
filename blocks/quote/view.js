@@ -9,22 +9,22 @@
 (function () {
 	'use strict';
 
-	var BLOCK_SEL = '.beplus-vmn-quote';
-	var STAGE_SEL = '.beplus-vmn-quote__stage';
-	var CARD_SEL = '.beplus-vmn-quote__card';
-	var ACTIVE_CLASS = 'is-active';
-	var STACKED_CLASS = 'is-stacked';
-	var WORD_SEL = '.beplus-vmn-quote__word';
-	var WORD_VISIBLE = 'is-visible';
+	const BLOCK_SEL = '.beplus-vmn-quote';
+	const STAGE_SEL = '.beplus-vmn-quote__stage';
+	const CARD_SEL = '.beplus-vmn-quote__card';
+	const ACTIVE_CLASS = 'is-active';
+	const STACKED_CLASS = 'is-stacked';
+	const WORD_SEL = '.beplus-vmn-quote__word';
+	const WORD_VISIBLE = 'is-visible';
 
-	var instances = new WeakMap();
+	let instances = new WeakMap();
 
 	/* --------------------------------------------------------------------
 	 * Init
 	 * ----------------------------------------------------------------- */
 
 	function init() {
-		var blocks = document.querySelectorAll(BLOCK_SEL);
+		const blocks = document.querySelectorAll(BLOCK_SEL);
 		if (!blocks.length) return;
 		Array.prototype.forEach.call(blocks, initBlock);
 	}
@@ -32,49 +32,53 @@
 	function initBlock(block) {
 		if (instances.has(block)) return;
 
-		var stage = block.querySelector(STAGE_SEL);
+		const stage = block.querySelector(STAGE_SEL);
 		if (!stage) return;
 
-		var cards = stage.querySelectorAll(CARD_SEL);
+		const cards = stage.querySelectorAll(CARD_SEL);
 		if (!cards.length) return;
 
-		var speed = parseInt(block.getAttribute('data-speed'), 10) || 400;
-		var autoplay = block.getAttribute('data-autoplay') === '1';
-		var interval = parseInt(block.getAttribute('data-interval'), 10) || 5000;
-		var textAnim = block.getAttribute('data-text-anim') === '1';
-		var showArrows = block.getAttribute('data-arrows') !== '0';
-		var showDots = block.getAttribute('data-dots') !== '0';
+		const speed = parseInt(block.getAttribute('data-speed'), 10) || 400;
+		const autoplay = block.getAttribute('data-autoplay') === '1';
+		const interval =
+			parseInt(block.getAttribute('data-interval'), 10) || 5000;
+		const textAnim = block.getAttribute('data-text-anim') === '1';
+		const showArrows = block.getAttribute('data-arrows') !== '0';
+		const showDots = block.getAttribute('data-dots') !== '0';
 
-		var dots = block.querySelectorAll('.beplus-vmn-quote__dot');
-		var prevBtn = block.querySelector('.beplus-vmn-quote__arrow--prev');
-		var nextBtn = block.querySelector('.beplus-vmn-quote__arrow--next');
+		const dots = block.querySelectorAll('.beplus-vmn-quote__dot');
+		const prevBtn = block.querySelector('.beplus-vmn-quote__arrow--prev');
+		const nextBtn = block.querySelector('.beplus-vmn-quote__arrow--next');
 
 		// Set CSS custom property for transition speed.
-		block.style.setProperty('--beplus-vmn-quote-speed', (speed / 1000).toFixed(2) + 's');
+		block.style.setProperty(
+			'--beplus-vmn-quote-speed',
+			(speed / 1000).toFixed(2) + 's'
+		);
 
 		// Find initial active index.
-		var currentIndex = 0;
-		for (var i = 0; i < cards.length; i++) {
+		let currentIndex = 0;
+		for (let i = 0; i < cards.length; i++) {
 			if (cards[i].classList.contains(ACTIVE_CLASS)) {
 				currentIndex = i;
 				break;
 			}
 		}
 
-		var state = {
-			block: block,
-			stage: stage,
-			cards: cards,
-			dots: dots,
-			prevBtn: prevBtn,
-			nextBtn: nextBtn,
-			speed: speed,
-			autoplay: autoplay,
-			interval: interval,
-			textAnim: textAnim,
-			showArrows: showArrows,
-			showDots: showDots,
-			currentIndex: currentIndex,
+		const state = {
+			block,
+			stage,
+			cards,
+			dots,
+			prevBtn,
+			nextBtn,
+			speed,
+			autoplay,
+			interval,
+			textAnim,
+			showArrows,
+			showDots,
+			currentIndex,
 			pending: false,
 			autoplayTimer: null,
 			_wordTimer: null,
@@ -103,25 +107,25 @@
 		}
 
 		// Find the <p> inside the quote text blockquote.
-		var textEl = card.querySelector('.beplus-vmn-quote__text p');
+		const textEl = card.querySelector('.beplus-vmn-quote__text p');
 		if (!textEl) return;
 
 		// If words are already wrapped, just re-trigger visibility.
-		var existingWords = textEl.querySelectorAll(WORD_SEL);
+		const existingWords = textEl.querySelectorAll(WORD_SEL);
 		if (existingWords.length) {
 			showWordsStaggered(existingWords, state);
 			return;
 		}
 
 		// Split text content into word spans.
-		var text = textEl.textContent || '';
-		var words = text.trim().split(/\s+/);
+		const text = textEl.textContent || '';
+		const words = text.trim().split(/\s+/);
 		if (!words.length) return;
 
 		textEl.textContent = '';
-		var fragment = document.createDocumentFragment();
-		for (var i = 0; i < words.length; i++) {
-			var span = document.createElement('span');
+		const fragment = document.createDocumentFragment();
+		for (let i = 0; i < words.length; i++) {
+			const span = document.createElement('span');
 			span.className = 'beplus-vmn-quote__word';
 			span.textContent = words[i];
 			fragment.appendChild(span);
@@ -132,13 +136,13 @@
 		}
 		textEl.appendChild(fragment);
 
-		var wordEls = textEl.querySelectorAll(WORD_SEL);
+		const wordEls = textEl.querySelectorAll(WORD_SEL);
 		showWordsStaggered(wordEls, state);
 	}
 
 	function showWordsStaggered(words, state) {
 		// Reset all words to hidden.
-		for (var i = 0; i < words.length; i++) {
+		for (let i = 0; i < words.length; i++) {
 			words[i].classList.remove(WORD_VISIBLE);
 		}
 
@@ -168,7 +172,7 @@
 
 		// Update dots.
 		if (state.dots.length) {
-			for (var d = 0; d < state.dots.length; d++) {
+			for (let d = 0; d < state.dots.length; d++) {
 				state.dots[d].classList.toggle(ACTIVE_CLASS, d === newIndex);
 			}
 		}
@@ -182,11 +186,11 @@
 
 		// Reassign stacked cards: up to 2 cards after active get
 		// .is-stacked, all others get nothing.
-		for (var c = 0; c < state.cards.length; c++) {
+		for (let c = 0; c < state.cards.length; c++) {
 			state.cards[c].classList.remove(STACKED_CLASS);
 		}
-		var stackedCount = 0;
-		var idx = (newIndex + 1) % state.cards.length;
+		let stackedCount = 0;
+		let idx = (newIndex + 1) % state.cards.length;
 		while (stackedCount < 2 && idx !== newIndex) {
 			state.cards[idx].classList.add(STACKED_CLASS);
 			stackedCount++;
@@ -205,12 +209,13 @@
 	}
 
 	function next(state) {
-		var idx = (state.currentIndex + 1) % state.cards.length;
+		const idx = (state.currentIndex + 1) % state.cards.length;
 		goTo(state, idx);
 	}
 
 	function prev(state) {
-		var idx = (state.currentIndex - 1 + state.cards.length) % state.cards.length;
+		const idx =
+			(state.currentIndex - 1 + state.cards.length) % state.cards.length;
 		goTo(state, idx);
 	}
 
@@ -234,7 +239,7 @@
 		}
 
 		if (state.dots.length && state.showDots) {
-			for (var i = 0; i < state.dots.length; i++) {
+			for (let i = 0; i < state.dots.length; i++) {
 				(function (dot, idx) {
 					dot.addEventListener('click', function () {
 						goTo(state, idx);
@@ -261,19 +266,21 @@
 		state._touchStartTime = 0;
 		state._touchActive = false;
 
-		var SWIPE_THRESHOLD = 50;
-		var VELOCITY_THRESHOLD = 0.5; // px / ms
-		var MAX_DRAG = 40;
+		const SWIPE_THRESHOLD = 50;
+		const VELOCITY_THRESHOLD = 0.5; // px / ms
+		const MAX_DRAG = 40;
 
 		function onTouchStart(e) {
 			if (state.pending) return;
 			// Let native clicks on dots and arrows pass through.
-			if (e.target.closest('.beplus-vmn-quote__dot') ||
-			    e.target.closest('.beplus-vmn-quote__arrow')) {
+			if (
+				e.target.closest('.beplus-vmn-quote__dot') ||
+				e.target.closest('.beplus-vmn-quote__arrow')
+			) {
 				return;
 			}
 			e.preventDefault();
-			var t = e.touches[0];
+			const t = e.touches[0];
 			state._touchStartX = t.clientX;
 			state._touchStartY = t.clientY;
 			state._touchStartTime = Date.now();
@@ -282,19 +289,23 @@
 
 		function onTouchMove(e) {
 			if (state.pending) return;
-			var dx = e.touches[0].clientX - state._touchStartX;
-			var dy = e.touches[0].clientY - state._touchStartY;
+			const dx = e.touches[0].clientX - state._touchStartX;
+			const dy = e.touches[0].clientY - state._touchStartY;
 
 			// Lock into horizontal mode once the swipe is clearly
 			// horizontal and exceeds a small dead zone.
-			if (!state._touchActive && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+			if (
+				!state._touchActive &&
+				Math.abs(dx) > 10 &&
+				Math.abs(dx) > Math.abs(dy)
+			) {
 				state._touchActive = true;
 			}
 
 			if (state._touchActive) {
 				e.preventDefault();
-				var clamped = Math.max(-MAX_DRAG, Math.min(MAX_DRAG, dx));
-				var card = state.cards[state.currentIndex];
+				const clamped = Math.max(-MAX_DRAG, Math.min(MAX_DRAG, dx));
+				const card = state.cards[state.currentIndex];
 				card.style.transition = 'none';
 				card.style.transform = 'translateX(' + clamped + 'px)';
 			}
@@ -302,21 +313,24 @@
 
 		function onTouchEnd(e) {
 			if (state.pending) return;
-			var dx = e.changedTouches[0].clientX - state._touchStartX;
-			var dy = e.changedTouches[0].clientY - state._touchStartY;
-			var dt = Date.now() - state._touchStartTime;
-			var velocity = dt > 0 ? Math.abs(dx) / dt : 0;
+			const dx = e.changedTouches[0].clientX - state._touchStartX;
+			const dy = e.changedTouches[0].clientY - state._touchStartY;
+			const dt = Date.now() - state._touchStartTime;
+			const velocity = dt > 0 ? Math.abs(dx) / dt : 0;
 
-			var card = state.cards[state.currentIndex];
+			const card = state.cards[state.currentIndex];
 
 			// Spring back — restore transition and clear inline transform.
 			card.style.transition = '';
 			card.style.transform = '';
 
-			var shouldSwipe = false;
-			var direction = 0;
+			let shouldSwipe = false;
+			let direction = 0;
 
-			if (Math.abs(dx) >= SWIPE_THRESHOLD || velocity >= VELOCITY_THRESHOLD) {
+			if (
+				Math.abs(dx) >= SWIPE_THRESHOLD ||
+				velocity >= VELOCITY_THRESHOLD
+			) {
 				if (Math.abs(dx) > Math.abs(dy)) {
 					shouldSwipe = true;
 					direction = dx < 0 ? 1 : -1;
@@ -335,8 +349,12 @@
 			state._touchActive = false;
 		}
 
-		state.block.addEventListener('touchstart', onTouchStart, { passive: false });
-		state.block.addEventListener('touchmove', onTouchMove, { passive: false });
+		state.block.addEventListener('touchstart', onTouchStart, {
+			passive: false,
+		});
+		state.block.addEventListener('touchmove', onTouchMove, {
+			passive: false,
+		});
 		state.block.addEventListener('touchend', onTouchEnd);
 
 		state._onTouchStart = onTouchStart;
