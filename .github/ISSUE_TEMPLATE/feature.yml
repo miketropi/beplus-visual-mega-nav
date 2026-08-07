@@ -1,0 +1,59 @@
+name: Feature Request
+description: Propose a new feature or enhancement for Beplus Visual Mega Navigation.
+title: "[Feature]: "
+labels: ["enhancement", "needs-discussion"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! We appreciate your input.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: |
+        What problem are you trying to solve? Describe the use case.
+        Ex: "I'm frustrated when..."
+      placeholder: "Describe the problem your feature request addresses..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: |
+        How would you like this to work? Be as specific as possible.
+        Consider the admin UI (Gutenberg editor), frontend rendering, block support, etc.
+      placeholder: "Describe your proposed solution..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any workarounds or alternative approaches?
+      placeholder: "Describe any alternatives you've considered..."
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Feature Scope
+      description: Which area of the plugin does this affect?
+      options:
+        - label: Admin UI (mega menu builder / Gutenberg editor)
+        - label: Frontend rendering (panel markup, CSS, JS behavior)
+        - label: Block support (new or modified allowed blocks)
+        - label: REST API
+        - label: Settings / Configuration
+        - label: Developer API (filters, hooks)
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Screenshots, mockups, links, or any other context.
+      placeholder: "Add any other context here..."

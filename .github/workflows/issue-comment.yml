@@ -1,0 +1,202 @@
+name: Issue Comment — Slash Commands
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  commands:
+    name: Handle slash commands
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.event.comment.body, '/') }}
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment.body.trim();
+            const issue   = context.payload.issue;
+            const actor   = context.payload.comment.user.login;
+            const issueNumber = issue.number;
+            const owner   = context.repo.owner;
+            const repo    = context.repo.repo;
+
+            // ---- Helpers ----
+            const getIssue = () =>
+              github.rest.issues.get({ owner, repo, issue_number: issueNumber });
+
+            const addComment = (body) =>
+              github.rest.issues.createComment({
+                owner, repo,
+                issue_number: issueNumber,
+                body,
+              });
+
+            const isMaintainer = async () => {
+              try {
+                await github.rest.repos.getCollaboratorPermissionLevel({
+                  owner, repo, username: actor,
+                });
+                return true; // any permission level = maintainer for our purposes
+              } catch {
+                return false;
+              }
+            };
+
+            const currentAssignee = async () => {
+              const { data } = await getIssue();
+              return data.assignee?.login ?? null;
+            };
+
+            // ---- /help ----
+            if (comment === '/help') {
+              await addComment(
+                `**Available commands:**\n\n` +
+                `| Command | Who | What |\n` +
+                `|---------|-----|------|\n` +
+                `| \`/claim\` | Anyone | Assign this issue to yourself |\n` +
+                `| \`/unclaim\` | Assignee / Maintainer | Remove your assignment |\n` +
+                `| \`/assign @user\` | Maintainer | Assign a specific user |\n` +
+                `| \`/close\` | Maintainer | Close this issue |\n` +
+                `| \`/reopen\` | Maintainer | Reopen this issue |\n` +
+                `| \`/ready\` | Maintainer | Mark as ready for review |\n` +
+                `| \`/help\` | Anyone | Show this message |`
+              );
+              return;
+            }
+
+            // ---- /claim ----
+            if (comment === '/claim') {
+              const assignee = await currentAssignee();
+              if (assignee) {
+                await addComment(
+                  `⚠️ This issue is already assigned to **@${assignee}**. ` +
+                  `If they are no longer working on it, ask them to \`/unclaim\` or a maintainer to reassign.`
+                );
+                return;
+              }
+
+              await github.rest.issues.addAssignees({
+                owner, repo,
+                issue_number: issueNumber,
+                assignees: [actor],
+              });
+
+              await addComment(`✅ Assigned to **@${actor}**. Thanks for picking this up!`);
+
+              // Move project status → In Progress (if project automation is wired)
+              // See project-status.yml workflow.
+              return;
+            }
+
+            // ---- /unclaim ----
+            if (comment === '/unclaim') {
+              const assignee = await currentAssignee();
+              if (!assignee) {
+                await addComment(`ℹ️ This issue is not currently assigned.`);
+                return;
+              }
+
+              const maintainer = await isMaintainer();
+              if (assignee !== actor && !maintainer) {
+                await addComment(
+                  `⛔ Only the current assignee (**@${assignee}**) or a maintainer can unclaim this issue.`
+                );
+                return;
+              }
+
+              await github.rest.issues.removeAssignees({
+                owner, repo,
+                issue_number: issueNumber,
+                assignees: [assignee],
+              });
+
+              await addComment(`🔓 Unassigned **@${assignee}**. This issue is now available.`);
+              return;
+            }
+
+            // ---- /assign @user ----
+            const assignMatch = comment.match(/^\/assign\s+@?(\S+)$/);
+            if (assignMatch) {
+              const maintainer = await isMaintainer();
+              if (!maintainer) {
+                await addComment(`⛔ Only maintainers can use \`/assign\`.`);
+                return;
+              }
+
+              const target = assignMatch[1];
+              await github.rest.issues.addAssignees({
+                owner, repo,
+                issue_number: issueNumber,
+                assignees: [target],
+              });
+
+              await addComment(`✅ Assigned to **@${target}**.`);
+              return;
+            }
+
+            // ---- /close ----
+            if (comment === '/close') {
+              const maintainer = await isMaintainer();
+              if (!maintainer) {
+                await addComment(`⛔ Only maintainers can close issues.`);
+                return;
+              }
+
+              await github.rest.issues.update({
+                owner, repo,
+                issue_number: issueNumber,
+                state: 'closed',
+              });
+
+              await addComment(`🔒 Closed by **@${actor}**.`);
+              return;
+            }
+
+            // ---- /reopen ----
+            if (comment === '/reopen') {
+              const maintainer = await isMaintainer();
+              if (!maintainer) {
+                await addComment(`⛔ Only maintainers can reopen issues.`);
+                return;
+              }
+
+              await github.rest.issues.update({
+                owner, repo,
+                issue_number: issueNumber,
+                state: 'open',
+              });
+
+              await addComment(`🔓 Reopened by **@${actor}**.`);
+              return;
+            }
+
+            // ---- /ready ----
+            if (comment === '/ready') {
+              const maintainer = await isMaintainer();
+              if (!maintainer) {
+                await addComment(`⛔ Only maintainers can mark issues as ready.`);
+                return;
+              }
+
+              await github.rest.issues.removeLabel({
+                owner, repo,
+                issue_number: issueNumber,
+                name: 'needs-triage',
+              }).catch(() => {}); // ignore if label not present
+
+              await github.rest.issues.addLabels({
+                owner, repo,
+                issue_number: issueNumber,
+                labels: ['ready'],
+              });
+
+              await addComment(`✅ Marked as ready by **@${actor}**.`);
+              return;
+            }
+
+            // Unknown command — nothing to do.
+            console.log(`Unknown or unhandled command: ${comment}`);

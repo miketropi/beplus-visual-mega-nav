@@ -1,0 +1,46 @@
+name: Documentation
+description: Report missing or incorrect documentation.
+title: "[Docs]: "
+labels: ["documentation"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve our documentation!
+
+  - type: input
+    id: location
+    attributes:
+      label: Documentation Location
+      description: |
+        Which file, page, or section needs updating?
+        e.g., README.md, docs/AGENT.md, inline code comments
+      placeholder: "README.md — Frontend Integration section"
+    validations:
+      required: true
+
+  - type: textarea
+    id: missing
+    attributes:
+      label: Missing Information
+      description: What information is missing or unclear?
+      placeholder: "Describe what's missing or confusing..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: How should this be documented instead?
+      placeholder: "Propose new wording, examples, or structure..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Links, references, or anything else helpful.
+      placeholder: "Add any other context here..."

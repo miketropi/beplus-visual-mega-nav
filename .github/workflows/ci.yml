@@ -4,7 +4,7 @@ on:
   push:
     branches: ['**']
   pull_request:
-    branches: [master]
+    branches: [master, develop]
 
 permissions:
   contents: read
@@ -36,6 +36,33 @@ jobs:
 
       - name: Run PHP checks
         run: composer run check
+
+  php-tests:
+    name: PHP (unit tests)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist
+
+      - name: Run PHPUnit
+        run: composer run test:php
 
   js:
     name: JS / CSS (lint + stylelint)
@@ -83,3 +110,24 @@ jobs:
             echo "::error::Build output is out of date. Run 'npm run build' and commit the changes."
             exit 1
           fi
+
+  security:
+    name: Security audit (npm)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true

@@ -1,0 +1,122 @@
+name: Bug Report
+description: Report a bug in Beplus Visual Mega Navigation.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below.
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: A short, clear summary of the bug.
+      placeholder: "Mega menu panel does not close on mobile"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect to happen?
+      placeholder: "Describe the bug in detail..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should have happened instead?
+      placeholder: "The panel should close when tapping outside on mobile devices."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: "The panel stays open and requires a page refresh to dismiss."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Provide clear steps so we can reproduce the issue.
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll to '...'
+        4. See error
+      placeholder: "1.\n2.\n3.\n4."
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Video
+      description: Drag and drop screenshots or screen recordings here.
+      placeholder: "Attach files by dragging them here..."
+
+  - type: input
+    id: wp-version
+    attributes:
+      label: WordPress Version
+      placeholder: "e.g., 6.6.1"
+    validations:
+      required: true
+
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP Version
+      placeholder: "e.g., 8.2"
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin Version
+      placeholder: "e.g., 1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser(s) are affected?
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: false
+
+  - type: input
+    id: theme
+    attributes:
+      label: Active Theme
+      description: Which WordPress theme is active?
+      placeholder: "e.g., Twenty Twenty-Four"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Anything else we should know?
+      placeholder: "Add any other context about the problem here."
