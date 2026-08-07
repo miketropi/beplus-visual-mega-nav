@@ -1,0 +1,107 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "beplus-visual-mega-nav/hero-artwork-dock",
+	"title": "Hero Artwork Dock",
+	"category": "beplus-vmn",
+	"icon": "cover-image",
+	"description": "Content container with a decorative artwork layer docked to the bottom edge. Cards overlap with mouse tracking and idle float animation.",
+	"keywords": [ "hero", "artwork", "dock", "parallax", "mega menu" ],
+	"textdomain": "beplus-visual-mega-nav",
+	"attributes": {
+		"enabled": {
+			"type": "boolean",
+			"default": true
+		},
+		"artworkHeight": {
+			"type": "number",
+			"default": 300
+		},
+		"visiblePercentage": {
+			"type": "number",
+			"default": 50
+		},
+		"overlap": {
+			"type": "number",
+			"default": 30
+		},
+		"hoverMotion": {
+			"type": "boolean",
+			"default": true
+		},
+		"floatingAnimation": {
+			"type": "boolean",
+			"default": true
+		},
+		"perspectiveStrength": {
+			"type": "number",
+			"default": 800
+		},
+		"cards": {
+			"type": "array",
+			"default": [
+				{
+					"id": "card-1",
+					"imageId": 0,
+					"imageUrl": "",
+					"width": 180,
+					"rotation": -8,
+					"depth": 0
+				},
+				{
+					"id": "card-2",
+					"imageId": 0,
+					"imageUrl": "",
+					"width": 200,
+					"rotation": -4,
+					"depth": 1
+				},
+				{
+					"id": "card-3",
+					"imageId": 0,
+					"imageUrl": "",
+					"width": 260,
+					"rotation": 0,
+					"depth": 2
+				},
+				{
+					"id": "card-4",
+					"imageId": 0,
+					"imageUrl": "",
+					"width": 200,
+					"rotation": 4,
+					"depth": 1
+				},
+				{
+					"id": "card-5",
+					"imageId": 0,
+					"imageUrl": "",
+					"width": 180,
+					"rotation": 8,
+					"depth": 0
+				}
+			]
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"color": {
+			"background": true,
+			"text": true
+		}
+	},
+	"style": "file:./style.css",
+	"editorStyle": [ "file:./editor.css", "file:./style.css" ],
+	"editorScript": "file:../../build/blocks.js",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

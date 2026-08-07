@@ -100,7 +100,9 @@ final class MenuRenderer {
 			return true;
 		}
 
-		if ( ! empty( $args['menu'] ) && $this->menu_has_mega_items( (int) $args['menu'] ) ) {
+		$menu_id = $args['menu'] instanceof \WP_Term ? $args['menu']->term_id : (int) $args['menu'];
+
+		if ( ! empty( $args['menu'] ) && $this->menu_has_mega_items( $menu_id ) ) {
 			return true;
 		}
 
@@ -214,11 +216,28 @@ final class MenuRenderer {
 			BEPLUS_VISUAL_MEGA_NAV_VERSION
 		);
 
+		wp_enqueue_style(
+			'beplus-vmn-tab-container',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'blocks/tab-container/style.css',
+			[],
+			BEPLUS_VISUAL_MEGA_NAV_VERSION
+		);
+
 		wp_enqueue_script(
 			'beplus-vmn-front',
 			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/frontend.js',
 			[],
-			BEPLUS_VISUAL_MEGA_NAV_VERSION,
+			(string) filemtime( BEPLUS_VISUAL_MEGA_NAV_DIR . 'assets/js/frontend.js' ),
+			true
+		);
+
+		$tabs_ver = (string) filemtime( BEPLUS_VISUAL_MEGA_NAV_DIR . 'assets/js/tabs.js' );
+
+		wp_enqueue_script(
+			'beplus-vmn-tabs',
+			BEPLUS_VISUAL_MEGA_NAV_URL . 'assets/js/tabs.js',
+			[],
+			$tabs_ver,
 			true
 		);
 	}

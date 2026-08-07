@@ -1,0 +1,88 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "beplus-visual-mega-nav/quote",
+	"title": "Quote",
+	"category": "beplus-vmn",
+	"icon": "format-quote",
+	"description": "Testimonial carousel with word-by-word text animation. Clean editorial design for mega menu panels.",
+	"keywords": [ "quote", "testimonial", "carousel", "mega menu" ],
+	"textdomain": "beplus-visual-mega-nav",
+	"attributes": {
+		"quotes": {
+			"type": "array",
+			"default": [
+				{
+					"avatar": { "id": 0, "url": "" },
+					"name": "",
+					"position": "",
+					"text": ""
+				},
+				{
+					"avatar": { "id": 0, "url": "" },
+					"name": "",
+					"position": "",
+					"text": ""
+				},
+				{
+					"avatar": { "id": 0, "url": "" },
+					"name": "",
+					"position": "",
+					"text": ""
+				}
+			]
+		},
+		"transitionSpeed": {
+			"type": "number",
+			"default": 400
+		},
+		"autoPlay": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoPlayInterval": {
+			"type": "number",
+			"default": 5000
+		},
+		"textAnimation": {
+			"type": "boolean",
+			"default": true
+		},
+		"showArrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"showDots": {
+			"type": "boolean",
+			"default": true
+		},
+		"quoteFontFamily": {
+			"type": "string",
+			"default": ""
+		},
+		"quoteTextColor": {
+			"type": "string",
+			"default": ""
+		},
+		"quoteTextSize": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		}
+	},
+	"style": "file:./style.css",
+	"editorStyle": [ "file:./editor.css", "file:./style.css" ],
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php",
+	"editorScript": "file:../../build/blocks.js"
+}

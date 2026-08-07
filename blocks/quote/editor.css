@@ -1,0 +1,38 @@
+/**
+ * Quote — editor-only styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+.wp-block-beplus-visual-mega-nav-quote {
+	min-height: 120px;
+	outline: 1px dashed rgba(0, 0, 0, 0.12);
+}
+
+/* Show all cards in editor preview with a stacked appearance. */
+.editor-styles-wrapper .beplus-vmn-quote__card {
+	position: relative;
+	opacity: 1;
+	transform: none;
+	pointer-events: auto;
+	margin-bottom: 12px;
+	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 8px;
+	background: #fafafa;
+}
+
+.editor-styles-wrapper .beplus-vmn-quote__card:last-child {
+	margin-bottom: 0;
+}
+
+.editor-styles-wrapper .beplus-vmn-quote__arrow,
+.editor-styles-wrapper .beplus-vmn-quote__dots {
+	display: none;
+}
+
+/* Words always visible in editor. */
+.editor-styles-wrapper .beplus-vmn-quote__word {
+	opacity: 1;
+	transform: none;
+}

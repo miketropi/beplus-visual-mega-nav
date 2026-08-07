@@ -12,5 +12,12 @@ import './blocks/beplus-header';
 import './blocks/beplus-navigation';
 import './blocks/nav-menu-area';
 import './blocks/nav-toggle';
+import './blocks/tab-container';
+import './blocks/tab-panel';
+import './blocks/hero-artwork-dock';
+import './blocks/blog-list';
+import './blocks/product-list';
+import './blocks/product-card';
+import './blocks/quote';
 
 registerCoreBlocks();

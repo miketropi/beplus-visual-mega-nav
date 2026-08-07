@@ -14,6 +14,8 @@
 
 	const HEADER_SELECTOR =
 		'.wp-block-beplus-visual-mega-nav-beplus-header.is-sticky';
+	const NAVIGATION_SELECTOR =
+		'.wp-block-beplus-visual-mega-nav-beplus-navigation';
 	const TOGGLE_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-toggle';
 	const MENU_AREA_SELECTOR = '.wp-block-beplus-visual-mega-nav-nav-menu-area';
 	const PORTAL_CLASS = 'beplus-nav-portal';
@@ -42,7 +44,12 @@
 			return;
 		}
 
-		const breakpointRaw = header.getAttribute('data-breakpoint');
+		// Prefer the Navigation block's mobile breakpoint; fall back
+		// to the Header block's data-breakpoint for backward compatibility.
+		const navBlock = header.querySelector(NAVIGATION_SELECTOR);
+		const breakpointRaw =
+			(navBlock && navBlock.getAttribute('data-mobile-breakpoint')) ||
+			header.getAttribute('data-breakpoint');
 		const breakpoint = parseInt(breakpointRaw, 10) || 782;
 		const instanceId = header.getAttribute('data-instance') || '';
 
@@ -293,10 +300,19 @@
 		portalRoot.appendChild(clone);
 		document.body.appendChild(portalRoot);
 
-		// Re-init the existing menu engine on the cloned subtree.
+		// Re-init the existing mega menu engine on the cloned subtree.
 		if (typeof window.beplusVmnReInit === 'function') {
 			window.beplusVmnReInit(portalRoot);
 		}
+
+		// Notify block viewScripts (Quote, Blog List, Hero Artwork, etc.)
+		// that a fresh clone of the nav DOM exists so they can re-scan
+		// for new block instances inside the portal.
+		document.dispatchEvent(
+			new CustomEvent('beplus:portal-ready', {
+				detail: { portal: portalRoot },
+			})
+		);
 
 		// Bind close-on-backdrop-click.
 		portalRoot.addEventListener('click', function (e) {

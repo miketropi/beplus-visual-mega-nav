@@ -1,0 +1,27 @@
+# Code Owners — Beplus Visual Mega Navigation
+#
+# Owners are automatically requested for review when files in
+# their area change. Last matching rule wins (bottom-up).
+
+# Global owners — core maintainers
+*       @beplus-agency/beplus-reviewers
+
+# Documentation
+/docs/                              @beplus-agency/beplus-reviewers
+*.md                                @beplus-agency/beplus-reviewers
+
+# PHP — plugin core
+/includes/                          @beplus-agency/beplus-reviewers
+beplus-visual-mega-nav.php          @beplus-agency/beplus-reviewers
+
+# Frontend assets (no-build-step CSS/JS)
+/assets/                            @beplus-agency/beplus-reviewers
+
+# Admin React app
+/src/                               @beplus-agency/beplus-reviewers
+
+# Build output
+/build/                             @beplus-agency/beplus-reviewers
+
+# CI / automation
+/.github/                           @beplus-agency/beplus-reviewers

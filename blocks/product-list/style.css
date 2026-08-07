@@ -1,0 +1,210 @@
+/**
+ * Product List — frontend block styles.
+ *
+ * Compact product list with soft hover and staggered entrance
+ * animations. Designed for mega menu panels (~300-350px wide).
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+/* ---------- List container ---------- */
+.beplus-vmn-product-list {
+	--beplus-vmn-product-gap: 0;
+	--beplus-vmn-product-item-padding: 12px 0;
+	--beplus-vmn-product-divider: 1px solid rgba(128, 128, 128, 0.15);
+
+	container-type: inline-size;
+}
+
+.beplus-vmn-product-list__items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* ---------- List item ---------- */
+.beplus-vmn-product-list__item {
+	border-bottom: var(--beplus-vmn-product-divider);
+	opacity: 0;
+	transform: translateY(6px);
+	animation: beplus-vmn-product-enter 0.4s ease forwards;
+	animation-delay: var(--beplus-vmn-enter-delay, 0ms);
+}
+
+.beplus-vmn-product-list__item:last-child {
+	border-bottom: none;
+}
+
+/* ---------- Link ---------- */
+.beplus-vmn-product-list__link {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: var(--beplus-vmn-product-item-padding);
+	text-decoration: none;
+	color: inherit;
+	border-radius: 6px;
+	transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.beplus-vmn-product-list__link:hover {
+	background-color: rgba(128, 128, 128, 0.06);
+	transform: translateX(4px);
+}
+
+.beplus-vmn-product-list__link:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: -2px;
+	border-radius: 6px;
+}
+
+/* ---------- Thumbnail ---------- */
+.beplus-vmn-product-list__thumb {
+	flex-shrink: 0;
+	width: 56px;
+	height: 56px;
+	border-radius: 6px;
+	overflow: hidden;
+	background: rgba(128, 128, 128, 0.08);
+}
+
+.beplus-vmn-product-list__thumb img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ---------- Body ---------- */
+.beplus-vmn-product-list__body {
+	flex: 1;
+	min-width: 0;
+}
+
+/* ---------- Title ---------- */
+.beplus-vmn-product-list__title {
+	display: block;
+	font-size: 0.925em;
+	font-weight: 600;
+	line-height: 1.3;
+	margin-bottom: 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ---------- Bottom row (price + rating + cart) ---------- */
+.beplus-vmn-product-list__bottom {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+/* ---------- Price ---------- */
+.beplus-vmn-product-list__price {
+	font-size: 0.85em;
+	font-weight: 600;
+	line-height: 1.4;
+	color: inherit;
+}
+
+.beplus-vmn-product-list__price del {
+	opacity: 0.5;
+	font-weight: 400;
+	margin-right: 4px;
+}
+
+.beplus-vmn-product-list__price ins {
+	text-decoration: none;
+}
+
+/* ---------- Rating ---------- */
+.beplus-vmn-product-list__rating {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.beplus-vmn-product-list__rating-stars {
+	position: relative;
+	display: inline-block;
+	font-size: 0.75em;
+	line-height: 1;
+	letter-spacing: 1px;
+}
+
+.beplus-vmn-product-list__rating-stars-empty {
+	color: rgba(128, 128, 128, 0.25);
+}
+
+.beplus-vmn-product-list__rating-stars-filled {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	color: #f0ad4e;
+}
+
+.beplus-vmn-product-list__rating-count {
+	font-size: 0.8em;
+	color: rgba(128, 128, 128, 0.7);
+}
+
+/* ---------- Add to cart ---------- */
+.beplus-vmn-product-list__add-to-cart {
+	display: inline-block;
+	font-size: 0.78em;
+	font-weight: 500;
+	line-height: 1;
+	padding: 5px 10px;
+	border: 1px solid currentcolor;
+	border-radius: 4px;
+	text-decoration: none;
+	color: inherit;
+	opacity: 0.8;
+	transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.beplus-vmn-product-list__add-to-cart:hover {
+	opacity: 1;
+	background-color: rgba(128, 128, 128, 0.08);
+}
+
+/* ---------- Empty state ---------- */
+.beplus-vmn-product-list__empty {
+	margin: 0;
+	padding: 16px;
+	font-size: 0.85em;
+	color: rgba(128, 128, 128, 0.7);
+	text-align: center;
+}
+
+/* ---------- Entrance animation ---------- */
+@keyframes beplus-vmn-product-enter {
+
+	0% {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+	.beplus-vmn-product-list__item {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+
+	.beplus-vmn-product-list__link {
+		transition: none;
+	}
+}

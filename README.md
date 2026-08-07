@@ -4,7 +4,7 @@ Tags: mega-menu, gutenberg, navigation, block-editor, menu-builder
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 0.0.8
+Stable tag: 0.0.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,13 @@ A Gutenberg-powered mega menu builder for WordPress. Build rich mega menus visua
 == Description ==
 
 ![Preview of Beplus Visual Mega Navigation](https://github.com/miketropi/beplus-visual-mega-nav/blob/master/preview.jpg?raw=true)
+
+= About BePlus = 
+
+This plugin is built and maintained by [BePlus](https://beplusthemes.com), a WordPress & Shopify development studio. If you need a premium theme, custom development, or ongoing site maintenance, visit [beplusthemes.com](https://beplusthemes.com) .
+
+= Where can I get premium WordPress/Shopify themes from BePlus? =
+Visit [BePlus Template](https://beplusthemes.com/our-templates/) to browse our theme collection, or contact us for custom development and outsourcing services.
 
 = Features =
 
@@ -195,6 +202,14 @@ add_filter( 'beplus_vmn_locations', function ( $locations ) {
 ~~~
 
 == Changelog ==
+
+= 0.0.10 =
+* Fixed some PHP issues
+* Improved backend editor
+
+= 0.0.9 =
+
+* New **Block** tab in the mega menu modal for improved block management.
 
 = 0.0.5 =
 

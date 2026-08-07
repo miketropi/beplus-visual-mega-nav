@@ -42,6 +42,8 @@ final class AllowedBlocks {
 			// Navigation.
 			'core/page-list',
 			'beplus-visual-mega-nav/link-item',
+			'beplus-visual-mega-nav/tab-container',
+			'beplus-visual-mega-nav/tab-panel',
 
 			// Media.
 			'core/cover',
@@ -55,6 +57,11 @@ final class AllowedBlocks {
 			'beplus-visual-mega-nav/beplus-navigation',
 			'beplus-visual-mega-nav/nav-menu-area',
 			'beplus-visual-mega-nav/nav-toggle',
+			'beplus-visual-mega-nav/hero-artwork-dock',
+			'beplus-visual-mega-nav/blog-list',
+			'beplus-visual-mega-nav/product-list',
+			'beplus-visual-mega-nav/product-card',
+			'beplus-visual-mega-nav/quote',
 		];
 	}
 

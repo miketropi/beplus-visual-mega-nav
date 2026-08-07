@@ -1,0 +1,119 @@
+/**
+ * Hero Artwork Dock — frontend styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+.wp-block-beplus-visual-mega-nav-hero-artwork-dock {
+	--beplus-hero-artwork-height: 300px;
+	--beplus-hero-visible-pct: 50;
+	--beplus-hero-perspective: 800px;
+	--beplus-hero-card-width: 200px;
+	--beplus-hero-card-rotation: 0deg;
+	--beplus-hero-card-depth: 0;
+	--beplus-hero-overlap: 30px;
+	--beplus-hero-card-radius: 12px;
+	--beplus-hero-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08);
+
+	position: relative;
+	overflow: hidden;
+}
+
+.beplus-hero-content {
+	position: relative;
+	z-index: 1;
+}
+
+.beplus-hero-artwork {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: var(--beplus-hero-artwork-height);
+	overflow: hidden;
+	pointer-events: none;
+	perspective: var(--beplus-hero-perspective);
+}
+
+/* Cards */
+.beplus-hero-card {
+	position: absolute;
+	width: var(--beplus-hero-card-width);
+	height: var(--beplus-hero-card-height, calc(var(--beplus-hero-artwork-height) + 60px));
+	background-color: var(--beplus-hero-card-bg, #e5e7eb);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: var(--beplus-hero-card-radius);
+	box-shadow: var(--beplus-hero-card-shadow);
+	opacity: 0;
+	transform:
+		translateX(-50%)
+		rotate(var(--beplus-hero-card-rotation))
+		translateY(0);
+	transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+	will-change: transform, opacity;
+}
+
+/* Card is visible after entrance completes or as a fallback. */
+.beplus-hero-card.has-entered {
+	opacity: 1;
+}
+
+/* Entrance animation */
+@keyframes beplus-hero-entrance {
+
+	0% {
+		opacity: 0;
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) scale(0.85) translateY(25px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) scale(1) translateY(0);
+	}
+}
+
+.beplus-hero-card.is-entering {
+	animation: beplus-hero-entrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	animation-delay: var(--beplus-hero-enter-delay, 0s);
+}
+
+/* Idle float animation */
+@keyframes beplus-hero-float {
+
+	0%,
+	100% {
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) translateY(0);
+	}
+
+	50% {
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) translateY(-8px);
+	}
+}
+
+.beplus-hero-artwork[data-floating="1"] .beplus-hero-card.is-idle {
+	animation: beplus-hero-float var(--beplus-hero-float-duration, 4s) ease-in-out infinite;
+	animation-delay: var(--beplus-hero-float-delay, 0s);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+	.beplus-hero-card {
+		transition: none;
+	}
+
+	.beplus-hero-card.is-entering {
+		animation: none;
+	}
+
+	.beplus-hero-card.has-entered {
+		opacity: 1;
+		transform: translateX(-50%) rotate(var(--beplus-hero-card-rotation)) scale(1) translateY(0);
+	}
+
+	.beplus-hero-artwork[data-floating="1"] .beplus-hero-card.is-idle {
+		animation: none;
+	}
+}

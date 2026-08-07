@@ -1,0 +1,35 @@
+name: Question
+description: Ask a question about Beplus Visual Mega Navigation.
+title: "[Question]: "
+labels: ["question"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? We're happy to help!
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+      placeholder: "Ask your question here..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Provide context — what are you trying to accomplish?
+        e.g., theme compatibility, custom block integration, hook usage
+      placeholder: "Describe what you're working on..."
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Related Links
+      description: Any relevant documentation, code, or threads?
+      placeholder: "Paste links here..."

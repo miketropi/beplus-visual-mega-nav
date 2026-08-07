@@ -1,0 +1,204 @@
+name: Project Status — Auto Transition
+
+on:
+  issues:
+    types: [assigned, unassigned, closed, reopened]
+  pull_request:
+    types: [opened, closed]
+
+permissions:
+  contents: read
+
+jobs:
+  status:
+    name: Update project status
+    runs-on: ubuntu-latest
+    # Set PROJECT_URL in repository variables or secrets.
+    # https://github.com/orgs/<owner>/projects/<number>
+    if: ${{ vars.PROJECT_URL != '' || secrets.PROJECT_URL != '' }}
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const projectUrl = process.env.PROJECT_URL || '';
+            if (!projectUrl) {
+              console.log('No PROJECT_URL configured. Skipping project status update.');
+              return;
+            }
+
+            // Extract org/user and project number from URL.
+            // Format: https://github.com/orgs/{org}/projects/{num}
+            // or:      https://github.com/users/{user}/projects/{num}
+            const match = projectUrl.match(/github\.com\/(?:orgs|users)\/([^/]+)\/projects\/(\d+)/);
+            if (!match) {
+              console.log(`Could not parse project URL: ${projectUrl}`);
+              return;
+            }
+
+            const owner = match[1];
+            const projectNumber = parseInt(match[2], 10);
+
+            const eventType = context.eventName;
+            const payload = context.payload;
+
+            // Determine which status field value to set.
+            // These must match the exact option names in your project's Status field.
+            let status = null;
+
+            if (eventType === 'issues') {
+              if (payload.action === 'assigned') {
+                status = 'In Progress';
+              } else if (payload.action === 'unassigned') {
+                status = 'Todo';
+              } else if (payload.action === 'closed') {
+                status = 'Done';
+              } else if (payload.action === 'reopened') {
+                status = 'Todo';
+              }
+            }
+
+            if (eventType === 'pull_request') {
+              if (payload.action === 'opened') {
+                status = 'In Review';
+              } else if (payload.action === 'closed' && payload.pull_request.merged) {
+                status = 'Done';
+              }
+            }
+
+            if (!status) {
+              console.log(`No status transition for ${eventType}.${payload.action}`);
+              return;
+            }
+
+            const issueNumber = payload.issue?.number || payload.pull_request?.number;
+            if (!issueNumber) {
+              console.log('Could not determine issue/PR number.');
+              return;
+            }
+
+            // Get the project node ID and status field + option IDs using GraphQL.
+            // Step 1: find the project
+            const orgQuery = `
+              query($owner: String!, $projectNumber: Int!) {
+                organization(login: $owner) {
+                  projectV2(number: $projectNumber) { id }
+                }
+              }
+            `;
+            const userQuery = `
+              query($owner: String!, $projectNumber: Int!) {
+                user(login: $owner) {
+                  projectV2(number: $projectNumber) { id }
+                }
+              }
+            `;
+
+            let projectId = null;
+            for (const query of [orgQuery, userQuery]) {
+              try {
+                const res = await github.graphql(query, { owner, projectNumber });
+                const proj = res.organization?.projectV2 || res.user?.projectV2;
+                if (proj) { projectId = proj.id; break; }
+              } catch { /* try the other */ }
+            }
+
+            if (!projectId) {
+              console.log('Could not find project. Is PROJECT_URL correct?');
+              return;
+            }
+
+            // Step 2: find the status field and its option for the target status
+            const fieldQuery = `
+              query($projectId: ID!) {
+                node(id: $projectId) {
+                  ... on ProjectV2 {
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id name
+                          options { id name }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const fieldRes = await github.graphql(fieldQuery, { projectId });
+            const fields = fieldRes.node.fields.nodes;
+            const statusField = fields.find(f => f.name.toLowerCase() === 'status');
+            if (!statusField) {
+              console.log('No "Status" field found in project.');
+              return;
+            }
+
+            const statusOption = statusField.options.find(o => o.name === status);
+            if (!statusOption) {
+              console.log(`No status option "${status}" found. Available: ${statusField.options.map(o => o.name).join(', ')}`);
+              return;
+            }
+
+            // Step 3: find the project item for this issue/PR
+            const itemQuery = `
+              query($owner: String!, $repo: String!, $issueNumber: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issueOrPullRequest(number: $issueNumber) {
+                    ... on Issue {
+                      projectItems(first: 10) {
+                        nodes { id project { id } }
+                      }
+                    }
+                    ... on PullRequest {
+                      projectItems(first: 10) {
+                        nodes { id project { id } }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const itemRes = await github.graphql(itemQuery, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issueNumber,
+            });
+
+            const issueOrPr = itemRes.repository.issueOrPullRequest;
+            if (!issueOrPr) {
+              console.log(`Issue/PR #${issueNumber} not found.`);
+              return;
+            }
+
+            const projectItem = issueOrPr.projectItems.nodes.find(
+              pi => pi.project.id === projectId
+            );
+
+            if (!projectItem) {
+              console.log(`Issue/PR #${issueNumber} is not in the project. Add it first.`);
+              return;
+            }
+
+            // Step 4: set the status
+            const updateMutation = `
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId,
+                  itemId: $itemId,
+                  fieldId: $fieldId,
+                  value: { singleSelectOptionId: $optionId }
+                }) { clientMutationId }
+              }
+            `;
+
+            await github.graphql(updateMutation, {
+              projectId,
+              itemId: projectItem.id,
+              fieldId: statusField.id,
+              optionId: statusOption.id,
+            });
+
+            console.log(`✅ Moved #${issueNumber} to "${status}"`);
+        env:
+          PROJECT_URL: ${{ vars.PROJECT_URL || secrets.PROJECT_URL }}
