@@ -1,0 +1,12 @@
+{
+	"slug": "blog-and-quote-2-cols",
+	"title": "Quotes + blog list",
+	"description": "Quote + blog list display 2 columns",
+	"version": "1.0.0",
+	"settings": {
+		"width": "container",
+		"bgColor": "",
+		"animation": "fade"
+	},
+  "content": "<!-- wp:group {\"style\":{\"spacing\":{\"padding\":{\"right\":\"var:preset|spacing|10\",\"left\":\"var:preset|spacing|10\"}}},\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group\" style=\"padding-right:var(--wp--preset--spacing--10);padding-left:var(--wp--preset--spacing--10)\"><!-- wp:columns {\"align\":\"wide\"} -->\n<div class=\"wp-block-columns alignwide\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:beplus-visual-mega-nav/quote {\"quotes\":[{\"avatar\":{\"id\":49,\"url\":\"https://pub-0645c3b9d3674132af6b362484df0f3c.r2.dev/Nextora/People/avatar-1.png\"},\"name\":\"Elena Rodriguez\",\"position\":\"Chief Growth Officer at Vertex Solutions\",\"text\":\"Partnering with this agency doubled our Q4 revenue and opened three new international markets we couldn't access alone.\"},{\"avatar\":{\"id\":50,\"url\":\"https://pub-0645c3b9d3674132af6b362484df0f3c.r2.dev/Nextora/People/avatar-2.png\"},\"name\":\"Marcus Chen\",\"position\":\"CTO at FinFlow Systems\",\"text\":\"Their team didn't just update our tech stack; they completely reimagined our customer journey, resulting in a 40% increase in engagement.\"},{\"avatar\":{\"id\":48,\"url\":\"https://pub-0645c3b9d3674132af6b362484df0f3c.r2.dev/Nextora/People/avatar-3.png\"},\"name\":\"Sarah Jenkins\",\"position\":\"VP of Operations at Apex Logistics\",\"text\":\"Beyond the deliverables, they acted as true strategic partners. Their responsiveness and insight saved us during our most critical launch.\"}],\"showArrows\":false,\"quoteFontFamily\":\"Shadows Into Light Two\",\"quoteTextSize\":\"large\"} /--></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":3} -->\n<h3 class=\"wp-block-heading\"><strong>Industry Insights & Strategic Trends</strong></h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Stay ahead of the curve with our deep-dive analyses, market reports, and expert commentary on the latest business trends shaping our industry.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:beplus-visual-mega-nav/blog-list {\"postsToShow\":3,\"showThumbnail\":false,\"showCategory\":true,\"showExcerpt\":true,\"showAuthor\":true} /--></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns --></div>\n<!-- /wp:group -->"
+}
