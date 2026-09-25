@@ -1,0 +1,395 @@
+/**
+ * Menu List block — frontend styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+.beplus-vmn-menu-list {
+	list-style: none;
+	margin: 0;
+	padding: var(--beplus-vmn-list-padding-v, 0) var(--beplus-vmn-list-padding-h, 0);
+	display: flex;
+	flex-direction: column;
+	gap: var(--beplus-vmn-list-gap, 4px);
+	box-sizing: border-box;
+}
+
+.beplus-vmn-menu-list__item {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	box-sizing: border-box;
+}
+
+.beplus-vmn-menu-list__link {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.45rem 0.75rem;
+	border-radius: 4px;
+	color: inherit;
+	text-decoration: none;
+	font-weight: 500;
+	line-height: 1.4;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	box-sizing: border-box;
+}
+
+.beplus-vmn-menu-list__link:hover {
+	background-color: var(--beplus-vmn-list-hover-bg, rgba(0, 0, 0, 0.04));
+	color: var(--beplus-vmn-list-hover-color, inherit);
+	text-decoration: none;
+}
+
+.beplus-vmn-menu-list__link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, currentColor);
+	outline-offset: 2px;
+}
+
+.beplus-vmn-menu-list__label {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.beplus-vmn-menu-list__label--placeholder {
+	color: #9ca3af;
+	font-style: italic;
+	padding: 0.45rem 0.75rem;
+	display: block;
+}
+
+/* ---------- Active / Current Page States ---------- */
+.beplus-vmn-menu-list--active-background .is-current > .beplus-vmn-menu-list__link {
+	background-color: var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))));
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff)))) !important;
+	font-weight: var(--beplus-vmn-list-active-weight, 700);
+}
+
+.beplus-vmn-menu-list--active-background .is-current > .beplus-vmn-menu-list__link:hover {
+	background-color: var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))));
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff)))) !important;
+}
+
+.beplus-vmn-menu-list--active-pill .is-current > .beplus-vmn-menu-list__link {
+	background-color: var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))));
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff)))) !important;
+	font-weight: var(--beplus-vmn-list-active-weight, 700);
+	border-radius: 9999px;
+}
+
+.beplus-vmn-menu-list--active-pill .is-current > .beplus-vmn-menu-list__link:hover {
+	background-color: var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))));
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff)))) !important;
+}
+
+.beplus-vmn-menu-list--active-text .is-current > .beplus-vmn-menu-list__link {
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))) !important;
+	font-weight: var(--beplus-vmn-list-active-weight, 700);
+}
+
+.beplus-vmn-menu-list--active-text .is-current > .beplus-vmn-menu-list__link:hover {
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))) !important;
+}
+
+.beplus-vmn-menu-list--active-left-border .is-current > .beplus-vmn-menu-list__link {
+	border-left: 3px solid var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))));
+	padding-left: 0.85rem;
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff)))) !important;
+	font-weight: var(--beplus-vmn-list-active-weight, 700);
+}
+
+.beplus-vmn-menu-list--active-left-border .is-current > .beplus-vmn-menu-list__link:hover {
+	color: var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff)))) !important;
+}
+
+/* ---------- Badges ---------- */
+.beplus-vmn-menu-list__badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.125rem 0.45rem;
+	border-radius: 9999px;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	line-height: 1.3;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	background: var(--wp--preset--color--primary, #3858e9);
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.beplus-vmn-menu-list__badge--accent {
+	background: var(--wp--preset--color--vivid-red, #cf2e2e);
+	color: #fff;
+}
+
+.beplus-vmn-menu-list__badge--muted {
+	background: #e5e7eb;
+	color: #374151;
+}
+
+.beplus-vmn-menu-list__badge--outline {
+	background: transparent;
+	color: inherit;
+	border: 1px solid currentcolor;
+}
+
+/* ---------- Description ---------- */
+.beplus-vmn-menu-list__description {
+	margin: 0.2rem 0 0 0.75rem;
+	font-size: 0.8125rem;
+	line-height: 1.4;
+	color: #6b7280;
+}
+
+/* ---------- Sequential & Entrance Animation ---------- */
+@keyframes beplusVmnItemFadeUp {
+
+	0% {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item {
+	will-change: transform, opacity;
+}
+
+/* Base state inside mega menu: initially hidden until panel is opened or hovered */
+.has-mega-menu .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.has-mega-menu .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.has-mega-menu .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.has-mega-menu .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item {
+	opacity: 0;
+	transform: translateY(14px);
+}
+
+/* Trigger animation when mega panel is hovered, opened, or during .is-animating */
+.has-mega-menu:hover .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.has-mega-menu:hover .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.beplus-vmn-menu-list--animation-sequential.is-animating .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-sequential.is-animating .beplus-vmn-menu-list__item,
+.beplus-vmn-menu-list--animation-sequential.is-animated .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-sequential.is-animated .beplus-vmn-menu-list__item {
+	animation-name: beplusVmnItemFadeUp;
+	animation-duration: 0.38s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+.has-mega-menu:hover .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.has-mega-menu:hover .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
+.beplus-vmn-menu-list--animation-default.is-animating .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-default.is-animating .beplus-vmn-menu-list__item,
+.beplus-vmn-menu-list--animation-default.is-animated .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-default.is-animated .beplus-vmn-menu-list__item {
+	animation-name: beplusVmnItemFadeUp;
+	animation-duration: 0.38s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+/* Sequential Stagger Delays (1 to 24 items) */
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(1),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(1) {
+	animation-delay: 0.04s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(2),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(2) {
+	animation-delay: 0.08s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(3),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(3) {
+	animation-delay: 0.12s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(4),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(4) {
+	animation-delay: 0.16s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(5),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(5) {
+	animation-delay: 0.2s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(6),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(6) {
+	animation-delay: 0.24s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(7),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(7) {
+	animation-delay: 0.28s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(8),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(8) {
+	animation-delay: 0.32s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(9),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(9) {
+	animation-delay: 0.36s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(10),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(10) {
+	animation-delay: 0.4s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(11),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(11) {
+	animation-delay: 0.44s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(12),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(12) {
+	animation-delay: 0.48s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(13),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(13) {
+	animation-delay: 0.52s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(14),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(14) {
+	animation-delay: 0.56s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(15),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(15) {
+	animation-delay: 0.6s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(16),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(16) {
+	animation-delay: 0.64s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(17),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(17) {
+	animation-delay: 0.68s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(18),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(18) {
+	animation-delay: 0.72s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(19),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(19) {
+	animation-delay: 0.76s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list:nth-child(20) .beplus-vmn-menu-item,
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(20),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(20) {
+	animation-delay: 0.8s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(21),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(21) {
+	animation-delay: 0.84s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(22),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(22) {
+	animation-delay: 0.88s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(23),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(23) {
+	animation-delay: 0.92s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(24),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(24) {
+	animation-delay: 0.96s;
+}
+
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item:nth-child(n+25),
+.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item:nth-child(n+25) {
+	animation-delay: 1s;
+}
+
+/* When Mega Menu is unhovered / closed: reset state */
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-menu-list--animation-sequential:not(.is-animating) .beplus-vmn-menu-item,
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-menu-list--animation-sequential:not(.is-animating) .beplus-vmn-menu-list__item,
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-menu-list--animation-default:not(.is-animating) .beplus-vmn-menu-item,
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-menu-list--animation-default:not(.is-animating) .beplus-vmn-menu-list__item {
+	opacity: 0;
+	transform: translateY(14px);
+	animation: none;
+}
+
+/* Standalone list (not inside a mega menu panel) */
+:not(.beplus-vmn-mega-panel) > .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+:not(.beplus-vmn-mega-panel) > .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+body:not(.beplus-vmn-no-anim) .beplus-vmn-menu-list--animation-sequential:not(.has-mega-menu *) .beplus-vmn-menu-item,
+body:not(.beplus-vmn-no-anim) .beplus-vmn-menu-list--animation-sequential:not(.has-mega-menu *) .beplus-vmn-menu-list__item {
+	animation-name: beplusVmnItemFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+:not(.beplus-vmn-mega-panel) > .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+:not(.beplus-vmn-mega-panel) > .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
+body:not(.beplus-vmn-no-anim) .beplus-vmn-menu-list--animation-default:not(.has-mega-menu *) .beplus-vmn-menu-item,
+body:not(.beplus-vmn-no-anim) .beplus-vmn-menu-list--animation-default:not(.has-mega-menu *) .beplus-vmn-menu-list__item {
+	animation-name: beplusVmnItemFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+/* Block Editor Preview */
+.editor-styles-wrapper .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.editor-styles-wrapper .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item {
+	animation-name: beplusVmnItemFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+.editor-styles-wrapper .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.editor-styles-wrapper .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item {
+	animation-name: beplusVmnItemFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+	.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+	.beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+	.beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+	.beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}

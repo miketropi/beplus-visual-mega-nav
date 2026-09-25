@@ -37,6 +37,15 @@ $layout_mode = isset( $attributes['layoutMode'] ) && 'horizontal' === $attribute
 $extra_class  = 'beplus-vmn-tab-container';
 $extra_class .= ' beplus-vmn-tab-container--' . $layout_mode;
 
+$enable_animation = ! empty( $attributes['enableAnimation'] );
+$animation_style  = ! empty( $attributes['animationStyle'] )
+	? sanitize_key( $attributes['animationStyle'] )
+	: ( ! empty( $attributes['scrollAnimationStyle'] ) ? sanitize_key( $attributes['scrollAnimationStyle'] ) : 'sequential' );
+
+if ( $enable_animation ) {
+	$extra_class .= ' beplus-vmn-tab-container--animation-' . $animation_style;
+}
+
 // Collect colour overrides that will be output as inline CSS custom properties.
 $colour_overrides = [];
 

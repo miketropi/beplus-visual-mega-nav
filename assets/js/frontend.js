@@ -86,6 +86,74 @@
 	}
 
 	/**
+	 * Position custom-width mega panels horizontally relative to their trigger item or screen.
+	 *
+	 * @param {HTMLElement} item  The .has-mega-menu li element.
+	 * @param {HTMLElement} panel The mega panel element.
+	 */
+	function positionCustomPanel(item, panel) {
+		if (!panel || panel.getAttribute('data-width') !== 'custom') {
+			return;
+		}
+
+		if (isAccordionMode() || isOffcanvasMode()) {
+			panel.style.left = '';
+			panel.style.maxWidth = '';
+			return;
+		}
+
+		const position = panel.getAttribute('data-position') || 'item-left';
+		const container =
+			panel.offsetParent ||
+			item.closest('.nextora-header-block') ||
+			document.documentElement;
+
+		const containerRect = container.getBoundingClientRect();
+		const viewportWidth =
+			document.documentElement.clientWidth || window.innerWidth;
+
+		// Determine base intended width (prefer data attribute, fallback to style/offset)
+		const baseWidth =
+			parseInt(panel.getAttribute('data-custom-width'), 10) ||
+			parseInt(panel.style.width, 10) ||
+			panel.offsetWidth ||
+			780;
+
+		// Never allow panel width to exceed viewport width minus safe padding (16px left + 16px right)
+		const maxAllowedWidth = Math.max(280, viewportWidth - 32);
+		const effectiveWidth = Math.min(baseWidth, maxAllowedWidth);
+
+		let left = 0;
+
+		if (position === 'screen-center') {
+			// Exactly in the center of the screen
+			const screenLeft = (viewportWidth - effectiveWidth) / 2;
+			left = screenLeft - containerRect.left;
+		} else if (position === 'item-center') {
+			// Centered with the hovered item
+			const itemRect = item.getBoundingClientRect();
+			const itemCenter = itemRect.left + (itemRect.width / 2);
+			const targetLeftScreen = itemCenter - (effectiveWidth / 2);
+			left = targetLeftScreen - containerRect.left;
+		} else {
+			// Left aligned with the hovered item (current default)
+			const itemRect = item.getBoundingClientRect();
+			left = itemRect.left - containerRect.left;
+		}
+
+		// Calculate min and max allowed left in container coordinates to keep panel strictly within [16, viewportWidth - 16]
+		const minLeft = 16 - containerRect.left;
+		const maxLeft = (viewportWidth - 16 - effectiveWidth) - containerRect.left;
+
+		left = Math.max(minLeft, Math.min(left, maxLeft));
+
+		panel.style.boxSizing = 'border-box';
+		panel.style.maxWidth = `${Math.floor(effectiveWidth)}px`;
+		panel.style.left = `${Math.round(left)}px`;
+		panel.style.right = 'auto';
+	}
+
+	/**
 	 * Get or create the backdrop overlay used in off-canvas mode.
 	 *
 	 * @return {HTMLElement} The overlay element.
@@ -121,9 +189,300 @@
 	}
 
 	/**
+	 * Helper to get only content animation elements (headings, images, buttons, paragraphs) inside a mega panel.
+	 * Strictly excludes beplus menu lists and tab buttons so their CSS animations are completely untouched.
+	 *
+	 * @param {HTMLElement} panel Mega panel element.
+	 * @return {HTMLElement[]} Array of animation elements.
+	 */
+	function getMegaPanelAnimationElements(panel) {
+		if (!panel) return [];
+		return Array.from(
+			panel.querySelectorAll(
+				'[class*="animation-"], [data-nextora-scroll-reveal]'
+			)
+		).filter((el) => {
+			if (
+				el.classList.contains('beplus-vmn-menu-list') ||
+				el.classList.contains('beplus-vmn-menu-item') ||
+				el.classList.contains('beplus-vmn-menu-list__item') ||
+				el.classList.contains('beplus-vmn-tab-container') ||
+				el.classList.contains('beplus-vmn-tab-container__tab') ||
+				el.classList.contains('nextora-event--template4') ||
+				el.classList.contains('nextora-event-compact__item') ||
+				el.closest('.beplus-vmn-menu-list') ||
+				el.closest('.beplus-vmn-tab-container__tablist') ||
+				el.closest('.nextora-event--template4')
+			) {
+				return false;
+			}
+			if (
+				el.closest(
+					'.nextora-box-icon[data-nextora-scroll-reveal-style="sequential"], .nextora-blog-list-carousel[data-nextora-scroll-reveal-style="sequential"]'
+				)
+			) {
+				return false;
+			}
+			const cls = el.className || '';
+			const hasAnimClass =
+				typeof cls === 'string' &&
+				/(?:^|\s)animation-(?:fade|zoom|slide|bounce|flip|rotate)/.test(
+					cls
+				);
+			const hasReveal = el.hasAttribute('data-nextora-scroll-reveal');
+			return hasAnimClass || hasReveal;
+		});
+	}
+
+	/**
+	 * Play fast, synchronized entrance animation for elements with animation-* classes inside a mega panel.
+	 * Eliminates page-scroll delays and prevents blank white waiting states.
+	 *
+	 * @param {HTMLElement} panel Mega panel element.
+	 */
+	function playMegaPanelAnimationClasses(panel) {
+		if (!panel) return;
+
+		const animElements = getMegaPanelAnimationElements(panel);
+		if (!animElements.length) return;
+
+		if (window.gsap) {
+			window.gsap.killTweensOf(animElements);
+			animElements.forEach((el, index) => {
+				el.setAttribute('data-nextora-scroll-animation-init', '1');
+				el.classList.remove('nextora-scroll-animation--pending');
+				el.classList.add('nextora-scroll-animation--ready');
+
+				let fromY = 14;
+				let fromX = 0;
+				let fromScale = 1;
+				const cls = el.className || '';
+				if (cls.includes('animation-fade-in-down')) fromY = -14;
+				else if (cls.includes('animation-fade-in-up')) fromY = 14;
+				else if (cls.includes('animation-fade-in-left')) fromX = -14;
+				else if (cls.includes('animation-fade-in-right')) fromX = 14;
+				else if (cls.includes('animation-zoom-in')) fromScale = 0.94;
+				else if (cls.includes('animation-zoom-out')) fromScale = 1.06;
+
+				// Instant staggered start matching menu list speed (0s, 0.04s, 0.08s...)
+				const delay = Math.min(index * 0.04, 0.24);
+
+				window.gsap.fromTo(
+					el,
+					{
+						opacity: 0,
+						x: fromX,
+						y: fromY,
+						scale: fromScale,
+					},
+					{
+						opacity: 1,
+						x: 0,
+						y: 0,
+						scale: 1,
+						duration: 0.45,
+						delay: delay,
+						ease: 'power2.out',
+						clearProps: 'transform,translate,scale',
+						overwrite: 'auto',
+					}
+				);
+			});
+		} else {
+			// Fallback if GSAP is not available
+			animElements.forEach((el) => {
+				el.setAttribute('data-nextora-scroll-animation-init', '1');
+				el.classList.remove('nextora-scroll-animation--pending');
+				el.classList.add('nextora-scroll-animation--ready');
+				el.style.opacity = '1';
+				el.style.transform = 'none';
+			});
+		}
+	}
+
+	/**
+	 * Trigger / restart sequential entrance animations for all animated lists within a panel.
+	 *
+	 * @param {HTMLElement|null} panel Mega panel element.
+	 */
+	function triggerListAnimations(panel) {
+		if (!panel) return;
+		const lists = panel.querySelectorAll(
+			'.beplus-vmn-menu-list--animation-sequential, .beplus-vmn-menu-list--animation-default, .beplus-vmn-tab-container--animation-sequential, .beplus-vmn-tab-container--animation-default, .nextora-event--animation-sequential, .nextora-event--animation-default, .nextora-box-icon[data-nextora-scroll-reveal-style="sequential"], .nextora-blog-list-carousel[data-nextora-scroll-reveal-style="sequential"]'
+		);
+		lists.forEach((list) => {
+			list.classList.remove('is-animating');
+			// Force DOM reflow so browser restarts the staggered animation cleanly
+			void list.offsetWidth;
+			list.classList.add('is-animating');
+		});
+
+		// Trigger fast synchronized animation for all animated content elements inside panel
+		playMegaPanelAnimationClasses(panel);
+	}
+
+	/**
+	 * Reset sequential animation state when leaving or closing a mega panel.
+	 *
+	 * @param {HTMLElement|null} panel Mega panel element.
+	 */
+	function resetListAnimations(panel) {
+		if (!panel) return;
+		const lists = panel.querySelectorAll(
+			'.beplus-vmn-menu-list--animation-sequential, .beplus-vmn-menu-list--animation-default, .beplus-vmn-tab-container--animation-sequential, .beplus-vmn-tab-container--animation-default, .nextora-event--animation-sequential, .nextora-event--animation-default, .nextora-box-icon[data-nextora-scroll-reveal-style="sequential"], .nextora-blog-list-carousel[data-nextora-scroll-reveal-style="sequential"]'
+		);
+		lists.forEach((list) => {
+			list.classList.remove('is-animating');
+		});
+
+		const animElements = getMegaPanelAnimationElements(panel);
+		if (window.gsap && animElements.length) {
+			window.gsap.killTweensOf(animElements);
+		}
+
+		animElements.forEach((el) => {
+			el.setAttribute('data-nextora-scroll-animation-init', '1');
+			el.classList.remove('nextora-scroll-animation--pending');
+			el.classList.add('nextora-scroll-animation--ready');
+			el.style.opacity = '';
+			el.style.transform = '';
+		});
+	}
+
+	/**
+	 * Observe animated menu lists and tab containers for entrance reveal on scroll.
+	 *
+	 * @param {HTMLElement|Document} root Root to scan.
+	 */
+	function initAnimatedLists(root) {
+		const scope = root || document;
+		const lists = scope.querySelectorAll(
+			'.beplus-vmn-menu-list--animation-sequential, .beplus-vmn-menu-list--animation-default, .beplus-vmn-tab-container--animation-sequential, .beplus-vmn-tab-container--animation-default, .nextora-event--animation-sequential, .nextora-event--animation-default'
+		);
+		if (!lists.length) {
+			return;
+		}
+
+		if (!('IntersectionObserver' in window)) {
+			lists.forEach((list) => list.classList.add('is-animated'));
+			return;
+		}
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-animated');
+						observer.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1 }
+		);
+
+		lists.forEach((list) => {
+			if (!list.closest(MEGA_ITEMS)) {
+				observer.observe(list);
+			}
+		});
+	}
+
+	/**
+	 * Synchronizes active/current menu item state based on window.location.
+	 * Supports relative paths, absolute URLs, query parameters (e.g. ?theme=pumori), and hash anchors.
+	 */
+	function syncActiveMenuItems() {
+		const currentPath =
+			window.location.pathname.replace(/\/+$/, '') || '/';
+		const currentParams = new URLSearchParams(window.location.search);
+		const currentTheme = currentParams.get('theme');
+
+		document.querySelectorAll('.beplus-vmn-menu-list').forEach((list) => {
+			const items = list.querySelectorAll(
+				'.beplus-vmn-menu-item, .beplus-vmn-menu-list__item'
+			);
+			let bestItem = null;
+			let bestScore = -1;
+
+			items.forEach((item) => {
+				const link = item.querySelector(
+					'.beplus-vmn-menu-item__link, .beplus-vmn-menu-list__link'
+				);
+				if (!link) {
+					return;
+				}
+
+				const href = link.getAttribute('href');
+				if (!href || href === '#') {
+					return;
+				}
+
+				try {
+					const targetUrl = new URL(href, window.location.origin);
+					const targetPath =
+						targetUrl.pathname.replace(/\/+$/, '') || '/';
+					const targetParams = new URLSearchParams(targetUrl.search);
+					const targetTheme = targetParams.get('theme');
+
+					if (targetPath !== currentPath) {
+						return;
+					}
+
+					let score = 1;
+					let paramsMatch = true;
+
+					targetParams.forEach((val, key) => {
+						if (currentParams.get(key) !== val) {
+							paramsMatch = false;
+						} else {
+							score += 2;
+						}
+					});
+
+					if (!paramsMatch) {
+						return;
+					}
+
+					// If target has NO theme param, but current URL has a theme param
+					if (!targetTheme && currentTheme) {
+						return;
+					}
+
+					if (score > bestScore) {
+						bestScore = score;
+						bestItem = item;
+					}
+				} catch {
+					// Ignore invalid URLs
+				}
+			});
+
+			if (bestItem) {
+				items.forEach((item) => {
+					if (item !== bestItem) {
+						item.classList.remove(
+							'is-current',
+							'current-menu-item',
+							'current_page_item'
+						);
+						const otherLink = item.querySelector('a');
+						otherLink?.removeAttribute('aria-current');
+					}
+				});
+				bestItem.classList.add('is-current', 'current-menu-item');
+				const bestLink = bestItem.querySelector('a');
+				bestLink?.setAttribute('aria-current', 'page');
+			}
+		});
+	}
+
+	/**
 	 * Initialize mega menu interactions.
 	 */
 	function init() {
+		initAnimatedLists(document);
+		syncActiveMenuItems();
+
 		if (!document.querySelector(MEGA_ITEMS)) {
 			return;
 		}
@@ -131,6 +490,8 @@
 		enhanceItems(document);
 		observeNavClones();
 		bindDelegatedEvents();
+
+		window.addEventListener('popstate', syncActiveMenuItems);
 
 		ACCORDION_MQ.addEventListener('change', () => {
 			closeAll();
@@ -143,6 +504,20 @@
 		OFFCANVAS_MQ.addEventListener('change', () => {
 			closeAll();
 		});
+
+		window.addEventListener('resize', () => {
+			if (isAccordionMode() || isOffcanvasMode()) {
+				return;
+			}
+			document.querySelectorAll(MEGA_ITEMS).forEach((item) => {
+				if (item instanceof HTMLElement) {
+					const panel = getPanel(item);
+					if (panel && panel.getAttribute('data-width') === 'custom') {
+						positionCustomPanel(item, panel);
+					}
+				}
+			});
+		});
 	}
 
 	/**
@@ -151,6 +526,8 @@
 	 * @param {HTMLElement|Document} root Root to scan.
 	 */
 	function enhanceItems(root) {
+		initAnimatedLists(root);
+
 		root.querySelectorAll(MEGA_ITEMS).forEach((item) => {
 			if (!(item instanceof HTMLElement)) {
 				return;
@@ -162,6 +539,20 @@
 
 			item.setAttribute(ENHANCED_ATTR, 'true');
 			setupItem(item);
+
+			const panel = getPanel(item);
+			if (panel) {
+				if (panel.getAttribute('data-width') === 'custom') {
+					positionCustomPanel(item, panel);
+				}
+
+				// Pre-mark all animated content elements inside mega panel as initialized so they are never hidden by CSS
+				getMegaPanelAnimationElements(panel).forEach((el) => {
+					el.setAttribute('data-nextora-scroll-animation-init', '1');
+					el.classList.remove('nextora-scroll-animation--pending');
+					el.classList.add('nextora-scroll-animation--ready');
+				});
+			}
 		});
 	}
 
@@ -191,6 +582,9 @@
 			observer.observe(mount, { childList: true, subtree: true });
 		});
 	}
+
+	/** Track currently hovered mega menu item to prevent redundant animation triggers on child elements */
+	let currentHoveredMegaItem = null;
 
 	/**
 	 * Global delegated handlers — survive DOM clones and dynamic inserts.
@@ -312,10 +706,66 @@
 
 				const megaItem = target.closest(MEGA_ITEMS);
 				if (!megaItem || !(megaItem instanceof HTMLElement)) {
+					if (currentHoveredMegaItem) {
+						const prevPanel = getPanel(currentHoveredMegaItem);
+						if (prevPanel) {
+							resetListAnimations(prevPanel);
+						}
+						currentHoveredMegaItem = null;
+					}
 					return;
 				}
 
+				// If already hovering inside the same mega menu item or its panel, do not re-trigger animations
+				if (megaItem === currentHoveredMegaItem) {
+					return;
+				}
+
+				// Switching from another mega item
+				if (currentHoveredMegaItem) {
+					const prevPanel = getPanel(currentHoveredMegaItem);
+					if (prevPanel) {
+						resetListAnimations(prevPanel);
+					}
+				}
+
+				currentHoveredMegaItem = megaItem;
+
+				const panel = getPanel(megaItem);
+				if (panel) {
+					positionCustomPanel(megaItem, panel);
+					triggerListAnimations(panel);
+				}
+
 				closeAllExcept(megaItem);
+			},
+			true
+		);
+
+		document.addEventListener(
+			'mouseleave',
+			(e) => {
+				if (isAccordionMode() || isOffcanvasMode()) {
+					return;
+				}
+
+				if (!currentHoveredMegaItem) {
+					return;
+				}
+
+				const related = e.relatedTarget;
+				// Only reset when mouse truly exits currentHoveredMegaItem completely
+				if (
+					!related ||
+					!(related instanceof Node) ||
+					!currentHoveredMegaItem.contains(related)
+				) {
+					const panel = getPanel(currentHoveredMegaItem);
+					if (panel) {
+						resetListAnimations(panel);
+					}
+					currentHoveredMegaItem = null;
+				}
 			},
 			true
 		);
@@ -334,6 +784,10 @@
 
 			const panel = getPanel(item);
 			const link = getLink(item);
+
+			if (panel) {
+				resetListAnimations(panel);
+			}
 
 			if (panel?.classList.contains(OPEN_CLASS) && link) {
 				closePanel(panel, link, item);
@@ -527,9 +981,11 @@
 	 * @param {HTMLElement} item  Menu item.
 	 */
 	function openPanel(panel, link, item) {
+		positionCustomPanel(item, panel);
 		panel.classList.add(OPEN_CLASS);
 		item.classList.add(ACCORDION_CLASS);
 		link.setAttribute(ARIA_EXPANDED, 'true');
+		triggerListAnimations(panel);
 
 		if (isOffcanvasMode()) {
 			portalToBody(panel);
@@ -549,6 +1005,12 @@
 		panel.classList.remove(OPEN_CLASS);
 		item.classList.remove(ACCORDION_CLASS);
 		link.setAttribute(ARIA_EXPANDED, 'false');
+		resetListAnimations(panel);
+
+		if (isAccordionMode() || isOffcanvasMode()) {
+			panel.style.left = '';
+			panel.style.maxWidth = '';
+		}
 
 		if (
 			document.activeElement instanceof HTMLElement &&
@@ -605,6 +1067,8 @@
 	 * Close all open mega panels.
 	 */
 	function closeAll() {
+		currentHoveredMegaItem = null;
+
 		document.querySelectorAll(`${MEGA_ITEMS}`).forEach((item) => {
 			if (!(item instanceof HTMLElement)) {
 				return;
@@ -612,6 +1076,10 @@
 
 			const panel = getPanel(item);
 			const link = getLink(item);
+
+			if (panel) {
+				resetListAnimations(panel);
+			}
 
 			if (panel && link) {
 				closePanel(panel, link, item);

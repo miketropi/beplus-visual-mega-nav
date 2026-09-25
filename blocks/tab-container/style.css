@@ -386,3 +386,186 @@
 	opacity: 1;
 	font-weight: 540;
 }
+
+/* ================================================================
+   Sequential & Entrance Animation (Tab Buttons only)
+   ================================================================ */
+
+@keyframes beplusVmnTabFadeUp {
+
+	0% {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row {
+	will-change: transform, opacity;
+}
+
+/* Base state inside mega menu: initially hidden until panel is opened or hovered */
+.has-mega-menu .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.has-mega-menu .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row {
+	opacity: 0;
+	transform: translateY(14px);
+}
+
+/* Trigger animation when mega panel is hovered, opened, or during .is-animating */
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-tab-container--animation-sequential.is-animating .beplus-vmn-tab-container__tab,
+.beplus-vmn-tab-container--animation-sequential.is-animating .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-tab-container--animation-sequential.is-animated .beplus-vmn-tab-container__tab,
+.beplus-vmn-tab-container--animation-sequential.is-animated .beplus-vmn-tab-container__tab-row {
+	animation-name: beplusVmnTabFadeUp;
+	animation-duration: 0.38s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-tab-container--animation-default.is-animating .beplus-vmn-tab-container__tab,
+.beplus-vmn-tab-container--animation-default.is-animating .beplus-vmn-tab-container__tab-row,
+.beplus-vmn-tab-container--animation-default.is-animated .beplus-vmn-tab-container__tab,
+.beplus-vmn-tab-container--animation-default.is-animated .beplus-vmn-tab-container__tab-row {
+	animation-name: beplusVmnTabFadeUp;
+	animation-duration: 0.38s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+/* Sequential Stagger Delays (1 to 24 tabs) */
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(1),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(1) {
+	animation-delay: 0.04s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(2),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(2) {
+	animation-delay: 0.08s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(3),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(3) {
+	animation-delay: 0.12s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(4),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(4) {
+	animation-delay: 0.16s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(5),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(5) {
+	animation-delay: 0.2s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(6),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(6) {
+	animation-delay: 0.24s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(7),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(7) {
+	animation-delay: 0.28s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(8),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(8) {
+	animation-delay: 0.32s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(9),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(9) {
+	animation-delay: 0.36s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(10),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(10) {
+	animation-delay: 0.4s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(11),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(11) {
+	animation-delay: 0.44s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(12),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(12) {
+	animation-delay: 0.48s;
+}
+
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab:nth-child(n+13),
+.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row:nth-child(n+13) {
+	animation-delay: 0.52s;
+}
+
+/* When Mega Menu is unhovered / closed: reset state */
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-sequential:not(.is-animating) .beplus-vmn-tab-container__tab,
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-sequential:not(.is-animating) .beplus-vmn-tab-container__tab-row,
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-default:not(.is-animating) .beplus-vmn-tab-container__tab,
+.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-default:not(.is-animating) .beplus-vmn-tab-container__tab-row {
+	opacity: 0;
+	transform: translateY(14px);
+	animation: none;
+}
+
+/* Standalone list (not inside a mega menu panel) */
+:not(.beplus-vmn-mega-panel) > .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+body:not(.beplus-vmn-no-anim) .beplus-vmn-tab-container--animation-sequential:not(.has-mega-menu *) .beplus-vmn-tab-container__tab {
+	animation-name: beplusVmnTabFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+:not(.beplus-vmn-mega-panel) > .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+body:not(.beplus-vmn-no-anim) .beplus-vmn-tab-container--animation-default:not(.has-mega-menu *) .beplus-vmn-tab-container__tab {
+	animation-name: beplusVmnTabFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+/* Block Editor Preview */
+.editor-styles-wrapper .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.editor-styles-wrapper .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.editor-styles-wrapper .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.editor-styles-wrapper .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row {
+	animation-name: beplusVmnTabFadeUp;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-fill-mode: both;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+	.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+	.beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+	.beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+	.beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}

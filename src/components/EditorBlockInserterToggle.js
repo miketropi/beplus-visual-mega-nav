@@ -47,8 +47,6 @@ export default function EditorBlockInserterToggle({ disabled = false }) {
 					</div>
 					<div className="beplus-vmn-inserter-dropdown__content">
 						<InserterLibrary
-							rootClientId=""
-							isAppender
 							showInserterHelpPanel={false}
 							showMostUsedBlocks={false}
 							__experimentalInitialTab="blocks"

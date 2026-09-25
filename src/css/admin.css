@@ -30,11 +30,11 @@
 .beplus-vmn-modal .components-modal__content {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	height: auto;
 	min-height: 100vh;
 	margin-top: 0;
 	padding: 0;
-	overflow: hidden;
+	overflow: visible;
 	background: var(--wpds-color-bg-surface-neutral-weak, #f0f0f1);
 }
 
@@ -159,7 +159,7 @@
 .beplus-vmn-modal__tabs .components-tab-panel__tab-content {
 	flex: 1 1 auto;
 	min-height: 0;
-	overflow: auto;
+	overflow: visible;
 	padding: 0;
 	background: var(--wpds-color-bg-surface-neutral-weak, #f0f0f1);
 }
@@ -168,7 +168,7 @@
 .beplus-vmn-modal__tabs .components-tab-panel__tab-content:has(.beplus-vmn-isolated-editor) {
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .beplus-vmn-modal__tabs .components-tab-panel__tab-content:focus-visible {
@@ -245,10 +245,8 @@
 	flex-direction: column;
 	flex: 1 1 auto;
 	min-height: 0;
-	height: 100%;
 	border: var(--wpds-border-width-xs, 1px) solid var(--wpds-color-stroke-surface-neutral-weak, #e0e0e0);
 	border-radius: var(--wpds-border-radius-sm, 2px);
-	overflow: hidden;
 	background: var(--wpds-color-bg-surface-neutral-strong, #fff);
 }
 
@@ -297,6 +295,7 @@
 	display: flex;
 	flex: 1 1 auto;
 	min-height: 0;
+	align-items: flex-start;
 }
 
 /* ---------- List view dropdown (toolbar toggle) ---------- */
@@ -443,7 +442,6 @@
 	min-height: 0;
 	display: flex;
 	flex-direction: column;
-	overflow-y: auto;
 	padding: var(--wpds-dimension-padding-lg, 16px);
 	background: #fff;
 }
@@ -463,15 +461,19 @@
 }
 
 .beplus-vmn-editor-sidebar {
-	width: 260px;
+	width: 280px;
 	flex-shrink: 0;
+	position: sticky;
+	top: 16px;
 	display: flex;
 	flex-direction: column;
+	max-height: calc(100vh - 180px);
 	border-left: var(--wpds-border-width-xs, 1px) solid var(--wpds-color-stroke-surface-neutral-weak, #e0e0e0);
 	background: var(--wpds-color-bg-surface-neutral-strong, #fff);
 }
 
 .beplus-vmn-editor-sidebar .interface-complementary-area-header {
+	flex-shrink: 0;
 	padding: var(--wpds-dimension-padding-md, 12px) var(--wpds-dimension-padding-lg, 16px);
 	border-bottom: var(--wpds-border-width-xs, 1px) solid var(--wpds-color-stroke-surface-neutral-weak, #e0e0e0);
 }
@@ -486,12 +488,34 @@
 }
 
 .beplus-vmn-editor-sidebar__content {
-	flex: 1;
+	flex: 1 1 auto;
+	min-height: 0;
 	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+.beplus-vmn-editor-sidebar__content::-webkit-scrollbar {
+	width: 6px;
+}
+
+.beplus-vmn-editor-sidebar__content::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.18);
+	border-radius: 3px;
+}
+
+.beplus-vmn-editor-sidebar__content::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 0, 0, 0.35);
+}
+
+.beplus-vmn-editor-sidebar__content::-webkit-scrollbar-track {
+	background: transparent;
 }
 
 .beplus-vmn-editor-sidebar__content .block-editor-block-inspector {
 	padding: 0;
+	min-height: 0;
 }
 
 /* ---------- Responsive ---------- */
@@ -792,4 +816,19 @@
 .beplus-vmn-modal .block-editor-block-inspector .block-editor-link-control__search-input {
 	min-width: auto;
 	margin: 0;
+}
+
+/* Ensure all blocks, cards, and reveal animations in Mega Menu Builder modal are fully visible */
+.beplus-vmn-modal .editor-styles-wrapper [class*="--reveal-pending"],
+.beplus-vmn-modal .editor-styles-wrapper [data-nextora-scroll-reveal],
+.beplus-vmn-modal .editor-styles-wrapper .nextora-blc__card,
+.beplus-vmn-modal .editor-styles-wrapper .nextora-blc__header,
+.beplus-vmn-modal .editor-styles-wrapper .nextora-blc__carousel-root,
+.beplus-vmn-modal .editor-styles-wrapper .nextora-event-compact__item,
+.beplus-vmn-modal .editor-styles-wrapper .nextora-box-icon__card,
+.beplus-vmn-modal .editor-styles-wrapper .nextora-box-icon__ways-row {
+	opacity: 1 !important;
+	transform: none !important;
+	animation: none !important;
+	visibility: visible !important;
 }

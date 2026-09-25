@@ -29,6 +29,18 @@
 		"indicatorColor": {
 			"type": "string",
 			"default": ""
+		},
+		"enableAnimation": {
+			"type": "boolean",
+			"default": false
+		},
+		"animationStyle": {
+			"type": "string",
+			"default": "sequential"
+		},
+		"scrollAnimationStyle": {
+			"type": "string",
+			"default": "sequential"
 		}
 	}
 }

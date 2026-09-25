@@ -1,0 +1,27 @@
+/**
+ * Menu Item block — editor styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+.wp-block-beplus-visual-mega-nav-menu-item .beplus-vmn-menu-item__link {
+	cursor: default;
+}
+
+.wp-block-beplus-visual-mega-nav-menu-item .beplus-vmn-menu-item__label--placeholder {
+	outline: 1px dashed rgba(0, 0, 0, 0.15);
+	background: rgba(0, 0, 0, 0.02);
+	border-radius: 4px;
+}
+
+/* Active highlight preview inside editor */
+.beplus-vmn-menu-list.is-previewing-active
+.wp-block-beplus-visual-mega-nav-menu-item:first-child
+.beplus-vmn-menu-item__link,
+.wp-block-beplus-visual-mega-nav-menu-item
+.beplus-vmn-menu-item.is-current
+.beplus-vmn-menu-item__link {
+	background-color: var(--beplus-vmn-item-active-bg, var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))))) !important;
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+	font-weight: var(--beplus-vmn-item-active-weight, var(--beplus-vmn-list-active-weight, 700)) !important;
+}

@@ -9,6 +9,9 @@ scripts
 .codegraph
 .cursor
 .opencode
+.agents
+.codex
+TASK_LOG.md
 .husky
 .mcp.json
 .nvmrc
