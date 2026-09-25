@@ -21,7 +21,13 @@ import {
 	useBlockProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, ColorPalette } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	ColorPalette,
+	ToggleControl,
+	Button,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 const ALLOWED_BLOCKS = ['beplus-visual-mega-nav/tab-panel'];
@@ -170,15 +176,30 @@ function ChevronDownIcon() {
  */
 
 export default function Edit({ attributes, setAttributes, clientId }) {
-	const { layoutMode = 'vertical', indicatorColor = '' } = attributes;
+	const {
+		layoutMode = 'vertical',
+		indicatorColor = '',
+		enableAnimation = false,
+		animationStyle = 'sequential',
+		scrollAnimationStyle = 'sequential',
+	} = attributes;
 
 	const [activeTab, setActiveTab] = useState(0);
+	const [animKey, setAnimKey] = useState(0);
+	const triggerEditorPreview = () => setAnimKey((k) => k + 1);
 	const contentRef = useRef(null);
 
 	const isHorizontal = layoutMode === 'horizontal';
 	const blockProps = useBlockProps({
-		className:
-			'beplus-vmn-tab-container beplus-vmn-tab-container--' + layoutMode,
+		className: [
+			'beplus-vmn-tab-container',
+			'beplus-vmn-tab-container--' + layoutMode,
+			enableAnimation
+				? `beplus-vmn-tab-container--animation-${animationStyle || scrollAnimationStyle || 'sequential'}`
+				: '',
+		]
+			.filter(Boolean)
+			.join(' '),
 		style: indicatorColor
 			? {
 					'--beplus-vmn-tab-text-color': indicatorColor,
@@ -435,9 +456,90 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						)}
 					</p>
 				</PanelBody>
+
+				<PanelBody
+					title={__('Animation', 'beplus-visual-mega-nav')}
+					initialOpen={Boolean(enableAnimation)}
+				>
+					<ToggleControl
+						label={__(
+							'Enable Sequential Animation',
+							'beplus-visual-mega-nav'
+						)}
+						help={__(
+							'Sequential: tabs appear one by one with a gentle upward motion.',
+							'beplus-visual-mega-nav'
+						)}
+						checked={Boolean(enableAnimation)}
+						onChange={(val) => {
+							setAttributes({ enableAnimation: val });
+							if (val) {
+								triggerEditorPreview();
+							}
+						}}
+					/>
+
+					{enableAnimation && (
+						<>
+							<SelectControl
+								label={__(
+									'Animation Style',
+									'beplus-visual-mega-nav'
+								)}
+								value={
+									animationStyle ||
+									scrollAnimationStyle ||
+									'sequential'
+								}
+								options={[
+									{
+										label: __(
+											'Sequential (Tabs appear one by one)',
+											'beplus-visual-mega-nav'
+										),
+										value: 'sequential',
+									},
+									{
+										label: __(
+											'Fade Up (All tabs together)',
+											'beplus-visual-mega-nav'
+										),
+										value: 'default',
+									},
+								]}
+								onChange={(val) => {
+									setAttributes({
+										animationStyle: val,
+										scrollAnimationStyle: val,
+									});
+									triggerEditorPreview();
+								}}
+								help={__(
+									'Default: all tab buttons fade up together. Sequential: tab buttons appear one by one with a gentle upward motion.',
+									'beplus-visual-mega-nav'
+								)}
+							/>
+
+							<Button
+								variant="secondary"
+								onClick={triggerEditorPreview}
+								style={{
+									width: '100%',
+									justifyContent: 'center',
+									marginTop: '8px',
+								}}
+							>
+								{__(
+									'▶ Replay Animation',
+									'beplus-visual-mega-nav'
+								)}
+							</Button>
+						</>
+					)}
+				</PanelBody>
 			</InspectorControls>
 
-			<div {...blockProps}>
+			<div {...blockProps} key={animKey}>
 				{isHorizontal ? (
 					<div className="beplus-vmn-tab-container__tablist">
 						<span

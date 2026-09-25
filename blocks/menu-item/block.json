@@ -1,0 +1,121 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "beplus-visual-mega-nav/menu-item",
+	"title": "Menu Item",
+	"category": "beplus-vmn",
+	"description": "Mega menu navigation item with automatic current-page detection and active state styling.",
+	"keywords": [ "menu", "link", "navigation", "item", "mega menu" ],
+	"textdomain": "beplus-visual-mega-nav",
+	"icon": "list-view",
+	"style": "file:./style.css",
+	"editorStyle": [ "file:./editor.css", "file:./style.css" ],
+	"render": "file:./render.php",
+	"editorScript": "file:../../build/blocks.js",
+	"usesContext": [
+		"beplus-visual-mega-nav/activeStyle",
+		"beplus-visual-mega-nav/activeBgColor",
+		"beplus-visual-mega-nav/activeTextColor",
+		"beplus-visual-mega-nav/activeFontWeight",
+		"beplus-visual-mega-nav/hoverBgColor",
+		"beplus-visual-mega-nav/hoverTextColor",
+		"beplus-visual-mega-nav/highlightCurrent",
+		"beplus-visual-mega-nav/previewActive",
+		"beplus-visual-mega-nav/itemPaddingVertical",
+		"beplus-visual-mega-nav/itemPaddingHorizontal"
+	],
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": true,
+		"spacing": {
+			"padding": false,
+			"margin": false
+		},
+		"typography": {
+			"fontSize": false,
+			"lineHeight": false,
+			"fontWeight": false
+		}
+	},
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		},
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"id": {
+			"type": "number",
+			"default": 0
+		},
+		"kind": {
+			"type": "string",
+			"default": ""
+		},
+		"type": {
+			"type": "string",
+			"default": ""
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"rel": {
+			"type": "string",
+			"default": ""
+		},
+		"isCustomLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"badge": {
+			"type": "string",
+			"default": ""
+		},
+		"badgePosition": {
+			"type": "string",
+			"default": "top"
+		},
+		"badgeBgColor": {
+			"type": "string",
+			"default": "#f59e0b"
+		},
+		"badgeTextColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"highlightCurrent": {
+			"type": "boolean",
+			"default": true
+		},
+		"activeStyle": {
+			"type": "string",
+			"default": "background"
+		},
+		"activeBgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"activeTextColor": {
+			"type": "string",
+			"default": ""
+		},
+		"activeFontWeight": {
+			"type": "string",
+			"default": "700"
+		},
+		"hoverBgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}

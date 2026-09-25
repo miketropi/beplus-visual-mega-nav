@@ -2,6 +2,22 @@
 
 Use this file when changing code under `wp-content/plugins/beplus-visual-mega-nav/`. Full architecture: [`docs/AGENT.md`](./docs/AGENT.md). User-facing overview: `README.md`.
 
+## Codex project rules and skills
+
+Before working in this plugin, read and follow [plan/build rules](.agents/rules/plan-build.md) and [task logging rules](.agents/rules/task-log.md). These are project instructions linked from this entrypoint, not shell execution-policy files. Keep task logs in this plugin's `TASK_LOG.md`.
+
+Project skills live in `.agents/skills/`. Read the matching `SKILL.md` when its workflow applies; do not load every skill for every task. If a skill is not listed in the current session's skill catalog, read its linked file directly.
+
+| Skill | When to use |
+|-------|-------------|
+| [plan](.agents/skills/plan/SKILL.md) | `/plan` or explicit discussion before implementation; read-only |
+| [build](.agents/skills/build/SKILL.md) | `/build`, an approved plan, or a direct implementation request |
+| [gutenberg-block-standard](.agents/skills/gutenberg-block-standard/SKILL.md) | Plugin block, template, Global Styles, or editor/frontend consistency changes |
+| [browser-use](.agents/skills/browser-use/SKILL.md) | Explicitly requested browser automation, screenshots, or browser verification |
+| [sync-live-home-content](.agents/skills/sync-live-home-content/SKILL.md) | Explicit AlonePro homepage image sync or text comparison; not routine plugin work |
+
+These workflows are adapted from the parent workspace's `.agents` for this plugin. Use this project's paths and available commands. Keep code and repository documentation in English; respond in the user's language. Direct implementation requests authorize execution without requiring a separate `/plan` turn.
+
 ## What this plugin is
 
 A WordPress plugin that adds a **Gutenberg-powered mega menu builder** to **Appearance → Menus**. Top-level (`depth-0`) menu items can get a visual block-editor panel instead of a standard sub-menu.

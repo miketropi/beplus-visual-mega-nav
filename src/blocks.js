@@ -8,6 +8,8 @@
 
 import { registerCoreBlocks } from '@wordpress/block-library';
 import './blocks/link-item';
+import './blocks/menu-item';
+import './blocks/menu-list';
 import './blocks/beplus-header';
 import './blocks/beplus-navigation';
 import './blocks/nav-menu-area';

@@ -7,6 +7,7 @@
 import {
 	ToggleControl,
 	SelectControl,
+	TextControl,
 	Panel,
 	PanelBody,
 	PanelRow,
@@ -54,12 +55,88 @@ export default function SettingsPanel({
 			</PanelBody>
 
 			<PanelBody
-				title={__('Appearance', 'beplus-visual-mega-nav')}
-				initialOpen={false}
+				title={__('Appearance & Layout', 'beplus-visual-mega-nav')}
+				initialOpen={true}
 			>
 				<SelectControl
+					label={__('Panel Width', 'beplus-visual-mega-nav')}
+					value={settings.width === 'custom' ? 'custom' : 'full'}
+					options={[
+						{
+							label: __(
+								'Fixed / Custom Width',
+								'beplus-visual-mega-nav'
+							),
+							value: 'custom',
+						},
+						{
+							label: __(
+								'Full Width (100%)',
+								'beplus-visual-mega-nav'
+							),
+							value: 'full',
+						},
+					]}
+					onChange={(val) => update('width', val)}
+					disabled={!enabled}
+				/>
+
+				{settings.width === 'custom' && (
+					<>
+						<TextControl
+							label={__(
+								'Custom Width (px)',
+								'beplus-visual-mega-nav'
+							)}
+							type="number"
+							min={200}
+							max={2400}
+							step={10}
+							value={settings.customWidth || 780}
+							onChange={(val) =>
+								update('customWidth', parseInt(val, 10) || 780)
+							}
+							disabled={!enabled}
+						/>
+
+						<SelectControl
+							label={__(
+								'Panel Position',
+								'beplus-visual-mega-nav'
+							)}
+							value={settings.position || 'item-left'}
+							options={[
+								{
+									label: __(
+										'Center of Screen',
+										'beplus-visual-mega-nav'
+									),
+									value: 'screen-center',
+								},
+								{
+									label: __(
+										'Left Aligned with Menu Item',
+										'beplus-visual-mega-nav'
+									),
+									value: 'item-left',
+								},
+								{
+									label: __(
+										'Centered with Menu Item',
+										'beplus-visual-mega-nav'
+									),
+									value: 'item-center',
+								},
+							]}
+							onChange={(val) => update('position', val)}
+							disabled={!enabled}
+						/>
+					</>
+				)}
+
+				<SelectControl
 					label={__('Open Animation', 'beplus-visual-mega-nav')}
-					value={settings.animation}
+					value={settings.animation || 'fade'}
 					options={[
 						{
 							label: __('Fade', 'beplus-visual-mega-nav'),

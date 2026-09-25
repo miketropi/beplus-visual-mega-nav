@@ -6,7 +6,6 @@
 
 import { escapeHTML } from '@wordpress/escape-html';
 import { safeDecodeURI } from '@wordpress/url';
-import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
 export const LINK_CONTROL_SETTINGS = [
@@ -24,36 +23,27 @@ export const LINK_CONTROL_SETTINGS = [
  * @return {Object} suggestionsQuery for LinkControl.
  */
 export function getSuggestionsQuery(type, kind) {
-	let query;
+	const perPage = 20;
 
 	switch (type) {
 		case 'post':
 		case 'page':
-			query = { type: 'post', subtype: type, perPage: 20 };
-			break;
+			return { type: 'post', subtype: type, perPage };
+		case 'category':
+			return { type: 'term', subtype: 'category', perPage };
+		case 'tag':
+			return { type: 'term', subtype: 'post_tag', perPage };
+		case 'post_format':
+			return { type: 'post-format', perPage };
 		default:
-			if (kind === 'post-type' && type) {
-				query = { type: 'post', subtype: type, perPage: 20 };
-				break;
+			if (kind === 'taxonomy') {
+				return { type: 'term', subtype: type, perPage };
 			}
-
-			// No link yet — search pages and posts; show recent pages first.
-			query = {
-				type: 'post',
-				perPage: 20,
-				initialSuggestionsSearchOptions: {
-					type: 'post',
-					subtype: 'page',
-					perPage: 20,
-				},
-			};
-			break;
+			if (kind === 'post-type') {
+				return { type: 'post', subtype: type, perPage };
+			}
+			return {};
 	}
-
-	return applyFilters('beplus-vmn.link-item-suggestions-query', query, {
-		type,
-		kind,
-	});
 }
 
 /**

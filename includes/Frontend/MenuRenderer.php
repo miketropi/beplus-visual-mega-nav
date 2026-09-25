@@ -164,6 +164,10 @@ final class MenuRenderer {
 				$classes[] = 'has-mega-menu';
 				// Allows theme mobile nav toggles / accordion styling (e.g. Nextora).
 				$classes[] = 'menu-item-has-children';
+
+				$settings  = json_decode( (string) ( MetaKeys::get( $item->ID, MetaKeys::SETTINGS ) ?: '{}' ), true );
+				$width     = is_array( $settings ) ? ( $settings['width'] ?? 'container' ) : 'container';
+				$classes[] = 'has-mega-menu--' . sanitize_html_class( (string) $width );
 			}
 		}
 

@@ -1,0 +1,112 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "beplus-visual-mega-nav/menu-list",
+	"title": "Menu List",
+	"category": "beplus-vmn",
+	"description": "Navigation list for mega menus with an 'Add Item' button, current-page detection, and active highlight styling.",
+	"keywords": [ "menu", "list", "navigation", "links", "mega menu" ],
+	"textdomain": "beplus-visual-mega-nav",
+	"icon": "list-view",
+	"style": "file:./style.css",
+	"editorStyle": [ "file:./editor.css", "file:./style.css" ],
+	"render": "file:./render.php",
+	"editorScript": "file:../../build/blocks.js",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"reusable": false,
+		"multiple": true,
+		"className": true,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"attributes": {
+		"itemGap": {
+			"type": "number",
+			"default": 4
+		},
+		"highlightCurrent": {
+			"type": "boolean",
+			"default": true
+		},
+		"activeStyle": {
+			"type": "string",
+			"default": "background"
+		},
+		"activeBgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"activeTextColor": {
+			"type": "string",
+			"default": ""
+		},
+		"activeFontWeight": {
+			"type": "string",
+			"default": "700"
+		},
+		"hoverBgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": ""
+		},
+		"previewActive": {
+			"type": "boolean",
+			"default": false
+		},
+		"paddingVertical": {
+			"type": "number",
+			"default": 0
+		},
+		"paddingHorizontal": {
+			"type": "number",
+			"default": 0
+		},
+		"itemPaddingVertical": {
+			"type": "number",
+			"default": 7
+		},
+		"itemPaddingHorizontal": {
+			"type": "number",
+			"default": 12
+		},
+		"enableAnimation": {
+			"type": "boolean",
+			"default": false
+		},
+		"animationStyle": {
+			"type": "string",
+			"default": "sequential"
+		},
+		"scrollAnimationStyle": {
+			"type": "string",
+			"default": "sequential"
+		}
+	},
+	"providesContext": {
+		"beplus-visual-mega-nav/activeStyle": "activeStyle",
+		"beplus-visual-mega-nav/activeBgColor": "activeBgColor",
+		"beplus-visual-mega-nav/activeTextColor": "activeTextColor",
+		"beplus-visual-mega-nav/activeFontWeight": "activeFontWeight",
+		"beplus-visual-mega-nav/hoverBgColor": "hoverBgColor",
+		"beplus-visual-mega-nav/hoverTextColor": "hoverTextColor",
+		"beplus-visual-mega-nav/highlightCurrent": "highlightCurrent",
+		"beplus-visual-mega-nav/previewActive": "previewActive",
+		"beplus-visual-mega-nav/itemPaddingVertical": "itemPaddingVertical",
+		"beplus-visual-mega-nav/itemPaddingHorizontal": "itemPaddingHorizontal"
+	}
+}

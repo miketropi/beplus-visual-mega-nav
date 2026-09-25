@@ -1,0 +1,182 @@
+/**
+ * Menu Item block — frontend styles.
+ *
+ * @package Beplus\VisualMegaNav
+ */
+
+.beplus-vmn-menu-item {
+	display: block;
+	margin: 0;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.beplus-vmn-menu-item--has-badge-top {
+	margin-top: 0.35rem;
+}
+
+.beplus-vmn-menu-item--has-badge-top:first-child {
+	margin-top: 0.5rem;
+}
+
+
+.beplus-vmn-menu-item .beplus-vmn-menu-item__link,
+.beplus-vmn-menu-list .beplus-vmn-menu-item__link,
+.beplus-vmn-menu-item__link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	padding:
+		var(--beplus-vmn-item-padding-v, var(--beplus-vmn-list-item-padding-v, 7px))
+		var(--beplus-vmn-item-padding-h, var(--beplus-vmn-list-item-padding-h, 12px)) !important;
+	border-radius: 4px;
+	color: inherit;
+	text-decoration: none;
+	font-weight: 500;
+	line-height: 1.4;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.beplus-vmn-menu-item__link:hover {
+	background-color: var(--beplus-vmn-item-hover-bg, var(--beplus-vmn-list-hover-bg, rgba(0, 0, 0, 0.04)));
+	color: var(--beplus-vmn-item-hover-color, var(--beplus-vmn-list-hover-color, inherit));
+	text-decoration: none;
+}
+
+.beplus-vmn-menu-item__link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, currentColor);
+	outline-offset: 2px;
+}
+
+.beplus-vmn-menu-item__label-wrap {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	max-width: 100%;
+}
+
+.beplus-vmn-menu-item__label {
+	flex: 0 1 auto;
+}
+
+.beplus-vmn-menu-item__label--placeholder {
+	color: #9ca3af;
+	font-style: italic;
+	padding: 0.45rem 0.75rem;
+	display: block;
+}
+
+/* ---------- Active / Current Page States ---------- */
+.beplus-vmn-menu-list--active-background .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-background > .beplus-vmn-menu-item__link {
+	background-color: var(--beplus-vmn-item-active-bg, var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))));
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+	font-weight: var(--beplus-vmn-item-active-weight, var(--beplus-vmn-list-active-weight, 700));
+}
+
+.beplus-vmn-menu-list--active-background .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link:hover,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-background > .beplus-vmn-menu-item__link:hover {
+	background-color: var(--beplus-vmn-item-active-bg, var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))));
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+}
+
+.beplus-vmn-menu-list--active-pill .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-pill > .beplus-vmn-menu-item__link {
+	background-color: var(--beplus-vmn-item-active-bg, var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))));
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+	font-weight: var(--beplus-vmn-item-active-weight, var(--beplus-vmn-list-active-weight, 700));
+	border-radius: 9999px;
+}
+
+.beplus-vmn-menu-list--active-pill .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link:hover,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-pill > .beplus-vmn-menu-item__link:hover {
+	background-color: var(--beplus-vmn-item-active-bg, var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))));
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+}
+
+.beplus-vmn-menu-list--active-text .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-text > .beplus-vmn-menu-item__link {
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))))) !important;
+	font-weight: var(--beplus-vmn-item-active-weight, var(--beplus-vmn-list-active-weight, 700));
+}
+
+.beplus-vmn-menu-list--active-text .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link:hover,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-text > .beplus-vmn-menu-item__link:hover {
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600))))) !important;
+}
+
+.beplus-vmn-menu-list--active-left-border .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-left-border > .beplus-vmn-menu-item__link {
+	border-left: 3px solid var(--beplus-vmn-item-active-bg, var(--beplus-vmn-list-active-bg, var(--nextora-header-button-bg, var(--nextora-button-bg, var(--wp--preset--color--primary, #ffe600)))));
+	padding-left: 0.85rem;
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+	font-weight: var(--beplus-vmn-item-active-weight, var(--beplus-vmn-list-active-weight, 700));
+}
+
+.beplus-vmn-menu-list--active-left-border .beplus-vmn-menu-item.is-current > .beplus-vmn-menu-item__link:hover,
+.beplus-vmn-menu-item.is-current.beplus-vmn-menu-item--active-left-border > .beplus-vmn-menu-item__link:hover {
+	color: var(--beplus-vmn-item-active-color, var(--beplus-vmn-list-active-color, var(--nextora-header-button-color, var(--nextora-button-color, var(--wp--preset--color--base, #fff))))) !important;
+}
+
+/* ---------- Badges (Speech-Bubble Tag style matching design) ---------- */
+.beplus-vmn-menu-item__badge {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1px 5px 2px;
+	border-radius: 2px;
+	font-size: 9px;
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	background-color: var(--beplus-vmn-item-badge-bg, #f59e0b);
+	color: var(--beplus-vmn-item-badge-color, #fff);
+	flex-shrink: 0;
+	pointer-events: none;
+	user-select: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.beplus-vmn-menu-item__badge::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 5px;
+	width: 0;
+	height: 0;
+	border-top: 4px solid var(--beplus-vmn-item-badge-bg, #f59e0b);
+	border-right: 4px solid transparent;
+}
+
+/* Top Position: Sits above the text label with tail pointing down */
+.beplus-vmn-menu-item__badge--top {
+	position: absolute;
+	bottom: calc(100% - 1px);
+	right: -24px;
+	z-index: 2;
+}
+
+.beplus-vmn-menu-item__badge--top::after {
+	top: 100%;
+	left: 5px;
+	border-top: 4px solid var(--beplus-vmn-item-badge-bg, #f59e0b);
+	border-right: 4px solid transparent;
+}
+
+
+/* Inline Position: Sits right beside the text label */
+.beplus-vmn-menu-item__badge--inline {
+	position: relative;
+	margin-left: 8px;
+	vertical-align: middle;
+	transform: translateY(-1px);
+}
+
+.beplus-vmn-menu-item__badge--inline::after {
+	display: none;
+}

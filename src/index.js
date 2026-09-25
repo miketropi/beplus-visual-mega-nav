@@ -15,6 +15,8 @@ import MegaMenuApp from './components/MegaMenuApp';
 
 import './css/admin.css';
 import './blocks/link-item';
+import './blocks/menu-item';
+import './blocks/menu-list';
 import './blocks/beplus-header';
 import './blocks/beplus-navigation';
 import './blocks/nav-menu-area';

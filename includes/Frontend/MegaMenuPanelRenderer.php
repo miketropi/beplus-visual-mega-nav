@@ -47,15 +47,20 @@ final class MegaMenuPanelRenderer {
 			$settings = [];
 		}
 
-		$width     = $settings['width'] ?? 'container';
-		$custom_w  = intval( $settings['customWidth'] ?? 1200 );
+		$width     = $settings['width'] ?? 'full';
+		$custom_w  = intval( $settings['customWidth'] ?? 780 );
+		$position  = sanitize_key( $settings['position'] ?? 'item-left' );
 		$bg_color  = sanitize_hex_color( $settings['bgColor'] ?? '' ) ?: '';
 		$animation = $settings['animation'] ?? 'fade';
 
 		$inline_styles = self::build_inline_styles( $width, $custom_w, $bg_color );
 
 		$output .= sprintf(
-			'<div class="beplus-vmn-mega-panel" data-animation="%s" style="%s" role="region" aria-label="%s">',
+			'<div class="beplus-vmn-mega-panel beplus-vmn-mega-panel--%s" data-width="%s" data-custom-width="%d" data-position="%s" data-animation="%s" style="%s" role="region" aria-label="%s">',
+			esc_attr( $width ),
+			esc_attr( $width ),
+			$custom_w,
+			esc_attr( $position ),
 			esc_attr( $animation ),
 			esc_attr( $inline_styles ),
 			esc_attr(
@@ -86,15 +91,13 @@ final class MegaMenuPanelRenderer {
 		$styles = [];
 
 		switch ( $width ) {
-			case 'full':
-				$styles[] = 'width:100vw;left:50%;transform:translateX(-50%)';
-				break;
 			case 'custom':
-				$styles[] = sprintf( 'width:%dpx;max-width:100vw', $custom_w );
+				$styles[] = sprintf( 'width:%dpx;max-width:min(100%%, calc(100vw - 32px));box-sizing:border-box', $custom_w );
 				break;
+			case 'full':
 			case 'container':
 			default:
-				$styles[] = 'width:100%';
+				$styles[] = 'width:100%;left:0;right:0;box-sizing:border-box';
 				break;
 		}
 

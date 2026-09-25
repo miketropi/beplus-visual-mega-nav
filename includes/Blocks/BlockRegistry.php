@@ -31,6 +31,8 @@ final class BlockRegistry {
 	 */
 	public function register_blocks(): void {
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/link-item' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/menu-item' );
+		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/menu-list' );
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/beplus-header' );
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/beplus-navigation' );
 		register_block_type( BEPLUS_VISUAL_MEGA_NAV_DIR . 'blocks/nav-menu-area' );

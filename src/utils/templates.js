@@ -9,22 +9,32 @@ import apiFetch from '@wordpress/api-fetch';
 export const TEMPLATE_EXPORT_VERSION = '1.0.0';
 
 const DEFAULT_SETTINGS = {
-	width: 'container',
+	width: 'full',
+	customWidth: 780,
+	position: 'item-left',
 	bgColor: '',
 	animation: 'fade',
 };
 
 /**
- * Normalize panel settings (container width only).
+ * Normalize panel settings.
  *
  * @param {Object} settings Raw settings.
  * @return {Object} Sanitized settings.
  */
 export function normalizeSettings(settings = {}) {
 	const merged = { ...DEFAULT_SETTINGS, ...settings };
+	const width = merged.width === 'custom' ? 'custom' : 'full';
+	const customWidth = Number.parseInt(merged.customWidth, 10) || 780;
+	const allowedPositions = ['item-left', 'screen-center', 'item-center'];
+	const position = allowedPositions.includes(merged.position)
+		? merged.position
+		: 'item-left';
 
 	return {
-		width: 'container',
+		width,
+		customWidth,
+		position,
 		bgColor: merged.bgColor ?? '',
 		animation: merged.animation ?? 'fade',
 	};

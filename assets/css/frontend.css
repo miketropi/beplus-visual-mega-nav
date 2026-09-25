@@ -35,6 +35,7 @@
 
 /* ---------- Mega panel (shared) ---------- */
 .beplus-vmn-mega-panel {
+	box-sizing: border-box;
 	background: var(--beplus-vmn-mega-bg);
 	border-radius: var(--beplus-vmn-mega-radius);
 	transition:
@@ -46,6 +47,7 @@
 
 .beplus-vmn-mega-panel__inner {
 	margin: 0 auto;
+	box-sizing: border-box;
 }
 
 /* Block content: prevent horizontal overflow in narrow viewports */
@@ -59,10 +61,16 @@
 /* ---------- Desktop flyout (≥1024px) ---------- */
 @media (min-width: 1024px) {
 
+	.has-mega-menu:hover,
+	.has-mega-menu:focus-within {
+		z-index: 10;
+	}
+
 	.beplus-vmn-mega-panel {
 		position: absolute;
 		top: 100%;
 		left: 0;
+		box-sizing: border-box;
 		z-index: var(--beplus-vmn-mega-z);
 		box-shadow: var(--beplus-vmn-mega-shadow);
 		opacity: 0;
@@ -70,25 +78,51 @@
 		pointer-events: none;
 	}
 
+	.beplus-vmn-mega-panel--full,
+	.beplus-vmn-mega-panel[data-width="full"],
+	.beplus-vmn-mega-panel[data-width="container"] {
+		left: 0;
+		right: 0;
+		width: 100%;
+	}
+
 	.has-mega-menu:hover > .beplus-vmn-mega-panel,
+	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel,
 	.beplus-vmn-mega-panel.is-open {
 		opacity: 1;
 		visibility: visible;
 		pointer-events: auto;
 	}
 
+	/* Disable pointer events immediately when not hovered */
+	.has-mega-menu:not(:hover):not(.beplus-vmn--open) > .beplus-vmn-mega-panel,
+	.has-mega-menu:not(:hover):not(.beplus-vmn--open) > .beplus-vmn-mega-panel::before {
+		pointer-events: none !important;
+	}
+
+	/* Instantly hide unhovered mega panels when another menu item is hovered (no dual-panel overlap/flicker) */
+	/* stylelint-disable max-line-length */
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu:not(:hover) > .beplus-vmn-mega-panel,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu:not(:hover) > .beplus-vmn-mega-panel::before,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu:not(:focus-within) > .beplus-vmn-mega-panel,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu:not(:focus-within) > .beplus-vmn-mega-panel::before {
+		opacity: 0 !important;
+		visibility: hidden !important;
+		transition: none !important;
+		pointer-events: none !important;
+		transform: none !important;
+	}
+	/* stylelint-enable max-line-length */
+
 	/* Invisible bridge for pointer travel from link to panel */
-	.has-mega-menu:hover::after,
-	.has-mega-menu:focus-within::after {
+	.beplus-vmn-mega-panel::before {
 		content: "";
 		position: absolute;
-		width: 100%;
-		height: 100%;
+		bottom: 100%;
 		left: 0;
-		top: 100%;
-		transform: translateY(-100%);
-
-		/* z-index: -1; */
+		right: 0;
+		height: 40px;
+		pointer-events: auto;
 	}
 
 	.has-mega-menu > a {
@@ -96,13 +130,31 @@
 		z-index: 1;
 	}
 
+	/* Open Animations */
+	.beplus-vmn-mega-panel[data-animation="none"] {
+		transition: none !important;
+		transform: none !important;
+	}
+
+	.beplus-vmn-mega-panel[data-animation="fade"] {
+		transform: none;
+	}
+
 	.beplus-vmn-mega-panel[data-animation="slide"] {
-		transform: translateY(-8px);
+		transform: translateY(-10px);
 	}
 
 	.has-mega-menu:hover > .beplus-vmn-mega-panel[data-animation="slide"],
+	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel[data-animation="slide"],
 	.beplus-vmn-mega-panel[data-animation="slide"].is-open {
 		transform: translateY(0);
+	}
+
+	/* Ensure all content inside open mega panels is visible and not blocked by scroll-reveal initial opacity */
+	.has-mega-menu:hover > .beplus-vmn-mega-panel [class*="animation-"],
+	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel [class*="animation-"],
+	.beplus-vmn-mega-panel.is-open [class*="animation-"] {
+		visibility: visible;
 	}
 
 	.beplus-vmn-toggle {
@@ -338,8 +390,9 @@
 	position: static !important;
 }
 
-.nextora-header-block .nextora-header-menu > li.has-mega-menu:hover {
-	z-index: 1;
+.nextora-header-block .nextora-header-menu > li.has-mega-menu:hover,
+.nextora-header-block .nextora-header-menu > li.has-mega-menu:focus-within {
+	z-index: 10;
 }
 
 /* Mobile drawer: accordion layout for mega items */
@@ -393,3 +446,9 @@
 	}
 	/* stylelint-enable max-line-length */
 }
+
+/* ---------- Mega panel: Custom / Fixed Width ---------- */
+.beplus-vmn-mega-panel--custom .beplus-vmn-mega-panel__inner {
+	padding: 0;
+}
+
