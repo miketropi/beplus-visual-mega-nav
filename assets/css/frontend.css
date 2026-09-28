@@ -61,8 +61,8 @@
 /* ---------- Desktop flyout (≥1024px) ---------- */
 @media (min-width: 1024px) {
 
-	.has-mega-menu:hover,
-	.has-mega-menu:focus-within {
+	.has-mega-menu[data-beplus-vmn-enhanced]:hover,
+	.has-mega-menu[data-beplus-vmn-enhanced]:focus-within {
 		z-index: 10;
 	}
 
@@ -86,8 +86,8 @@
 		width: 100%;
 	}
 
-	.has-mega-menu:hover > .beplus-vmn-mega-panel,
-	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel,
+	.has-mega-menu[data-beplus-vmn-enhanced]:hover > .beplus-vmn-mega-panel,
+	.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open > .beplus-vmn-mega-panel,
 	.beplus-vmn-mega-panel.is-open {
 		opacity: 1;
 		visibility: visible;
@@ -102,10 +102,10 @@
 
 	/* Instantly hide unhovered mega panels when another menu item is hovered (no dual-panel overlap/flicker) */
 	/* stylelint-disable max-line-length */
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu:not(:hover) > .beplus-vmn-mega-panel,
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu:not(:hover) > .beplus-vmn-mega-panel::before,
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu:not(:focus-within) > .beplus-vmn-mega-panel,
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu:not(:focus-within) > .beplus-vmn-mega-panel::before {
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:hover) > .beplus-vmn-mega-panel,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:hover) > .beplus-vmn-mega-panel::before,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:focus-within) > .beplus-vmn-mega-panel,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:focus-within) > .beplus-vmn-mega-panel::before {
 		opacity: 0 !important;
 		visibility: hidden !important;
 		transition: none !important;
@@ -144,15 +144,15 @@
 		transform: translateY(-10px);
 	}
 
-	.has-mega-menu:hover > .beplus-vmn-mega-panel[data-animation="slide"],
-	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel[data-animation="slide"],
+	.has-mega-menu[data-beplus-vmn-enhanced]:hover > .beplus-vmn-mega-panel[data-animation="slide"],
+	.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open > .beplus-vmn-mega-panel[data-animation="slide"],
 	.beplus-vmn-mega-panel[data-animation="slide"].is-open {
 		transform: translateY(0);
 	}
 
 	/* Ensure all content inside open mega panels is visible and not blocked by scroll-reveal initial opacity */
-	.has-mega-menu:hover > .beplus-vmn-mega-panel [class*="animation-"],
-	.has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel [class*="animation-"],
+	.has-mega-menu[data-beplus-vmn-enhanced]:hover > .beplus-vmn-mega-panel [class*="animation-"],
+	.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open > .beplus-vmn-mega-panel [class*="animation-"],
 	.beplus-vmn-mega-panel.is-open [class*="animation-"] {
 		visibility: visible;
 	}

@@ -105,10 +105,14 @@
 		const position = panel.getAttribute('data-position') || 'item-left';
 		const container =
 			panel.offsetParent ||
+			item.closest('.wp-block-beplus-visual-mega-nav-beplus-header') ||
 			item.closest('.nextora-header-block') ||
+			item.closest('.site-header') ||
+			item.closest('header') ||
 			document.documentElement;
 
 		const containerRect = container.getBoundingClientRect();
+		const containerLeft = containerRect.left + (container.clientLeft || 0);
 		const viewportWidth =
 			document.documentElement.clientWidth || window.innerWidth;
 
@@ -128,22 +132,22 @@
 		if (position === 'screen-center') {
 			// Exactly in the center of the screen
 			const screenLeft = (viewportWidth - effectiveWidth) / 2;
-			left = screenLeft - containerRect.left;
+			left = screenLeft - containerLeft;
 		} else if (position === 'item-center') {
 			// Centered with the hovered item
 			const itemRect = item.getBoundingClientRect();
 			const itemCenter = itemRect.left + (itemRect.width / 2);
 			const targetLeftScreen = itemCenter - (effectiveWidth / 2);
-			left = targetLeftScreen - containerRect.left;
+			left = targetLeftScreen - containerLeft;
 		} else {
 			// Left aligned with the hovered item (current default)
 			const itemRect = item.getBoundingClientRect();
-			left = itemRect.left - containerRect.left;
+			left = itemRect.left - containerLeft;
 		}
 
 		// Calculate min and max allowed left in container coordinates to keep panel strictly within [16, viewportWidth - 16]
-		const minLeft = 16 - containerRect.left;
-		const maxLeft = (viewportWidth - 16 - effectiveWidth) - containerRect.left;
+		const minLeft = 16 - containerLeft;
+		const maxLeft = (viewportWidth - 16 - effectiveWidth) - containerLeft;
 
 		left = Math.max(minLeft, Math.min(left, maxLeft));
 
@@ -505,7 +509,7 @@
 			closeAll();
 		});
 
-		window.addEventListener('resize', () => {
+		function repositionAll() {
 			if (isAccordionMode() || isOffcanvasMode()) {
 				return;
 			}
@@ -517,6 +521,24 @@
 					}
 				}
 			});
+		}
+
+		window.addEventListener('resize', repositionAll);
+		window.addEventListener('load', repositionAll);
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(repositionAll);
+		}
+
+		// If user was already hovering on a mega item before JS finished initializing, trigger animations smoothly
+		document.querySelectorAll(MEGA_ITEMS).forEach((item) => {
+			if (item instanceof HTMLElement && item.matches(':hover')) {
+				currentHoveredMegaItem = item;
+				const panel = getPanel(item);
+				if (panel) {
+					positionCustomPanel(item, panel);
+					triggerListAnimations(panel);
+				}
+			}
 		});
 	}
 
@@ -537,7 +559,6 @@
 				return;
 			}
 
-			item.setAttribute(ENHANCED_ATTR, 'true');
 			setupItem(item);
 
 			const panel = getPanel(item);
@@ -553,6 +574,8 @@
 					el.classList.add('nextora-scroll-animation--ready');
 				});
 			}
+
+			item.setAttribute(ENHANCED_ATTR, 'true');
 		});
 	}
 
