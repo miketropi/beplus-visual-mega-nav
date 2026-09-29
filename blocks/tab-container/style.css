@@ -421,10 +421,10 @@
 }
 
 /* Trigger animation when mega panel is hovered, opened, or during .is-animating */
-.has-mega-menu:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
-.has-mega-menu:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
 .beplus-vmn-tab-container--animation-sequential.is-animating .beplus-vmn-tab-container__tab,
@@ -437,10 +437,10 @@
 	animation-fill-mode: both;
 }
 
-.has-mega-menu:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
-.has-mega-menu:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
 .beplus-vmn-tab-container--animation-default.is-animating .beplus-vmn-tab-container__tab,

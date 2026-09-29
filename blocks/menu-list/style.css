@@ -174,10 +174,10 @@
 }
 
 /* Trigger animation when mega panel is hovered, opened, or during .is-animating */
-.has-mega-menu:hover .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
-.has-mega-menu:hover .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-item,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-sequential .beplus-vmn-menu-list__item,
 .beplus-vmn-menu-list--animation-sequential.is-animating .beplus-vmn-menu-item,
@@ -190,10 +190,10 @@
 	animation-fill-mode: both;
 }
 
-.has-mega-menu:hover .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
-.has-mega-menu:hover .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
-.has-mega-menu.beplus-vmn--open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
+.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-item,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-menu-list--animation-default .beplus-vmn-menu-list__item,
 .beplus-vmn-menu-list--animation-default.is-animating .beplus-vmn-menu-item,
