@@ -3,7 +3,7 @@ vendor
 !assets/vendor/
 .DS_Store
 beplus-visual-mega-nav.zip
-.opencode/qdrant-status.json
+.opencode/opencode.json
 .env
 build
 .commandcode
