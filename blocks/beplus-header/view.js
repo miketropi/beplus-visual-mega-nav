@@ -290,7 +290,7 @@
 		closeBtn.type = 'button';
 		closeBtn.setAttribute('aria-label', 'Close navigation');
 		closeBtn.innerHTML =
-			'<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
+			'<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
 			'<span>Close</span>';
 		closeBtn.addEventListener('click', function () {
 			closePortal(state);
@@ -378,6 +378,7 @@
 			'--wp--style--root--padding-left',
 			'--wp--style--root--padding-right',
 			'--beplus-vmn-mega-bg',
+			'--beplus-vmn-mega-radius',
 			'--beplus-vmn-mega-shadow',
 			'--beplus-vmn-mega-padding',
 			'--beplus-vmn-mega-z',

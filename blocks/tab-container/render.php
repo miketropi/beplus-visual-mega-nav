@@ -55,6 +55,14 @@ if ( '' !== $indicator_color ) {
 	$colour_overrides[] = sprintf( '--beplus-vmn-tab-indicator-color:%s', $indicator_color );
 }
 
+if ( isset( $attributes['tabListGap'] ) && '' !== $attributes['tabListGap'] && is_numeric( $attributes['tabListGap'] ) ) {
+	$colour_overrides[] = sprintf( '--beplus-vmn-tab-list-gap:%dpx', intval( $attributes['tabListGap'] ) );
+}
+
+if ( isset( $attributes['tabGap'] ) && '' !== $attributes['tabGap'] && is_numeric( $attributes['tabGap'] ) ) {
+	$colour_overrides[] = sprintf( '--beplus-vmn-tab-gap:%dpx', intval( $attributes['tabGap'] ) );
+}
+
 $container_style = '';
 if ( [] !== $colour_overrides ) {
 	$container_style = ' style="' . esc_attr( implode( ';', $colour_overrides ) ) . '"';
@@ -198,9 +206,10 @@ for ( $i = 0; $i < $panel_count; $i++ ) {
 		$label_html = esc_html( $label );
 	}
 
-	// Build tab colour data attribute for dynamic indicator.
+	// Build tab colour data attribute for dynamic indicator and CSS styling.
 	$tab_color_attr = '';
-	if ( '' !== $icon && '' !== $icon_color ) {
+	$tab_style_attr = '';
+	if ( '' !== $icon_color ) {
 		if ( preg_match( '/^[a-z0-9-]+$/', $icon_color ) ) {
 			$resolved_color = sprintf( 'var(--wp--preset--color--%s)', $icon_color );
 		} else {
@@ -210,15 +219,20 @@ for ( $i = 0; $i < $panel_count; $i++ ) {
 			' data-beplus-vmn-tab-color="%s"',
 			esc_attr( $resolved_color )
 		);
+		$tab_style_attr = sprintf(
+			' style="--beplus-vmn-tab-color:%s"',
+			esc_attr( $resolved_color )
+		);
 	}
 
 	printf(
-		'<div class="beplus-vmn-tab-container__tab" role="tab" id="%1$s" aria-selected="%2$s" aria-controls="%3$s" tabindex="%4$d"%5$s>%6$s</div>',
+		'<div class="beplus-vmn-tab-container__tab" role="tab" id="%1$s" aria-selected="%2$s" aria-controls="%3$s" tabindex="%4$d"%5$s%6$s>%7$s</div>',
 		esc_attr( $instance_id . '-tab-' . $i ),
 		$is_active ? 'true' : 'false',
 		esc_attr( $instance_id . '-tabpanel-' . $i ),
 		$is_active ? 0 : -1,
 		$tab_color_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped above.
+		$tab_style_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped above.
 		$label_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped above.
 	);
 }
