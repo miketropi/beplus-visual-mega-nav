@@ -64,6 +64,9 @@ final class AllowedBlocks {
 			'beplus-visual-mega-nav/product-list',
 			'beplus-visual-mega-nav/product-card',
 			'beplus-visual-mega-nav/quote',
+
+			// Theme blocks.
+			'alonepro/alone-campaign',
 		];
 	}
 

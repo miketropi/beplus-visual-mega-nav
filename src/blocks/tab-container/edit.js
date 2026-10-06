@@ -27,6 +27,7 @@ import {
 	ColorPalette,
 	ToggleControl,
 	Button,
+	RangeControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -178,6 +179,8 @@ function ChevronDownIcon() {
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		layoutMode = 'vertical',
+		tabListGap,
+		tabGap,
 		indicatorColor = '',
 		enableAnimation = false,
 		animationStyle = 'sequential',
@@ -190,6 +193,19 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const contentRef = useRef(null);
 
 	const isHorizontal = layoutMode === 'horizontal';
+
+	const blockStyles = {};
+	if (indicatorColor) {
+		blockStyles['--beplus-vmn-tab-text-color'] = indicatorColor;
+		blockStyles['--beplus-vmn-tab-indicator-color'] = indicatorColor;
+	}
+	if (typeof tabListGap === 'number') {
+		blockStyles['--beplus-vmn-tab-list-gap'] = `${tabListGap}px`;
+	}
+	if (typeof tabGap === 'number') {
+		blockStyles['--beplus-vmn-tab-gap'] = `${tabGap}px`;
+	}
+
 	const blockProps = useBlockProps({
 		className: [
 			'beplus-vmn-tab-container',
@@ -200,12 +216,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		]
 			.filter(Boolean)
 			.join(' '),
-		style: indicatorColor
-			? {
-					'--beplus-vmn-tab-text-color': indicatorColor,
-					'--beplus-vmn-tab-indicator-color': indicatorColor,
-				}
-			: undefined,
+		style: Object.keys(blockStyles).length ? blockStyles : undefined,
 	});
 
 	const innerBlocks = useSelect(
@@ -352,6 +363,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			const isFirst = i === 0;
 			const isLast = i === tabPanels.length - 1;
+			const iconColor = panel?.attributes?.tabIconColor || '';
+			let tabColor;
+			if (iconColor) {
+				tabColor = /^[a-z0-9-]+$/.test(iconColor)
+					? `var(--wp--preset--color--${iconColor})`
+					: iconColor;
+			}
 
 			return (
 				<div
@@ -362,6 +380,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						type="button"
 						className={tabClasses}
 						onClick={() => handleTabClick(i)}
+						style={
+							tabColor
+								? { '--beplus-vmn-tab-color': tabColor }
+								: undefined
+						}
 					>
 						{renderTabContent()}
 					</button>
@@ -407,8 +430,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('Layout', 'beplus-visual-mega-nav')}
-					initialOpen={false}
+					title={__('Layout & Spacing', 'beplus-visual-mega-nav')}
+					initialOpen={true}
 				>
 					<SelectControl
 						label={__('Navigation mode', 'beplus-visual-mega-nav')}
@@ -432,6 +455,38 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						onChange={(value) =>
 							setAttributes({ layoutMode: value })
 						}
+					/>
+
+					<RangeControl
+						label={__(
+							'Tab Items Gap (px)',
+							'beplus-visual-mega-nav'
+						)}
+						value={typeof tabListGap === 'number' ? tabListGap : 14}
+						onChange={(val) => setAttributes({ tabListGap: val })}
+						min={0}
+						max={60}
+						step={1}
+						help={__(
+							'Spacing between tab items.',
+							'beplus-visual-mega-nav'
+						)}
+					/>
+
+					<RangeControl
+						label={__(
+							'Tabs & Content Gap (px)',
+							'beplus-visual-mega-nav'
+						)}
+						value={typeof tabGap === 'number' ? tabGap : 32}
+						onChange={(val) => setAttributes({ tabGap: val })}
+						min={0}
+						max={100}
+						step={2}
+						help={__(
+							'Spacing between tab navigation and panel content.',
+							'beplus-visual-mega-nav'
+						)}
 					/>
 				</PanelBody>
 

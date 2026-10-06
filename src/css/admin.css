@@ -217,6 +217,207 @@
 	pointer-events: none;
 }
 
+/* Ensure consistent spacing between all setting controls (fixes "text dính") */
+.beplus-vmn-settings-panel .components-panel__body .components-base-control,
+.beplus-vmn-settings-panel .components-panel__body .beplus-vmn-settings-field {
+	margin-bottom: 20px;
+}
+
+.beplus-vmn-settings-panel .components-panel__body .components-base-control:last-child,
+.beplus-vmn-settings-panel .components-panel__body .beplus-vmn-settings-field:last-child {
+	margin-bottom: 0;
+}
+
+.beplus-vmn-settings-panel .components-base-control__label,
+.beplus-vmn-settings-panel .beplus-vmn-settings-field__label,
+.beplus-vmn-settings-panel .beplus-vmn-settings-header-row__label {
+	display: block;
+	margin-bottom: 8px;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--wpds-color-fg-content-neutral, #1e1e1e);
+}
+
+/* Compact Background Color Trigger */
+.beplus-vmn-color-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+}
+
+.beplus-vmn-color-row .components-dropdown {
+	flex: 1 1 auto;
+	width: 100%;
+}
+
+.beplus-vmn-color-trigger {
+	display: flex !important;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 38px;
+	padding: 4px 10px;
+	border: 1px solid var(--wpds-color-stroke-surface-neutral-weak, #c3c4c7);
+	border-radius: var(--wpds-border-radius-sm, 2px);
+	background: #fff;
+	cursor: pointer;
+	box-shadow: none;
+	text-align: left;
+	transition:
+		border-color 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+.beplus-vmn-color-trigger:hover:not(:disabled) {
+	border-color: var(--wp-admin-theme-color, #3858e9);
+}
+
+.beplus-vmn-color-trigger:focus-visible,
+.beplus-vmn-color-trigger.is-open {
+	border-color: var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #3858e9);
+	outline: none;
+}
+
+.beplus-vmn-color-trigger__left {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.beplus-vmn-color-swatch-wrapper {
+	position: relative;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	overflow: hidden;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+	background-image:
+		linear-gradient(45deg, #ccc 25%, transparent 25%),
+		linear-gradient(-45deg, #ccc 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, #ccc 75%),
+		linear-gradient(-45deg, transparent 75%, #ccc 75%);
+	background-size: 8px 8px;
+	background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+	flex-shrink: 0;
+}
+
+.beplus-vmn-color-swatch-fill {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+.beplus-vmn-color-trigger__value {
+	font-size: var(--wpds-font-size-md, 13px);
+	color: var(--wpds-color-fg-content-neutral, #1e1e1e);
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.beplus-vmn-color-trigger__chevron {
+	color: var(--wpds-color-fg-content-neutral-weak, #646970);
+	flex-shrink: 0;
+}
+
+.beplus-vmn-color-reset-btn.components-button {
+	flex-shrink: 0;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	color: var(--wpds-color-fg-content-neutral-weak, #646970);
+}
+
+.beplus-vmn-color-reset-btn.components-button:hover:not(:disabled) {
+	color: var(--wp-admin-theme-color, #3858e9);
+}
+
+.beplus-vmn-color-popover.components-popover {
+	z-index: 1000001 !important;
+}
+
+.beplus-vmn-color-popover .components-popover__content {
+	min-width: 280px;
+	max-width: 320px;
+	padding: 16px;
+	background: #fff;
+	border-radius: var(--wpds-border-radius-sm, 2px);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.beplus-vmn-color-popover__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--wpds-color-stroke-surface-neutral-weak, #e0e0e0);
+}
+
+.beplus-vmn-color-popover__title {
+	font-size: var(--wpds-font-size-md, 13px);
+	font-weight: 600;
+	color: var(--wpds-color-fg-content-neutral, #1e1e1e);
+}
+
+/* Border Radius: Linked / Unlinked 4-Corner Settings */
+.beplus-vmn-settings-header-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.beplus-vmn-link-toggle-btn.components-button {
+	min-width: 28px;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border-radius: 2px;
+	color: var(--wpds-color-fg-content-neutral-weak, #646970);
+}
+
+.beplus-vmn-link-toggle-btn.is-linked {
+	color: var(--wp-admin-theme-color, #3858e9);
+	background: color-mix(in srgb, var(--wp-admin-theme-color, #3858e9) 8%, transparent);
+}
+
+.beplus-vmn-link-toggle-btn:hover:not(:disabled) {
+	color: var(--wp-admin-theme-color, #3858e9);
+}
+
+.beplus-vmn-radius-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+	margin-top: 4px;
+}
+
+.beplus-vmn-radius-grid .components-base-control {
+	margin-bottom: 0 !important;
+}
+
+.beplus-vmn-radius-grid .components-base-control__label {
+	font-size: 11px;
+	font-weight: 500;
+	color: var(--wpds-color-fg-content-neutral-weak, #646970);
+	margin-bottom: 4px;
+}
+
+.beplus-vmn-radius-reset-row {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 6px;
+}
+
 /* ---------- Content builder ---------- */
 .beplus-vmn-isolated-editor {
 	display: flex;

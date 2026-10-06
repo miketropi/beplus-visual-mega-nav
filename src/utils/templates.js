@@ -13,6 +13,7 @@ const DEFAULT_SETTINGS = {
 	customWidth: 780,
 	position: 'item-left',
 	bgColor: '',
+	borderRadius: 0,
 	animation: 'fade',
 };
 
@@ -31,11 +32,35 @@ export function normalizeSettings(settings = {}) {
 		? merged.position
 		: 'item-left';
 
+	let borderRadius = 0;
+	if (
+		typeof merged.borderRadius === 'object' &&
+		merged.borderRadius !== null
+	) {
+		const parseCorner = (v) => {
+			const n = Number.parseInt(v, 10);
+			return Number.isNaN(n) || n < 0 ? 0 : Math.min(100, n);
+		};
+		borderRadius = {
+			topLeft: parseCorner(merged.borderRadius.topLeft),
+			topRight: parseCorner(merged.borderRadius.topRight),
+			bottomRight: parseCorner(merged.borderRadius.bottomRight),
+			bottomLeft: parseCorner(merged.borderRadius.bottomLeft),
+		};
+	} else {
+		const rawRadius = Number.parseInt(merged.borderRadius, 10);
+		borderRadius =
+			Number.isNaN(rawRadius) || rawRadius < 0
+				? 0
+				: Math.min(100, rawRadius);
+	}
+
 	return {
 		width,
 		customWidth,
 		position,
 		bgColor: merged.bgColor ?? '',
+		borderRadius,
 		animation: merged.animation ?? 'fade',
 	};
 }

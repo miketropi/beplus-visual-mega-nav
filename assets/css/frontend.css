@@ -48,6 +48,8 @@
 .beplus-vmn-mega-panel__inner {
 	margin: 0 auto;
 	box-sizing: border-box;
+	border-radius: inherit;
+	overflow: hidden;
 }
 
 /* Block content: prevent horizontal overflow in narrow viewports */
@@ -112,6 +114,7 @@
 		pointer-events: none !important;
 		transform: none !important;
 	}
+
 	/* stylelint-enable max-line-length */
 
 	/* Invisible bridge for pointer travel from link to panel */
@@ -444,6 +447,7 @@
 	.nextora-primary-nav-portal--open .nextora-primary-nav-portal__panel .nextora-header-menu > li.has-mega-menu > .beplus-vmn-toggle:focus-visible {
 		outline-color: var(--wp--preset--color--primary, currentColor);
 	}
+
 	/* stylelint-enable max-line-length */
 }
 
@@ -451,4 +455,3 @@
 .beplus-vmn-mega-panel--custom .beplus-vmn-mega-panel__inner {
 	padding: 0;
 }
-

@@ -26,6 +26,14 @@
 			"type": "string",
 			"default": "vertical"
 		},
+		"tabListGap": {
+			"type": "number",
+			"default": 14
+		},
+		"tabGap": {
+			"type": "number",
+			"default": 32
+		},
 		"indicatorColor": {
 			"type": "string",
 			"default": ""
