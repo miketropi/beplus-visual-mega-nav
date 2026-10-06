@@ -3,7 +3,7 @@ vendor
 !assets/vendor/
 .DS_Store
 beplus-visual-mega-nav.zip
-.opencode/opencode.json
+.opencode
 .env
 build
 .commandcode
