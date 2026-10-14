@@ -455,3 +455,15 @@
 .beplus-vmn-mega-panel--custom .beplus-vmn-mega-panel__inner {
 	padding: 0;
 }
+
+/* ---------- Mega menu typography & color consistency ---------- */
+.beplus-vmn-mega-panel .nextora-box-icon--template-minimal .nextora-box-icon__description:not([class*="has-"]) {
+	color: var(--wp--preset--color--paragraph, currentColor);
+	font-weight: 400;
+}
+
+.beplus-vmn-mega-panel .nextora-box-icon--template-minimal .nextora-box-icon__title:not([class*="has-"]) {
+	color: var(--wp--preset--color--contrast, currentColor);
+	font-weight: 600;
+}
+
