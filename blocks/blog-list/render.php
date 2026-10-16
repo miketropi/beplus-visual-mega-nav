@@ -82,9 +82,9 @@ $output = sprintf( '<div %s><ul class="beplus-vmn-blog-list__items">', $wrapper_
 foreach ( $blog_posts as $index => $post_item ) {
 	$post_title   = get_the_title( $post_item );
 	$post_url     = get_permalink( $post_item );
-	$post_date    = $show_date ? get_the_date( '', $post_item ) : '';
+	$post_date    = $show_date ? (string) get_the_date( '', $post_item ) : '';
 	$post_excerpt = $show_excerpt ? get_the_excerpt( $post_item ) : '';
-	$post_author  = $show_author ? get_the_author_meta( 'display_name', $post_item->post_author ) : '';
+	$post_author  = $show_author ? (string) get_the_author_meta( 'display_name', (int) $post_item->post_author ) : '';
 
 	$categories = [];
 	if ( $show_category ) {
@@ -128,9 +128,10 @@ foreach ( $blog_posts as $index => $post_item ) {
 
 	$meta_parts = [];
 	if ( '' !== $post_date ) {
+		$date_iso     = (string) get_the_date( 'c', $post_item );
 		$meta_parts[] = sprintf(
 			'<time class="beplus-vmn-blog-list__date" datetime="%s">%s</time>',
-			esc_attr( get_the_date( 'c', $post_item ) ),
+			esc_attr( $date_iso ),
 			esc_html( $post_date )
 		);
 	}

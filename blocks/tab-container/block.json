@@ -49,6 +49,26 @@
 		"scrollAnimationStyle": {
 			"type": "string",
 			"default": "sequential"
+		},
+		"tabTitleFontSize": {
+			"type": "string",
+			"default": "small"
+		},
+		"tabSubLabelFontSize": {
+			"type": "string",
+			"default": "13px"
+		},
+		"tabTitleColor": {
+			"type": "string",
+			"default": ""
+		},
+		"tabSubLabelColor": {
+			"type": "string",
+			"default": ""
+		},
+		"tabSubLabelOpacity": {
+			"type": "number",
+			"default": 1
 		}
 	}
 }

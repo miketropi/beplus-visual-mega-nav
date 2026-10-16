@@ -6,6 +6,7 @@ parameters:
     paths:
         - beplus-visual-mega-nav.php
         - includes/
+        - blocks/
     excludePaths:
         - vendor/
         - node_modules/
@@ -15,6 +16,7 @@ parameters:
         - includes/Frontend/MegaMenuWalker.php
     bootstrapFiles:
         - vendor/autoload.php
+        - tests/php/phpstan-bootstrap.php
     scanDirectories:
         - vendor/szepeviktor/phpstan-wordpress/
     treatPhpDocTypesAsCertain: false
@@ -39,3 +41,7 @@ parameters:
         # wp_style_add_data accepts 'group' as a valid key for footer deferral,
         # but WordPress core stubs only list alt/path/rtl/suffix/title.
         - '#Parameter \#2 \$key of function wp_style_add_data expects .*alt.+\|.+\|.+\|.+\|.+title., .group. given\.#'
+        # WooCommerce integration in product blocks when WooCommerce is active.
+        - '#Function wc_\w+ not found\.#'
+        - '#Class WC_\w+ not found\.#'
+        - '#Call to method \w+\(\) on an unknown class WC_\w+\.#'
