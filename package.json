@@ -46,8 +46,8 @@
 			"composer phpcs"
 		],
 		"src/**/*.{js,jsx}": [
-			"wp-scripts lint-js --fix",
-			"wp-scripts format"
+			"wp-scripts lint-js --fix --",
+			"wp-scripts format --"
 		],
 		"{src,blocks,assets}/**/*.css": [
 			"wp-scripts lint-style --fix"

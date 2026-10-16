@@ -75,7 +75,7 @@ $classes[] = 'wp-container-beplus-header-' . $instance_id;
 $wrapper_attributes = get_block_wrapper_attributes(
 	[
 		'class'              => implode( ' ', $classes ),
-		'data-breakpoint'    => $breakpoint,
+		'data-breakpoint'    => (string) $breakpoint,
 		'data-instance'      => $instance_id,
 		'data-scroll-effect' => $effect,
 		'style'              => $wrapper_style,

@@ -78,13 +78,15 @@ if ( isset( $spacing['blockGap'] ) && '' !== $spacing['blockGap'] ) {
 	$inline_css .= 'gap:' . $resolve_spacing_value( (string) $spacing['blockGap'] ) . ';';
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(
-	[
-		'style'                  => $inline_css,
-		'data-overlay-id'        => '' !== $overlay_id ? $overlay_id : null,
-		'data-mobile-breakpoint' => $mobile_breakpoint,
-	]
-);
+$extra_attributes = [
+	'style'                  => $inline_css,
+	'data-mobile-breakpoint' => (string) $mobile_breakpoint,
+];
+if ( '' !== $overlay_id ) {
+	$extra_attributes['data-overlay-id'] = $overlay_id;
+}
+
+$wrapper_attributes = get_block_wrapper_attributes( $extra_attributes );
 
 printf( '<div %1$s>%2$s</div>', $wrapper_attributes, wp_kses_post( $content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() returns pre-escaped attributes.
 

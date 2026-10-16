@@ -20,14 +20,16 @@ import {
 	InnerBlocks,
 	useBlockProps,
 	InspectorControls,
+	PanelColorSettings,
+	FontSizePicker,
 } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
-	ColorPalette,
 	ToggleControl,
 	Button,
 	RangeControl,
+	BaseControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -172,6 +174,61 @@ function ChevronDownIcon() {
 	);
 }
 
+function normalizeFontSizeAttribute(value, selectedItem) {
+	if (value === undefined || value === '') {
+		return '';
+	}
+	if (selectedItem?.slug) {
+		return selectedItem.slug;
+	}
+	const str = String(value).trim();
+	const map = {
+		sm: 'small',
+		small: 'small',
+		base: 'base',
+		normal: 'base',
+		md: 'medium',
+		medium: 'medium',
+		'medium-plus': 'medium-plus',
+		lg: 'large',
+		large: 'large',
+		xl: 'x-large',
+		'x-large': 'x-large',
+		'2xl': 'xx-large',
+		'xx-large': 'xx-large',
+	};
+	if (map[str.toLowerCase()]) {
+		return map[str.toLowerCase()];
+	}
+	if (/^\d+(\.\d+)?$/.test(str)) {
+		return `${str}px`;
+	}
+	return str;
+}
+
+function isPresetFontSize(value, themeFontSizes = []) {
+	if (!value) {
+		return false;
+	}
+	const str = String(value).trim().toLowerCase();
+	if (/^[\d.]+(?:px|rem|em|vw|vh|%)?$/i.test(str)) {
+		return false;
+	}
+	const presets = new Set([
+		'small',
+		'base',
+		'medium',
+		'medium-plus',
+		'large',
+		'x-large',
+		'xx-large',
+	]);
+	return (
+		presets.has(str) ||
+		themeFontSizes.some((f) => f.slug?.toLowerCase() === str)
+	);
+}
+
 /*
  * ---- Main edit component ----
  */
@@ -185,6 +242,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		enableAnimation = false,
 		animationStyle = 'sequential',
 		scrollAnimationStyle = 'sequential',
+		tabTitleFontSize = 'small',
+		tabSubLabelFontSize = '13px',
+		tabTitleColor = '',
+		tabSubLabelColor = '',
+		tabSubLabelOpacity = 1,
 	} = attributes;
 
 	const [activeTab, setActiveTab] = useState(0);
@@ -194,10 +256,120 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	const isHorizontal = layoutMode === 'horizontal';
 
+	const themeColors = useSelect((select) => {
+		try {
+			const settings = select('core/block-editor').getSettings?.() ?? {};
+			if (Array.isArray(settings.colors) && settings.colors.length) {
+				return settings.colors;
+			}
+			if (
+				Array.isArray(settings.color?.palette) &&
+				settings.color.palette.length
+			) {
+				return settings.color.palette;
+			}
+		} catch {
+			// ignore
+		}
+		return [];
+	}, []);
+
+	const themeFontSizes = useSelect((select) => {
+		try {
+			const settings = select('core/block-editor').getSettings?.() ?? {};
+			if (
+				Array.isArray(settings.fontSizes) &&
+				settings.fontSizes.length
+			) {
+				return settings.fontSizes;
+			}
+		} catch {
+			// ignore
+		}
+		return [];
+	}, []);
+
+	const resolveColorValue = (val) => {
+		if (!val) {
+			return '';
+		}
+		const trimmed = val.trim();
+		const match = themeColors.find((c) => c.slug === trimmed);
+		return match ? match.color : trimmed;
+	};
+
+	const normalizeColorAttr = (val) => {
+		if (!val) {
+			return '';
+		}
+		const trimmed = val.trim().toLowerCase();
+		const match = themeColors.find(
+			(c) =>
+				c.color?.toLowerCase() === trimmed ||
+				c.slug?.toLowerCase() === trimmed
+		);
+		return match ? match.slug : val;
+	};
+
 	const blockStyles = {};
 	if (indicatorColor) {
-		blockStyles['--beplus-vmn-tab-text-color'] = indicatorColor;
-		blockStyles['--beplus-vmn-tab-indicator-color'] = indicatorColor;
+		const isCustom =
+			/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(indicatorColor) ||
+			indicatorColor.startsWith('rgb') ||
+			indicatorColor.startsWith('hsl') ||
+			indicatorColor.startsWith('var(');
+		blockStyles['--beplus-vmn-tab-indicator-color'] = isCustom
+			? indicatorColor
+			: `var(--wp--preset--color--${indicatorColor})`;
+	}
+	if (tabTitleColor) {
+		const isCustom =
+			/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(tabTitleColor) ||
+			tabTitleColor.startsWith('rgb') ||
+			tabTitleColor.startsWith('hsl') ||
+			tabTitleColor.startsWith('var(');
+		blockStyles['--beplus-vmn-tab-text-color'] = isCustom
+			? tabTitleColor
+			: `var(--wp--preset--color--${tabTitleColor})`;
+	}
+	if (tabSubLabelColor) {
+		const isCustom =
+			/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(
+				tabSubLabelColor
+			) ||
+			tabSubLabelColor.startsWith('rgb') ||
+			tabSubLabelColor.startsWith('hsl') ||
+			tabSubLabelColor.startsWith('var(');
+		blockStyles['--beplus-vmn-tab-sublabel-color'] = isCustom
+			? tabSubLabelColor
+			: `var(--wp--preset--color--${tabSubLabelColor})`;
+	}
+	if (tabTitleFontSize) {
+		if (/^\d+(\.\d+)?(px|rem|em|%)?$/.test(tabTitleFontSize)) {
+			blockStyles['--beplus-vmn-tab-btn-font-size'] = /^\d+$/.test(
+				tabTitleFontSize
+			)
+				? `${tabTitleFontSize}px`
+				: tabTitleFontSize;
+		} else {
+			blockStyles['--beplus-vmn-tab-btn-font-size'] =
+				`var(--wp--preset--font-size--${tabTitleFontSize})`;
+		}
+	}
+	if (tabSubLabelFontSize) {
+		if (/^\d+(\.\d+)?(px|rem|em|%)?$/.test(tabSubLabelFontSize)) {
+			blockStyles['--beplus-vmn-tab-sublabel-font-size'] = /^\d+$/.test(
+				tabSubLabelFontSize
+			)
+				? `${tabSubLabelFontSize}px`
+				: tabSubLabelFontSize;
+		} else {
+			blockStyles['--beplus-vmn-tab-sublabel-font-size'] =
+				`var(--wp--preset--font-size--${tabSubLabelFontSize})`;
+		}
+	}
+	if (typeof tabSubLabelOpacity === 'number') {
+		blockStyles['--beplus-vmn-tab-sublabel-opacity'] = tabSubLabelOpacity;
 	}
 	if (typeof tabListGap === 'number') {
 		blockStyles['--beplus-vmn-tab-list-gap'] = `${tabListGap}px`;
@@ -491,26 +663,139 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</PanelBody>
 
 				<PanelBody
-					title={__('Color', 'beplus-visual-mega-nav')}
+					title={__('Typography', 'beplus-visual-mega-nav')}
 					initialOpen={false}
 				>
-					<ColorPalette
-						label={__('Indicator accent', 'beplus-visual-mega-nav')}
-						value={indicatorColor}
-						onChange={(value) =>
-							setAttributes({
-								indicatorColor: value || '',
-							})
-						}
-						clearable={true}
-					/>
-					<p className="components-base-control__help">
-						{__(
-							'Color of the sliding edge bar. Leave empty to use the theme primary color.',
+					<BaseControl
+						label={__(
+							'Tab title font size',
 							'beplus-visual-mega-nav'
 						)}
-					</p>
+						id="beplus-vmn-tab-title-font-size"
+						help={__(
+							'Default: small (14px).',
+							'beplus-visual-mega-nav'
+						)}
+					>
+						<FontSizePicker
+							fontSizes={themeFontSizes}
+							value={tabTitleFontSize || undefined}
+							valueMode={
+								isPresetFontSize(
+									tabTitleFontSize,
+									themeFontSizes
+								)
+									? 'slug'
+									: 'literal'
+							}
+							onChange={(value, selectedItem) =>
+								setAttributes({
+									tabTitleFontSize:
+										normalizeFontSizeAttribute(
+											value,
+											selectedItem
+										),
+								})
+							}
+						/>
+					</BaseControl>
+
+					<BaseControl
+						label={__(
+							'Tab subtitle font size',
+							'beplus-visual-mega-nav'
+						)}
+						id="beplus-vmn-tab-sublabel-font-size"
+						help={__('Default: 13px.', 'beplus-visual-mega-nav')}
+					>
+						<FontSizePicker
+							fontSizes={themeFontSizes}
+							value={tabSubLabelFontSize || undefined}
+							valueMode={
+								isPresetFontSize(
+									tabSubLabelFontSize,
+									themeFontSizes
+								)
+									? 'slug'
+									: 'literal'
+							}
+							onChange={(value, selectedItem) =>
+								setAttributes({
+									tabSubLabelFontSize:
+										normalizeFontSizeAttribute(
+											value,
+											selectedItem
+										),
+								})
+							}
+						/>
+					</BaseControl>
 				</PanelBody>
+
+				<PanelColorSettings
+					title={__('Color Settings', 'beplus-visual-mega-nav')}
+					initialOpen={false}
+					colorSettings={[
+						{
+							value: resolveColorValue(tabTitleColor),
+							onChange: (val) =>
+								setAttributes({
+									tabTitleColor: normalizeColorAttr(val),
+								}),
+							label: __(
+								'Tab title color',
+								'beplus-visual-mega-nav'
+							),
+						},
+						{
+							value: resolveColorValue(tabSubLabelColor),
+							onChange: (val) =>
+								setAttributes({
+									tabSubLabelColor: normalizeColorAttr(val),
+								}),
+							label: __(
+								'Tab subtitle color',
+								'beplus-visual-mega-nav'
+							),
+						},
+						{
+							value: resolveColorValue(indicatorColor),
+							onChange: (val) =>
+								setAttributes({
+									indicatorColor: normalizeColorAttr(val),
+								}),
+							label: __(
+								'Indicator accent',
+								'beplus-visual-mega-nav'
+							),
+						},
+					]}
+				>
+					<RangeControl
+						label={__(
+							'Tab subtitle opacity',
+							'beplus-visual-mega-nav'
+						)}
+						value={
+							typeof tabSubLabelOpacity === 'number'
+								? tabSubLabelOpacity
+								: 1
+						}
+						onChange={(val) =>
+							setAttributes({
+								tabSubLabelOpacity:
+									typeof val === 'number' ? val : 1,
+							})
+						}
+						min={0}
+						max={1}
+						step={0.05}
+						help={__(
+							'Default: 1 (100% true color, no washing out).',
+							'beplus-visual-mega-nav'
+						)}
+					/>
+				</PanelColorSettings>
 
 				<PanelBody
 					title={__('Animation', 'beplus-visual-mega-nav')}

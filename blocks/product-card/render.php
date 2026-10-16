@@ -188,11 +188,12 @@ if ( 'auto' === $image_ratio ) {
 	$card_img_height = (int) round( $card_width * 0.625 ); // 16:10-ish.
 	$card_img_style .= '--card-img-height:' . $card_img_height . 'px;';
 } else {
-	$ratio_value = [
+	$ratio_map   = [
 		'16-9' => '16/9',
 		'4-3'  => '4/3',
 		'1-1'  => '1/1',
-	][ $image_ratio ] ?? '';
+	];
+	$ratio_value = $ratio_map[ $image_ratio ];
 	if ( '' !== $ratio_value ) {
 		$card_img_style .= '--card-img-height:auto;--card-img-ratio:' . $ratio_value . ';';
 	}

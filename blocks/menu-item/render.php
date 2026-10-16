@@ -131,7 +131,7 @@ if ( ! function_exists( 'beplus_vmn_is_url_active' ) ) {
 			if ( '' !== $target_query ) {
 				wp_parse_str( $target_query, $target_args );
 				foreach ( $target_args as $k => $v ) {
-					if ( ! isset( $current_args[ $k ] ) || (string) $current_args[ $k ] !== (string) $v ) {
+					if ( ! isset( $current_args[ $k ] ) || ( is_scalar( $current_args[ $k ] ) && is_scalar( $v ) ? (string) $current_args[ $k ] !== (string) $v : $current_args[ $k ] !== $v ) ) {
 						return false;
 					}
 				}
@@ -171,7 +171,7 @@ if ( ! function_exists( 'beplus_vmn_is_url_active' ) ) {
 		// ALL target query parameters must be present with matching values in current request.
 		if ( ! empty( $target_args ) ) {
 			foreach ( $target_args as $k => $v ) {
-				if ( ! isset( $current_args[ $k ] ) || (string) $current_args[ $k ] !== (string) $v ) {
+				if ( ! isset( $current_args[ $k ] ) || ( is_scalar( $current_args[ $k ] ) && is_scalar( $v ) ? (string) $current_args[ $k ] !== (string) $v : $current_args[ $k ] !== $v ) ) {
 					return false;
 				}
 			}
