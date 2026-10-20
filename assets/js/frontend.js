@@ -192,8 +192,8 @@
 		} else if (position === 'item-center') {
 			// Centered with the hovered item
 			const itemRect = item.getBoundingClientRect();
-			const itemCenter = itemRect.left + (itemRect.width / 2);
-			const targetLeftScreen = itemCenter - (effectiveWidth / 2);
+			const itemCenter = itemRect.left + itemRect.width / 2;
+			const targetLeftScreen = itemCenter - effectiveWidth / 2;
 			left = targetLeftScreen - containerLeft;
 		} else {
 			// Left aligned with the hovered item (current default)
@@ -203,7 +203,7 @@
 
 		// Calculate min and max allowed left in container coordinates to keep panel strictly within [16, viewportWidth - 16]
 		const minLeft = 16 - containerLeft;
-		const maxLeft = (viewportWidth - 16 - effectiveWidth) - containerLeft;
+		const maxLeft = viewportWidth - 16 - effectiveWidth - containerLeft;
 
 		left = Math.max(minLeft, Math.min(left, maxLeft));
 
@@ -392,7 +392,7 @@
 					y: 0,
 					scale: 1,
 					duration: 0.45,
-					delay: delay,
+					delay,
 					ease: 'power2.out',
 					clearProps: 'transform,translate,scale',
 					overwrite: 'auto',
@@ -493,8 +493,7 @@
 	 * Supports relative paths, absolute URLs, query parameters (e.g. ?theme=pumori), and hash anchors.
 	 */
 	function syncActiveMenuItems() {
-		const currentPath =
-			window.location.pathname.replace(/\/+$/, '') || '/';
+		const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
 		const currentParams = new URLSearchParams(window.location.search);
 		const currentTheme = currentParams.get('theme');
 
@@ -613,7 +612,10 @@
 			document.querySelectorAll(MEGA_ITEMS).forEach((item) => {
 				if (item instanceof HTMLElement) {
 					const panel = getPanel(item);
-					if (panel && panel.getAttribute('data-width') === 'custom') {
+					if (
+						panel &&
+						panel.getAttribute('data-width') === 'custom'
+					) {
 						positionCustomPanel(item, panel);
 					}
 				}

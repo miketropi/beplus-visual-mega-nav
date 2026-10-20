@@ -51,8 +51,65 @@ $colour_overrides = [];
 
 $indicator_color = isset( $attributes['indicatorColor'] ) ? sanitize_hex_color( (string) $attributes['indicatorColor'] ) : '';
 if ( '' !== $indicator_color ) {
-	$colour_overrides[] = sprintf( '--beplus-vmn-tab-text-color:%s', $indicator_color );
 	$colour_overrides[] = sprintf( '--beplus-vmn-tab-indicator-color:%s', $indicator_color );
+}
+
+if ( ! empty( $attributes['tabTitleColor'] ) ) {
+	$title_color = trim( (string) $attributes['tabTitleColor'] );
+	if ( preg_match( '/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i', $title_color ) || str_starts_with( $title_color, 'rgb' ) || str_starts_with( $title_color, 'hsl' ) || str_starts_with( $title_color, 'var(' ) ) {
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-text-color:%s', esc_attr( $title_color ) );
+	} else {
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-text-color:var(--wp--preset--color--%s)', sanitize_html_class( $title_color ) );
+	}
+}
+
+if ( ! empty( $attributes['tabSubLabelColor'] ) ) {
+	$sub_color = trim( (string) $attributes['tabSubLabelColor'] );
+	if ( preg_match( '/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i', $sub_color ) || str_starts_with( $sub_color, 'rgb' ) || str_starts_with( $sub_color, 'hsl' ) || str_starts_with( $sub_color, 'var(' ) ) {
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-sublabel-color:%s', esc_attr( $sub_color ) );
+	} else {
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-sublabel-color:var(--wp--preset--color--%s)', sanitize_html_class( $sub_color ) );
+	}
+}
+
+if ( isset( $attributes['tabSubLabelOpacity'] ) && '' !== $attributes['tabSubLabelOpacity'] && is_numeric( $attributes['tabSubLabelOpacity'] ) ) {
+	$colour_overrides[] = sprintf( '--beplus-vmn-tab-sublabel-opacity:%s', floatval( $attributes['tabSubLabelOpacity'] ) );
+}
+
+if ( ! empty( $attributes['tabTitleFontSize'] ) ) {
+	$title_font_size = trim( (string) $attributes['tabTitleFontSize'] );
+	if ( preg_match( '/^\d+(\.\d+)?(px|rem|em|%)?$/', $title_font_size ) ) {
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-btn-font-size:%s', is_numeric( $title_font_size ) ? $title_font_size . 'px' : $title_font_size );
+	} else {
+		$font_slug_aliases  = array(
+			'sm'     => 'small',
+			'md'     => 'medium',
+			'lg'     => 'large',
+			'xl'     => 'x-large',
+			'2xl'    => 'xx-large',
+			'normal' => 'base',
+		);
+		$slug               = sanitize_html_class( $font_slug_aliases[ $title_font_size ] ?? $title_font_size );
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-btn-font-size:var(--wp--preset--font-size--%s)', $slug );
+	}
+}
+
+if ( ! empty( $attributes['tabSubLabelFontSize'] ) ) {
+	$sub_font_size = trim( (string) $attributes['tabSubLabelFontSize'] );
+	if ( preg_match( '/^\d+(\.\d+)?(px|rem|em|%)?$/', $sub_font_size ) ) {
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-sublabel-font-size:%s', is_numeric( $sub_font_size ) ? $sub_font_size . 'px' : $sub_font_size );
+	} else {
+		$font_slug_aliases  = array(
+			'sm'     => 'small',
+			'md'     => 'medium',
+			'lg'     => 'large',
+			'xl'     => 'x-large',
+			'2xl'    => 'xx-large',
+			'normal' => 'base',
+		);
+		$slug               = sanitize_html_class( $font_slug_aliases[ $sub_font_size ] ?? $sub_font_size );
+		$colour_overrides[] = sprintf( '--beplus-vmn-tab-sublabel-font-size:var(--wp--preset--font-size--%s)', $slug );
+	}
 }
 
 if ( isset( $attributes['tabListGap'] ) && '' !== $attributes['tabListGap'] && is_numeric( $attributes['tabListGap'] ) ) {
@@ -77,7 +134,7 @@ $labels      = [];
 $sublabels   = [];
 $icons       = [];
 $icon_colors = [];
-if ( $block instanceof \WP_Block && isset( $block->inner_blocks ) ) {
+if ( $block instanceof \WP_Block ) {
 	foreach ( $block->inner_blocks as $child ) {
 		if ( ! ( $child instanceof \WP_Block ) ) {
 			continue;
@@ -246,7 +303,7 @@ if ( 'vertical' === $layout_mode ) {
 // ---- Content panels ----
 echo '<div class="beplus-vmn-tab-container__content">';
 
-if ( $block instanceof \WP_Block && isset( $block->inner_blocks ) ) {
+if ( $block instanceof \WP_Block ) {
 	$idx = 0;
 	foreach ( $block->inner_blocks as $child ) {
 		if ( ! ( $child instanceof \WP_Block ) ) {
