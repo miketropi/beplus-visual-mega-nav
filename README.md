@@ -114,6 +114,30 @@ Blocks added by this plugin:
 
 Third-party blocks appear in the Content Builder once they are registered, and you can allow them with the `beplus_vmn_allowed_blocks` filter.
 
+= Front-end behaviour =
+
+The front-end script (`assets/js/frontend.js`) picks the panel behaviour from the viewport:
+
+* **≥1024px** — hover / focus flyout; a panel whose item link has no real URL also opens on click.
+* **768–1023px** — the panel becomes a fixed off-canvas drawer with a backdrop overlay, and page scroll is locked while it is open.
+* **≤767px** — the panel expands inline as an accordion inside its menu item.
+
+Those bands are the default for every theme and are not configurable.
+
+= Hosting panels in your own compact drawer =
+
+A theme that already renders its own compact navigation below 1024px can ask for the panels to stay inline inside it by putting the compact-mode attribute on the navigation element that wraps its menu:
+
+~~~
+<nav id="site-navigation" data-beplus-vmn-compact-mode="accordion">
+    <?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
+</nav>
+~~~
+
+Below 1024px the panels inside that navigation then expand inline — `position: static`, full width, closed until `.is-open` or `.beplus-vmn--open` — and never become an off-canvas drawer, never add the `.beplus-vmn-overlay` backdrop and never write `document.body.style.overflow`. The host therefore keeps sole ownership of page scroll and of its own drawer breakpoint. The attribute is read per navigation from the mega menu item upwards, so any other navigation on the page keeps the default bands, and there is no setting or breakpoint option for it.
+
+The desktop flyout is defined by CSS alone: hover on a fine pointer and `:focus-within` reveal a server-rendered panel even when the script never runs. Click toggling, ARIA state, custom-width positioning and entrance animations are what the script adds on top.
+
 = REST API =
 
 The admin screen uses these routes. All of them require the `edit_theme_options` capability.
@@ -160,7 +184,7 @@ add_filter( 'beplus_vmn_template_directories', function ( array $directories ): 
 
 Each menu item stores three meta values on the `nav_menu_item` post:
 
-* `_beplus_vmn_enabled` — whether the item renders a mega panel.
+* `_beplus_vmn_enabled` — whether the item renders a mega panel. A panel also needs non-empty `_beplus_vmn_content`: an enabled item with empty content keeps its ordinary sub-menu instead of rendering an empty panel.
 * `_beplus_vmn_settings` — JSON string with the panel settings listed above.
 * `_beplus_vmn_content` — serialized block markup.
 

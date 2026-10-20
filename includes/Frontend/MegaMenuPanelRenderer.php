@@ -17,6 +17,37 @@ use Beplus\VisualMegaNav\Core\MetaKeys;
 final class MegaMenuPanelRenderer {
 
 	/**
+	 * Whether a menu item is a mega item at the given depth.
+	 *
+	 * This is the single eligibility predicate for the plugin: a depth-0 item whose
+	 * mega panel is enabled and whose content is a non-empty string once trimmed.
+	 * The walker that suppresses the ordinary submenu, the item class filter and
+	 * the panel renderer itself all ask here, so an item can never end up half
+	 * mega — its submenu suppressed with no panel to replace it, or carrying mega
+	 * classes while still rendering its ordinary submenu.
+	 *
+	 * The trim matters: whitespace-only content used to count as a panel, which
+	 * rendered an empty panel and hid the menu tree underneath it.
+	 *
+	 * @param \WP_Post $item  Menu item.
+	 * @param int      $depth Menu depth.
+	 * @return bool
+	 */
+	public static function is_mega_item( \WP_Post $item, int $depth = 0 ): bool {
+		if ( 0 !== $depth ) {
+			return false;
+		}
+
+		if ( ! (bool) MetaKeys::get( $item->ID, MetaKeys::ENABLED ) ) {
+			return false;
+		}
+
+		$content = MetaKeys::get( $item->ID, MetaKeys::CONTENT );
+
+		return is_string( $content ) && '' !== trim( $content );
+	}
+
+	/**
 	 * Append mega panel markup after a menu item link when enabled.
 	 *
 	 * @param string   $output Output buffer (by reference).
@@ -25,19 +56,11 @@ final class MegaMenuPanelRenderer {
 	 * @return bool True when a panel was appended.
 	 */
 	public static function append( string &$output, \WP_Post $item, int $depth ): bool {
-		if ( 0 !== $depth ) {
+		if ( ! self::is_mega_item( $item, $depth ) ) {
 			return false;
 		}
 
-		$enabled = (bool) MetaKeys::get( $item->ID, MetaKeys::ENABLED );
-		if ( ! $enabled ) {
-			return false;
-		}
-
-		$content = MetaKeys::get( $item->ID, MetaKeys::CONTENT );
-		if ( empty( $content ) || ! is_string( $content ) ) {
-			return false;
-		}
+		$content = (string) MetaKeys::get( $item->ID, MetaKeys::CONTENT );
 
 		$settings = json_decode(
 			MetaKeys::get( $item->ID, MetaKeys::SETTINGS ) ?: '{}',

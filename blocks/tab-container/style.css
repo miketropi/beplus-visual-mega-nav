@@ -463,8 +463,10 @@
 }
 
 /* Trigger animation when mega panel is hovered, opened, or during .is-animating */
-.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
-.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
+.has-mega-menu:focus-within .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
+.has-mega-menu:focus-within .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
 .has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
 .has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab-row,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-sequential .beplus-vmn-tab-container__tab,
@@ -479,8 +481,10 @@
 	animation-fill-mode: both;
 }
 
-.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
-.has-mega-menu[data-beplus-vmn-enhanced]:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu:hover .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
+.has-mega-menu:focus-within .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
+.has-mega-menu:focus-within .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
 .has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
 .has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab-row,
 .beplus-vmn-mega-panel.is-open .beplus-vmn-tab-container--animation-default .beplus-vmn-tab-container__tab,
@@ -561,11 +565,11 @@
 	animation-delay: 0.52s;
 }
 
-/* When Mega Menu is unhovered / closed: reset state */
-.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-sequential:not(.is-animating) .beplus-vmn-tab-container__tab,
-.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-sequential:not(.is-animating) .beplus-vmn-tab-container__tab-row,
-.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-default:not(.is-animating) .beplus-vmn-tab-container__tab,
-.has-mega-menu:not(:hover):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-default:not(.is-animating) .beplus-vmn-tab-container__tab-row {
+/* When Mega Menu is unhovered / unfocused / closed: reset state */
+.has-mega-menu:not(:hover):not(:focus-within):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-sequential:not(.is-animating) .beplus-vmn-tab-container__tab,
+.has-mega-menu:not(:hover):not(:focus-within):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-sequential:not(.is-animating) .beplus-vmn-tab-container__tab-row,
+.has-mega-menu:not(:hover):not(:focus-within):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-default:not(.is-animating) .beplus-vmn-tab-container__tab,
+.has-mega-menu:not(:hover):not(:focus-within):not(.beplus-vmn--open) .beplus-vmn-tab-container--animation-default:not(.is-animating) .beplus-vmn-tab-container__tab-row {
 	opacity: 0;
 	transform: translateY(14px);
 	animation: none;

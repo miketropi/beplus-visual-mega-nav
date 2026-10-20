@@ -5,6 +5,12 @@
  * Tablet (768–1023px): off-canvas panel sliding from right.
  * Mobile (<768px): accordion inline panels (works in cloned mobile nav portals).
  *
+ * Host contract: a navigation element carrying
+ * `data-beplus-vmn-compact-mode="accordion"` replaces the tablet off-canvas
+ * drawer with inline accordion panels below 1024px, so a host that already
+ * renders its own compact drawer never gets a second modal surface. The
+ * attribute is per navigation: markup without it keeps the default bands.
+ *
  * @package
  */
 
@@ -18,9 +24,21 @@
 	const TOGGLE_CLASS = 'beplus-vmn-toggle';
 	const ENHANCED_ATTR = 'data-beplus-vmn-enhanced';
 	const ARIA_EXPANDED = 'aria-expanded';
+	const OVERLAY_CLASS = 'beplus-vmn-overlay';
+
+	/**
+	 * Host opt-in: a navigation carrying this attribute owns its own compact
+	 * drawer and asks for inline mega panels inside it.
+	 */
+	const COMPACT_MODE_SELECTOR = '[data-beplus-vmn-compact-mode="accordion"]';
 
 	/** Accordion mode — mobile only (<768px). */
 	const ACCORDION_MQ = window.matchMedia('(max-width: 767px)');
+
+	/** Reduced motion — entrance animations are skipped, not shortened. */
+	const REDUCED_MOTION_MQ = window.matchMedia(
+		'(prefers-reduced-motion: reduce)'
+	);
 
 	/**
 	 * Whether the UI should use inline accordion instead of hover flyout.
@@ -29,6 +47,44 @@
 	 */
 	function isAccordionMode() {
 		return ACCORDION_MQ.matches;
+	}
+
+	/**
+	 * Whether a mega item sits in a navigation that opted into compact mode.
+	 *
+	 * @param {Element|null} item The .has-mega-menu element.
+	 * @return {boolean} Whether the host owns the compact layout for this item.
+	 */
+	function usesHostAccordion(item) {
+		return !!(item && item.closest(COMPACT_MODE_SELECTOR));
+	}
+
+	/**
+	 * Whether this item's panel renders inline inside the menu item.
+	 *
+	 * True at the plugin's own mobile breakpoint and, below 1024px, for every
+	 * item inside a host that opted into compact mode. Above 1024px no host has a
+	 * compact drawer to nest into, so the desktop flyout is left alone.
+	 *
+	 * @param {Element|null} item The .has-mega-menu element.
+	 * @return {boolean} Whether the panel is inline.
+	 */
+	function isInlineAccordion(item) {
+		return (
+			isAccordionMode() || (usesHostAccordion(item) && isOffcanvasMode())
+		);
+	}
+
+	/**
+	 * Whether this item's panel renders as the fixed off-canvas drawer.
+	 *
+	 * A host that opted into compact mode never gets the drawer.
+	 *
+	 * @param {Element|null} item The .has-mega-menu element.
+	 * @return {boolean} Whether the panel is off-canvas.
+	 */
+	function isOffcanvasPanel(item) {
+		return isOffcanvasMode() && !usesHostAccordion(item);
 	}
 
 	/** Off-canvas mode — tablet (768px–1023px). */
@@ -96,7 +152,7 @@
 			return;
 		}
 
-		if (isAccordionMode() || isOffcanvasMode()) {
+		if (isInlineAccordion(item) || isOffcanvasPanel(item)) {
 			panel.style.left = '';
 			panel.style.maxWidth = '';
 			return;
@@ -157,16 +213,52 @@
 		panel.style.right = 'auto';
 	}
 
+	/*
+	 * The page's own inline overflow is captured once, before the first off-canvas
+	 * panel locks scrolling, and restored exactly as it was. Assigning an empty
+	 * string instead would discard a value another script had already set — and
+	 * would leave this plugin owning a lock it never released.
+	 */
+	let bodyOverflowBeforeLock = null;
+
+	/**
+	 * Lock page scroll for an off-canvas panel.
+	 */
+	function lockBodyScroll() {
+		if (null === bodyOverflowBeforeLock) {
+			bodyOverflowBeforeLock = document.body.style.overflow;
+		}
+
+		document.body.style.overflow = 'hidden';
+	}
+
+	/**
+	 * Release the off-canvas scroll lock, restoring the page's own inline value.
+	 *
+	 * Safe to call when no lock is held, so every close path can call it.
+	 */
+	function releaseBodyScroll() {
+		if (null === bodyOverflowBeforeLock) {
+			return;
+		}
+
+		document.body.style.overflow = bodyOverflowBeforeLock;
+		bodyOverflowBeforeLock = null;
+	}
+
 	/**
 	 * Get or create the backdrop overlay used in off-canvas mode.
+	 *
+	 * A navigation that opted into compact mode never reaches this: its panels are
+	 * inline, so no overlay element is created for it at all.
 	 *
 	 * @return {HTMLElement} The overlay element.
 	 */
 	function getOrCreateOverlay() {
-		let overlay = document.querySelector('.beplus-vmn-overlay');
+		let overlay = document.querySelector(`.${OVERLAY_CLASS}`);
 		if (!overlay) {
 			overlay = document.createElement('div');
-			overlay.className = 'beplus-vmn-overlay';
+			overlay.className = OVERLAY_CLASS;
 			overlay.setAttribute('aria-hidden', 'true');
 			document.body.appendChild(overlay);
 			overlay.addEventListener('click', closeAll);
@@ -182,14 +274,14 @@
 	}
 
 	/**
-	 * Hide the backdrop overlay and unlock body scroll.
+	 * Hide the backdrop overlay and release the page scroll lock.
 	 */
 	function hideOverlay() {
-		const overlay = document.querySelector('.beplus-vmn-overlay');
+		const overlay = document.querySelector(`.${OVERLAY_CLASS}`);
 		if (overlay) {
 			overlay.classList.remove('is-visible');
 		}
-		document.body.style.overflow = '';
+		releaseBodyScroll();
 	}
 
 	/**
@@ -250,50 +342,12 @@
 		const animElements = getMegaPanelAnimationElements(panel);
 		if (!animElements.length) return;
 
-		if (window.gsap) {
-			window.gsap.killTweensOf(animElements);
-			animElements.forEach((el, index) => {
-				el.setAttribute('data-nextora-scroll-animation-init', '1');
-				el.classList.remove('nextora-scroll-animation--pending');
-				el.classList.add('nextora-scroll-animation--ready');
-
-				let fromY = 14;
-				let fromX = 0;
-				let fromScale = 1;
-				const cls = el.className || '';
-				if (cls.includes('animation-fade-in-down')) fromY = -14;
-				else if (cls.includes('animation-fade-in-up')) fromY = 14;
-				else if (cls.includes('animation-fade-in-left')) fromX = -14;
-				else if (cls.includes('animation-fade-in-right')) fromX = 14;
-				else if (cls.includes('animation-zoom-in')) fromScale = 0.94;
-				else if (cls.includes('animation-zoom-out')) fromScale = 1.06;
-
-				// Instant staggered start matching menu list speed (0s, 0.04s, 0.08s...)
-				const delay = Math.min(index * 0.04, 0.24);
-
-				window.gsap.fromTo(
-					el,
-					{
-						opacity: 0,
-						x: fromX,
-						y: fromY,
-						scale: fromScale,
-					},
-					{
-						opacity: 1,
-						x: 0,
-						y: 0,
-						scale: 1,
-						duration: 0.45,
-						delay: delay,
-						ease: 'power2.out',
-						clearProps: 'transform,translate,scale',
-						overwrite: 'auto',
-					}
-				);
-			});
-		} else {
-			// Fallback if GSAP is not available
+		/*
+		 * Reduced motion is a complete static mode: the entrance is skipped rather
+		 * than shortened, and every animated element is normalised to the state the
+		 * tween would have settled on, so nothing is left faded, offset or scaled.
+		 */
+		if (!window.gsap || REDUCED_MOTION_MQ.matches) {
 			animElements.forEach((el) => {
 				el.setAttribute('data-nextora-scroll-animation-init', '1');
 				el.classList.remove('nextora-scroll-animation--pending');
@@ -301,7 +355,50 @@
 				el.style.opacity = '1';
 				el.style.transform = 'none';
 			});
+			return;
 		}
+
+		window.gsap.killTweensOf(animElements);
+		animElements.forEach((el, index) => {
+			el.setAttribute('data-nextora-scroll-animation-init', '1');
+			el.classList.remove('nextora-scroll-animation--pending');
+			el.classList.add('nextora-scroll-animation--ready');
+
+			let fromY = 14;
+			let fromX = 0;
+			let fromScale = 1;
+			const cls = el.className || '';
+			if (cls.includes('animation-fade-in-down')) fromY = -14;
+			else if (cls.includes('animation-fade-in-up')) fromY = 14;
+			else if (cls.includes('animation-fade-in-left')) fromX = -14;
+			else if (cls.includes('animation-fade-in-right')) fromX = 14;
+			else if (cls.includes('animation-zoom-in')) fromScale = 0.94;
+			else if (cls.includes('animation-zoom-out')) fromScale = 1.06;
+
+			// Instant staggered start matching menu list speed (0s, 0.04s, 0.08s...)
+			const delay = Math.min(index * 0.04, 0.24);
+
+			window.gsap.fromTo(
+				el,
+				{
+					opacity: 0,
+					x: fromX,
+					y: fromY,
+					scale: fromScale,
+				},
+				{
+					opacity: 1,
+					x: 0,
+					y: 0,
+					scale: 1,
+					duration: 0.45,
+					delay: delay,
+					ease: 'power2.out',
+					clearProps: 'transform,translate,scale',
+					overwrite: 'auto',
+				}
+			);
+		});
 	}
 
 	/**
@@ -634,7 +731,8 @@
 					const megaItem = nextoraToggle.closest(MEGA_ITEMS);
 					if (
 						megaItem instanceof HTMLElement &&
-						(isAccordionMode() || isOffcanvasMode())
+						(isInlineAccordion(megaItem) ||
+							isOffcanvasPanel(megaItem))
 					) {
 						e.preventDefault();
 						e.stopImmediatePropagation();
@@ -695,6 +793,16 @@
 						return;
 					}
 
+					/*
+					 * An inline panel is toggled, not hovered: it stays open until its
+					 * own control closes it. A host that opted into compact mode keeps
+					 * that behaviour inside its drawer even though the viewport is still
+					 * in the off-canvas band.
+					 */
+					if (isInlineAccordion(item) || isOffcanvasPanel(item)) {
+						return;
+					}
+
 					if (item.contains(related)) {
 						return;
 					}
@@ -718,16 +826,22 @@
 		document.addEventListener(
 			'mouseenter',
 			(e) => {
-				if (isAccordionMode() || isOffcanvasMode()) {
-					return;
-				}
-
 				const target = e.target;
 				if (!(target instanceof Element)) {
 					return;
 				}
 
 				const megaItem = target.closest(MEGA_ITEMS);
+
+				/*
+				 * Hover only drives the desktop flyout. Every inline surface — the
+				 * plugin's own accordion band and a host that opted into compact mode —
+				 * is click/tap driven, so the pointer must not open anything there.
+				 */
+				if (isInlineAccordion(megaItem) || isOffcanvasPanel(megaItem)) {
+					return;
+				}
+
 				if (!megaItem || !(megaItem instanceof HTMLElement)) {
 					if (currentHoveredMegaItem) {
 						const prevPanel = getPanel(currentHoveredMegaItem);
@@ -768,11 +882,19 @@
 		document.addEventListener(
 			'mouseleave',
 			(e) => {
-				if (isAccordionMode() || isOffcanvasMode()) {
+				if (!currentHoveredMegaItem) {
 					return;
 				}
 
-				if (!currentHoveredMegaItem) {
+				/*
+				 * The breakpoint can move while the pointer stays put: an item that is
+				 * inline now was not the animation's flyout, so drop the stale handle.
+				 */
+				if (
+					isInlineAccordion(currentHoveredMegaItem) ||
+					isOffcanvasPanel(currentHoveredMegaItem)
+				) {
+					currentHoveredMegaItem = null;
 					return;
 				}
 
@@ -892,7 +1014,7 @@
 	 * @param {HTMLElement} link  Trigger link.
 	 */
 	function handleLinkClick(e, item, panel, link) {
-		if (!isAccordionMode() && !isOffcanvasMode()) {
+		if (!isInlineAccordion(item) && !isOffcanvasPanel(item)) {
 			const href = link.getAttribute('href');
 
 			if (href && href !== '#') {
@@ -1010,10 +1132,15 @@
 		link.setAttribute(ARIA_EXPANDED, 'true');
 		triggerListAnimations(panel);
 
-		if (isOffcanvasMode()) {
+		/*
+		 * Only a standalone off-canvas panel takes over the page. An item inside a
+		 * host that opted into compact mode stays in its own drawer, so it never
+		 * portals, never paints an overlay and never touches body scroll.
+		 */
+		if (isOffcanvasPanel(item)) {
 			portalToBody(panel);
 			showOverlay();
-			document.body.style.overflow = 'hidden';
+			lockBodyScroll();
 		}
 	}
 
@@ -1030,19 +1157,31 @@
 		link.setAttribute(ARIA_EXPANDED, 'false');
 		resetListAnimations(panel);
 
-		if (isAccordionMode() || isOffcanvasMode()) {
+		if (isInlineAccordion(item) || isOffcanvasPanel(item)) {
 			panel.style.left = '';
 			panel.style.maxWidth = '';
 		}
 
+		/*
+		 * Only focus inside the panel itself has to move on: the panel is what
+		 * becomes hidden. Blurring the wider `item` range would also drop focus from
+		 * the disclosure control the visitor just pressed, leaving the keyboard with
+		 * no position inside the surrounding drawer.
+		 */
 		if (
 			document.activeElement instanceof HTMLElement &&
-			item.contains(document.activeElement)
+			panel.contains(document.activeElement)
 		) {
 			document.activeElement.blur();
 		}
 
-		restoreFromBody(panel);
+		/*
+		 * A portaled panel has to come home even when the breakpoint already left the
+		 * off-canvas band, and the chrome it claimed is released with it.
+		 */
+		if (restoreFromBody(panel) || isOffcanvasPanel(item)) {
+			hideOverlay();
+		}
 
 		const toggle =
 			item.querySelector(`:scope > .${TOGGLE_CLASS}`) ||
@@ -1067,10 +1206,11 @@
 	 * Restore a previously portaled panel back to its original DOM position.
 	 *
 	 * @param {HTMLElement} panel The panel element.
+	 * @return {boolean} Whether a portaled panel was moved back.
 	 */
 	function restoreFromBody(panel) {
 		if (!panel._snapOriginalParent) {
-			return;
+			return false;
 		}
 
 		const parent = panel._snapOriginalParent;
@@ -1084,10 +1224,16 @@
 
 		panel._snapOriginalParent = null;
 		panel._snapOriginalNext = null;
+
+		return true;
 	}
 
 	/**
 	 * Close all open mega panels.
+	 *
+	 * Leaving nothing behind matters more than closing quickly: a stale open class,
+	 * a portaled panel or an `aria-expanded="true"` on a control whose panel moved
+	 * away would all outlive the interaction that caused them.
 	 */
 	function closeAll() {
 		currentHoveredMegaItem = null;
@@ -1106,8 +1252,41 @@
 
 			if (panel && link) {
 				closePanel(panel, link, item);
+				return;
+			}
+
+			/*
+			 * A mega item that lost its panel or its trigger cannot go through
+			 * closePanel, but its open state still has to be cleared.
+			 */
+			item.classList.remove(ACCORDION_CLASS);
+
+			if (panel) {
+				panel.classList.remove(OPEN_CLASS);
+				restoreFromBody(panel);
+			}
+
+			item.querySelectorAll(
+				`:scope > .${TOGGLE_CLASS}, :scope > .nextora-submenu-toggle`
+			).forEach((toggle) => toggle.setAttribute(ARIA_EXPANDED, 'false'));
+
+			if (link) {
+				link.setAttribute(ARIA_EXPANDED, 'false');
 			}
 		});
+
+		/* A panel portaled out of its item can no longer be reached through it. */
+		document
+			.querySelectorAll(`.${PANEL_CLASS}.${OPEN_CLASS}`)
+			.forEach((panel) => {
+				if (!(panel instanceof HTMLElement)) {
+					return;
+				}
+
+				panel.classList.remove(OPEN_CLASS);
+				resetListAnimations(panel);
+				restoreFromBody(panel);
+			});
 
 		hideOverlay();
 	}

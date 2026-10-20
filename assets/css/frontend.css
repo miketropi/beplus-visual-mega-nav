@@ -88,7 +88,14 @@
 		width: 100%;
 	}
 
-	.has-mega-menu[data-beplus-vmn-enhanced]:hover > .beplus-vmn-mega-panel,
+	/*
+	 * A panel that WordPress rendered on the server is reachable without this
+	 * script: fine-pointer hover and keyboard focus both reveal it. The
+	 * `data-beplus-vmn-enhanced` attribute is kept on the positioning, click
+	 * toggle and animation rules below, which are enhancements by definition.
+	 */
+	.has-mega-menu:hover > .beplus-vmn-mega-panel,
+	.has-mega-menu:focus-within > .beplus-vmn-mega-panel,
 	.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open > .beplus-vmn-mega-panel,
 	.beplus-vmn-mega-panel.is-open {
 		opacity: 1;
@@ -102,12 +109,21 @@
 		pointer-events: none !important;
 	}
 
-	/* Instantly hide unhovered mega panels when another menu item is hovered (no dual-panel overlap/flicker) */
+	/*
+	 * Instantly hide a mega panel whose item is no longer active, so a pointer
+	 * moving between two mega items never shows both.
+	 *
+	 * "Active" has to mean hover *or* focus. Keying the guard on hover alone left a
+	 * panel permanently hidden when focus sat anywhere else in the menu: hovering a
+	 * mega item while another item was focused (a tab into the menu, or a click on
+	 * the item's own toggle, which focuses that button) matched the earlier
+	 * `:has(> li:focus-within) … :not(:focus-within)` pair and forced the panel to
+	 * `visibility: hidden`. The `:has()` side is narrowed to mega items for the
+	 * same reason, and a panel that contains the keyboard's focus is never hidden.
+	 */
 	/* stylelint-disable max-line-length */
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:hover) > .beplus-vmn-mega-panel,
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:hover) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:hover) > .beplus-vmn-mega-panel::before,
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:focus-within) > .beplus-vmn-mega-panel,
-	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li:focus-within) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:focus-within) > .beplus-vmn-mega-panel::before {
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li.has-mega-menu:hover, > li.has-mega-menu:focus-within) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:hover):not(:focus-within) > .beplus-vmn-mega-panel,
+	:is(ul, nav, .nextora-header-menu, .wp-block-navigation__container):has(> li.has-mega-menu:hover, > li.has-mega-menu:focus-within) > .has-mega-menu[data-beplus-vmn-enhanced]:not(:hover):not(:focus-within) > .beplus-vmn-mega-panel::before {
 		opacity: 0 !important;
 		visibility: hidden !important;
 		transition: none !important;
@@ -154,7 +170,8 @@
 	}
 
 	/* Ensure all content inside open mega panels is visible and not blocked by scroll-reveal initial opacity */
-	.has-mega-menu[data-beplus-vmn-enhanced]:hover > .beplus-vmn-mega-panel [class*="animation-"],
+	.has-mega-menu:hover > .beplus-vmn-mega-panel [class*="animation-"],
+	.has-mega-menu:focus-within > .beplus-vmn-mega-panel [class*="animation-"],
 	.has-mega-menu[data-beplus-vmn-enhanced].beplus-vmn--open > .beplus-vmn-mega-panel [class*="animation-"],
 	.beplus-vmn-mega-panel.is-open [class*="animation-"] {
 		visibility: visible;
@@ -301,6 +318,49 @@
 
 	.beplus-vmn-toggle[aria-expanded="true"] .beplus-vmn-toggle__icon {
 		transform: rotate(180deg);
+	}
+
+	/* ---------- Host opt-in: inline compact panels ----------
+	   A navigation carrying the compact-mode attribute renders its own drawer, so
+	   its mega panels never take the fixed off-canvas drawer. Below 1024px they
+	   keep the plain inline accordion state instead, including through the
+	   off-canvas band. These selectors are declared before that band on purpose:
+	   their extra class outranks it, and the two `!important` transforms below
+	   carry matching weight, so source order never decides. */
+	[data-beplus-vmn-compact-mode="accordion"] .beplus-vmn-mega-panel {
+		position: static;
+		inset: auto;
+		z-index: auto;
+		flex: 1 0 100%;
+		width: 100% !important;
+		max-width: none !important;
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: none !important;
+		box-shadow: none;
+		border-radius: inherit;
+		transition:
+			opacity var(--beplus-vmn-mega-transition),
+			visibility var(--beplus-vmn-mega-transition),
+			transform var(--beplus-vmn-mega-transition),
+			max-height var(--beplus-vmn-mega-transition);
+	}
+
+	[data-beplus-vmn-compact-mode="accordion"] .beplus-vmn-mega-panel.is-open,
+	[data-beplus-vmn-compact-mode="accordion"] .has-mega-menu.beplus-vmn--open > .beplus-vmn-mega-panel {
+		max-height: none;
+		overflow: visible;
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: none !important;
+	}
+
+	[data-beplus-vmn-compact-mode="accordion"] .beplus-vmn-mega-panel__inner {
+		padding: var(--beplus-vmn-mega-mobile-padding) 0;
 	}
 }
 

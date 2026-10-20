@@ -135,10 +135,16 @@ final class MenuRenderer {
 				continue;
 			}
 
-			$enabled = (bool) MetaKeys::get( $item->ID, MetaKeys::ENABLED );
-			$content = MetaKeys::get( $item->ID, MetaKeys::CONTENT );
+			/*
+			 * Only a top-level item can carry a panel, so only a top-level item can
+			 * make this menu need walker wrapping. `menu_item_parent` is the menu's
+			 * own record of the depth a walker would report.
+			 */
+			if ( 0 !== $this->menu_item_parent_id( $item ) ) {
+				continue;
+			}
 
-			if ( $enabled && is_string( $content ) && '' !== $content ) {
+			if ( MegaMenuPanelRenderer::is_mega_item( $item ) ) {
 				$this->menu_mega_cache[ $menu_id ] = true;
 				return true;
 			}
@@ -146,6 +152,22 @@ final class MenuRenderer {
 
 		$this->menu_mega_cache[ $menu_id ] = false;
 		return false;
+	}
+
+	/**
+	 * Parent menu item id of a menu item.
+	 *
+	 * `wp_get_nav_menu_items()` returns `WP_Post` rows that
+	 * `wp_setup_nav_menu_item()` decorates at runtime, so the navigation fields are
+	 * not declared on the class and are read as dynamic properties.
+	 *
+	 * @param \WP_Post $item Menu item.
+	 * @return int Parent item id; 0 for a top-level item.
+	 */
+	private function menu_item_parent_id( \WP_Post $item ): int {
+		$fields = get_object_vars( $item );
+
+		return isset( $fields['menu_item_parent'] ) ? (int) $fields['menu_item_parent'] : 0;
 	}
 
 	/**
@@ -158,18 +180,23 @@ final class MenuRenderer {
 	 * @return string[]
 	 */
 	public function add_mega_menu_class( array $classes, \WP_Post $item, \stdClass $args, int $depth ): array {
-		if ( 0 === $depth ) {
-			$enabled = (bool) MetaKeys::get( $item->ID, MetaKeys::ENABLED );
-			if ( $enabled ) {
-				$classes[] = 'has-mega-menu';
-				// Allows theme mobile nav toggles / accordion styling (e.g. Nextora).
-				$classes[] = 'menu-item-has-children';
-
-				$settings  = json_decode( (string) ( MetaKeys::get( $item->ID, MetaKeys::SETTINGS ) ?: '{}' ), true );
-				$width     = is_array( $settings ) ? ( $settings['width'] ?? 'container' ) : 'container';
-				$classes[] = 'has-mega-menu--' . sanitize_html_class( (string) $width );
-			}
+		/*
+		 * These classes describe a panel that will actually be rendered. An item that
+		 * is enabled but has no panel content keeps its ordinary submenu, so it must
+		 * not receive mega classes that would make the theme style, relocate or
+		 * suppress it.
+		 */
+		if ( ! MegaMenuPanelRenderer::is_mega_item( $item, $depth ) ) {
+			return $classes;
 		}
+
+		$classes[] = 'has-mega-menu';
+		// Allows theme mobile nav toggles / accordion styling (e.g. Nextora).
+		$classes[] = 'menu-item-has-children';
+
+		$settings  = json_decode( (string) ( MetaKeys::get( $item->ID, MetaKeys::SETTINGS ) ?: '{}' ), true );
+		$width     = is_array( $settings ) ? ( $settings['width'] ?? 'container' ) : 'container';
+		$classes[] = 'has-mega-menu--' . sanitize_html_class( (string) $width );
 
 		return $classes;
 	}

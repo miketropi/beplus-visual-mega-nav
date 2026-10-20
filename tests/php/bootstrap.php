@@ -25,4 +25,15 @@ if ( file_exists( $beplus_vmn_tests_dir . '/includes/functions.php' ) ) {
 	} );
 
 	require $beplus_vmn_tests_dir . '/includes/bootstrap.php';
+
+	return;
 }
+
+/*
+ * Without the WordPress test library the units still run: they need only the few
+ * core functions and the two walker base classes in `wp-stubs.php`, and every
+ * stub is declared only when core has not already provided the symbol. A run with
+ * a real test library therefore uses the real implementation and this file
+ * declares nothing.
+ */
+require_once __DIR__ . '/wp-stubs.php';
