@@ -9,4 +9,4 @@ build
 .commandcode
 .codex
 .agents
-TASK_LOG.md
+TASK_LOG.md.phpunit.result.cache
